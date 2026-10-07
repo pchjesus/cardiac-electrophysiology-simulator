@@ -1,0 +1,1065 @@
+*{
+
+box-sizing:border-box;
+
+}
+
+
+
+body{
+
+margin:0;
+
+font-family:
+Arial,
+"Malgun Gothic",
+sans-serif;
+
+background:#f4f5f7;
+
+color:#222;
+
+}
+
+
+
+.app{
+
+width:100%;
+
+max-width:1200px;
+
+margin:auto;
+
+padding:20px;
+
+}
+
+
+
+/* =======================
+HEADER
+======================= */
+
+.header{
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+
+
+.header h1{
+
+margin-bottom:8px;
+
+font-size:30px;
+
+}
+
+
+
+.header p{
+
+color:#666;
+
+margin-top:0;
+
+}
+
+
+
+/* =======================
+LAYOUT
+======================= */
+
+.main-container{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+
+
+.card{
+
+background:white;
+
+border-radius:12px;
+
+padding:20px;
+
+box-shadow:
+
+0 3px 10px
+
+rgba(0,0,0,0.08);
+
+}
+
+
+
+.card h2{
+
+margin-top:0;
+
+font-size:20px;
+
+border-bottom:
+
+1px solid #ddd;
+
+padding-bottom:10px;
+
+}
+
+
+
+/* =======================
+ECG
+======================= */
+
+.ecg-panel{
+
+text-align:center;
+
+overflow:hidden;
+
+}
+
+
+
+.ecg-wrapper{
+
+width:100%;
+
+max-width:900px;
+
+margin:auto;
+
+overflow:hidden;
+
+border-radius:8px;
+
+}
+
+
+
+#ecgCanvas{
+
+width:100%;
+
+max-width:900px;
+
+height:220px;
+
+background:#111;
+
+border-radius:8px;
+
+display:block;
+
+margin:auto;
+
+box-shadow:
+
+inset 0 0 20px
+
+rgba(0,255,136,0.15);
+
+}
+
+
+
+.ecg-info{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:10px;
+
+font-weight:bold;
+
+}
+
+
+
+#rhythmStatus{
+
+color:#8b0000;
+
+}
+
+
+
+/* =======================
+ECG INTERPRETATION
+======================= */
+
+.ecg-interpretation{
+
+width:100%;
+
+max-width:900px;
+
+margin:
+
+15px auto 0;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:8px;
+
+flex-wrap:nowrap;
+
+overflow:hidden;
+
+}
+
+
+
+.ecg-item{
+
+padding:
+
+7px 12px;
+
+border-radius:6px;
+
+background:#f5f5f5;
+
+font-size:13px;
+
+white-space:nowrap;
+
+flex-shrink:0;
+
+transition:
+
+0.2s;
+
+}
+
+
+
+.ecg-label{
+
+font-weight:bold;
+
+margin-right:5px;
+
+color:#8b0000;
+
+}
+
+
+
+.ecg-item.ecg-active{
+
+background:#ffe7e7;
+
+box-shadow:
+
+0 0 0 2px
+
+rgba(139,0,0,0.15);
+
+}
+
+
+
+/* =======================
+HEART
+======================= */
+
+.heart-panel{
+
+text-align:center;
+
+}
+
+
+
+#heartSVG{
+
+width:420px;
+
+max-width:100%;
+
+}
+
+
+
+#heartShape{
+
+fill:#f8d7da;
+
+stroke:#8b0000;
+
+stroke-width:5;
+
+}
+
+
+
+#atriaRegion{
+
+fill:#f8d7da;
+
+stroke:#8b0000;
+
+stroke-width:3;
+
+opacity:0.85;
+
+transition:
+
+fill 0.2s ease,
+
+opacity 0.2s ease;
+
+}
+
+
+
+#ventricleRegion{
+
+fill:#f8d7da;
+
+stroke:#8b0000;
+
+stroke-width:3;
+
+opacity:0.85;
+
+transition:
+
+fill 0.2s ease,
+
+opacity 0.2s ease;
+
+}
+
+
+
+#heartSVG circle[id]{
+
+fill:white;
+
+stroke:#333;
+
+stroke-width:3;
+
+transition:
+
+fill 0.15s ease,
+
+stroke 0.15s ease;
+
+}
+
+
+
+#heartSVG line{
+
+stroke:#444;
+
+stroke-width:5;
+
+stroke-linecap:round;
+
+transition:
+
+stroke 0.15s ease,
+
+stroke-width 0.15s ease;
+
+}
+
+
+
+#heartSVG text{
+
+font-size:18px;
+
+font-weight:bold;
+
+fill:#333;
+
+}
+
+
+
+#atriaLabel,
+#ventricleLabel{
+
+font-size:16px;
+
+fill:#555;
+
+pointer-events:none;
+
+}
+
+
+
+/* =======================
+ACTIVE NODE
+======================= */
+
+.active-node{
+
+fill:#ffd700 !important;
+
+stroke:#ff6600 !important;
+
+stroke-width:5 !important;
+
+}
+
+
+
+/* =======================
+ACTIVE PATH
+======================= */
+
+.active-path{
+
+stroke:#ff0000 !important;
+
+stroke-width:8 !important;
+
+}
+
+
+
+/* =======================
+ELECTRICAL PULSE
+======================= */
+
+.conduction-pulse{
+
+fill:#fff200;
+
+stroke:#ff6600;
+
+stroke-width:3;
+
+pointer-events:none;
+
+filter:
+
+drop-shadow(
+
+0 0 5px
+
+rgba(255,180,0,0.8)
+
+);
+
+}
+
+
+
+/* =======================
+ATRIAL ACTIVATION
+======================= */
+
+.atria-active{
+
+fill:#ffd6a5 !important;
+
+opacity:1 !important;
+
+}
+
+
+
+/* =======================
+VENTRICULAR ACTIVATION
+======================= */
+
+.ventricles-active{
+
+fill:#ef9a9a !important;
+
+opacity:1 !important;
+
+}
+
+
+
+/* =======================
+VENTRICULAR RECOVERY
+======================= */
+
+.ventricles-recovery{
+
+fill:#f5c6cb !important;
+
+opacity:0.95 !important;
+
+}
+
+
+
+/* =======================
+PHASE
+======================= */
+
+#phaseTitle{
+
+font-size:24px;
+
+font-weight:bold;
+
+margin-bottom:12px;
+
+color:#8b0000;
+
+}
+
+
+
+#phaseDescription{
+
+font-size:16px;
+
+line-height:1.6;
+
+}
+
+
+
+.phase-ecg-link{
+
+margin-top:15px;
+
+padding:
+
+10px 14px;
+
+border-radius:8px;
+
+background:#f8f8f8;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+
+
+.phase-ecg-link span{
+
+color:#666;
+
+}
+
+
+
+#phaseECG{
+
+color:#8b0000;
+
+}
+
+
+
+/* =======================
+BUTTONS
+======================= */
+
+.control-panel{
+
+text-align:center;
+
+}
+
+
+
+.main-buttons{
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+}
+
+
+
+button{
+
+padding:
+
+12px 25px;
+
+margin:5px;
+
+border:none;
+
+border-radius:8px;
+
+background:#333;
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:
+
+0.2s;
+
+}
+
+
+
+button:hover{
+
+background:#555;
+
+}
+
+
+
+/* =======================
+TIMELINE
+======================= */
+
+.timeline{
+
+margin-top:20px;
+
+}
+
+
+
+#timeSlider{
+
+width:80%;
+
+cursor:pointer;
+
+}
+
+
+
+.timeline-labels{
+
+width:80%;
+
+margin:
+
+5px auto 0;
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:12px;
+
+color:#777;
+
+}
+
+
+
+/* =======================
+HEART RATE
+======================= */
+
+.heart-rate-control{
+
+margin-top:28px;
+
+text-align:center;
+
+}
+
+
+
+.heart-rate-control p{
+
+margin-bottom:12px;
+
+font-weight:bold;
+
+}
+
+
+
+/* =======================
+HEART RATE SLIDER
+======================= */
+
+.heart-rate-slider-wrap{
+
+position:relative;
+
+width:80%;
+
+height:22px;
+
+margin:auto;
+
+}
+
+
+
+/*
+슬라이더 자체
+
+30 → 180 bpm
+*/
+
+#heartRateSlider{
+
+position:absolute;
+
+left:0;
+
+top:0;
+
+z-index:3;
+
+width:100%;
+
+margin:0;
+
+cursor:pointer;
+
+}
+
+
+
+/* =======================
+NORMAL RANGE MARKERS
+======================= */
+
+/*
+
+Heart Rate scale:
+
+30 bpm  = 0%
+60 bpm  = 20%
+100 bpm = 46.6667%
+180 bpm = 100%
+
+60과 100 위치에
+세로선을 표시한다.
+
+*/
+
+.normal-range-track{
+
+position:absolute;
+
+left:20%;
+
+width:26.6667%;
+
+top:50%;
+
+height:0;
+
+z-index:1;
+
+pointer-events:none;
+
+}
+
+
+
+/* 기존 정상범위 막대 제거 */
+
+.normal-range-fill{
+
+display:none;
+
+}
+
+
+
+/* 60 bpm marker */
+
+.normal-range-track::before{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+top:-7px;
+
+width:2px;
+
+height:18px;
+
+background:#4d8df7;
+
+border-radius:2px;
+
+}
+
+
+
+/* 100 bpm marker */
+
+.normal-range-track::after{
+
+content:"";
+
+position:absolute;
+
+right:0;
+
+top:-7px;
+
+width:2px;
+
+height:18px;
+
+background:#4d8df7;
+
+border-radius:2px;
+
+}
+
+
+
+/* =======================
+HEART RATE SCALE
+======================= */
+
+.heart-rate-scale{
+
+position:relative;
+
+width:80%;
+
+height:22px;
+
+margin:
+
+5px auto 0;
+
+font-size:12px;
+
+color:#777;
+
+}
+
+
+
+.heart-rate-scale span{
+
+position:absolute;
+
+top:0;
+
+white-space:nowrap;
+
+}
+
+
+
+.scale-30{
+
+left:0%;
+
+}
+
+
+
+.scale-60{
+
+left:20%;
+
+transform:
+
+translateX(-50%);
+
+}
+
+
+
+.scale-100{
+
+left:46.6667%;
+
+transform:
+
+translateX(-50%);
+
+}
+
+
+
+.scale-180{
+
+left:100%;
+
+transform:
+
+translateX(-100%);
+
+}
+
+
+
+/* =======================
+NORMAL RANGE LABEL
+======================= */
+
+.normal-range-label{
+
+margin-top:4px;
+
+font-size:13px;
+
+color:#666;
+
+}
+
+
+
+#heartRateValue{
+
+display:block;
+
+margin-top:8px;
+
+font-size:18px;
+
+color:#8b0000;
+
+}
+
+
+
+/* =======================
+RESPONSIVE
+======================= */
+
+@media(max-width:700px){
+
+.app{
+
+padding:12px;
+
+}
+
+
+
+.header h1{
+
+font-size:22px;
+
+}
+
+
+
+#heartSVG{
+
+width:300px;
+
+}
+
+
+
+#ecgCanvas{
+
+height:160px;
+
+}
+
+
+
+button{
+
+width:90%;
+
+}
+
+
+
+.main-buttons{
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+
+
+#timeSlider{
+
+width:95%;
+
+}
+
+
+
+.timeline-labels{
+
+width:95%;
+
+}
+
+
+
+.heart-rate-slider-wrap{
+
+width:95%;
+
+}
+
+
+
+.heart-rate-scale{
+
+width:95%;
+
+}
+
+
+
+.ecg-info{
+
+font-size:13px;
+
+}
+
+
+
+.ecg-interpretation{
+
+justify-content:flex-start;
+
+overflow-x:auto;
+
+overflow-y:hidden;
+
+}
+
+}

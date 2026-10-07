@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Cardiac Electrophysiology Simulator
+</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<header class="header">
+
+<h1>
+Cardiac Electrophysiology Simulator
+</h1>
+
+<p>
+Sinus Rhythm ECG Engine
+</p>
+
+</header>
+
+
+
+<main class="main-container">
+
+
+
+<!-- =========================
+ECG MONITOR
+========================= -->
+
+<section class="card ecg-panel">
+
+<h2>
+ECG Monitor
+</h2>
+
+
+<div class="ecg-wrapper">
+
+<canvas
+    id="ecgCanvas"
+    width="900"
+    height="220">
+</canvas>
+
+</div>
+
+
+
+<div class="ecg-info">
+
+<span id="heartRateDisplay">
+Heart Rate : 80 bpm
+</span>
+
+
+<span id="rhythmStatus">
+Normal Sinus Rhythm
+</span>
+
+</div>
+
+
+
+<!-- ECG INTERPRETATION -->
+
+<div class="ecg-interpretation">
+
+
+<div class="ecg-item">
+
+<span class="ecg-label">
+P
+</span>
+
+<span>
+Atrial depolarization
+</span>
+
+</div>
+
+
+
+<div class="ecg-item">
+
+<span class="ecg-label">
+PR
+</span>
+
+<span>
+AV conduction
+</span>
+
+</div>
+
+
+
+<div class="ecg-item">
+
+<span class="ecg-label">
+QRS
+</span>
+
+<span>
+Ventricular depolarization
+</span>
+
+</div>
+
+
+
+<div class="ecg-item">
+
+<span class="ecg-label">
+ST
+</span>
+
+<span>
+Early ventricular recovery
+</span>
+
+</div>
+
+
+
+<div class="ecg-item">
+
+<span class="ecg-label">
+T
+</span>
+
+<span>
+Ventricular repolarization
+</span>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+
+
+<!-- =========================
+CARDIAC CONDUCTION
+========================= -->
+
+<section class="card heart-panel">
+
+<h2>
+Cardiac Conduction
+</h2>
+
+
+<svg
+
+id="heartSVG"
+
+viewBox="0 0 500 500"
+
+xmlns="http://www.w3.org/2000/svg"
+
+>
+
+
+
+<!-- HEART -->
+
+<path
+
+id="heartShape"
+
+d="
+M250 420
+C150 350 70 270 90 170
+C110 80 230 90 250 160
+C270 90 390 80 410 170
+C430 270 350 350 250 420
+Z
+"
+
+/>
+
+
+
+<!-- ATRIA -->
+
+<path
+
+id="atriaRegion"
+
+d="
+M250 160
+C210 125 150 115 120 160
+C105 185 115 215 145 235
+C175 255 215 245 250 220
+C285 245 325 255 355 235
+C385 215 395 185 380 160
+C350 115 290 125 250 160
+Z
+"
+
+/>
+
+
+
+<!-- VENTRICLES -->
+
+<path
+
+id="ventricleRegion"
+
+d="
+M145 235
+C120 255 115 290 135 325
+C155 360 205 400 250 420
+C295 400 345 360 365 325
+C385 290 380 255 355 235
+C325 255 285 245 250 220
+C215 245 175 255 145 235
+Z
+"
+
+/>
+
+
+
+<!-- CONDUCTION NODES -->
+
+<circle
+id="SA"
+cx="250"
+cy="160"
+r="12"
+/>
+
+
+<circle
+id="AV"
+cx="250"
+cy="220"
+r="12"
+/>
+
+
+<circle
+id="His"
+cx="250"
+cy="280"
+r="12"
+/>
+
+
+<circle
+id="Purkinje"
+cx="250"
+cy="360"
+r="12"
+/>
+
+
+
+<!-- CONDUCTION PATH -->
+
+<line
+id="AVPath"
+x1="250"
+y1="172"
+x2="250"
+y2="208"
+/>
+
+
+<line
+id="HisPath"
+x1="250"
+y1="232"
+x2="250"
+y2="268"
+/>
+
+
+<line
+id="RBB"
+x1="250"
+y1="280"
+x2="340"
+y2="360"
+/>
+
+
+<line
+id="LBB"
+x1="250"
+y1="280"
+x2="160"
+y2="360"
+/>
+
+
+
+<!-- ELECTRICAL PULSE -->
+
+<circle
+
+id="conductionPulse"
+
+cx="250"
+
+cy="160"
+
+r="7"
+
+class="conduction-pulse"
+
+/>
+
+
+
+<!-- LABELS -->
+
+<text
+x="280"
+y="165">
+SA Node
+</text>
+
+
+<text
+x="280"
+y="225">
+AV Node
+</text>
+
+
+<text
+x="280"
+y="285">
+His Bundle
+</text>
+
+
+<text
+x="350"
+y="365">
+RBB
+</text>
+
+
+<text
+x="90"
+y="365">
+LBB
+</text>
+
+
+<text
+x="280"
+y="370">
+Purkinje
+</text>
+
+
+
+<text
+id="atriaLabel"
+x="180"
+y="195">
+Atria
+</text>
+
+
+<text
+id="ventricleLabel"
+x="175"
+y="335">
+Ventricles
+</text>
+
+
+</svg>
+
+</section>
+
+
+
+
+
+<!-- =========================
+CURRENT PHASE
+========================= -->
+
+<section class="card">
+
+<h2>
+Current Phase
+</h2>
+
+
+<div id="phaseTitle">
+Ready
+</div>
+
+
+<p id="phaseDescription">
+
+Press Play to begin the cardiac conduction cycle.
+
+</p>
+
+
+
+<div class="phase-ecg-link">
+
+<span>
+ECG Component
+</span>
+
+
+<strong id="phaseECG">
+Ready
+</strong>
+
+</div>
+
+</section>
+
+
+
+
+
+<!-- =========================
+CONTROLS
+========================= -->
+
+<section class="card control-panel">
+
+
+
+<div class="main-buttons">
+
+
+<button id="playBtn">
+▶ Play
+</button>
+
+
+<button id="pauseBtn">
+⏸ Pause
+</button>
+
+
+<button id="resetBtn">
+↻ Reset
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- =========================
+TIMELINE
+========================= -->
+
+<div class="timeline">
+
+<p>
+Cardiac Cycle Timeline
+</p>
+
+
+<input
+
+id="timeSlider"
+
+type="range"
+
+min="0"
+
+max="100"
+
+value="0"
+
+step="0.1"
+
+>
+
+
+<div class="timeline-labels">
+
+<span>
+Start
+</span>
+
+
+<span>
+One Cardiac Cycle
+</span>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- =========================
+HEART RATE
+========================= -->
+
+<div class="heart-rate-control">
+
+
+<p>
+Heart Rate
+</p>
+
+
+
+<div class="heart-rate-slider-wrap">
+
+
+<!-- NORMAL RANGE -->
+
+<div class="normal-range-track">
+
+<div class="normal-range-fill">
+</div>
+
+</div>
+
+
+
+<input
+
+id="heartRateSlider"
+
+type="range"
+
+min="30"
+
+max="180"
+
+value="80"
+
+step="1"
+
+>
+
+
+</div>
+
+
+
+
+
+<!-- SCALE -->
+
+<div class="heart-rate-scale">
+
+
+<span class="scale-30">
+30
+</span>
+
+
+<span class="scale-60">
+60
+</span>
+
+
+<span class="scale-100">
+100
+</span>
+
+
+<span class="scale-180">
+180 bpm
+</span>
+
+
+</div>
+
+
+
+<div class="normal-range-label">
+
+Normal Range: 60–100 bpm
+
+</div>
+
+
+
+<strong id="heartRateValue">
+
+80 bpm
+
+</strong>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

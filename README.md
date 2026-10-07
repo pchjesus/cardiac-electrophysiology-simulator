@@ -1,0 +1,149 @@
+# README.md
+# Cardiac Electrophysiology Simulator
+
+An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
+
+## Current Version
+
+**v1.7 FINAL**
+
+## Educational Flow
+
+SA Node → AV Node → His Bundle → Purkinje System
+
+The simulator combines an animated ECG with a cardiac conduction visualization to help learners connect electrical conduction events with ECG components.
+
+## Main Interface
+
+### ECG Monitor
+Displays:
+- ECG waveform
+- Heart rate
+- Rhythm classification
+- P / PR / QRS / ST / T interpretation
+
+### Cardiac Conduction
+Displays the heart conduction pathway and highlights the current conduction stage.
+
+### Compact Controller
+Provides:
+- Play
+- Pause
+- Reset
+- Cardiac Cycle Timeline
+- Heart Rate control
+
+### ECG Measurements
+Displays:
+- HR
+- RR interval
+- PR interval
+- QRS duration
+- QT interval
+- QTc
+- Normal reference ranges
+
+### ECG Event / Phase Indicator
+Synchronizes the current ECG event with the cardiac conduction state.
+
+### ECG Component Explanation
+Interactive P / PR / QRS / ST / T components provide educational explanations. During playback, the explanation follows the current ECG event; manual selection remains available while paused.
+
+### Simulation State Feedback
+Current Phase, ECG Event, ECG explanation, and conduction animation derive from the same `heartState.ecgTime` source. Timeline seeking and Reset keep these states synchronized.
+
+### Educational Rate Scenarios
+Provides:
+- Normal Sinus Rhythm preset: 72 bpm
+- Bradycardia preset: 50 bpm
+- Tachycardia preset: 120 bpm
+- Direct heart-rate adjustment switches the scenario to Custom
+- Reset returns to the Normal preset
+
+The v1.7 scenarios demonstrate rate/cycle-speed differences only; they do not claim physiological HR-dependent interval changes.
+
+### Current Phase
+Displays the active conduction phase, educational explanation, and associated ECG component.
+
+## Heart Rate
+
+Supported range:
+**30–180 bpm**
+
+Normal range:
+**60–100 bpm**
+
+Normal reference display:
+**80 bpm**
+
+Rhythm labels:
+- <60 bpm: Bradycardia
+- 60–100 bpm: Normal Sinus Rhythm
+- >100 bpm: Tachycardia
+
+## Running
+
+No build system is required for the current version.
+
+Open `index.html` in a modern web browser.
+
+## Files
+
+- `index.html` — page structure
+- `style.css` — UI/layout styling
+- `script.js` — simulation and interaction logic
+- `SPEC.md` — specification and roadmap
+- `DEVLOG.md` — development history
+- `AGENTS.md` — development rules
+- `backups/` — confirmed version archives
+
+## Development Philosophy
+
+The project prioritizes:
+1. Educational clarity
+2. Existing-function stability
+3. Incremental changes
+4. Readable UI
+5. Easy rollback
+
+For substantial changes, inspect the current implementation first, isolate the change, test for regressions, then document and archive the result.
+
+## Versioning
+
+Patch files use:
+
+`Cardiac_Electrophysiology_Simulator_v[version]_UI_patch[number]_[short-description]`
+
+Confirmed versions are archived under `backups/v[version]/`.
+
+---
+
+## v1.7 FINAL Status
+
+v1.7 is the confirmed completion of the ECG-focused educational simulator milestone.
+
+Completed:
+- ECG Measurement Engine
+- Measurement normal-reference UI
+- ECG Event / Phase synchronization
+- Explicit His → RBB/LBB conduction-path animation
+- Interactive ECG Component Explanation
+- Simulation State Feedback / Current Phase integration
+- Educational Normal / Bradycardia / Tachycardia scenarios with Custom heart-rate adjustment
+
+The current simulation still uses a simplified educational ECG timing model. In particular, conduction-phase boundaries and ECG-event boundaries are not intended to represent a complete physiological electromechanical model. Physiological timing redesign is deferred to v1.8.
+
+## Next Version — v1.8
+
+v1.8 will focus on the **Physiological ECG Model**, including:
+- separation of Physiological / Measurement Time and Visualization Time
+- HR-dependent physiological timing relationships
+- refinement of RR, PR, QRS, QT and QTc relationships
+- preservation of the v1.7 UI and learning flow where practical
+
+Future **Cardiac Cycle & Hemodynamics** work (valve opening/closing, chamber filling/ejection, and blood-flow visualization) should be built on the physiological timing architecture rather than added prematurely to v1.7.
+
+Later roadmap:
+- 12-Lead ECG
+- ECG interpretation / myocardial ischemia learning
+- case and quiz engine

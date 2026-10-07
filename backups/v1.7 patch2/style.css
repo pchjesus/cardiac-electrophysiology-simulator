@@ -1,0 +1,693 @@
+*{box-sizing:border-box}
+
+html,body{margin:0;min-height:100%}
+
+body{
+font-family:Arial,"Malgun Gothic",sans-serif;
+background:#f4f5f7;
+color:#222;
+}
+
+.app{
+width:100%;
+max-width:1500px;
+margin:0 auto;
+padding:12px 18px 14px;
+}
+
+.header{text-align:center;margin-bottom:9px}
+.header h1{
+margin:0 0 2px;
+font-size:clamp(22px,2.1vw,30px);
+line-height:1.15;
+}
+.header p{
+margin:0;
+color:#666;
+font-size:clamp(13px,1.15vw,17px);
+}
+
+.main-container{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.card{
+background:#fff;
+border-radius:10px;
+padding:11px 12px;
+box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.card h2{
+margin:0 0 7px;
+padding-bottom:6px;
+font-size:16px;
+border-bottom:1px solid #ddd;
+}
+
+/* =======================
+TOP VISUAL AREA
+======================= */
+
+.visual-grid{
+display:grid;
+grid-template-columns:minmax(0,2.15fr) minmax(300px,.85fr);
+gap:10px;
+align-items:stretch;
+}
+
+/* =======================
+ECG PANEL
+======================= */
+
+.ecg-panel{
+min-width:0;
+overflow:hidden;
+}
+
+.ecg-wrapper{
+width:100%;
+overflow:hidden;
+border-radius:7px;
+}
+
+#ecgCanvas{
+width:100%;
+height:clamp(165px,18vh,205px);
+display:block;
+background:#111;
+border-radius:7px;
+box-shadow:inset 0 0 16px rgba(0,255,136,.15);
+}
+
+.ecg-info{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-top:8px;
+font-size:14px;
+font-weight:bold;
+}
+
+#rhythmStatus{
+color:#8b0000;
+text-align:right;
+}
+
+.ecg-interpretation{
+width:100%;
+margin:8px auto 0;
+display:flex;
+gap:4px;
+flex-wrap:nowrap;
+overflow:hidden;
+}
+
+.ecg-item{
+min-width:0;
+padding:5px 6px;
+border-radius:5px;
+background:#f5f5f5;
+font-size:clamp(9px,.78vw,12px);
+white-space:nowrap;
+flex:1 1 0;
+text-align:center;
+}
+
+.ecg-label{
+font-weight:bold;
+margin-right:3px;
+color:#8b0000;
+}
+
+.ecg-item.ecg-active{
+background:#ffe7e7;
+box-shadow:0 0 0 1px rgba(139,0,0,.15);
+}
+
+/* =======================
+EMBEDDED CONTROL PANEL
+======================= */
+
+.embedded-control-panel{
+margin-top:9px;
+padding:8px 9px 7px;
+border:1px solid #e1e1e1;
+border-radius:8px;
+background:#fafafa;
+}
+
+.main-buttons{
+display:flex;
+justify-content:center;
+gap:3px;
+}
+
+button{
+padding:7px 19px;
+margin:0 2px;
+border:0;
+border-radius:7px;
+background:#333;
+color:#fff;
+font-size:13px;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{background:#555}
+
+.control-title{
+margin:0 0 5px;
+font-weight:bold;
+font-size:14px;
+text-align:center;
+}
+
+.timeline{margin-top:7px}
+
+#timeSlider{
+display:block;
+width:94%;
+margin:0 auto;
+cursor:pointer;
+}
+
+.timeline-labels{
+width:94%;
+margin:2px auto 0;
+display:flex;
+justify-content:space-between;
+font-size:10px;
+color:#777;
+}
+
+.heart-rate-control{
+margin-top:7px;
+text-align:center;
+}
+
+.heart-rate-slider-wrap{
+position:relative;
+width:94%;
+height:18px;
+margin:auto;
+}
+
+#heartRateSlider{
+position:absolute;
+left:0;
+top:0;
+z-index:3;
+width:100%;
+margin:0;
+cursor:pointer;
+}
+
+.normal-range-track{
+position:absolute;
+left:calc(7px + (100% - 14px) * 0.2);
+width:calc((100% - 14px) * 0.2666667);
+top:50%;
+height:0;
+z-index:1;
+pointer-events:none;
+}
+
+.normal-range-fill{display:none}
+
+.normal-range-track:before,
+.normal-range-track:after{
+content:"";
+position:absolute;
+top:-6px;
+width:2px;
+height:16px;
+background:#4d8df7;
+border-radius:2px;
+}
+
+.normal-range-track:before{left:0}
+.normal-range-track:after{right:0}
+
+.heart-rate-scale{
+position:relative;
+width:94%;
+height:16px;
+margin:2px auto 0;
+font-size:10px;
+color:#777;
+}
+
+.heart-rate-scale span{
+position:absolute;
+top:0;
+white-space:nowrap;
+}
+
+.scale-30{
+left:7px;
+}
+
+.scale-60{
+left:calc(7px + (100% - 14px) * 0.2);
+transform:translateX(-50%);
+}
+
+.scale-100{
+left:calc(7px + (100% - 14px) * 0.4666667);
+transform:translateX(-50%);
+}
+
+.scale-180{
+left:calc(100% - 7px);
+transform:translateX(-100%);
+}
+
+.normal-range-label{
+margin-top:0;
+font-size:11px;
+color:#666;
+}
+
+#heartRateValue{
+display:block;
+margin-top:1px;
+font-size:15px;
+color:#8b0000;
+}
+
+/* =======================
+HEART
+======================= */
+
+.heart-panel{
+min-width:0;
+text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+#heartSVG{
+width:min(100%,390px);
+height:auto;
+max-height:390px;
+}
+
+#heartShape{
+fill:#f8d7da;
+stroke:#8b0000;
+stroke-width:5;
+}
+
+#atriaRegion,#ventricleRegion{
+fill:#f8d7da;
+stroke:#8b0000;
+stroke-width:3;
+opacity:.85;
+transition:fill .2s ease,opacity .2s ease;
+}
+
+#heartSVG circle[id]{
+fill:#fff;
+stroke:#333;
+stroke-width:3;
+transition:fill .15s ease,stroke .15s ease;
+}
+
+#heartSVG line{
+stroke:#444;
+stroke-width:5;
+stroke-linecap:round;
+transition:stroke .15s ease,stroke-width .15s ease;
+}
+
+#heartSVG text{
+font-size:18px;
+font-weight:bold;
+fill:#333;
+}
+
+#atriaLabel,#ventricleLabel{
+font-size:16px;
+fill:#555;
+pointer-events:none;
+}
+
+.active-node{
+fill:#ffd700!important;
+stroke:#ff6600!important;
+stroke-width:5!important;
+}
+
+.active-path{
+stroke:#ff0000!important;
+stroke-width:8!important;
+}
+
+.conduction-pulse{
+fill:#fff200;
+stroke:#ff6600;
+stroke-width:3;
+pointer-events:none;
+filter:drop-shadow(0 0 5px rgba(255,180,0,.8));
+}
+
+.atria-active{fill:#ffd6a5!important;opacity:1!important}
+.ventricles-active{fill:#ef9a9a!important;opacity:1!important}
+.ventricles-recovery{fill:#f5c6cb!important;opacity:.95!important}
+
+/* =======================
+NEW INFORMATION AREA
+======================= */
+
+.info-grid{
+display:grid;
+grid-template-columns:minmax(0,1.25fr) minmax(0,1.75fr);
+gap:10px;
+}
+
+.placeholder-panel{
+min-height:128px;
+}
+
+.placeholder-panel h2{
+font-size:15px;
+}
+
+.measurement-list{
+display:grid;
+grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+gap:5px 12px;
+}
+
+.measurement-list .measurement-item{
+display:block;
+min-width:0;
+padding:6px 7px;
+background:#f7f7f7;
+border-radius:5px;
+font-size:12px;
+}
+
+.measurement-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+}
+
+.measurement-list strong{
+color:#777;
+}
+
+.measurement-list small{
+display:block;
+margin-top:2px;
+font-size:9px;
+line-height:1.2;
+color:#999;
+white-space:nowrap;
+}
+
+.placeholder-note{
+margin:7px 0 0;
+font-size:10px;
+color:#999;
+}
+
+.event-flow{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+min-height:45px;
+}
+
+.event-item{
+padding:7px 12px;
+border:1px solid #ddd;
+border-radius:6px;
+background:#f7f7f7;
+font-size:12px;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.event-flow>span{
+color:#888;
+font-size:14px;
+}
+
+.event-ecg-row{
+margin-top:7px;
+padding:6px 9px;
+background:#f7f7f7;
+border-radius:5px;
+display:flex;
+justify-content:space-between;
+font-size:12px;
+}
+
+.event-ecg-row strong{color:#8b0000}
+
+/* =======================
+CURRENT PHASE
+======================= */
+
+.phase-panel{
+min-height:175px;
+padding:16px 18px;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+}
+
+.phase-panel h2{
+margin:0 0 11px;
+padding-bottom:7px;
+}
+
+#phaseTitle{
+font-size:clamp(19px,1.6vw,24px);
+font-weight:bold;
+margin-bottom:11px;
+color:#8b0000;
+line-height:1.25;
+}
+
+#phaseDescription{
+margin:0 0 14px;
+font-size:clamp(13px,1vw,15px);
+line-height:1.5;
+max-width:1100px;
+}
+
+.phase-ecg-link{
+margin-top:auto;
+padding:9px 12px;
+border-radius:7px;
+background:#f8f8f8;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:13px;
+min-height:36px;
+}
+
+.phase-ecg-link span{color:#666}
+#phaseECG{color:#8b0000}
+
+/* =======================
+RESPONSIVE
+======================= */
+
+@media(min-width:900px){
+.visual-grid{
+min-height:52vh;
+}
+.ecg-panel,.heart-panel{
+height:100%;
+}
+}
+
+@media(max-width:899px){
+.visual-grid{
+grid-template-columns:1fr;
+}
+.info-grid{
+grid-template-columns:1fr;
+}
+.heart-panel{
+min-height:360px;
+}
+}
+
+@media(max-width:700px){
+.app{padding:9px}
+.visual-grid,.info-grid{gap:8px}
+.card{padding:10px}
+.ecg-info{font-size:12px}
+.ecg-interpretation{overflow-x:auto}
+.ecg-item{flex:0 0 auto;font-size:11px}
+#ecgCanvas{height:155px}
+.event-flow{justify-content:flex-start;overflow-x:auto}
+.event-item{flex:0 0 auto}
+.main-buttons{flex-wrap:wrap}
+}
+
+
+/* =======================
+v1.6 UI PATCH 2
+Compact Controller + ECG View
+======================= */
+
+.ecg-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+#ecgCanvas {
+    /* More vertical room for the actual ECG display */
+    height: clamp(220px, 25vh, 285px);
+}
+
+/* Controller is compact and horizontal */
+.embedded-control-panel.compact-controller {
+    margin-top: 10px;
+    padding: 7px 9px;
+}
+
+.controller-layout {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+}
+
+.controller-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.controller-buttons button {
+    width: 100%;
+    min-height: 27px;
+    padding: 4px 5px;
+    margin: 0;
+    font-size: 11px;
+    border-radius: 5px;
+}
+
+.controller-sliders {
+    min-width: 0;
+}
+
+.controller-sliders .control-title {
+    margin: 0 0 2px;
+    font-size: 12px;
+}
+
+.controller-sliders .timeline {
+    margin: 0;
+}
+
+.controller-sliders #timeSlider {
+    width: 100%;
+    height: 13px;
+    margin: 0;
+}
+
+.controller-sliders .timeline-labels {
+    width: 100%;
+    height: 11px;
+    margin: 0;
+    font-size: 8px;
+}
+
+.controller-sliders .heart-rate-control {
+    margin-top: 2px;
+}
+
+.controller-sliders .heart-rate-slider-wrap {
+    height: 15px;
+}
+
+.controller-sliders #heartRateSlider {
+    height: 13px;
+}
+
+.controller-sliders .heart-rate-scale {
+    width: 94%;
+    height: 12px;
+    margin: 0 auto;
+    font-size: 8px;
+}
+
+.controller-sliders .normal-range-track::before,
+.controller-sliders .normal-range-track::after {
+    top: -5px;
+    height: 14px;
+}
+
+.controller-sliders .normal-range-label {
+    margin-top: 0;
+    font-size: 9px;
+    line-height: 1.1;
+}
+
+.controller-sliders #heartRateValue {
+    margin-top: 0;
+    font-size: 13px;
+    line-height: 1.1;
+}
+
+/* Keep the lower placeholder area compact but visible */
+.info-grid {
+    gap: 10px;
+}
+
+.placeholder-panel {
+    min-height: 115px;
+}
+
+@media (min-width: 900px) {
+    .visual-grid {
+        min-height: 0;
+    }
+
+    .ecg-panel {
+        min-height: 0;
+    }
+
+    .heart-panel {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 899px) {
+    .controller-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .controller-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .controller-buttons button {
+        width: auto;
+        min-width: 75px;
+    }
+}
+
+@media (max-width: 700px) {
+    #ecgCanvas {
+        height: 175px;
+    }
+}
