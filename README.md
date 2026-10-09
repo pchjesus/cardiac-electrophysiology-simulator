@@ -153,3 +153,13 @@ Later roadmap:
 The current `main` branch contains **v1.8 Patch 2 (A/B time foundation)**. The last fully finalized product baseline is **v1.7 FINAL**. Patch 2 is designed to look and behave exactly like v1.7: the new internal model and visualization clock are separate but use an identity mapping for now. HR-dependent physiological cycle timing is planned for Patch 3, not yet active.
 
 For change details and verification scope, see `SPEC.md` and `DEVLOG.md`.
+
+
+## Current Development Status — v1.8 Patch 3 (2026-10-09)
+
+Patch 3 is implemented on the development branch (main). The last fully finalized product remains **v1.7 FINAL**. Its visual animation speed and existing UI are intentionally preserved.
+
+- A (Physiological Time) follows the HR-specific beat duration `RR = 60000/HR`.
+- B (Visualization Time) uses the existing v1.7 animation pacing. A presentation-phase adapter synchronizes the ECG waveform, conduction, Current Phase, events and Timeline to the real beat fraction.
+- **Limit:** PR/QRS/QT still use v1.7 reference timing and are not yet HR-dependent physiological measurements. They will be migrated together in Patch 4; do not interpret them as clinically validated at non-reference heart rates.
+- See `SPEC.md` / `DEVLOG.md` for detailed design, verification status and known limitations.

@@ -36,6 +36,9 @@ const heartState = {
     // A: model clock; B: accumulated playback/visualization clock.
     physiologicalTime:0,
     visualizationTime:0,
+    // Phase anchor: permits HR changes without jumping phase or rewinding A.
+    cycleStartTime:0,
+    cycleLength:null,
     // Temporary backwards-compatible mirror, not a third clock.
     ecgTime:0,
 
@@ -216,9 +219,39 @@ const baseCycleLength =
 getCardiacTimingModel().cycleLength;
 
 
-// Pure RR (ms), independent of playback speed. This is not used as the
-// active cardiac-cycle boundary until Patch 3.
+// Actual physiological RR (ms), independent of presentation speed.
 function getPhysiologicalRR(hr){ return 60000 / hr; }
+
+function getActiveCycleLength(){
+    return heartState.cycleLength ?? getPhysiologicalRR(heartRate);
+}
+
+// Current position measured in physiological milliseconds within the beat.
+function getPhysiologicalCyclePhase(time = heartState.physiologicalTime){
+    const rr = getActiveCycleLength();
+    return ((time - heartState.cycleStartTime) % rr + rr) % rr;
+}
+
+// Patch 3 adapter: present each real RR on the preserved v1.7 template.
+// All ECG/conduction/event renderers consume this *reference* coordinate.
+// This is an educational presentation map, NOT a clinically calibrated
+// PR/QRS/QT model (those durations are addressed in Patch 4).
+function getReferenceCyclePhase(time = heartState.physiologicalTime){
+    if(time < 0) return -1;
+    return getPhysiologicalCyclePhase(time) *
+        (baseCycleLength / getActiveCycleLength());
+}
+
+// Preserve the current fraction of the beat when the HR slider changes,
+// without resetting the monotonic physiological clock or changing B's speed.
+function synchronizeCycleLength(){
+    const rr = getPhysiologicalRR(heartRate);
+    const previous = getActiveCycleLength();
+    const phaseFraction = getPhysiologicalCyclePhase() / previous;
+    heartState.cycleStartTime =
+        heartState.physiologicalTime - phaseFraction * rr;
+    heartState.cycleLength = rr;
+}
 
 // ===============================
 // ECG MEASUREMENT MODEL
@@ -917,7 +950,17 @@ function updateHeartRateUI(){
         );
 
 
+    synchronizeCycleLength();
     updateECGMeasurements();
+
+    // Changing HR mid-beat preserves phase. Refresh any active feedback,
+    // including when playback was paused at a manually selected position.
+    if(heartState.currentStep >= 0 ||
+       heartState.physiologicalTime !== 0 ||
+       heartState.visualizationTime !== 0){
+        updateConduction(true);
+        drawECGSweep();
+    }
 
 }
 
@@ -1522,9 +1565,7 @@ function mapECGTimeToScreen(
 
     const currentTime =
 
-    heartState.physiologicalTime %
-
-    baseCycleLength;
+    getReferenceCyclePhase();
 
 
 
@@ -1754,7 +1795,7 @@ function addECGPoint(){
 
     const value =
     ecgValue(
-        heartState.physiologicalTime
+        getReferenceCyclePhase()
     );
 
 
@@ -1868,16 +1909,21 @@ function getVisualizationDelta(deltaTime){
     return deltaTime * animationSpeed * BASE_SPEED_FACTOR;
 }
 
-// Patch 2 is identity mapping. Patch 3 will convert A to physiological
-// RR while replacing dependent event/cycle boundaries in the same patch.
+// A real physiological cycle lasts RR ms, while a visually identical
+// educational cycle lasts the original 72-bpm reference duration in B.
+// Apply HR pacing only in B; this conversion never re-applies animationSpeed.
 function getPhysiologicalDelta(visualizationDelta){
-    return visualizationDelta;
+    return visualizationDelta * getActiveCycleLength() / baseCycleLength;
 }
 
 function advanceSimulationClocks(deltaTime){
     const visualizationDelta = getVisualizationDelta(deltaTime);
     heartState.visualizationTime += visualizationDelta;
     heartState.physiologicalTime += getPhysiologicalDelta(visualizationDelta);
+    const rr = getActiveCycleLength();
+    while(heartState.physiologicalTime - heartState.cycleStartTime >= rr){
+        heartState.cycleStartTime += rr;
+    }
     heartState.ecgTime = heartState.physiologicalTime; // legacy mirror
     return visualizationDelta;
 }
@@ -1903,8 +1949,7 @@ function updateConduction(
 ){
 
     const currentTime =
-    heartState.physiologicalTime %
-    baseCycleLength;
+    getReferenceCyclePhase();
 
     let newStep = -1;
 
@@ -2286,7 +2331,7 @@ function renderStep(){
 
     const phaseEvent =
     getCurrentECGEvent(
-        heartState.physiologicalTime % baseCycleLength
+        getReferenceCyclePhase()
     );
 
     phaseECG.textContent =
@@ -2845,9 +2890,7 @@ function updateTimeline(){
 
     const currentTime =
 
-    heartState.physiologicalTime %
-
-    baseCycleLength;
+    getReferenceCyclePhase();
 
 
 
@@ -3010,6 +3053,8 @@ function reset(){
     heartState.physiologicalTime =
     0;
     heartState.visualizationTime = 0;
+    heartState.cycleStartTime = 0;
+    heartState.cycleLength = getPhysiologicalRR(heartRate);
     heartState.ecgTime = 0;
 
 
@@ -3138,12 +3183,13 @@ function(){
 
     heartState.physiologicalTime =
 
-    baseCycleLength *
+    getActiveCycleLength() *
 
     percent;
 
-    // Seek both clocks atomically; reset the v1.7 compatibility mirror.
-    heartState.visualizationTime = heartState.physiologicalTime;
+    heartState.cycleStartTime = 0;
+    // B tracks the preserved reference cycle, A tracks physiological RR.
+    heartState.visualizationTime = baseCycleLength * percent;
     heartState.ecgTime = heartState.physiologicalTime;
 
 
@@ -3210,7 +3256,11 @@ function(){
 
         *
 
-        BASE_SPEED_FACTOR;
+        BASE_SPEED_FACTOR
+
+        *
+
+        getActiveCycleLength() / baseCycleLength;
 
 
 
@@ -3225,7 +3275,7 @@ function(){
             -
 
             ecgValue(
-                sampleTime
+                getReferenceCyclePhase(sampleTime)
             )
 
         });

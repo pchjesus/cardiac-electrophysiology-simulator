@@ -503,3 +503,18 @@ Implementation status: **Patch 1 implemented and browser-regression checked; phy
 - Unchanged: fixed 72-bpm reference cycle, PR/QRS/QT model, morphology, ECG event/conduction timing, HR-to-animation-speed mapping, HTML/CSS and user-visible presentation.
 - Future Patch 3: introduce HR-dependent cycle length and its mapped physiological interval boundaries together, **never** update `baseCycleLength` alone without event/waveform/conduction migration. Preserve the v1.7-calibrated visual cycle pacing through the A/B converter.
 - v1.9: keep electrical event timing as extensible structured data for mechanical and hemodynamic components sharing the same A clock.
+
+
+## v1.8 Development Status — Patch 3 (Physiological RR / Cycle Projection, 2026-10-09)
+
+**Status: Implemented and automated-browser regression tested.**
+
+- The physiological clock (A) now advances in milliseconds relative to the active RR: `RR = 60000 / heartRate`. `getActiveCycleLength()` returns the physical cycle duration, while `baseCycleLength` remains a **fixed, visualization-only v1.7 template duration** (60000/72 ms). Do not confuse these.
+- The existing visual clock (B) continues using the v1.7-calibrated `heartRateToSpeed * BASE_SPEED_FACTOR` exactly once, so the **overall screen playback cadence is preserved**.
+- `getPhysiologicalDelta(B_delta) = B_delta * RR / baseCycleLength`. Physiological cycle boundaries and Timeline percentages use real RR via `cycleStartTime`; the mapped v1.7 reference phase is used for ECG waveform, conduction, cardiac regions, pulse, event, Current Phase and labels.
+- On mid-cycle HR changes, `synchronizeCycleLength()` retains the current beat fraction without rewinding monotonic A; the anchor `cycleStartTime` shifts as needed. After a Timeline seek, A is set to `RR*percent`, B to `referenceCycle*percent` in one operation.
+- Preserve `ecgTime` only as a temporary compatibility mirror. One animation loop remains. Reset rebuilds A, B, the RR anchor, and the existing Ready state.
+- The preserved v1.7 **intra-cycle ECG boundaries** are still projected by normalized cycle position. **IMPORTANT: PR/QRS/QT readouts remain v1.7 educational reference values and are not yet physically timed HR-adaptive intervals.** Patch 4 must replace this normalized reference projection with a scientifically justified interval model and update waveform, conduction, event and measurement consumers together.
+- The simulator **must not** be described as having a fully physiologically accurate ECG model at Patch 3. At extreme HRs, proportional reference projection is only a temporary display compatibility technique.
+- Known v1.7 Purkinje/QRS timing limitation remains until the dedicated conduction-alignment patch; no changes were made to branching animation or its educational labels.
+- Keep room for v1.9 valve/chamber/blood-flow events driven by the same physiological clock, without a second animation driver.

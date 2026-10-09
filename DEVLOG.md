@@ -445,3 +445,33 @@ Later work can then add Cardiac Cycle & Hemodynamics, including valve motion, ch
 - Visually calibrated on automated browser snapshots, not manually assessed on every physical device.
 - Patch 3 requires physiological RR, phase boundaries and waveform durations to be changed coherently, avoiding HR double-speed and temporary clinically misleading interval values.
 - No new functionality in Patch 2 changes educational clinical outputs beyond centralizing the existing RR calculation.
+
+
+## v1.8 — Patch 3: HR-Dependent Physiological RR and Phase Adapter (2026-10-09)
+
+### Added
+- Active physiological cycle length `getActiveCycleLength()`, cycle-position resolver `getPhysiologicalCyclePhase()`, and reference presentation resolver `getReferenceCyclePhase()`.
+- Beat anchor `heartState.cycleStartTime` to allow changes to HR without resetting elapsed A.
+- `synchronizeCycleLength()` reanchors the beat on HR slider changes while preserving the current normalized phase.
+- Backup `backups/v1.8/patch3_baseline/script.js` of the verified previous Patch 2 script.
+
+### Changed
+- A now advances by the dynamic `RR / baseCycleLength` conversion from B; HR-to-speed is still applied only in B.
+- Timeline/seek, ECG sampling/history reconstruction, conduction, Current Phase and event status all use the consistent physiological-to-reference phase adapter.
+- Reset and HR changes reconcile A, B, and the cycle anchor.
+
+### Explicitly not changed
+- The v1.7 perceived visual cycle cadence, RBB/LBB branching, ECG morphology and amplitudes, UI, CSS, original event segmentation, PR/QRS/QT measurement values or QTc formula.
+- These interval labels are **provisional baseline reference values**, not dynamically calibrated physical intervals. Patch 4 is required.
+
+### Verification
+- `node --check script.js`: PASS.
+- Headless Chromium via Playwright, injecting unchanged HTML/CSS and Patch 2/3 scripts: **312 deterministic comparison states** covering HR 30,50,60,72,80,100,120,180 bpm; seek at 13 percentages; repeated delta steps; 3 long-run wrap sequences; mid-beat HR swaps, manual ECG explanation, Play/Pause/Reset and actual requestAnimationFrame playback.
+- ECG canvas image comparisons: **0 differences** across 312 states; ECG sample x/y max difference about 3.3e-11 pixels; 0 JavaScript errors.
+- Found **3 tiny boundary-classification differences** at an exact event boundary during long runs due to floating-point rounding (e.g. near 380 ms): no missing phase/event, but a one-frame edge case to stabilize during the dedicated boundary/event patch.
+- Assertions verified physiological RR=60000/HR, physical phase fraction = presentation reference phase fraction, and A/legacy mirror consistency.
+- Manual visual verification in the end user's browser and dedicated high-rate clinical interval verification are not yet completed.
+
+### Next: Patch 4
+- Scientific HR-dependent PR/QRS/QT model; keep QRS relatively stable, explicitly justify QT correction assumptions, and replace temporary reference interval projection so measurements and physical waveform represent the same model.
+- Preserve animation pacing, verify ECG labels/events/conduction, and test transitions/seek/wrap at HR extremes.
