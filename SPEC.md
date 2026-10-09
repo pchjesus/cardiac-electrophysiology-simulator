@@ -572,3 +572,47 @@ Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatP
 OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
 
 These sources support the **sequence** of events and pressure/valve principles, not the simulator's invented interval coefficients or numerical relative-pressure indexes.
+
+
+## v1.10 Patch 1 — Wiggers Model Foundation (development)
+
+**Baseline:** v1.9 FINAL at commit `dbfb60e84ef7919f7a65ec45bcab322b8895995a`. Preserve the archived v1.9 runtime at `backups/v1.9/FINAL/`.
+
+### Scope and requirement traceability
+
+- **WIG-001**: Add `wiggers.js` as a passive read-only model consumer of the existing v1.8 physiological electrical timing and v1.9 pure mechanical functions.
+- **WIG-002**: Represent ECG boundaries, mechanical phase/boundaries, left-heart *conceptual* pressure indexes, normalized ventricular volume, and valve/flow states in a deterministic snapshot for an explicitly supplied physiological phase.
+- **WIG-003**: Define representative mitral closure (S1), aortic opening, aortic closure (S2), and mitral opening at the **existing** v1.9 mechanical boundaries, not at arbitrary ECG waveform pixels. The S1/S2 objects are *event markers*, not synthesized heart sounds, and do not represent split S1/S2 or independently validated right-sided valve timing.
+- **WIG-004**: Audit discontinuities at the existing v1.9 pressure-stage boundaries via `inspectPressureBoundaries()`. Do **not** interpolate those stage values or label them measured mmHg. Continuous pressure curves and valve-pressure consistency are explicitly deferred to Patch 2.
+- **WIG-005**: Preserve v1.9 display, animation and electrical/mechanical model behavior byte-for-byte except loading the new passive script; no new animation driver, timers, CSS or panel.
+- **WIG-006**: Validate 151 integer HRs (30–180), valve/S1/S2 ordering, reproducible seek positions, untouched app state, exactly equivalent v1.9 ECG/Mechanical outputs and responsive width using `tests/test_v110.py`. Continue running `tests/test_v18.py`, `tests/stress_v18.py`, and `tests/test_v19.py`.
+
+### Public browser contract
+
+`window.CardiacWiggers.getSnapshot(phaseMs, getActiveTiming())`
+
+Returned contract:
+- `metadata`: version, educational units, non-clinical caveat, current v1.9 pressure-profile identifier.
+- `cycle`: `rrMs`, normalized `phaseMs`, derived `heartRateBpm`.
+- `electrical`: P/QRS/ST/T boundary timestamps in physiological milliseconds.
+- `mechanical`: stage, progress and `boundaries`.
+- `pressure`: `leftAtrial`, `leftVentricular`, `aortic`, `representation`; these are aliases of the v1.9 **shared qualitative pressure proxies** and are not separately modeled left/right chamber pressures.
+- `ventricularVolume.relativeValue`: the unchanged v1.9 normalized educational volume.
+- `valves` and `flow`: unchanged v1.9 valve and flow states.
+- `valveEvents` and `heartSoundEvents`: time-stamped event definitions derived from `getMechanicalTiming()`.
+
+Pure query helpers: `getValveEvents(electricalTiming)`, `getHeartSoundEvents(electricalTiming)`, `inspectPressureBoundaries(electricalTiming, epsilonMs?)`.
+
+The module does **not** subscribe to rAF or mutate `heartState`. The Wiggers graph and UI are deferred. Graph cursors must later consume `getPhysiologicalCyclePhase()`; A and B playback rules remain unchanged.
+
+### Next: Patch 2
+
+Define and validate a continuous educational *left-sided relative* pressure and volume profile with coherent valve state inequalities, event timing, isovolumetric volume invariants and explicit boundary continuity checks. Decide whether the verified new shared profile can replace the current stage pressure implementation without changing existing Mechanical presentation. Retain a safe v1.9 rollback and separate model-validation acceptance from display appearance.
+
+### Physiological sources (APA 7th)
+
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
+
+These sources substantiate the **sequence and relationships** among cardiac-cycle events; they do not validate the simulator's heuristically selected numerical pressures, volume normalization or event timing delays.
