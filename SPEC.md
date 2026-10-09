@@ -692,7 +692,7 @@ Next Patch 4: add state-aware cardiac event/valve/S1/S2 educational explanations
 - **WIG-403:** Put phase-dependent educational text immediately under Wiggers status. Add contextual text for the most recent valve event, differentiating exact-event timestamps from the intervening stage. Dynamic text must be sourced from `CardiacWiggersProfile.getSnapshot(A,getActiveTiming())` rather than recomputing pressures or asking v1.9 Mechanical for stage.
 - **WIG-404:** Reuse `CardiacWiggersProfile`'s event IDs and `CardiacWiggers`'s four timestamps for SVG title and text. At a precise event tie the Patch 2 half-open stage / explicit valve-state rule is authoritative; the older Mechanical view may round differently and must remain unchanged.
 - **WIG-405:** Reset restores educational readouts to Ready. Collapse stops graph/educational updates. Opening help does not alter the `<details>` state, HR, Timeline, A/B clocks, animation, Electrical/Mechanical selection or chart plot cache. Outside click on playback controls dismisses help while letting those controls execute normally.
-- **WIG-406:** The help and learning presentation uses no new ticker, rAF or domain model. `wiggers-help.js` registers click/pointerdown/keydown listeners once on load; `wiggers-view.js` compares texts before DOM writes.
+- **WIG-406:** The help and learning presentation uses no new ticker, rAF or domain model. `wiggers-help.js` registers click/keydown listeners once on load; `wiggers-view.js` compares texts before DOM writes.
 - **WIG-407:** Full nurse-facing educational guide and APA 7th sources are provided in README, including nonclinical limitations, relative-unit conventions, A/B cursor distinction, S1/S2 associations and stage interpretation.
 
 ### Verification
