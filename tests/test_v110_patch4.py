@@ -56,8 +56,10 @@ with sync_playwright() as pw:
     page.locator("#phaseTitle").click()
     check(popup.is_hidden(),"Click outside did not dismiss")
     help.click()
-    page.locator("#wiggersToggle").click()
+    # Click the text/marker area, well away from the separately placed ? control.
+    page.locator("#wiggersToggle").click(position={"x":12,"y":12})
     check(popup.is_hidden(),"Summary click did not dismiss help")
+    page.wait_for_function("document.getElementById('wiggersDetails').open")
     check(details.evaluate("(e)=>e.open"),"Summary click stopped disclosure")
     page.wait_for_function("window.CardiacWiggersView.buildCount > 0")
     check(page.locator("#wiggersMarkers [data-event]").count()==4,"Marker count changed")
