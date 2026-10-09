@@ -254,6 +254,68 @@ function synchronizeCycleLength(){
 }
 
 // ===============================
+// PHYSIOLOGICAL ELECTRICAL TIMING — PATCH 4
+// ===============================
+// Educational approximation, NOT a patient-specific QT-RR model.
+// PR varies moderately, QRS is stable and QT follows a nonlinear RR curve.
+// At extreme tachycardia, a non-overlapping SA-first cycle forces QT to
+// shorten beyond typical QT-RR adaptation; document this limitation.
+const ECG_TIMING_PARAMETERS = Object.freeze({
+    prAt80: 185,
+    prRRcoefficient: 0.13,
+    qrsDuration: 80,
+    referenceQT: 380,
+    qtRRExponent: 0.35,
+    qtCorrection: 'Bazett'
+});
+function clampTiming(x, low, high){
+    return Math.max(low, Math.min(high,x));
+}
+function getPhysiologicalTiming(hr = heartRate){
+    const rr = getPhysiologicalRR(hr);
+    const pStart = clampTiming((rr - 320) * 0.18, 8, 80);
+    const pr = clampTiming(
+        ECG_TIMING_PARAMETERS.prAt80 + ECG_TIMING_PARAMETERS.prRRcoefficient * (rr - 750),
+        125,220);
+    const pDuration = clampTiming(rr * 0.145, 55, 80);
+    const pEnd = pStart + Math.min(pDuration, pr - 40);
+    const qrsStart = pStart + pr;
+    const qrsEnd = qrsStart + ECG_TIMING_PARAMETERS.qrsDuration;
+    const nominalQT = clampTiming(
+        ECG_TIMING_PARAMETERS.referenceQT * Math.pow(rr / (60000 / 72), ECG_TIMING_PARAMETERS.qtRRExponent),
+        225,525);
+    // Retain positive terminal baseline and prevent the next cycle's QRS
+    // overtaking this T wave at tachycardic slider extremes.
+    const qt = Math.min(nominalQT, rr - qrsStart - 8);
+    const stDuration = clampTiming((qt - 80) * 0.27, 15,80);
+    const stEnd = qrsEnd + stDuration;
+    const tEnd = qrsStart + qt;
+    const saEnd = pEnd;
+    const hisStart = Math.max(saEnd + 6, qrsStart - 48);
+    const branchStart = Math.max(hisStart + 6, qrsStart - 10);
+    const purkinjeStart = qrsStart + ECG_TIMING_PARAMETERS.qrsDuration * 0.32;
+    const conduction = {
+        SA:{start:0,end:saEnd},
+        AV:{start:saEnd,end:hisStart},
+        His:{start:hisStart,end:branchStart},
+        Branches:{start:branchStart,end:purkinjeStart},
+        Purkinje:{start:purkinjeStart,end:qrsEnd},
+        Recovery:{start:qrsEnd,end:tEnd}
+    };
+    return {
+        heartRate:hr,cycleLength:rr,rr, pStart,pEnd,prEnd:qrsStart,
+        qrsStart,qrsEnd,stEnd,tEnd,
+        prInterval:pr,qrsDuration:ECG_TIMING_PARAMETERS.qrsDuration,
+        qtInterval:qt,
+        // Existing UI retains Bazett to avoid an unannounced formula change.
+        // This is a correction of a modeled QT, not a clinical measurement.
+        qtc:qt / Math.sqrt(rr/1000),
+        conduction
+    };
+}
+function getActiveTiming(){return getPhysiologicalTiming(heartRate);}
+
+// ===============================
 // ECG MEASUREMENT MODEL
 // ===============================
 
