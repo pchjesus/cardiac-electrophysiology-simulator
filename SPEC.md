@@ -490,3 +490,16 @@ Implementation status: **Patch 1 implemented and browser-regression checked; phy
 - Future work: define safe cycle semantics and A/B (physiological/visualization) time separation before changing RR and time-dependent consumers; maintain v1.7 visual pacing.
 - Known v1.7 limitation: Purkinje conduction and QRS timing boundaries require a later deliberate physiological alignment patch.
 
+## v1.8 Development Status — Patch 2 (A/B Clock Foundation, 2026-10-09)
+
+**Implemented in the v1.8 development line; HR-dependent physiological cycle timing is not yet enabled.**
+
+- A (physiological/model clock): `heartState.physiologicalTime` is now the authoritative time for ECG waveform sampling, conduction phases, events, Current Phase, Timeline and seek reconstruction.
+- B (visualization clock): `heartState.visualizationTime` accumulates the v1.7-calibrated playback delta. The ECG sweep consumes exactly that pre-scaled delta without a second HR-speed multiplier.
+- One `requestAnimationFrame` loop remains the shared update driver. `heartState.ecgTime` is a synchronized compatibility mirror, not an independent timer.
+- `getVisualizationDelta(realDelta)` applies the legacy `animationSpeed * BASE_SPEED_FACTOR` once; `getPhysiologicalDelta(visualDelta)` is **identity mapping in Patch 2**, so A = B and observed timing stays the same as Patch 1.
+- `getPhysiologicalRR(hr)` provides `60000 / hr` independently of playback speed. It is currently used for the existing RR measurement, **not** for active event/cycle boundaries.
+- Reset zeros A, B and compatibility time. Timeline seek atomically assigns A and B to the same reference phase; pause/resume preserves both.
+- Unchanged: fixed 72-bpm reference cycle, PR/QRS/QT model, morphology, ECG event/conduction timing, HR-to-animation-speed mapping, HTML/CSS and user-visible presentation.
+- Future Patch 3: introduce HR-dependent cycle length and its mapped physiological interval boundaries together, **never** update `baseCycleLength` alone without event/waveform/conduction migration. Preserve the v1.7-calibrated visual cycle pacing through the A/B converter.
+- v1.9: keep electrical event timing as extensible structured data for mechanical and hemodynamic components sharing the same A clock.

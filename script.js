@@ -33,6 +33,10 @@ const heartState = {
 
     playing:false,
 
+    // A: model clock; B: accumulated playback/visualization clock.
+    physiologicalTime:0,
+    visualizationTime:0,
+    // Temporary backwards-compatible mirror, not a third clock.
     ecgTime:0,
 
     lastTimestamp:null,
@@ -211,6 +215,10 @@ function getCardiacTimingModel(){
 const baseCycleLength =
 getCardiacTimingModel().cycleLength;
 
+
+// Pure RR (ms), independent of playback speed. This is not used as the
+// active cardiac-cycle boundary until Patch 3.
+function getPhysiologicalRR(hr){ return 60000 / hr; }
 
 // ===============================
 // ECG MEASUREMENT MODEL
@@ -922,7 +930,7 @@ function updateHeartRateUI(){
 function getECGMeasurements(){
 
     const rrInterval =
-    60000 / heartRate;
+    getPhysiologicalRR(heartRate);
 
 
     const prInterval =
@@ -1514,7 +1522,7 @@ function mapECGTimeToScreen(
 
     const currentTime =
 
-    heartState.ecgTime %
+    heartState.physiologicalTime %
 
     baseCycleLength;
 
@@ -1746,7 +1754,7 @@ function addECGPoint(){
 
     const value =
     ecgValue(
-        heartState.ecgTime
+        heartState.physiologicalTime
     );
 
 
@@ -1799,26 +1807,13 @@ function resetECGSweep(){
 // ===============================
 
 function updateECGSweep(
-    deltaTime
+    visualizationDelta
 ){
 
 
 
-    const sweepProgress =
-
-    (
-
-        deltaTime *
-
-        animationSpeed *
-
-        BASE_SPEED_FACTOR
-
-    )
-
-    /
-
-    sweepDuration;
+    // B is already HR-scaled, so do not scale twice.
+    const sweepProgress = visualizationDelta / sweepDuration;
 
 
 
@@ -1865,43 +1860,38 @@ function updateECGSweep(
 
 
 // ===============================
+// A/B TIME ADAPTER
+// ===============================
+
+// B owns original v1.7 playback pacing: apply HR speed exactly once.
+function getVisualizationDelta(deltaTime){
+    return deltaTime * animationSpeed * BASE_SPEED_FACTOR;
+}
+
+// Patch 2 is identity mapping. Patch 3 will convert A to physiological
+// RR while replacing dependent event/cycle boundaries in the same patch.
+function getPhysiologicalDelta(visualizationDelta){
+    return visualizationDelta;
+}
+
+function advanceSimulationClocks(deltaTime){
+    const visualizationDelta = getVisualizationDelta(deltaTime);
+    heartState.visualizationTime += visualizationDelta;
+    heartState.physiologicalTime += getPhysiologicalDelta(visualizationDelta);
+    heartState.ecgTime = heartState.physiologicalTime; // legacy mirror
+    return visualizationDelta;
+}
+
+// ===============================
 // SIMULATION UPDATE
 // ===============================
 
-function updateSimulation(
-    deltaTime
-){
-
-
-
-    const actualDelta =
-
-    deltaTime *
-
-    animationSpeed *
-
-    BASE_SPEED_FACTOR;
-
-
-
-    heartState.ecgTime +=
-
-    actualDelta;
-
-
-
+function updateSimulation(deltaTime){
+    const visualizationDelta = advanceSimulationClocks(deltaTime);
     updateConduction();
-
-
     updateTimeline();
-
-
-    updateECGSweep(
-        deltaTime
-    );
-
+    updateECGSweep(visualizationDelta);
 }
-
 
 
 // ===============================
@@ -1913,7 +1903,7 @@ function updateConduction(
 ){
 
     const currentTime =
-    heartState.ecgTime %
+    heartState.physiologicalTime %
     baseCycleLength;
 
     let newStep = -1;
@@ -1945,7 +1935,7 @@ function updateConduction(
         renderStep();
     }
 
-    // All visible simulation feedback is derived from the same ecgTime.
+    // All visible simulation feedback derives from physiologicalTime.
     // Event changes must also update the Current Phase ECG label even when
     // the broader conduction step has not changed (e.g. ST → T).
     updateECGEventIndicator(
@@ -2035,7 +2025,7 @@ function updateECGEventIndicator(
         ecgEventIndicator.textContent =
         event.label;
 
-        // Current Phase shows the same ECG event derived from ecgTime.
+        // Current Phase shows the event derived from physiologicalTime.
         // This prevents stale values such as "ST / T Wave" from remaining
         // after the timeline enters the T-wave portion of the same phase.
         phaseECG.textContent =
@@ -2296,7 +2286,7 @@ function renderStep(){
 
     const phaseEvent =
     getCurrentECGEvent(
-        heartState.ecgTime % baseCycleLength
+        heartState.physiologicalTime % baseCycleLength
     );
 
     phaseECG.textContent =
@@ -2855,7 +2845,7 @@ function updateTimeline(){
 
     const currentTime =
 
-    heartState.ecgTime %
+    heartState.physiologicalTime %
 
     baseCycleLength;
 
@@ -3017,8 +3007,10 @@ function reset(){
 
 
 
-    heartState.ecgTime =
+    heartState.physiologicalTime =
     0;
+    heartState.visualizationTime = 0;
+    heartState.ecgTime = 0;
 
 
 
@@ -3144,11 +3136,15 @@ function(){
 
 
 
-    heartState.ecgTime =
+    heartState.physiologicalTime =
 
     baseCycleLength *
 
     percent;
+
+    // Seek both clocks atomically; reset the v1.7 compatibility mirror.
+    heartState.visualizationTime = heartState.physiologicalTime;
+    heartState.ecgTime = heartState.physiologicalTime;
 
 
 
@@ -3198,7 +3194,7 @@ function(){
 
         const sampleTime =
 
-        heartState.ecgTime
+        heartState.physiologicalTime
 
         -
 

@@ -147,3 +147,9 @@ Later roadmap:
 - 12-Lead ECG
 - ECG interpretation / myocardial ischemia learning
 - case and quiz engine
+
+## v1.8 Development Branch Status (2026-10-09)
+
+The current `main` branch contains **v1.8 Patch 2 (A/B time foundation)**. The last fully finalized product baseline is **v1.7 FINAL**. Patch 2 is designed to look and behave exactly like v1.7: the new internal model and visualization clock are separate but use an identity mapping for now. HR-dependent physiological cycle timing is planned for Patch 3, not yet active.
+
+For change details and verification scope, see `SPEC.md` and `DEVLOG.md`.

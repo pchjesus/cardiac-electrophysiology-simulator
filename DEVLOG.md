@@ -414,3 +414,34 @@ Later work can then add Cardiac Cycle & Hemodynamics, including valve motion, ch
 - ECG waveform generation still includes v1.7 absolute-time boundaries.
 - The current static cycle and HR-to-animation-speed coupling remain by design until the physiological clock and visualization clock are safely separated.
 - Plan next patch carefully: avoid HR double application, preserve the v1.7 pace, and test RR/cycle-boundary interactions, Timeline seeking and sweep synchronization.
+
+## v1.8 — Patch 2: Physiological / Visualization Time Adapter (2026-10-09)
+
+### Added
+- `heartState.physiologicalTime` (A), `heartState.visualizationTime` (B), and a synchronized deprecated `ecgTime` compatibility mirror.
+- Explicit adapter functions: `getVisualizationDelta()`, `getPhysiologicalDelta()`, `advanceSimulationClocks()`.
+- Pure `getPhysiologicalRR(hr)` reused in measurement calculation.
+- `backups/v1.8/patch2_baseline/script.js` stores the verified Patch 1 script.
+
+### Changed
+- ECG sampling, conduction, Current Phase/Event, Timeline, and seek reconstruction read A instead of the legacy alias.
+- Sweep consumes B's already HR-scaled delta; HR multiplier is applied only once.
+- Reset, seek and frame update synchronize A/B and legacy alias.
+
+### Intentionally unchanged
+- A and B have equal elapsed values in Patch 2 (identity adapter). **This is preparation for physiological RR in Patch 3, not its activation.**
+- Existing fixed cycle/event boundaries, ECG waveform morphology, conduction stages, HR-to-speed curve, single animation loop, UI, Play/Pause and Reset behavior.
+
+### Verification performed
+- `node --check script.js` passed.
+- Headless Chromium / Playwright compared **237 deterministic Patch 1 vs Patch 2 states**: HR 30,50,60,72,80,100,120,180; twelve Timeline positions at each HR; simulated elapsed frames; ECG canvas and cursor; conduction state; Current Phase/ECG Event; manual QRS explanation; Play/Pause/Reset.
+- Additional 3 long frame runs (275 simulated 50-ms frames each) exercised cycle/sweep wrapping, with periodic state comparisons.
+- A = B = legacy alias after frame advances, Timeline seek, reset and actual rAF live playback: verified.
+- RR calculation evaluated at 8 HR values: expected `60000/hr`.
+- JavaScript page errors: 0 in both baseline and updated browser pages.
+- The first exact comparison during Play encountered ordinary rAF scheduling differences between two browser pages; the test harness then disabled rAF **only during synchronous Play/Pause snapshots**, re-enabled it for live playback, and completed without mismatches. This was a test-harness timing issue, not an observed application regression.
+
+### Known issues / next
+- Visually calibrated on automated browser snapshots, not manually assessed on every physical device.
+- Patch 3 requires physiological RR, phase boundaries and waveform durations to be changed coherently, avoiding HR double-speed and temporary clinically misleading interval values.
+- No new functionality in Patch 2 changes educational clinical outputs beyond centralizing the existing RR calculation.
