@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiac Electrophysiology Simulator v1.9 FINAL</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+
+<header class="header">
+    <h1>Cardiac Electrophysiology Simulator v1.9 FINAL</h1>
+    <p>Sinus Rhythm ECG Engine</p>
+</header>
+
+<main class="main-container">
+
+    <!-- TOP AREA -->
+    <section class="visual-grid">
+
+        <!-- ECG -->
+        <section class="card ecg-panel">
+            <h2>ECG Monitor</h2>
+
+            <div class="ecg-wrapper">
+                <canvas id="ecgCanvas" width="900" height="220"></canvas>
+            </div>
+
+            <div class="ecg-info">
+                <span id="heartRateDisplay">Heart Rate : 80 bpm</span>
+                <span id="rhythmStatus">Normal Sinus Rhythm</span>
+            </div>
+
+            <div class="ecg-interpretation" aria-label="Interactive ECG components">
+                <button type="button" class="ecg-item" data-ecg-component="P">
+                    <span class="ecg-label">P</span><span>Atrial depolarization</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="PR">
+                    <span class="ecg-label">PR</span><span>AV conduction</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="QRS">
+                    <span class="ecg-label">QRS</span><span>Ventricular depolarization</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="ST">
+                    <span class="ecg-label">ST</span><span>Early ventricular recovery</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="T">
+                    <span class="ecg-label">T</span><span>Ventricular repolarization</span>
+                </button>
+            </div>
+
+            <div class="ecg-explanation" id="ecgExplanation" aria-live="polite">
+                <div class="ecg-explanation-header">
+                    <span>ECG Component Explanation</span>
+                    <strong id="ecgExplanationTitle">Select an ECG component</strong>
+                </div>
+                <p id="ecgExplanationText">Click P, PR, QRS, ST, or T above to see how the ECG component relates to cardiac electrical activity.</p>
+                <div class="ecg-explanation-link">
+                    <span>Conduction / activity</span>
+                    <strong id="ecgExplanationLink">—</strong>
+                </div>
+            </div>
+
+            <!-- CONTROL PANEL MOVED INTO ECG PANEL -->
+            <section class="embedded-control-panel compact-controller">
+                <div class="controller-layout">
+                    <div class="controller-buttons">
+                    <button id="playBtn">▶ Play</button>
+                    <button id="pauseBtn">⏸ Pause</button>
+                    <button id="resetBtn">↻ Reset</button>
+                    </div>
+
+                    <div class="controller-sliders">
+                <div class="timeline">
+                    <p class="control-title">Cardiac Cycle Timeline</p>
+                    <input id="timeSlider" type="range" min="0" max="100" value="0" step="0.1">
+                    <div class="timeline-labels">
+                        <span>Start</span>
+                        <span>One Cardiac Cycle</span>
+                    </div>
+                </div>
+
+                <div class="heart-rate-control">
+                    <p class="control-title">Heart Rate</p>
+
+                    <div class="heart-rate-slider-wrap">
+                        <div class="normal-range-track">
+                            <div class="normal-range-fill"></div>
+                        </div>
+                        <input id="heartRateSlider" type="range" min="30" max="180" value="80" step="1">
+                    </div>
+
+                    <div class="heart-rate-scale">
+                        <span class="scale-30">30</span>
+                        <span class="scale-60">60</span>
+                        <span class="scale-100">100</span>
+                        <span class="scale-180">180 bpm</span>
+                    </div>
+
+                    <div class="normal-range-label">Normal Range: 60–100 bpm</div>
+                    <strong id="heartRateValue">80 bpm</strong>
+                </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- CARDIAC CONDUCTION -->
+        <section class="card heart-panel">
+            <h2 id="heartVisualTitle">Cardiac Conduction</h2>
+            <div class="heart-mode-switch" role="group" aria-label="Heart visualization mode">
+                <button id="electricalModeBtn" type="button" class="mode-active" aria-pressed="true">Electrical</button>
+                <button id="mechanicalModeBtn" type="button" aria-pressed="false">Mechanical</button>
+            </div>
+
+            <svg id="heartSVG" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path id="heartShape"
+                    d="M250 420 C150 350 70 270 90 170 C110 80 230 90 250 160 C270 90 390 80 410 170 C430 270 350 350 250 420 Z"/>
+                <path id="atriaRegion"
+                    d="M250 160 C210 125 150 115 120 160 C105 185 115 215 145 235 C175 255 215 245 250 220 C285 245 325 255 355 235 C385 215 395 185 380 160 C350 115 290 125 250 160 Z"/>
+                <path id="ventricleRegion"
+                    d="M145 235 C120 255 115 290 135 325 C155 360 205 400 250 420 C295 400 345 360 365 325 C385 290 380 255 355 235 C325 255 285 245 250 220 C215 245 175 255 145 235 Z"/>
+
+                <circle id="SA" cx="250" cy="160" r="12"/>
+                <circle id="AV" cx="250" cy="220" r="12"/>
+                <circle id="His" cx="250" cy="280" r="12"/>
+                <circle id="Purkinje" cx="250" cy="360" r="12"/>
+
+                <line id="AVPath" x1="250" y1="172" x2="250" y2="208"/>
+                <line id="HisPath" x1="250" y1="232" x2="250" y2="268"/>
+                <line id="RBB" x1="250" y1="280" x2="340" y2="360"/>
+                <line id="LBB" x1="250" y1="280" x2="160" y2="360"/>
+
+                <circle id="conductionPulse" cx="250" cy="160" r="7" class="conduction-pulse"/>
+                <circle id="conductionPulseR" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
+                <circle id="conductionPulseL" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
+
+                <text x="280" y="165">SA Node</text>
+                <text x="280" y="225">AV Node</text>
+                <text x="280" y="285">His Bundle</text>
+                <text x="350" y="365">RBB</text>
+                <text x="90" y="365">LBB</text>
+                <text x="280" y="370">Purkinje</text>
+                <text id="atriaLabel" x="180" y="195">Atria</text>
+                <text id="ventricleLabel" x="175" y="335">Ventricles</text>
+            </svg>
+            <div id="mechanicalView" class="mechanical-view" hidden>
+                <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="Educational diagram of heart chambers, four valves, and blood-flow direction">
+                    <defs>
+                        <marker id="blueArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#328bbd"/></marker>
+                        <marker id="redArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#bd5252"/></marker>
+                    </defs>
+                    <text class="model-caption" x="250" y="22" text-anchor="middle">Simplified four-chamber circulation model</text>
+                    <g class="flow-tract flow-deoxygenated">
+                        <path id="flowRightAV" d="M132 134 L132 212"/>
+                        <path id="flowPulmonary" d="M132 290 L132 319 L67 319 L67 44"/>
+                    </g>
+                    <g class="flow-tract flow-oxygenated">
+                        <path id="flowLeftAV" d="M370 134 L370 212"/>
+                        <path id="flowAortic" d="M370 290 L370 319 L435 319 L435 44"/>
+                    </g>
+                    <g class="chamber atrial-chamber">
+                        <ellipse id="rightAtrialShape" class="chamber-blue" cx="132" cy="112" rx="74" ry="48"/>
+                        <ellipse id="leftAtrialShape" class="chamber-red" cx="370" cy="112" rx="74" ry="48"/>
+                        <text x="132" y="108">RA</text><text x="370" y="108">LA</text>
+                    </g>
+                    <g class="chamber ventricular-chamber">
+                        <ellipse id="rightVentricleShape" class="chamber-blue" cx="132" cy="256" rx="74" ry="54"/>
+                        <ellipse id="leftVentricleShape" class="chamber-red" cx="370" cy="256" rx="74" ry="54"/>
+                        <text x="132" y="254">RV</text><text x="370" y="254">LV</text>
+                    </g>
+                    <g class="valve-group">
+                        <line class="valve-segment" id="tricuspidValve" x1="103" y1="173" x2="161" y2="173"/>
+                        <line class="valve-segment" id="mitralValve" x1="341" y1="173" x2="399" y2="173"/>
+                        <line class="valve-segment" id="pulmonaryValve" x1="66" y1="339" x2="96" y2="339"/>
+                        <line class="valve-segment" id="aorticValve" x1="403" y1="339" x2="433" y2="339"/>
+                    </g>
+                    <g class="flow-dots">
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                    </g>
+                    <text class="flow-target blue-text" x="55" y="50">Pulmonary a.</text>
+                    <text class="flow-target red-text" x="395" y="50">Aorta</text>
+                    <text class="model-caption" x="250" y="405" text-anchor="middle">Schematic — not an anatomical scale drawing</text>
+                </svg>
+                <div class="mechanical-readout" aria-live="off">
+                    <strong id="mechanicalPhase">Ready</strong>
+                    <p id="mechanicalExplanation">Play or move the timeline to explore the mechanical cycle.</p>
+                    <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
+                    <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
+                    <p class="mechanical-disclaimer">Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <!-- NEW LOWER INFORMATION AREA -->
+    <section class="info-grid">
+
+        <section class="card placeholder-panel measurements-panel">
+            <h2>ECG Measurements</h2>
+
+            <div class="measurement-list">
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>Heart Rate</span>
+                        <strong id="measurementHeartRate">—</strong>
+                    </div>
+                    <small>(normal range: 60–100 bpm)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>RR Interval</span>
+                        <strong id="measurementRR">—</strong>
+                    </div>
+                    <small>(normal range: 600–1000 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>PR Interval</span>
+                        <strong id="measurementPR">—</strong>
+                    </div>
+                    <small>(normal range: 120–200 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QRS Duration</span>
+                        <strong id="measurementQRS">—</strong>
+                    </div>
+                    <small>(normal range: 70–100 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QT Interval</span>
+                        <strong id="measurementQT">—</strong>
+                    </div>
+                    <small>(normal range: HR-dependent)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QTc</span>
+                        <strong id="measurementQTc">—</strong>
+                    </div>
+                    <small>(normal range: ≤450 ms (male) / ≤460 ms (female))</small>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="card placeholder-panel event-panel">
+            <h2>ECG Event / Phase Indicator</h2>
+
+            <div class="event-flow" aria-label="Current conduction phase">
+                <div class="event-item" data-conduction="SA">SA Node</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="AV">AV Node</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="His">His Bundle</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="Purkinje">Purkinje</div>
+            </div>
+
+            <div class="event-ecg-row">
+                <span>ECG Event</span>
+                <strong id="ecgEventIndicator">Ready</strong>
+            </div>
+
+            <p class="event-sync-status" id="eventSyncStatus">Press Play to begin synchronization.</p>
+        </section>
+
+    </section>
+
+
+    <!-- CURRENT PHASE -->
+    <section class="card phase-panel">
+        <h2>Current Phase</h2>
+        <div id="phaseTitle">Ready</div>
+        <p id="phaseDescription">Press Play to begin the cardiac conduction cycle.</p>
+
+        <div class="phase-ecg-link">
+            <span>ECG Component</span>
+            <strong id="phaseECG">Ready</strong>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<script src="script.js"></script>
+<script src="mechanics.js"></script>
+</body>
+</html>

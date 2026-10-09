@@ -194,3 +194,13 @@ When changing timing, re-verify ECG waveform, measurements, ECG Event, Current P
 PR/QRS/QT coefficients are educational model assumptions, not clinical constants. High-rate QT clipping and Bazett QTc require explicit caveats. v1.9 mechanical events must consume A and preserve B's established pacing.
 
 Automated v1.8 regression is complete; user physical-browser visual acceptance is pending. See `V1.9_START_HERE.md`.
+
+
+## v1.9 / v1.10 Development Guardrails
+
+- v1.9 adds a separate `mechanics.js` module and mode buttons. Do not remove or merge the original `heartSVG`; it remains the Electrical reference view.
+- Never add another animation driver. All electrical and mechanical time derives from `heartState.physiologicalTime` (A). Leave `animationSpeed`, B clock and existing ECG canvas/sweep behavior untouched unless there is an explicit requirement.
+- For mechanical changes test valve pressure inequalities, flow gating, constant volume during isovolumetric phases, full HR range, Timeline seek/Reset and Electrical baseline equality.
+- Preserve selected view when resetting simulation; clear the Mechanical ready/phase feedback appropriately.
+- Medical data is illustrative; do not present synthetic pressure indexes/volume ratio as clinical values. Keep high-HR QT and mobile overflow known limitations visible.
+- Run `tests/test_v18.py`, `tests/stress_v18.py` and `tests/test_v19.py` after changes. Next design handoff: `V1.10_START_HERE.md`.

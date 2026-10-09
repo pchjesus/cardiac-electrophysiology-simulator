@@ -1861,6 +1861,9 @@ function updateConduction(
         currentTime
     );
 
+    // v1.9: mechanical state derives from the SAME physiological clock A.
+    window.CardiacMechanical?.sync();
+
 }
 
 
@@ -2800,6 +2803,8 @@ function reset(){
     ecgExplanationLink.textContent = "—";
 
     drawECGSweep();
+    // Reset model display, retaining the chosen Electrical/Mechanical mode.
+    window.CardiacMechanical?.reset();
 
 }
 

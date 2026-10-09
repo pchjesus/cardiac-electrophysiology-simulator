@@ -5,7 +5,7 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.8 FINAL — automated tests complete; user visual acceptance pending**
+**v1.9 FINAL — automated tests complete; user visual acceptance pending**
 
 ## Educational Flow
 
@@ -174,3 +174,16 @@ Patch 3 is implemented on the development branch (main). The last fully finalize
 - Testing: syntax verified; 239 Chromium end-to-end assertions; 13,741 additional interval/event/seek checks across integer HR 30–180; no JavaScript page errors. User physical-browser visual acceptance is pending.
 - Inherited limitation: at 390px mobile viewport there is approximately 47px horizontal overflow, also present in v1.8 Patch 3. It was not worsened or redesigned during the physiological changes.
 - v1.8 FINAL runtime backup and Patch 3 reference are stored in `backups/v1.8/`. Start v1.9 from `V1.9_START_HERE.md`.
+
+
+## v1.9 FINAL — Cardiac Cycle & Hemodynamics (2026-10-09)
+
+Two heart views share the same ECG panel, HR control, Timeline and Play/Pause/Reset:
+
+- **Electrical** (default) shows the unchanged v1.8 conduction SVG, RBB/LBB pulses, ECG waveform, measurements, events and explanations.
+- **Mechanical** shows a simplified four-chamber diagram and four valve states (mitral, tricuspid, aortic and pulmonary), filling/ejection animations and contextual explanatory text. The user selects the mode manually; Reset preserves this view preference while clearing simulation state.
+- Both views share the *physiological A clock* from `script.js`. A new `mechanics.js` module computes all states as pure functions of physiological phase and the existing electrical timing model. The only animation loop remains the existing requestAnimationFrame driver and B visualization pacing remains unchanged.
+- `getMechanicalTiming` derives an educational electrical-to-mechanical lag and the phases atrial systole, isovolumetric contraction, ejection, isovolumetric relaxation and ventricular filling. Qualitative pressure comparisons control both AV and semilunar valve groups. Chamber volume is a relative illustrative scale, **not actual milliliters or ejection fraction**. Blood particles move only while the appropriate valves are open.
+- Limitations: the same relative pressure-state profile is used for right/left heart **only for showing valve order**, not realistic right-vs-left pressure magnitudes; phase delays are heuristic; at high HR the existing QT approximation is not validated; flow and valve drawing is schematic (not anatomically scaled); no patient-specific measurements or disease simulation.
+- Automatic regression: `python tests/test_v18.py`, `python tests/stress_v18.py`, and `python tests/test_v19.py` all pass. v1.9 testing included 4,711 model/regression assertions over integer HR 30–180; the 239 v1.8 functional and 13,741 stress assertions still pass. JavaScript page errors = 0. Physical-browser visual acceptance remains pending; the inherited 390px horizontal overflow is 437px total width in both v1.8 and v1.9 and was not worsened.
+- Start further development using `V1.10_START_HERE.md`.

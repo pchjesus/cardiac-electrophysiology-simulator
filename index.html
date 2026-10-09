@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.8 FINAL</title>
+<title>Cardiac Electrophysiology Simulator v1.9 FINAL</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.8 FINAL</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.9 FINAL</h1>
     <p>Sinus Rhythm ECG Engine</p>
 </header>
 
@@ -110,7 +110,11 @@
 
         <!-- CARDIAC CONDUCTION -->
         <section class="card heart-panel">
-            <h2>Cardiac Conduction</h2>
+            <h2 id="heartVisualTitle">Cardiac Conduction</h2>
+            <div class="heart-mode-switch" role="group" aria-label="Heart visualization mode">
+                <button id="electricalModeBtn" type="button" class="mode-active" aria-pressed="true">Electrical</button>
+                <button id="mechanicalModeBtn" type="button" aria-pressed="false">Mechanical</button>
+            </div>
 
             <svg id="heartSVG" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                 <path id="heartShape"
@@ -143,6 +147,59 @@
                 <text id="atriaLabel" x="180" y="195">Atria</text>
                 <text id="ventricleLabel" x="175" y="335">Ventricles</text>
             </svg>
+            <div id="mechanicalView" class="mechanical-view" hidden>
+                <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="Educational diagram of heart chambers, four valves, and blood-flow direction">
+                    <defs>
+                        <marker id="blueArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#328bbd"/></marker>
+                        <marker id="redArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#bd5252"/></marker>
+                    </defs>
+                    <text class="model-caption" x="250" y="22" text-anchor="middle">Simplified four-chamber circulation model</text>
+                    <g class="flow-tract flow-deoxygenated">
+                        <path id="flowRightAV" d="M132 134 L132 212"/>
+                        <path id="flowPulmonary" d="M132 290 L132 319 L67 319 L67 44"/>
+                    </g>
+                    <g class="flow-tract flow-oxygenated">
+                        <path id="flowLeftAV" d="M370 134 L370 212"/>
+                        <path id="flowAortic" d="M370 290 L370 319 L435 319 L435 44"/>
+                    </g>
+                    <g class="chamber atrial-chamber">
+                        <ellipse id="rightAtrialShape" class="chamber-blue" cx="132" cy="112" rx="74" ry="48"/>
+                        <ellipse id="leftAtrialShape" class="chamber-red" cx="370" cy="112" rx="74" ry="48"/>
+                        <text x="132" y="108">RA</text><text x="370" y="108">LA</text>
+                    </g>
+                    <g class="chamber ventricular-chamber">
+                        <ellipse id="rightVentricleShape" class="chamber-blue" cx="132" cy="256" rx="74" ry="54"/>
+                        <ellipse id="leftVentricleShape" class="chamber-red" cx="370" cy="256" rx="74" ry="54"/>
+                        <text x="132" y="254">RV</text><text x="370" y="254">LV</text>
+                    </g>
+                    <g class="valve-group">
+                        <line class="valve-segment" id="tricuspidValve" x1="103" y1="173" x2="161" y2="173"/>
+                        <line class="valve-segment" id="mitralValve" x1="341" y1="173" x2="399" y2="173"/>
+                        <line class="valve-segment" id="pulmonaryValve" x1="66" y1="339" x2="96" y2="339"/>
+                        <line class="valve-segment" id="aorticValve" x1="403" y1="339" x2="433" y2="339"/>
+                    </g>
+                    <g class="flow-dots">
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                    </g>
+                    <text class="flow-target blue-text" x="55" y="50">Pulmonary a.</text>
+                    <text class="flow-target red-text" x="395" y="50">Aorta</text>
+                    <text class="model-caption" x="250" y="405" text-anchor="middle">Schematic — not an anatomical scale drawing</text>
+                </svg>
+                <div class="mechanical-readout" aria-live="off">
+                    <strong id="mechanicalPhase">Ready</strong>
+                    <p id="mechanicalExplanation">Play or move the timeline to explore the mechanical cycle.</p>
+                    <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
+                    <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
+                    <p class="mechanical-disclaimer">Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
+                </div>
+            </div>
         </section>
     </section>
 
@@ -245,5 +302,6 @@
 </div>
 
 <script src="script.js"></script>
+<script src="mechanics.js"></script>
 </body>
 </html>

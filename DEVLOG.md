@@ -502,3 +502,20 @@ Removed unused static measurement table, revised stale reference comments and up
 - Presentation speed B and sweep position matched the verified Patch 3 at tested rates; dynamic waveform/interval timing intentionally differs.
 - Known limits: high-rate QT clipping to non-overlap SA-first beats (not clinically validated); Bazett rate bias; inherited 390px mobile horizontal overflow (~47px); manual physical browser acceptance pending.
 - New next-version handoff: V1.9_START_HERE.md.
+
+
+## v1.9 FINAL — Cardiac Mechanics & Hemodynamics (2026-10-09)
+
+- **Patch 1 — Requirements/impact analysis:** protected v1.8 A/B pacing, electrical view, ECG and all controls. UX selected: mode switch only within heart-visualization region.
+- **Patch 2 — Mechanical timing engine:** implemented phase boundaries from ECG events with deliberate electrical-to-mechanical lags; high-HR QT is not used as the mechanical timing anchor.
+- **Patch 3 — Pressure/valve model:** modeled pressure-gradient rules (conceptual indexes), synchronizing mitral/tricuspid and aortic/pulmonary valve groups. No independent right/left pressure magnitudes.
+- **Patch 4 — Chamber filling/ejection:** relative ventricular volume stays constant in isovolumetric phases, increases with filling, and falls during ejection. Atria visually contract in atrial systole.
+- **Patch 5 — Blood-flow visualization:** color-coded forward-flow paths and deterministic particles, visible only when the matching valves are open.
+- **Patch 6 — Educational explanation:** phase explanation, valve statuses, flow and normalized volume in the Mechanical view.
+- **Patch 7 — UI mode integration:** Electrical/Mechanical buttons; unchanged ECG monitor and original electrical SVG, keyboard focus and aria-pressed semantics.
+- **Patch 8 — A/B state synchronization:** current physiological phase is recomputed during Play/Pause, Timeline seek, HR update, mode switching and Reset; UI preference persists after Reset. No new requestAnimationFrame.
+- **Patch 9 — Automated regression:** 4,711 v1.9 assertions (HR 30–180 incl. interval/valve/flow constraints and baseline equivalence), inherited 239 v1.8 functional assertions, and 13,741 v1.8 stress assertions PASS; 0 JavaScript execution errors; mobile overflow unchanged (437px content width on 390px viewport).
+
+**Verified:** code syntax, headless Chromium application runs, responsive smoke, replay/seek/reset, pressure/valve consistency and baseline ECG timing/measurements.
+**Not verified:** actual user-device acceptance, physiological calibration of numeric pressure/volume or extreme tachycardia behavior, clinical interpretation. This remains a teaching simulator only.
+**Design compromises:** separate diagrams by user-selected mode, same modeled valve timing on left/right sides, approximate chamber ellipse changes (not actual mechanical deformation), synthetic pressure indexes and heuristic delays. No unrequested ECG or controller redesign.

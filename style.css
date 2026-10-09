@@ -780,3 +780,34 @@ Compact Controller + ECG View
         height: 175px;
     }
 }
+
+
+/* v1.9: mode only changes the heart diagram; existing ECG UI is preserved. */
+.heart-mode-switch{display:flex;gap:4px;padding:3px;border-radius:9px;background:#edf0f4;width:min(100%,300px);margin:3px auto 9px}
+.heart-mode-switch button{flex:1;padding:7px 8px;margin:0;border-radius:7px;background:transparent;color:#35404b;font-weight:700;font-size:12px}
+.heart-mode-switch button.mode-active{background:#fff;box-shadow:0 1px 3px #0002;color:#172a44}
+.heart-mode-switch button:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+#heartSVG[hidden],.mechanical-view[hidden]{display:none!important}
+.mechanical-view{width:100%;max-width:420px;margin:0 auto;min-width:0}
+#mechanicalSVG{width:100%;height:auto;max-height:350px;overflow:visible;display:block}
+#mechanicalSVG .chamber-blue{fill:#d7eefa;stroke:#2078ab;stroke-width:3}
+#mechanicalSVG .chamber-red{fill:#f9dddd;stroke:#b54d4d;stroke-width:3}
+#mechanicalSVG .chamber text{font-weight:700;fill:#283643;font-size:19px;text-anchor:middle;pointer-events:none}
+#mechanicalSVG .flow-tract path{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.70}
+#mechanicalSVG .flow-deoxygenated path{stroke:#328bbd}
+#mechanicalSVG .flow-oxygenated path{stroke:#bd5252}
+#mechanicalSVG .valve-segment{stroke:#6c7580;stroke-width:8;stroke-linecap:round}
+#mechanicalSVG .valve-segment.valve-open{stroke:#228a61;stroke-width:6;stroke-dasharray:6 9}
+#mechanicalSVG .valve-segment.valve-closed{stroke:#bd4d4d;stroke-width:9;stroke-dasharray:none}
+#mechanicalSVG .flow-dot{opacity:0;pointer-events:none}
+#mechanicalSVG .blue-dot{fill:#126ca8;stroke:#fff;stroke-width:1.5}
+#mechanicalSVG .red-dot{fill:#b72c46;stroke:#fff;stroke-width:1.5}
+#mechanicalSVG .model-caption{font-size:13px;fill:#687586}
+#mechanicalSVG .flow-target{font-size:12px;fill:#485464}
+.mechanical-readout{padding:8px 9px;border:1px solid #e0e7ee;border-radius:8px;background:#fafcfe;text-align:left}
+.mechanical-readout>strong{display:block;color:#172a44;font-size:13px}
+.mechanical-readout>p{margin:5px 0;color:#45556a;font-size:11px;line-height:1.45}
+.mechanical-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px;font-size:11px;color:#1b394d}
+.mechanical-stats span{padding:5px 6px;background:#ecf3f8;border-radius:5px}
+.mechanical-readout .mechanical-disclaimer{font-size:10px;color:#727c85;margin-bottom:0}
+@media(max-width:400px){.mechanical-stats{grid-template-columns:1fr}}

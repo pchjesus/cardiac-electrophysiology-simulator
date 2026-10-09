@@ -540,3 +540,35 @@ Rautaharju, P. M., Surawicz, B., & Gettes, L. S. (2009). AHA/ACCF/HRS recommenda
 Luo, S., Michler, K., Johnston, P., & Macfarlane, P. W. (2004). A comparison of commonly used QT correction formulae: The effect of heart rate on the QTc of normal ECGs. *Journal of Electrocardiology, 37*(Suppl.), 81–90. https://doi.org/10.1016/j.jelectrocard.2004.08.030
 
 These works ground the discussion of QT/QTc and correction limitations, **not** the simulator's chosen heuristic coefficients.
+
+
+## v1.9 FINAL — Electrical/Mechanical Modes and Domain Contract
+
+### UI contract
+- ECG monitor, explanation, measurements, event/phase indicators, HR controls and playback timeline are ALWAYS visible.
+- Only the heart-visualization region switches between Electrical (the v1.8 `heartSVG`) and Mechanical (`mechanicalView`). View switching never changes time, HR, selection, playback or sweep data. `aria-pressed` communicates active mode; default is Electrical.
+- View mode persists through Reset (UI preference) while the Mechanical indicator returns to Ready. Timelines and HR changes immediately reconstruct the current mechanical state.
+
+### Shared timing contract
+- One existing requestAnimationFrame (no added timer). `script.js/updateConduction()` calls `window.CardiacMechanical?.sync()` after obtaining the current A time. `script.js/reset()` calls `window.CardiacMechanical?.reset()`.
+- `mechanics.js/getMechanicalTiming(electrical)` derives atrialStart from P-wave onset + small lag, ventricular isovolumetric contraction from QRS onset + small lag, ejection from contraction plus a ramp, and relaxation after ejection; it does **not** depend on the v1.8 T end (clipped in extreme tachycardia).
+- `getMechanicalState(phase,electrical)` is pure, accepts an explicit phase, and returns stage/progress, qualitative relative pressure indexes, four valve booleans, forward flow category, normalized ventricular volume, and the timing boundaries. No second mutable clock or cached phase is authoritative.
+
+### Mechanical stage/state requirements
+- Filling: AV (mitral/tricuspid) open, semilunar closed, ventricular volume rises. Atrial systole adds late filling.
+- Isovolumetric contraction: both valve groups closed, ventricular volume constant while the qualitative ventricular pressure rises.
+- Ejection: semilunar group open, AV closed; ventricular volume decreases and flow goes toward the arteries.
+- Isovolumetric relaxation: both groups closed, ventricular volume constant, then next-cycle filling resumes.
+- Valve states are derived from relative pressure *ordering*: AV open iff atrial > ventricular, semilunar open iff ventricular > arterial. The illustrative pressure values are synthetic indexes (NOT mmHg). The same conceptual pressure comparisons are reused on both sides, not full separate right/left hemodynamic calculations.
+- Blood particle positions use SVG path geometry as a deterministic function of stage progression. No CSS keyframe, timeout or additional animation loop.
+
+### Verification and limitations
+- `tests/test_v19.py` covers 151 heart rates, six representative phase points per rate, valve/pressure invariants, volume, v1.8 A/B/rhythm/waveform/measurement equality, seek/Reset/Play/Pause, mode switching and mobile overflow comparison (4,711 checks, no JS errors).
+- Inherited v1.8 clinical issue: high-HR QT clipping and Bazett rate bias. New v1.9 model has no measured chamber pressure, volume, cardiac output or ejection-fraction prediction; phase coefficients represent a chosen teaching approximation, not validated human physiology. Anatomical direction and chambers are schematic.
+
+### Source context (APA 7th)
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
+
+These sources support the **sequence** of events and pressure/valve principles, not the simulator's invented interval coefficients or numerical relative-pressure indexes.
