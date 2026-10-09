@@ -544,3 +544,15 @@ Removed unused static measurement table, revised stale reference comments and up
 - First v1.10 test revealed a **pre-existing v1.9 exact-boundary rounding issue**: the double modulo in the mechanical phase calculation can round a mathematical boundary to the preceding interval when RR is fractional (reproduced at HR 33). The test now checks representative valve states immediately *before and after* each transition (±0.0001 ms), rather than requiring one arbitrary outcome at an exact floating-point tie. Do not silently change the v1.9 mechanical domain engine in Patch 1.
 - **Patch 2 requirement:** define an explicit half-open interval/event tie-break contract before introducing smooth relative pressure curves; verify pressure equalities/crossings, valve switching and volume invariants at both sides of every boundary.
 - User physical-browser visual review and calibration/clinical validation are still pending.
+
+
+## v1.10 Patch 2 — Continuous Relative Pressure / Volume Profile
+
+- Confirmed start `main` / v1.10 Patch 1 SHA `d46a6a30b10e766d9dd6da05f795b8dacb8a9e2f`. Saved immutable rollback branch `backup/v1.10-patch1-verified`.
+- Added `wiggers-profile.js`: independent, read-only continuous educational left-heart pressure and normalized volume functions. It reuses the existing A-time and `CardiacMechanical.getMechanicalTiming()` but does NOT change `script.js`, `mechanics.js`, or the first `wiggers.js` foundation.
+- Built consistent C1-smooth stage pressure joins (including cycle wrap), an illustrative ventricular ejection pressure arch, smooth relative volume changes, fixed isovolumetric volumes and event/gradient-consistent valve states.
+- Adopted explicit event-tie contract for **new profile only**. At equal pressure the named valve event determines the post-event state, rather than relying on floating-point comparisons. v1.9 retains its known exact-boundary double-modulo behavior.
+- Loaded `wiggers-profile.js` after `wiggers.js`, no new UI, timer or rAF. Existing Mechanical display continues consuming legacy `getMechanicalState()`; new profile is **not** advertised as a user-facing change.
+- Added `tests/test_v110_patch2.py`, extended regression workflow, specified scope and limits in `SPEC.md`. Full CI result to be appended after execution.
+- Known limitations: high-HR ECG QT clipping and Bazett rate bias remain; volume/pressure values are synthetic and uncalibrated; no dedicated right heart or independent vascular mechanics; legacy 390px overflow remains; actual user-device visual and clinical validation outstanding.
+- **Next:** Patch 3 expandable Wiggers teaching panel (chosen A UX), synced via single existing A/B playback adapter, with keyboard/viewport review and graph/event mismatch checks.
