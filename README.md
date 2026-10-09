@@ -228,3 +228,49 @@ python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
 Open `http://localhost:8000` (or forward port 8000 from a remote development environment). Verify the default collapsed section, keyboard disclosure, chart labels and relative values, moving cursor, HR change, Timeline seek, reset and existing Electrical/Mechanical views.
+
+
+## v1.10 Patch 4 — Wiggers Diagram learning guide and help (2026-10-10)
+
+**Open the Wiggers Diagram panel, then press the separate `?` button beside its title for a quick guide.** The small non-modal help popover works even while the graph is collapsed. Close with ×, Escape, or a click outside the popup; keyboard focus returns to the help button when closed via ×/Escape. Other controls remain usable; clicking them dismisses the popup without interfering with their normal behavior.
+
+### Why learn this diagram?
+
+The Wiggers Diagram aligns **electrical activation (ECG), mechanical contraction/relaxation, pressure relationships, valve events, and ventricular volume** within one cardiac cycle. It helps nursing learners reason from a monitor waveform to *what the chambers and valves are doing*, rather than memorize disconnected terms. This simulator illustrates **one simplified left-heart sinus cycle**, not an individual patient's cardiac function or a diagnostic waveform.
+
+**Suggested reading order: ECG → pressure → valve → volume → cardiac phase.**
+
+1. **ECG and chamber activity.** The P wave indicates atrial depolarization and precedes atrial contraction. The QRS complex represents ventricular depolarization and precedes the pressure rise associated with ventricular contraction. The T wave represents ventricular repolarization; electrical recovery and mechanical relaxation are related but not identical in timing. A wave is not itself a mechanical contraction.
+2. **Relative LA/LV/aortic pressure.** Compare the *heights and directions* of the left atrial, left ventricular and aortic curves. A mitral valve permits flow when atrial pressure is higher than ventricular pressure; an aortic valve permits ejection when ventricular pressure exceeds arterial pressure. In this teaching model, exact equality at a scheduled event is resolved by an explicit valve event rule. Do not read the plotted numbers as mmHg.
+3. **Relative left-ventricular volume.** Its curve rises as the ventricle fills, remains level while inlet and outlet valves are closed (isovolumetric phases), falls during ejection and reaches a relative low point before filling resumes. The normalized curve is **not** a measured mL volume or an ejection fraction (EF); a relative decrease does not quantify stroke volume.
+4. **The four valve markers.** *Mitral closes* at the beginning of isovolumetric contraction; *aortic opens* at the beginning of ejection; *aortic closes* at the beginning of isovolumetric relaxation; *mitral opens* when ventricular filling resumes. Each labeled event comes from the same schedule as the diagram's marker position and phase explanation.
+5. **S1 and S2.** S1 is mainly associated with **mitral and tricuspid closure**, while S2 is associated with **aortic and pulmonary closure**. Here S1 is linked to the *mitral-close* marker, and S2 to the *aortic-close* marker as conceptual left-sided references. There are no simulated sounds, physiologic splits or distinct right-heart event timings.
+6. **The cardiac phases.** During *atrial systole*, atrial contraction completes filling. During *isovolumetric contraction*, both left valves are closed, pressure rises and volume is constant. During *ventricular ejection*, the aortic valve is open and LV volume falls. During *isovolumetric relaxation*, both valves close and pressure falls at constant volume. During *ventricular filling*, the mitral valve is open and volume rises.
+
+The **vertical cursor** points to the current **physiological A-time fraction of one RR beat** in the Wiggers diagram. The existing ECG Monitor shows a longer, scrolling view paced by **visualization B time**. Their horizontal coordinates should **not** be compared pixel-for-pixel, even though they share the same underlying electrical cycle. Heart-rate changes alter the length of RR in A while the familiar animation pacing remains unchanged.
+
+**Practical nursing application:** Use the model to connect an observed ECG sequence with anticipated phases of valve closure, contraction, filling and heart sounds, and to learn why a waveform or single sound is only one part of a cardiac assessment. This does **not** diagnose murmur etiology, calculate cardiac output, assess valve disease, interpret invasively measured pressure or predict clinical deterioration. At high heart rates the existing HR-dependent intervals and Bazett QTc also retain known educational limitations.
+
+**Model boundary warning:** This graph uses the v1.10 Patch 2 continuous illustrative profile, whose event timestamps explicitly determine equality ties. The older v1.9 Mechanical graphic uses a different simplified pressure calculation and can disagree within a floating-point epsilon at an exact boundary. Patch 4 explains this difference without rewriting either model.
+
+### References (APA 7th)
+
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
+
+These sources support the *qualitative physiologic relationships*, not the project's chosen relative magnitudes, smoothstep interpolation, event rendering or high-HR numerical fidelity.
+
+### Visual verification and limitations
+
+From the repository root run:
+
+~~~bash
+git switch main
+git pull --ff-only origin main
+python3 -m http.server 8000 --bind 0.0.0.0
+~~~
+
+Open http://localhost:8000 (or forward port 8000), try `?` both with the Wiggers panel collapsed and expanded, test Escape/×/outside click, compare five traces and four markers to changing phase lessons, and repeat on a phone-sized browser. Automated browser tests cannot replace visual acceptance on the user's actual device. **The inherited narrow-screen page overflow is reserved for Patch 6.**
+
+Next: Patch 5 focuses on normal/bradycardia/tachycardia educational scenarios. Patch 6 mobile/a11y improvements and Patch 7 final release remain out of scope.

@@ -682,3 +682,24 @@ These references justify the qualitative cardiac-cycle sequence and valve-pressu
 Run full v1.8–v1.10 Patch 2 regression plus `tests/test_v110_patch3.py` for disclosure keyboard operation, 5 source-backed SVG paths, valve event markers, HR 30–180 sample points, seek-based A-cursor, Play/Pause/Reset, mode switches, single-loop behavior, mobile scroll width and JS exceptions. This is automated QA only; **manual visual acceptance** is needed from the user on local `http://localhost:8000` for readability, scaling, markers and synchronized movement.
 
 Next Patch 4: add state-aware cardiac event/valve/S1/S2 educational explanations to Wiggers and clarify event-crossing tie semantics, without changing the validated physiological graphics/legacy Mechanical presentation.
+
+
+## v1.10 Patch 4 — Valve/S1/S2 educational explanations and nonmodal help
+
+### Scope and architecture
+- **WIG-401:** Keep the native `<details>` panel, A/B clocks and existing Wiggers traces exactly as implemented in Patch 3. Add a separate sibling `?` button in a positioned shell, *outside* `<summary>`, so clicking help cannot trigger the panel's native disclosure.
+- **WIG-402:** Show a small, anchored nonmodal `role="group"` popover with an accessible title, short ECG→pressure→valve→volume guide, close button, Escape handling and outside pointer click dismissal. Focus close button on open and restore trigger focus after explicit close/Escape. Do not trap focus or interfere with other controls.
+- **WIG-403:** Put phase-dependent educational text immediately under Wiggers status. Add contextual text for the most recent valve event, differentiating exact-event timestamps from the intervening stage. Dynamic text must be sourced from `CardiacWiggersProfile.getSnapshot(A,getActiveTiming())` rather than recomputing pressures or asking v1.9 Mechanical for stage.
+- **WIG-404:** Reuse `CardiacWiggersProfile`'s event IDs and `CardiacWiggers`'s four timestamps for SVG title and text. At a precise event tie the Patch 2 half-open stage / explicit valve-state rule is authoritative; the older Mechanical view may round differently and must remain unchanged.
+- **WIG-405:** Reset restores educational readouts to Ready. Collapse stops graph/educational updates. Opening help does not alter the `<details>` state, HR, Timeline, A/B clocks, animation, Electrical/Mechanical selection or chart plot cache. Outside click on playback controls dismisses help while letting those controls execute normally.
+- **WIG-406:** The help and learning presentation uses no new ticker, rAF or domain model. `wiggers-help.js` registers click/pointerdown/keydown listeners once on load; `wiggers-view.js` compares texts before DOM writes.
+- **WIG-407:** Full nurse-facing educational guide and APA 7th sources are provided in README, including nonclinical limitations, relative-unit conventions, A/B cursor distinction, S1/S2 associations and stage interpretation.
+
+### Verification
+- Retain all six previous browser suites and add `tests/test_v110_patch4.py`: keyboard & mouse popover operation, independent disclosure, focus/aria, outside click, exact-event tie/marker/readout consistency for HR 30/50/80/120/180, all five phase narratives, Reset/Play/Pause/Mechanical/Electrical, 1366/768/390/360 viewport clipping and JavaScript errors.
+- Run on CI using the existing single browser-regression workflow; separate CI functional verification from target-device **manual visual** acceptance.
+- **Excluded:** independent right-heart physiology, audio synthesis, clinical mmHg/mL/EF numbers, modifying v1.9 Mechanical pressure rules, heart-disease scenarios and Patch 5–7 features.
+- **Known carryovers:** inherited narrow screen overflow, high-HR educational interval fidelity/Bazett QTc bias, and possible legacy Mechanical exact-boundary rounding mismatch.
+
+### References (APA 7th)
+See the cardiac-cycle physiology references listed in this SPEC under v1.10 Patch 2 and in README's Patch 4 guide. Those sources justify the qualitative event sequence, not exact synthetic plots or pressures.
