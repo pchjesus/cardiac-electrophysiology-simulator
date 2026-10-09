@@ -42,7 +42,8 @@ const heartState = {
     // Temporary backwards-compatible mirror, not a third clock.
     ecgTime:0,
 
-    lastTimestamp:null,
+        lastTimestamp:null,
+    playbackGeneration:0,
 
     currentStep:-1,
 
@@ -1805,9 +1806,9 @@ function advanceSimulationClocks(deltaTime){
     heartState.visualizationTime += visualizationDelta;
     heartState.physiologicalTime += getPhysiologicalDelta(visualizationDelta);
     const rr = getActiveCycleLength();
-    while(heartState.physiologicalTime - heartState.cycleStartTime >= rr){
-        heartState.cycleStartTime += rr;
-    }
+        const completeCycles = Math.max(0, Math.floor(
+        (heartState.physiologicalTime - heartState.cycleStartTime) / rr));
+    heartState.cycleStartTime += completeCycles * rr;
     heartState.ecgTime = heartState.physiologicalTime; // legacy mirror
     return visualizationDelta;
 }
@@ -2577,14 +2578,16 @@ function updateTimeline(){
 // ===============================
 
 function animationLoop(
-    timestamp
+    timestamp,
+    generation = heartState.playbackGeneration
 ){
 
 
 
     if(
 
-        !heartState.playing
+                !heartState.playing ||
+        generation !== heartState.playbackGeneration
 
     ){
 
@@ -2632,9 +2635,7 @@ function animationLoop(
 
 
 
-    requestAnimationFrame(
-        animationLoop
-    );
+        requestAnimationFrame(timestamp => animationLoop(timestamp,generation));
 
 }
 
@@ -2660,8 +2661,9 @@ function play(){
 
 
 
-    heartState.playing =
+        heartState.playing =
     true;
+    const generation = ++heartState.playbackGeneration;
 
 
 
@@ -2670,9 +2672,7 @@ function play(){
 
 
 
-    requestAnimationFrame(
-        animationLoop
-    );
+        requestAnimationFrame(timestamp => animationLoop(timestamp,generation));
 
 }
 
@@ -2686,8 +2686,9 @@ function pause(){
 
 
 
-    heartState.playing =
+        heartState.playing =
     false;
+    ++heartState.playbackGeneration;
 
 
 
@@ -2847,9 +2848,9 @@ function(){
 
     heartState.physiologicalTime =
 
-    getActiveCycleLength() *
+        getActiveCycleLength() *
 
-    percent;
+    Math.min(percent, 1 - 1e-9);
 
     heartState.cycleStartTime = 0;
     // B tracks the preserved reference cycle, A tracks physiological RR.
