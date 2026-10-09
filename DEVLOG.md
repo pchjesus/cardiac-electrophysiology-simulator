@@ -531,3 +531,16 @@ Removed unused static measurement table, revised stale reference comments and up
 - Added `tests/test_v110.py` for HR 30–180, event boundaries, model purity, pressure/valve/volume consistency, v1.9 runtime equivalence and basic UI interactions. Added GitHub Actions regression workflow for v1.8–v1.10 checks.
 - **Verification reporting:** Record final executed test results independently. Newly committed test code and workflow presence alone do not mean automatic or device verification passed.
 - **Next:** Patch 2 validated continuous pressure/volume profile; protect the existing Mechanical display and clarify whether derived valve events or pressure-crossing logic becomes authoritative.
+
+
+### Patch 1 verification (GitHub Actions run 37895290190)
+
+- `tests/test_v18.py`: **239 PASS**.
+- `tests/stress_v18.py`: **13,741 PASS**.
+- `tests/test_v19.py`: **4,711 PASS**.
+- `tests/test_v110.py`: **7,167 PASS**.
+- Chromium page errors: **0**. Total: **25,858** assertions/checks. This is automated, not user-device/clinical acceptance.
+- The initial CI runner failure was an existing `/usr/bin/chromium` symlink collision (fixed in the CI workflow, unrelated to application code).
+- First v1.10 test revealed a **pre-existing v1.9 exact-boundary rounding issue**: the double modulo in the mechanical phase calculation can round a mathematical boundary to the preceding interval when RR is fractional (reproduced at HR 33). The test now checks representative valve states immediately *before and after* each transition (±0.0001 ms), rather than requiring one arbitrary outcome at an exact floating-point tie. Do not silently change the v1.9 mechanical domain engine in Patch 1.
+- **Patch 2 requirement:** define an explicit half-open interval/event tie-break contract before introducing smooth relative pressure curves; verify pressure equalities/crossings, valve switching and volume invariants at both sides of every boundary.
+- User physical-browser visual review and calibration/clinical validation are still pending.
