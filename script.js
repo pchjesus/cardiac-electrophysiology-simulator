@@ -856,6 +856,21 @@ const ecgEvents = [
 
 
 
+function syncECGEventsToTiming(){
+    const t = getActiveTiming();
+    const bounds = [[0,t.pStart],[t.pStart,t.pEnd],[t.pEnd,t.qrsStart],
+       [t.qrsStart,t.qrsEnd],[t.qrsEnd,t.stEnd],[t.stEnd,t.tEnd],[t.tEnd,t.rr]];
+    ecgEvents.forEach((ev,i)=>{ev.start=bounds[i][0];ev.end=bounds[i][1];});
+}
+
+// Stable, half-open event boundaries. Round only for classification, never
+// for waveform samples or physiological elapsed time.
+function normalizedEventPhase(phase){
+    const rr=getActiveCycleLength();
+    const p = ((phase%rr)+rr)%rr;
+    return Math.abs(p-rr)<1e-7 || Math.abs(p)<1e-7 ? 0 : p;
+}
+
 // ===============================
 // HEART RATE → SPEED
 // ===============================
@@ -1021,7 +1036,8 @@ function updateHeartRateUI(){
 
 
     synchronizeCycleLength();
-    syncConductionStepsToTiming();
+        syncConductionStepsToTiming();
+    syncECGEventsToTiming();
     updateECGMeasurements();
 
     // Changing HR mid-beat preserves phase. Refresh any active feedback,
@@ -1350,16 +1366,17 @@ function drawECGLabels(){
 
 
 
+        const t = getActiveTiming();
     const pX =
-    mapECGTimeToScreen(120);
+    mapECGTimeToScreen((t.pStart+t.pEnd)/2);
 
 
-    const qrsX =
-    mapECGTimeToScreen(340);
+        const qrsX =
+    mapECGTimeToScreen((t.qrsStart+t.qrsEnd)/2);
 
 
-    const tX =
-    mapECGTimeToScreen(590);
+        const tX =
+    mapECGTimeToScreen((t.stEnd+t.tEnd)/2);
 
 
 
@@ -1435,7 +1452,7 @@ function mapECGTimeToScreen(
 
     const currentTime =
 
-    getReferenceCyclePhase();
+    getPhysiologicalCyclePhase();
 
 
 
@@ -1449,18 +1466,15 @@ function mapECGTimeToScreen(
 
     if(delta < 0){
 
-        delta +=
-
-        baseCycleLength;
+                delta +=
+        getActiveCycleLength();
 
     }
 
 
 
-    const ratio =
-
-    delta /
-
+        const ratio =
+    (delta * baseCycleLength / getActiveCycleLength()) /
     sweepDuration;
 
 
@@ -1819,7 +1833,7 @@ function updateConduction(
 ){
 
     const currentTime =
-    getReferenceCyclePhase();
+    getPhysiologicalCyclePhase();
 
     let newStep = -1;
 
@@ -1878,6 +1892,7 @@ function getCurrentECGEvent(
     currentTime
 ){
 
+    currentTime = normalizedEventPhase(currentTime);
     for(
 
         let i = 0;
@@ -2201,7 +2216,7 @@ function renderStep(){
 
     const phaseEvent =
     getCurrentECGEvent(
-        getReferenceCyclePhase()
+                getPhysiologicalCyclePhase()
     );
 
     phaseECG.textContent =
@@ -2540,7 +2555,7 @@ function updateTimeline(){
 
     const currentTime =
 
-    getReferenceCyclePhase();
+    getPhysiologicalCyclePhase();
 
 
 
@@ -2548,9 +2563,8 @@ function updateTimeline(){
 
     (
 
-        currentTime /
-
-        baseCycleLength
+                currentTime /
+        getActiveCycleLength()
 
     ) * 100;
 
