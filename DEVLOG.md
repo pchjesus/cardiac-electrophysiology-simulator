@@ -519,3 +519,15 @@ Removed unused static measurement table, revised stale reference comments and up
 **Verified:** code syntax, headless Chromium application runs, responsive smoke, replay/seek/reset, pressure/valve consistency and baseline ECG timing/measurements.
 **Not verified:** actual user-device acceptance, physiological calibration of numeric pressure/volume or extreme tachycardia behavior, clinical interpretation. This remains a teaching simulator only.
 **Design compromises:** separate diagrams by user-selected mode, same modeled valve timing on left/right sides, approximate chamber ellipse changes (not actual mechanical deformation), synthetic pressure indexes and heuristic delays. No unrequested ECG or controller redesign.
+
+
+## v1.10 Patch 1 — Passive Wiggers Foundation (implementation)
+
+- Confirmed `main` baseline `dbfb60e84ef7919f7a65ec45bcab322b8895995a` and v1.9 backup.
+- Added `wiggers.js` as a read-only consumer of `getMechanicalTiming()` / `getMechanicalState()` with explicit physiological-time inputs; the new script is loaded after `mechanics.js`.
+- Added a deterministic Wiggers snapshot contract for electrical timing boundaries, mechanical stages, existing qualitative pressure, unchanged normalized ventricular volume, left-side reference valve events and S1/S2 markers.
+- Added `inspectPressureBoundaries()` to expose the pre-existing pressure jumps instead of hiding them behind an invented smooth curve.
+- Kept `script.js`, `mechanics.js`, `style.css`, and archived v1.9 files untouched. No Wiggers UI, new timer/rAF, sound player, clinical pressure units, or independent RH/LH physiology.
+- Added `tests/test_v110.py` for HR 30–180, event boundaries, model purity, pressure/valve/volume consistency, v1.9 runtime equivalence and basic UI interactions. Added GitHub Actions regression workflow for v1.8–v1.10 checks.
+- **Verification reporting:** Record final executed test results independently. Newly committed test code and workflow presence alone do not mean automatic or device verification passed.
+- **Next:** Patch 2 validated continuous pressure/volume profile; protect the existing Mechanical display and clarify whether derived valve events or pressure-crossing logic becomes authoritative.
