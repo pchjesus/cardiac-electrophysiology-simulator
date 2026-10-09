@@ -198,3 +198,12 @@ The browser API `window.CardiacWiggers.getSnapshot(phaseMs, getActiveTiming())` 
 Files: `wiggers.js` (model), `tests/test_v110.py` (contract and v1.9 regression), `.github/workflows/regression.yml` (automated browser regression). Run all v1.8, v1.9 and v1.10 tests before accepting this patch. The synchronized visual Wiggers panel is planned for a later patch; user-device visual acceptance remains pending.
 
 Next: v1.10 Patch 2 pressure/volume continuity and shared valve-state consistency.
+
+
+## v1.10 Patch 2 — Continuous Teaching Profile (internal)
+
+`wiggers-profile.js` adds a **separate, passive** continuous relative-pressure and ventricular-volume profile for future Wiggers visualization. It is NOT a user-visible panel and does NOT replace the v1.9 Electrical/Mechanical controls or alter their animation speed. The original `wiggers.js` snapshot remains available for comparison.
+
+The new `window.CardiacWiggersProfile.getSnapshot(physiologicalPhaseMs,getActiveTiming())` returns educational relative pressure, normalized ventricular volume, valve states, event markers and pressure-gradient signs. These are heuristic teaching values, **not mmHg, mL, EF or patient measurements**. An explicit half-open event boundary convention handles exact event ties for the new profile only.
+
+See `SPEC.md`, `DEVLOG.md`, `tests/test_v110_patch2.py` and GitHub Actions for implementation and verification. Manual browser visual acceptance remains pending. Next: v1.10 Patch 3 optional Wiggers graph UI.
