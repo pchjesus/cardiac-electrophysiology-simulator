@@ -672,6 +672,14 @@ const conductionSteps = [
 // INTERACTIVE ECG EXPLANATION
 // ===============================
 
+function syncConductionStepsToTiming(){
+    const timing = getActiveTiming().conduction;
+    conductionSteps.forEach(step => {
+        step.start = timing[step.id].start;
+        step.end = timing[step.id].end;
+    });
+}
+
 const ecgComponentExplanations = {
 
     P: {
@@ -1013,6 +1021,7 @@ function updateHeartRateUI(){
 
 
     synchronizeCycleLength();
+    syncConductionStepsToTiming();
     updateECGMeasurements();
 
     // Changing HR mid-beat preserves phase. Refresh any active feedback,
@@ -2472,273 +2481,53 @@ function highlightECG(
 // CARDIAC REGIONS
 // ===============================
 
-function updateCardiacRegions(
-    time
-){
-
-
-
-    // ATRIAL DEPOLARIZATION
-
-    if(
-
-        time >= 80 &&
-
-        time <= 160
-
-    ){
-
-        atriaRegion
-        .classList.add(
-            "atria-active"
-        );
-
-    }
-
-    else{
-
-        atriaRegion
-        .classList.remove(
-            "atria-active"
-        );
-
-    }
-
-
-
-    // VENTRICULAR DEPOLARIZATION
-
-    if(
-
-        time >= 300 &&
-
-        time <= 450
-
-    ){
-
-        ventricleRegion
-        .classList.remove(
-            "ventricles-recovery"
-        );
-
-
-        ventricleRegion
-        .classList.add(
-            "ventricles-active"
-        );
-
-    }
-
-
-
-    // VENTRICULAR RECOVERY
-
-    else if(
-
-        time >= 500 &&
-
-        time <= 680
-
-    ){
-
-        ventricleRegion
-        .classList.remove(
-            "ventricles-active"
-        );
-
-
-        ventricleRegion
-        .classList.add(
-            "ventricles-recovery"
-        );
-
-    }
-
-
-
-    else{
-
-        ventricleRegion
-        .classList.remove(
-            "ventricles-active"
-        );
-
-
-        ventricleRegion
-        .classList.remove(
-            "ventricles-recovery"
-        );
-
-    }
-
+function updateCardiacRegions(time){
+    const timing = getActiveTiming();
+    atriaRegion.classList.toggle('atria-active', time >= timing.pStart && time < timing.pEnd);
+    const active = time >= timing.qrsStart && time < timing.qrsEnd;
+    const recovery = time >= timing.stEnd && time < timing.tEnd;
+    ventricleRegion.classList.toggle('ventricles-active',active);
+    ventricleRegion.classList.toggle('ventricles-recovery',recovery);
 }
-
 
 
 // ===============================
 // ELECTRICAL PULSE
 // ===============================
 
-function updateElectricalPulse(
-    time
-){
-
-    /*
-     * v1.7 patch4:
-     * Make the ventricular conduction split explicit.
-     * The existing simulation clock remains the sole time source.
-     */
-
-    let x = 250;
-    let y = 160;
-
-    // Default: one main pulse, branch pulses hidden.
-    conductionPulse.style.opacity = "1";
-    conductionPulseR.style.opacity = "0";
-    conductionPulseL.style.opacity = "0";
-
-    // SA Node
-    if(
-        time < 130
-    ){
-
-        x = 250;
-        y = 160;
-
-    }
-
-    // SA → AV
-    else if(
-        time >= 130 &&
-        time < 250
-    ){
-
-        const progress =
-        (
-            time - 130
-        ) / 120;
-
-        x = 250;
-
-        y =
-        160 +
-        progress * 60;
-
-    }
-
-    // AV → His
-    else if(
-        time >= 250 &&
-        time < 305
-    ){
-
-        const progress =
-        (
-            time - 250
-        ) / 55;
-
-        x = 250;
-
-        y =
-        220 +
-        progress * 60;
-
-    }
-
-    // His → Bundle Branch bifurcation
-    else if(
-        time >= 305 &&
-        time < 380
-    ){
-
-        const progress =
-        (
-            time - 305
-        ) / 75;
-
-        x = 250;
-
-        y =
-        280 +
-        progress * 80;
-
-    }
-
-    // Explicit RBB + LBB propagation
-    else if(
-        time >= 380 &&
-        time < 450
-    ){
-
-        const progress =
-        (
-            time - 380
-        ) / 70;
-
-        conductionPulse.style.opacity = "0";
-
-        conductionPulseR.style.opacity = "1";
-        conductionPulseL.style.opacity = "1";
-
-        const rightX =
-        250 +
-        progress * 90;
-
-        const rightY =
-        280 +
-        progress * 80;
-
-        const leftX =
-        250 -
-        progress * 90;
-
-        const leftY =
-        280 +
-        progress * 80;
-
-        conductionPulseR.setAttribute(
-            "cx",
-            rightX
-        );
-
-        conductionPulseR.setAttribute(
-            "cy",
-            rightY
-        );
-
-        conductionPulseL.setAttribute(
-            "cx",
-            leftX
-        );
-
-        conductionPulseL.setAttribute(
-            "cy",
-            leftY
-        );
-
+function updateElectricalPulse(time){
+    const t = getActiveTiming().conduction;
+    let x = 250, y = 160;
+    conductionPulse.style.opacity = '1';
+    conductionPulseR.style.opacity = '0';
+    conductionPulseL.style.opacity = '0';
+    if(time < t.SA.end){
+        x=250; y=160;
+    }else if(time < t.AV.end){
+        const progress = clampTiming((time-t.AV.start)/(t.AV.end-t.AV.start),0,1);
+        y=160+progress*60;
+    }else if(time < t.His.end){
+        const progress = clampTiming((time-t.His.start)/(t.His.end-t.His.start),0,1);
+        y=220+progress*60;
+    }else if(time < t.Branches.end){
+        const progress = clampTiming((time-t.Branches.start)/(t.Branches.end-t.Branches.start),0,1);
+        y=280+progress*80;
+    }else if(time < t.Purkinje.end){
+        const progress = clampTiming((time-t.Purkinje.start)/(t.Purkinje.end-t.Purkinje.start),0,1);
+        conductionPulse.style.opacity='0';
+        conductionPulseR.style.opacity='1';
+        conductionPulseL.style.opacity='1';
+        conductionPulseR.setAttribute('cx',250+progress*90);
+        conductionPulseR.setAttribute('cy',280+progress*80);
+        conductionPulseL.setAttribute('cx',250-progress*90);
+        conductionPulseL.setAttribute('cy',280+progress*80);
         return;
-
+    }else{
+        conductionPulse.style.opacity='0';
     }
-
-    // No active conduction pulse during recovery/rest.
-    else{
-
-        conductionPulse.style.opacity = "0";
-
-    }
-
-    conductionPulse.setAttribute(
-        "cx",
-        x
-    );
-
-    conductionPulse.setAttribute(
-        "cy",
-        y
-    );
-
+    conductionPulse.setAttribute('cx',x);
+    conductionPulse.setAttribute('cy',y);
 }
-
 
 
 // ===============================
