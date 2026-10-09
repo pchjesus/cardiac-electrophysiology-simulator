@@ -1029,6 +1029,9 @@ function updateHeartRateUI(){
         updateConduction(true);
         drawECGSweep();
     }
+    // Passive Wiggers view may be open in the Ready state. Rebuild only
+    // its HR-dependent chart; do not modify A/B playback state.
+    window.CardiacWiggersView?.sync();
 
 }
 
@@ -1863,6 +1866,8 @@ function updateConduction(
 
     // v1.9: mechanical state derives from the SAME physiological clock A.
     window.CardiacMechanical?.sync();
+    // Reuse the SAME existing animation/update path; no second rAF.
+    window.CardiacWiggersView?.sync();
 
 }
 
@@ -2805,6 +2810,7 @@ function reset(){
     drawECGSweep();
     // Reset model display, retaining the chosen Electrical/Mechanical mode.
     window.CardiacMechanical?.reset();
+    window.CardiacWiggersView?.reset();
 
 }
 
