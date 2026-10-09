@@ -144,6 +144,11 @@ with sync_playwright() as pw:
        "Collapsed diagram reopened by simulation updates")
     page.locator("#wiggersToggle").click()
     page.wait_for_function("document.getElementById('wiggersDetails').open")
+    # <details> 'toggle' is queued asynchronously after 'open' flips.
+    # Assert redraw after the browser has dispatched that event.
+    page.wait_for_function(
+        "(count) => window.CardiacWiggersView.buildCount > count",
+        arg=before_close)
     ck(page.evaluate(f"{view}.buildCount")==before_close+1,
        "Reopen failed to apply changed HR")
     ck("65 bpm" in page.locator("#wiggersCurrentTime").text_content(),
