@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.10 Patch 3</title>
+<title>Cardiac Electrophysiology Simulator v1.10 Patch 4</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.10 Patch 3</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.10 Patch 4</h1>
     <p>Sinus Rhythm ECG Engine</p>
 </header>
 
@@ -299,6 +299,7 @@
     </section>
 
     <!-- v1.10 Patch 3: independent opt-in graph, AFTER existing core UI. -->
+    <div class="wiggers-shell">
     <details id="wiggersDetails" class="card wiggers-panel">
         <summary id="wiggersToggle" class="wiggers-summary">
             <span class="wiggers-summary-title">Wiggers Diagram <span class="wiggers-optional">Optional learning panel</span></span>
@@ -357,9 +358,32 @@
                 <span id="wiggersCurrentTime">Physiological phase 0 ms</span>
                 <span id="wiggersCurrentValves">Mitral: — · Aortic: —</span>
             </div>
+            <section class="wiggers-learning" aria-label="Valve and heart sound education">
+                <h3>ECG → pressure → valves → volume</h3>
+                <p id="wiggersLearningStage">Move the timeline or press Play to explore cardiac phases.</p>
+                <p id="wiggersLearningEvent">Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.</p>
+                <p class="wiggers-learning-limit">Profiles are educational relative values, not clinical measurements. S1 and S2 are simplified left-sided event markers, not recorded sounds. Mechanical mode uses a separate model whose exact-boundary rounding may differ.</p>
+            </section>
             <p class="wiggers-footnote">The animated cursor uses physiological time (A). Your existing animation speed, ECG monitor sweep and Electrical/Mechanical displays remain unchanged. The teaching pressure curve and existing mechanical diagram have separate event-boundary rounding conventions.</p>
         </div>
     </details>
+    <button id="wiggersHelpButton" class="wiggers-help-button" type="button"
+            aria-label="Wiggers Diagram help" aria-expanded="false" aria-controls="wiggersHelp">?</button>
+    <aside id="wiggersHelp" class="wiggers-help-popover" role="group" aria-labelledby="wiggersHelpTitle" hidden>
+        <div class="wiggers-help-heading">
+            <strong id="wiggersHelpTitle">How to read a Wiggers Diagram</strong>
+            <button id="wiggersHelpClose" type="button" aria-label="Close Wiggers help">×</button>
+        </div>
+        <p>A Wiggers Diagram connects <strong>ECG → pressure → valve events → ventricular volume</strong> within one cardiac cycle.</p>
+        <ol>
+            <li><strong>ECG:</strong> P precedes atrial contraction, QRS precedes ventricular contraction and T reflects ventricular recovery.</li>
+            <li><strong>Pressure:</strong> compare relative left atrial, left ventricular and aortic curves to understand opening/closure.</li>
+            <li><strong>Volume:</strong> level during isovolumetric phases, falling during ejection, rising during filling.</li>
+            <li><strong>Events:</strong> mitral close / S1 → aortic open → aortic close / S2 → mitral open.</li>
+        </ol>
+        <p>The cursor follows <strong>physiological time (A)</strong> in one RR. The ECG Monitor uses a separate scrolling visualization (B). Relative pressures and volume are not mmHg, mL, EF or patient predictions. See README.md for details.</p>
+    </aside>
+    </div>
 
 </main>
 </div>
@@ -369,5 +393,6 @@
 <script src="wiggers.js"></script>
 <script src="wiggers-profile.js"></script>
 <script src="wiggers-view.js"></script>
+<script src="wiggers-help.js"></script>
 </body>
 </html>
