@@ -79,8 +79,20 @@
 
         function getSnapshot(phaseMs, electrical) {
             const t = boundaries(electrical);
-            const p = phaseWithinCycle(phaseMs,t.rr);
             const anchors = getLandmarks(electrical);
+            const rawPhase = phaseWithinCycle(phaseMs,t.rr);
+            // A + N*RR may round a mathematically exact boundary slightly
+            // before/after it. Canonicalize *only* IEEE-754-sized ties, not
+            // meaningful fractions of a millisecond or animation intervals.
+            const tieToleranceMs = Math.min(1e-8,
+                8 * Number.EPSILON * Math.max(t.rr,Math.abs(phaseMs)));
+            let p = rawPhase;
+            for (const anchor of anchors) {
+                if (Math.abs(rawPhase-anchor.timeMs) <= tieToleranceMs) {
+                    p = anchor.timeMs === t.rr ? 0 : anchor.timeMs;
+                    break;
+                }
+            }
             let index = anchors.length - 2;
             for (let i=0;i<anchors.length-1;i++) {
                 if (p < anchors[i+1].timeMs) { index=i; break; }
