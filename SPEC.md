@@ -616,3 +616,43 @@ Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatP
 OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
 
 These sources substantiate the **sequence and relationships** among cardiac-cycle events; they do not validate the simulator's heuristically selected numerical pressures, volume normalization or event timing delays.
+
+
+## v1.10 Patch 2 — Continuous Relative Pressure / Volume Profile
+
+**Scope:** Preserve v1.9 `mechanics.js` and the Patch 1 `window.CardiacWiggers.getSnapshot()` contract. Add `wiggers-profile.js` as a **parallel, read-only teaching profile** for the later optional Wiggers panel. No user-facing graph, physical pressure or sound is introduced in Patch 2.
+
+### Data and model contract
+
+- New API: `window.CardiacWiggersProfile.getSnapshot(phaseMs,getActiveTiming())` returns a pure snapshot with `cycle`, mechanical stage/boundaries, a continuous illustrative relative pressure triple (`leftAtrial`, `leftVentricular`, `aortic`), normalized relative ventricular volume, gradient signs, valves/flow and the Patch 1 valve/S1/S2 event objects.
+- Helpers: `getLandmarks(timing)` supplies labelled conceptual pressure/volume anchors, `phaseWithinCycle(phase,RR)` normalizes an explicit finite physiological time.
+- Pressures are **dimensionless educational values**: `relative-teaching-index`. No mmHg, pressure calibration, patient-specific vascular compliance, right-sided chamber pressures, or measured cardiac output.
+- Common phase boundaries come from the unchanged `CardiacMechanical.getMechanicalTiming()`, based on A/physiological time. QT clipping is not used as a new mechanical event anchor.
+- Each stage blends adjacent illustrative landmark pressures via cubic smoothstep. Ejection adds a smooth illustrative arch and a positive LV-to-aortic gradient that is zero at valve-opening and valve-closing boundaries. Relative volume is C1 smooth with isovolumetric plateaus at 1.00 and 0.48, ejection drop 1.00→0.48, early/late filling and atrial contribution. These numbers are **modelling choices, not measured norms**.
+- Adjacent pressure and volume curves have matching endpoint values and zero slope at phase boundaries, including cycle wrap (C1 by design); the model does not claim physiological waveform calibration.
+
+### Valve event tie-break contract
+
+- Stages are **half-open intervals** `[start,end)`, with the event at its exact named boundary belonging to the following stage. The event schedule owns equality at valve crossing.
+- Mitral valve is open during `[0,contractionStart)` and `[relaxationEnd,rr)`; aortic valve is open during `[ejectionStart,ejectionEnd)`.
+- At the exact event, the relevant relative pressures are equal and the prescribed post-event valve state wins; between boundaries pressure gradients must support the modelled valve state.
+- **Important numerical note:** this profile uses one modulo for positive phases to avoid the observed v1.9 double-modulo event rounding issue. The original v1.9 Mechanical mode remains **unchanged**, so the two models may classify a floating-point event tie differently at the exact boundary. This distinction must remain explicit until a separately tested shared timing boundary policy is adopted; do not silently use new pressures to toggle v1.9 valves.
+
+### Regression and release gate
+
+- v1.9 Electrical/Mechanical display, animation speed, A/B clocks, HR, Timeline, Play/Pause/Reset and ECG readouts must be bitwise/deterministically comparable against the archived v1.9 baseline where appropriate.
+- Use `tests/test_v110_patch2.py` over all integer HR 30–180, thousands of phase samples, pressure-gradient signs, event-boundary left/right limits, equal-pressure tie-break, constant isovolumetric volume, wrap continuity, invalid input and 390px overflow. Preserve earlier `tests/test_v18.py`, `tests/stress_v18.py`, `tests/test_v19.py` and `tests/test_v110.py`.
+- Test results and CI status must be recorded **after actual execution**; no manual physical-browser or clinical validation is claimed. 
+- Rollback: original v1.9 FINAL remains in `backups/v1.9/FINAL/`; verified Patch 1 is pinned by commit `d46a6a30b10e766d9dd6da05f795b8dacb8a9e2f` and branch `backup/v1.10-patch1-verified`.
+
+### Next — Patch 3
+
+Build a **user-controlled optional expand/collapse Wiggers panel** consuming the verified continuous profile and unchanged electrical timing, with ECG, three relative pressure traces, ventricular relative volume and discrete valve/S1/S2 event markers. Avoid an independent animation loop and protect single-screen desktop layout; manually verify actual visual presentation on the user's local server. Consider a model consistency comparison against v1.9 at event ties before wiring live cursors.
+
+### References (APA 7th)
+
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
+
+These references justify the qualitative cardiac-cycle sequence and valve-pressure relationship, not the new smoothstep curves, illustrative amplitudes, or normalized volume anchors.
