@@ -123,11 +123,93 @@ const NORMAL_ANIMATION_SPEED = 1.0;
 
 
 // ===============================
-// ECG SETTINGS
+// CARDIAC TIMING MODEL
 // ===============================
 
+/*
+
+Patch 1 foundation:
+
+All currently modeled ECG/conduction timing
+values are defined in one place. The values
+intentionally match v1.7 FINAL exactly.
+
+This patch does NOT yet change HR-dependent
+physiology or playback behavior. Later v1.8
+patches will make this model HR-dependent and
+use it as the single source of timing truth.
+
+*/
+
+const CARDIAC_TIMING_MODEL = {
+
+    referenceHeartRate:72,
+
+    cycleLength:60000 / 72,
+
+    pStart:80,
+    pEnd:160,
+
+    prEnd:300,
+
+    qrsStart:300,
+    qrsEnd:380,
+
+    stEnd:500,
+
+    tEnd:680,
+
+    conduction:{
+
+        SA:{
+            start:0,
+            end:130
+        },
+
+        AV:{
+            start:130,
+            end:250
+        },
+
+        His:{
+            start:250,
+            end:305
+        },
+
+        Branches:{
+            start:305,
+            end:380
+        },
+
+        Purkinje:{
+            start:380,
+            end:450
+        },
+
+        Recovery:{
+            start:450,
+            end:700
+        }
+
+    }
+
+};
+
+
+// Central timing accessor.
+// Patch 1 keeps the current v1.7 values unchanged.
+// Future patches will make the returned model HR-dependent.
+function getCardiacTimingModel(){
+
+    return CARDIAC_TIMING_MODEL;
+
+}
+
+
+// v1.7 compatibility alias. Keep this until all timing
+// consumers have been migrated to the model.
 const baseCycleLength =
-60000 / 72;
+getCardiacTimingModel().cycleLength;
 
 
 // ===============================
@@ -145,13 +227,13 @@ not measurements from a real patient ECG.
 
 const ECG_MEASUREMENT_TIMING = {
 
-    pStart:80,
+    pStart: getCardiacTimingModel().pStart,
 
-    qrsStart:300,
+    qrsStart: getCardiacTimingModel().qrsStart,
 
-    qrsEnd:380,
+    qrsEnd: getCardiacTimingModel().qrsEnd,
 
-    tEnd:680
+    tEnd: getCardiacTimingModel().tEnd
 
 };
 
@@ -365,9 +447,9 @@ const conductionSteps = [
 
         id:"SA",
 
-        start:0,
+        start:getCardiacTimingModel().conduction.SA.start,
 
-        end:130,
+        end:getCardiacTimingModel().conduction.SA.end,
 
         title:
         "SA Node Activation",
@@ -385,9 +467,9 @@ const conductionSteps = [
 
         id:"AV",
 
-        start:130,
+        start:getCardiacTimingModel().conduction.AV.start,
 
-        end:250,
+        end:getCardiacTimingModel().conduction.AV.end,
 
         title:
         "AV Node Delay",
@@ -405,9 +487,9 @@ const conductionSteps = [
 
         id:"His",
 
-        start:250,
+        start:getCardiacTimingModel().conduction.His.start,
 
-        end:305,
+        end:getCardiacTimingModel().conduction.His.end,
 
         title:
         "His Bundle Conduction",
@@ -425,9 +507,9 @@ const conductionSteps = [
 
         id:"Branches",
 
-        start:305,
+        start:getCardiacTimingModel().conduction.Branches.start,
 
-        end:380,
+        end:getCardiacTimingModel().conduction.Branches.end,
 
         title:
         "Bundle Branch Activation",
@@ -445,9 +527,9 @@ const conductionSteps = [
 
         id:"Purkinje",
 
-        start:380,
+        start:getCardiacTimingModel().conduction.Purkinje.start,
 
-        end:450,
+        end:getCardiacTimingModel().conduction.Purkinje.end,
 
         title:
         "Purkinje Activation",
@@ -465,9 +547,9 @@ const conductionSteps = [
 
         id:"Recovery",
 
-        start:450,
+        start:getCardiacTimingModel().conduction.Recovery.start,
 
-        end:700,
+        end:getCardiacTimingModel().conduction.Recovery.end,
 
         title:
         "Ventricular Recovery",
@@ -619,43 +701,43 @@ const ecgEvents = [
 
     {
         id:"P",
-        start:80,
-        end:160,
+        start:getCardiacTimingModel().pStart,
+        end:getCardiacTimingModel().pEnd,
         label:"P Wave"
     },
 
     {
         id:"PR",
-        start:160,
-        end:300,
+        start:getCardiacTimingModel().pEnd,
+        end:getCardiacTimingModel().prEnd,
         label:"PR Interval"
     },
 
     {
         id:"QRS",
-        start:300,
-        end:380,
+        start:getCardiacTimingModel().qrsStart,
+        end:getCardiacTimingModel().qrsEnd,
         label:"QRS Complex"
     },
 
     {
         id:"ST",
-        start:380,
-        end:500,
+        start:getCardiacTimingModel().qrsEnd,
+        end:getCardiacTimingModel().stEnd,
         label:"ST Segment"
     },
 
     {
         id:"T",
-        start:500,
-        end:680,
+        start:getCardiacTimingModel().stEnd,
+        end:getCardiacTimingModel().tEnd,
         label:"T Wave"
     },
 
     {
         id:"Baseline",
-        start:680,
-        end:baseCycleLength,
+        start:getCardiacTimingModel().tEnd,
+        end:getCardiacTimingModel().cycleLength,
         label:"Baseline"
     }
 

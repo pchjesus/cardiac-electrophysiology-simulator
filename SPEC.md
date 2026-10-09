@@ -477,3 +477,16 @@ Build on the v1.8 physiological timing model:
 - ST/T pattern identification
 - territory localization
 - case-based explanations
+
+## v1.8 Development Status — Patch 1 (Timing Model Foundation, 2026-10-09)
+
+Implementation status: **Patch 1 implemented and browser-regression checked; physiological HR-dependence is not yet implemented.**
+
+- Added `CARDIAC_TIMING_MODEL` and `getCardiacTimingModel()` with the unchanged v1.7 timing boundaries.
+- Measurement timing, conduction steps, and ECG event interval definitions reference this central static model.
+- `baseCycleLength` remains a compatibility alias at 60000/72 ms.
+- `ecgValue()` and several rendering/state consumers still contain v1.7 timing logic; this patch **does not** complete single-source timing migration.
+- Playback speed, ECG morphology, Heart Rate control, Timeline, Play/Pause/Reset, and UI are intentionally unchanged.
+- Future work: define safe cycle semantics and A/B (physiological/visualization) time separation before changing RR and time-dependent consumers; maintain v1.7 visual pacing.
+- Known v1.7 limitation: Purkinje conduction and QRS timing boundaries require a later deliberate physiological alignment patch.
+

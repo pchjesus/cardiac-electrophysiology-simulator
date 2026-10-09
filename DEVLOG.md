@@ -390,3 +390,27 @@ v1.8 begins with physiological timing architecture:
 - preserved v1.7 UI and state flow
 
 Later work can then add Cardiac Cycle & Hemodynamics, including valve motion, chamber filling/ejection, and blood-flow visualization.
+
+## v1.8 — Patch 1: Central Timing Model Foundation (2026-10-09)
+
+### Added
+- `CARDIAC_TIMING_MODEL` holds v1.7's existing ECG and conduction timings.
+- `getCardiacTimingModel()` is the initial access point for later HR-dependent timing logic.
+- v1.7-compatible `baseCycleLength` alias remains available.
+- `backups/v1.8/patch1_baseline/` preserves the original v1.7 runtime files.
+
+### Changed
+- ECG measurement timing, ECG event intervals and conduction-step timing now reference the central static model.
+
+### Preserved
+- No changes to heart-rate physiology, A/B time separation, animation speed, visual waveform morphology, HTML, CSS, interaction controls, or runtime screen behavior.
+
+### Verification (scope)
+- `node --check script.js` succeeded.
+- Headless Chromium/Playwright compared **110 deterministic states** between v1.7 and Patch 1 (heart-rate values 30–180 bpm, Timeline positions, measurements, ECG canvas, conduction state, event/phase, explanations, selection, Play/Pause/Reset); **0 differences** for stable comparable states, **0 page errors**. Dynamic elapsed-time fields during active playback were excluded from exact equality.
+- Browser test used injected HTML/CSS/JS because opening local files and localhost was blocked by the test environment; physical-device UX and deployed GitHub Pages were not verified.
+
+### Known limitations / next
+- ECG waveform generation still includes v1.7 absolute-time boundaries.
+- The current static cycle and HR-to-animation-speed coupling remain by design until the physiological clock and visualization clock are safely separated.
+- Plan next patch carefully: avoid HR double application, preserve the v1.7 pace, and test RR/cycle-boundary interactions, Timeline seeking and sweep synchronization.
