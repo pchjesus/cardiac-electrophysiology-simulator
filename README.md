@@ -5,7 +5,7 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.7 FINAL**
+**v1.8 FINAL — automated tests complete; user visual acceptance pending**
 
 ## Educational Flow
 
@@ -163,3 +163,14 @@ Patch 3 is implemented on the development branch (main). The last fully finalize
 - B (Visualization Time) uses the existing v1.7 animation pacing. A presentation-phase adapter synchronizes the ECG waveform, conduction, Current Phase, events and Timeline to the real beat fraction.
 - **Limit:** PR/QRS/QT still use v1.7 reference timing and are not yet HR-dependent physiological measurements. They will be migrated together in Patch 4; do not interpret them as clinically validated at non-reference heart rates.
 - See `SPEC.md` / `DEVLOG.md` for detailed design, verification status and known limitations.
+
+## v1.8 FINAL — A/B Time + Educational Physiological ECG (2026-10-09)
+
+- Physiological Time (A) uses `RR = 60000 / HR` and drives the active P, PR, QRS, ST, T, conduction, ECG event and measurements.
+- Visualization Time (B) preserves the calibrated v1.7 HR-based playback rate and existing overall sweep pace; one requestAnimationFrame loop drives both.
+- Dynamic PR/QRS/QT/QTc, ECG waveform, Current Phase, events, conduction, cardiac regions, electrical pulses and Timeline share the active timing model.
+- ECG morphology amplitudes and dual RBB/LBB conduction pulses remain present. Play, Pause, Reset, manual explanation and HR scenarios are retained.
+- **Educational model, not clinical data.** Model coefficients are hand-chosen approximations, not calibrated to patients. At high HR (especially >140 bpm), QT is clipped to avoid overlapping beats; the resulting QT/QTc can be physiologically unrealistic. Bazett QTc also has known rate bias.
+- Testing: syntax verified; 239 Chromium end-to-end assertions; 13,741 additional interval/event/seek checks across integer HR 30–180; no JavaScript page errors. User physical-browser visual acceptance is pending.
+- Inherited limitation: at 390px mobile viewport there is approximately 47px horizontal overflow, also present in v1.8 Patch 3. It was not worsened or redesigned during the physiological changes.
+- v1.8 FINAL runtime backup and Patch 3 reference are stored in `backups/v1.8/`. Start v1.9 from `V1.9_START_HERE.md`.

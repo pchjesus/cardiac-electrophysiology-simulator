@@ -136,16 +136,9 @@ const NORMAL_ANIMATION_SPEED = 1.0;
 
 /*
 
-Patch 1 foundation:
-
-All currently modeled ECG/conduction timing
-values are defined in one place. The values
-intentionally match v1.7 FINAL exactly.
-
-This patch does NOT yet change HR-dependent
-physiology or playback behavior. Later v1.8
-patches will make this model HR-dependent and
-use it as the single source of timing truth.
+This is the immutable v1.7 reference visual template, not the live
+physiological timing model. Dynamic intervals are calculated by
+getPhysiologicalTiming() and consumed by every active model layer.
 
 */
 
@@ -233,10 +226,8 @@ function getPhysiologicalCyclePhase(time = heartState.physiologicalTime){
     return ((time - heartState.cycleStartTime) % rr + rr) % rr;
 }
 
-// Patch 3 adapter: present each real RR on the preserved v1.7 template.
-// All ECG/conduction/event renderers consume this *reference* coordinate.
-// This is an educational presentation map, NOT a clinically calibrated
-// PR/QRS/QT model (those durations are addressed in Patch 4).
+// Presentation-only normalized reference phase; NOT an ECG model time.
+// Real ECG and conduction events consume getPhysiologicalCyclePhase().
 function getReferenceCyclePhase(time = heartState.physiologicalTime){
     if(time < 0) return -1;
     return getPhysiologicalCyclePhase(time) *
@@ -277,7 +268,7 @@ function getPhysiologicalTiming(hr = heartRate){
     const pStart = clampTiming((rr - 320) * 0.18, 8, 80);
     const pr = clampTiming(
         ECG_TIMING_PARAMETERS.prAt80 + ECG_TIMING_PARAMETERS.prRRcoefficient * (rr - 750),
-        125,220);
+        125,200);
     const pDuration = clampTiming(rr * 0.145, 55, 80);
     const pEnd = pStart + Math.min(pDuration, pr - 40);
     const qrsStart = pStart + pr;
@@ -329,19 +320,8 @@ not measurements from a real patient ECG.
 
 */
 
-const ECG_MEASUREMENT_TIMING = {
-
-    pStart: getCardiacTimingModel().pStart,
-
-    qrsStart: getCardiacTimingModel().qrsStart,
-
-    qrsEnd: getCardiacTimingModel().qrsEnd,
-
-    tEnd: getCardiacTimingModel().tEnd
-
-};
-
-
+// Legacy static measurement constants removed in Patch 10.
+// Runtime intervals now come only from getPhysiologicalTiming().
 
 const sweepDuration = 3000;
 

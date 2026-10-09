@@ -475,3 +475,30 @@ Later work can then add Cardiac Cycle & Hemodynamics, including valve motion, ch
 ### Next: Patch 4
 - Scientific HR-dependent PR/QRS/QT model; keep QRS relatively stable, explicitly justify QT correction assumptions, and replace temporary reference interval projection so measurements and physical waveform represent the same model.
 - Preserve animation pacing, verify ECG labels/events/conduction, and test transitions/seek/wrap at HR extremes.
+
+## v1.8 Patch 4 — HR-Dependent Electrical Interval Model (2026-10-09)
+Added `getPhysiologicalTiming()` with RR/PR/QRS/QT, ST, P and conduction boundaries. The chosen coefficients are educational approximations, not calibrated to clinical data. No visible changes at this isolated foundation stage.
+
+## v1.8 Patch 5 — ECG Waveform and Measurement Alignment
+ECG waveform samples and PR/QRS/QT/QTc now consume the active interval model. P/QRS/T amplitudes remain unchanged. Interval display values rounded to milliseconds.
+
+## v1.8 Patch 6 — Conduction Timing Alignment
+SA, AV, His, bundle branches, Purkinje and recovery use the active physical timing model; RBB/LBB dual pulse paths preserved. Purkinje deliberately ends with QRS instead of extending beyond it.
+
+## v1.8 Patch 7 — ECG Events, Current Phase and Timeline
+Physical beat intervals now drive event classification, Current Phase labels, conduction visual steps, ECG label positions, Timeline and seek. Presentation positions are mapped to the B clock.
+
+## v1.8 Patch 8 — Playback/Reset/Seek Robustness
+Added a playback-generation guard to prevent stale queued rAF callbacks after rapid pause/play transitions, constant-time cardiac-cycle wrap logic, and safe 100% seek bounds.
+
+## v1.8 Patch 9 — Sweep Calibration
+Preserved fractional sweep overshoot across screen wrap, corrected Timeline-reconstructed ECG baseline to the actual canvas baseline. Preserved the v1.7 rate-to-display curve.
+
+## v1.8 Patch 10 — FINAL Automated Regression / Documentation / Archive
+Removed unused static measurement table, revised stale reference comments and updated HTML version to v1.8 FINAL. Consolidated docs and prepared V1.9_START_HERE.md.
+- Syntax: node --check script.js PASS.
+- Browser: 239 assertions across HR 30,50,60,72,80,100,120,150,180; Play/Pause/Reset, HR swaps, Timeline seek, ECG event, conduction, measurements, current phase, sweep, live rAF; page errors 0.
+- Full HR sweep: 13,741 assertions across all integer HR 30–180, including 4,077 event boundary samples and 1,208 seek states; errors 0.
+- Presentation speed B and sweep position matched the verified Patch 3 at tested rates; dynamic waveform/interval timing intentionally differs.
+- Known limits: high-rate QT clipping to non-overlap SA-first beats (not clinically validated); Bazett rate bias; inherited 390px mobile horizontal overflow (~47px); manual physical browser acceptance pending.
+- New next-version handoff: V1.9_START_HERE.md.

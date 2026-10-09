@@ -518,3 +518,25 @@ Implementation status: **Patch 1 implemented and browser-regression checked; phy
 - The simulator **must not** be described as having a fully physiologically accurate ECG model at Patch 3. At extreme HRs, proportional reference projection is only a temporary display compatibility technique.
 - Known v1.7 Purkinje/QRS timing limitation remains until the dedicated conduction-alignment patch; no changes were made to branching animation or its educational labels.
 - Keep room for v1.9 valve/chamber/blood-flow events driven by the same physiological clock, without a second animation driver.
+
+## v1.8 FINAL — Dynamic Timing Contract (2026-10-09)
+
+- `getPhysiologicalTiming(hr)` is the active source of RR, P, PR, QRS, ST, T, QT/QTc and conduction boundaries. `getPhysiologicalCyclePhase()` is the A-clock event location. `getReferenceCyclePhase()` and `baseCycleLength = 60000/72` are legacy visualization reference helpers, **not** physiological timing values.
+- One animation loop advances B using the protected v1.7 `heartRateToSpeed() * BASE_SPEED_FACTOR` mapping, then advances A with `RR / baseCycleLength`. This avoids double-counting HR.
+- Events, waveform, conduction, cardiac regions, electrical pulses, Current Phase, Timeline and measurements use the same dynamic physical intervals. Reset, pause, HR transitions and seek synchronize states.
+- `RR(ms)=60000/hr`. P start: `clamp((RR-320)*0.18,8,80)`. PR: `clamp(185+0.13*(RR-750),125,200)`. QRS: fixed 80 ms. P end: `pStart+min(clamp(RR*0.145,55,80),PR-40)`. QRS start = pStart + PR.
+- Nominal QT: `clamp(380*(RR/(60000/72))^0.35,225,525)`; effective QT: `min(nominalQT,RR-QRSstart-8)` to prevent next-cycle overlap within the simplified SA-first rendering model. ST duration: `clamp((QT-80)*0.27,15,80)`. T end = QRSstart+QT.
+- `QTc (Bazett)=QT/sqrt(RR/1000)` (ms). The printed values are derived from *simulated* boundaries, not measured patient ECG.
+- RBB/LBB simultaneous branching is retained. Purkinje now ends with QRS: this is a deliberate correction of the documented v1.7 phase mismatch.
+- This is a teaching approximation: coefficients are modeling choices without clinical validation. At high HR QT clipping creates unrealistically short intervals; do not use output for clinical diagnosis or treatment. Bazett has known overcorrection/undercorrection at high/low rates.
+- Validated: 239 browser-regression assertions, 13,741 interval/event/seek assertions for 151 HR points (30–180 bpm), 4,077 event sample checks, 1,208 seek states; zero browser script errors. Actual device UX approval remains pending.
+- Known inherited issue: approximately 47px horizontal scrolling at width 390px. This also exists in the tested Patch 3 and was left unchanged intentionally.
+- v1.9 should attach mechanical/hemodynamic phases to physiological clock A, not to CSS animation timers or normalized canvas positions. See `V1.9_START_HERE.md`.
+
+### Clinical / scientific source context (APA 7th)
+
+Rautaharju, P. M., Surawicz, B., & Gettes, L. S. (2009). AHA/ACCF/HRS recommendations for the standardization and interpretation of the electrocardiogram: Part IV: The ST segment, T and U waves, and the QT interval. *Journal of the American College of Cardiology, 53*(11), 982–991. https://doi.org/10.1016/j.jacc.2008.12.014
+
+Luo, S., Michler, K., Johnston, P., & Macfarlane, P. W. (2004). A comparison of commonly used QT correction formulae: The effect of heart rate on the QTc of normal ECGs. *Journal of Electrocardiology, 37*(Suppl.), 81–90. https://doi.org/10.1016/j.jelectrocard.2004.08.030
+
+These works ground the discussion of QT/QTc and correction limitations, **not** the simulator's chosen heuristic coefficients.

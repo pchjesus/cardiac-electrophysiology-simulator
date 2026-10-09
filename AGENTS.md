@@ -184,3 +184,13 @@ Before implementation:
 7. Archive the confirmed build before moving to the next version.
 
 Do not claim physiological accuracy where the model has not implemented it.
+
+## v1.8 FINAL Development Rules — Transition (2026-10-09)
+
+The historical v1.7 requirements above are the protected behavior/regression baseline, not the current internal state model. v1.8 uses A physiological time and B visualization time with a single rAF driver, active `getPhysiologicalTiming()` and HR-based RR.
+
+When changing timing, re-verify ECG waveform, measurements, ECG Event, Current Phase, conduction phases, RBB/LBB pulses, cardiac regions, Timeline, manual explanations, and Play/Pause/Reset. Never add competing timers or apply HR speed twice.
+
+PR/QRS/QT coefficients are educational model assumptions, not clinical constants. High-rate QT clipping and Bazett QTc require explicit caveats. v1.9 mechanical events must consume A and preserve B's established pacing.
+
+Automated v1.8 regression is complete; user physical-browser visual acceptance is pending. See `V1.9_START_HERE.md`.
