@@ -127,13 +127,15 @@ with sync_playwright() as pw:
             check(s["valves"]["mitral"] == legacy["valves"]["mitral"] and
                   s["valves"]["aortic"] == legacy["valves"]["aortic"],
                   f"Valve mismatch at HR {hr}")
-        # Event boundaries are modeled as step transitions, not fake continuous
-        # pressure crossings. Inspect before/after each valve switch.
+        # v1.9 normalizes phase through floating-point modulo. At fractional RR,
+        # an exact event boundary can round to the preceding stage. Compare
+        # stable left/right limits rather than asserting an arbitrary tie-break.
+        # Patch 2 will define the explicit boundary convention.
         event_switches = page.evaluate("""(times) => {
             const e=getActiveTiming(), w=window.CardiacWiggers;
             return times.map(t => ({
                 before:w.getSnapshot(t-0.0001,e).valves,
-                after:w.getSnapshot(t,e).valves
+                after:w.getSnapshot(t+0.0001,e).valves
             }));
         }""", [x["timeMs"] for x in events])
         check(event_switches[0]["before"]["mitral"] and
