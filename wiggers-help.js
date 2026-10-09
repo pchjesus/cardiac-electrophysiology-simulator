@@ -23,7 +23,7 @@
         else close(true);
     });
     closeButton.addEventListener('click',()=>close(true));
-    document.addEventListener('pointerdown',event=>{
+    document.addEventListener('click',event=>{
         if(!popup.hidden && !popup.contains(event.target) &&
            !trigger.contains(event.target))close();
     });
