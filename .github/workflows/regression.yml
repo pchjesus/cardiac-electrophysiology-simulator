@@ -23,7 +23,7 @@ jobs:
           python -m playwright install --with-deps chromium
           BROWSER=$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux*/chrome' -print -quit)
           test -n "$BROWSER"
-          sudo ln -s "$BROWSER" /usr/bin/chromium
+          sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
