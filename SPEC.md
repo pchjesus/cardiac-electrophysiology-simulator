@@ -636,7 +636,7 @@ These sources substantiate the **sequence and relationships** among cardiac-cycl
 - Stages are **half-open intervals** `[start,end)`, with the event at its exact named boundary belonging to the following stage. The event schedule owns equality at valve crossing.
 - Mitral valve is open during `[0,contractionStart)` and `[relaxationEnd,rr)`; aortic valve is open during `[ejectionStart,ejectionEnd)`.
 - At the exact event, the relevant relative pressures are equal and the prescribed post-event valve state wins; between boundaries pressure gradients must support the modelled valve state.
-- **Important numerical note:** this profile uses one modulo for positive phases to avoid the observed v1.9 double-modulo event rounding issue. The original v1.9 Mechanical mode remains **unchanged**, so the two models may classify a floating-point event tie differently at the exact boundary. This distinction must remain explicit until a separately tested shared timing boundary policy is adopted; do not silently use new pressures to toggle v1.9 valves.
+- **Important numerical note:** this profile uses one modulo for positive phases and a bounded IEEE-754-scale tie tolerance (at most 1e-8 ms) to canonicalize mathematically identical event positions across cycles. The original v1.9 Mechanical mode remains **unchanged**, so the two models may classify a floating-point event tie differently at an exact boundary. This distinction must remain explicit until a separately tested shared timing boundary policy is adopted; do not silently use new pressures to toggle v1.9 valves.
 
 ### Regression and release gate
 
