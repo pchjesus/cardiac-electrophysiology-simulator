@@ -1751,7 +1751,7 @@ function updateECGSweep(
 
 
 
-    if(
+        if(
 
         heartState.sweepPosition >=
 
@@ -1761,7 +1761,7 @@ function updateECGSweep(
 
         heartState.sweepPosition =
 
-        0;
+        heartState.sweepPosition % canvas.width;
 
 
         ecgPoints = [];
@@ -2935,7 +2935,7 @@ function(){
 
             y:
 
-            canvas.height / 2
+                        canvas.height * 0.58
 
             -
 
