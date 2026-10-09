@@ -880,5 +880,7 @@ Compact Controller + ECG View
 .wiggers-learning .wiggers-learning-limit{font-size:11px;color:#56687a;margin-top:8px}
 @media(max-width:600px){
  .wiggers-help-button{right:20px;top:15px;min-width:28px;min-height:28px}
- .wiggers-help-popover{left:9px;right:9px;width:auto;max-height:65vh}
+ /* Fixed to viewport: inherited v1.9 page overflow can shift the panel left. */
+ .wiggers-help-popover{position:fixed;left:12px;right:12px;top:12vh;width:auto;
+  max-height:70vh;max-height:70dvh;z-index:100}
 }
