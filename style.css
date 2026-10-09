@@ -811,3 +811,43 @@ Compact Controller + ECG View
 .mechanical-stats span{padding:5px 6px;background:#ecf3f8;border-radius:5px}
 .mechanical-readout .mechanical-disclaimer{font-size:10px;color:#727c85;margin-bottom:0}
 @media(max-width:400px){.mechanical-stats{grid-template-columns:1fr}}
+
+
+/* v1.10 Patch 3: opt-in chart AFTER the protected v1.9 UI. */
+.wiggers-panel{min-width:0;max-width:100%;overflow:hidden}
+.wiggers-summary{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;column-gap:16px;row-gap:5px;cursor:pointer;list-style:revert;padding:3px 5px;min-height:35px;color:#193e5a}
+.wiggers-summary:focus-visible{outline:3px solid #3778b6;outline-offset:3px;border-radius:5px}
+.wiggers-summary-title{font-weight:700;font-size:16px}
+.wiggers-optional{font-size:11px;font-weight:400;color:#526779;background:#eaf1f7;padding:3px 7px;border-radius:12px;margin-left:6px;white-space:nowrap}
+.wiggers-summary-hint{font-size:12px;color:#58697b}
+.wiggers-body{max-width:100%;min-width:0;padding-top:8px}
+.wiggers-disclaimer{font-size:12px;line-height:1.5;margin:0 1px 8px;color:#445569}
+.wiggers-legend{display:flex;flex-wrap:wrap;gap:5px 16px;padding:7px 9px;margin-bottom:7px;background:#f5f8fb;border-radius:6px}
+.wiggers-key{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#27374a;white-space:nowrap}
+.wiggers-key-line{display:inline-block;width:19px;min-width:19px;border-top:3px solid currentColor}
+.wiggers-chart-scroll{min-width:0;max-width:100%;width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #e2e8ef;border-radius:7px;background:white}
+.wiggers-chart-scroll:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+#wiggersChart{display:block;width:100%;min-width:720px;height:auto;min-height:260px}
+.wiggers-band{fill:#f8fafc;stroke:#e5ebf1;stroke-width:1}
+.wiggers-axis line{stroke:#cdd8e2;stroke-width:1;stroke-dasharray:3 6}
+.wiggers-plot-labels text{font-size:12px;font-weight:600;fill:#465c74}
+.wiggers-trace{stroke-width:3.1}
+.wig-ecg{color:#1676b9;stroke:#1676b9}
+.wig-la{color:#409b82;stroke:#409b82}
+.wig-lv{color:#ca5654;stroke:#ca5654}
+.wig-ao{color:#b18826;stroke:#b18826}
+.wig-vol{color:#805eb5;stroke:#805eb5}
+.wiggers-event-line{stroke:#637a91;stroke-width:1.35;stroke-dasharray:5 6;opacity:.64}
+.wiggers-event-dot{fill:#40586c;stroke:white;stroke-width:1.2}
+.wiggers-cursor{stroke:#233d5b;stroke-width:2;pointer-events:none;stroke-dasharray:3 2}
+.wiggers-event-key{display:flex;flex-wrap:wrap;gap:5px 17px;font-size:11px;color:#526276;margin:7px 1px}
+.wiggers-event-key span::before{content:"◆";color:#40586c;padding-right:5px;font-size:9px}
+.wiggers-status{display:flex;flex-wrap:wrap;gap:5px 15px;align-items:center;border-radius:7px;background:#eef4f9;padding:8px 10px;font-size:12px;color:#23435a}
+.wiggers-status strong{font-size:13px}
+.wiggers-footnote{font-size:11px;color:#6b7786;line-height:1.5;margin:7px 1px 2px}
+@media(max-width:600px){
+ .wiggers-summary{align-items:flex-start}
+ .wiggers-summary-hint{font-size:11px}
+ .wiggers-optional{display:inline-block;margin-top:4px}
+ .wiggers-status{flex-direction:column;align-items:flex-start}
+}
