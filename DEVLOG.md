@@ -598,3 +598,15 @@ GitHub Actions PR run: https://github.com/pchjesus/cardiac-electrophysiology-sim
 - Automated browser functional, geometric and accessibility-semantics checks passed. **Human visual acceptance on a physical browser has not yet occurred**, and must not be reported as passed or as physiological/clinical validation.
 
 Visual review commands (from repo root): `git switch main`, `git pull --ff-only origin main`, `python3 -m http.server 8000 --bind 0.0.0.0`. Open local or forwarded port 8000 and inspect the expanded Wiggers panel, relative trace legibility, synchronization, keyboard disclosure, 390px scroll and v1.9 core UI.
+
+
+## v1.10 Patch 4 — Wiggers learning help and valve/S1-S2 stories (2026-10-10)
+
+- Starting main checked at `14abfbf73617f0bd57bd0cc930d93255e35b3160` (Patch 3). Created `develop/v1.10-patch4-wiggers-education`.
+- Added independent keyboard accessible `?` help popover on a sibling of native `<details>`, with close button, Escape, outside click, trigger state and focus recovery. Open state is independent of model, panel disclosure and playback; no extra timer/rAF.
+- Added read-only phase and most-recent-event educational explanations, using the existing v1.10 Patch 2 snapshot / Patch 1 valve event schedule. Event SVG titles and in-panel explanations share the same ID-to-title mapping.
+- Kept `script.js`, `mechanics.js`, `wiggers.js`, `wiggers-profile.js`, Wiggers trace sampling and A/B clock unchanged. Reset also clears the *new* educational text to Ready via the existing view reset hook.
+- Added detailed nursing learning guide and APA 7th physiology sources to README. Clarified model/clinical limitations and known legacy exact-boundary discrepancy.
+- Added `tests/test_v110_patch4.py` to the existing regression workflow. **Verification status: pending the CI results for the final patch commit; do not infer success from code publication.** Physical desktop/mobile visual acceptance remains user-pending.
+- Main functional risk mitigations: native disclosure/help click separation, one-time event subscriptions, outside-click handler moved from pointerdown to click to avoid disclosure activation conflicts; nonmodal focus behavior, event tie consistency without changing mechanical physiology, and no per-frame recalculation of static ECG/pressure traces. CI exposed inherited horizontal scrolling shifting an absolutely positioned help popover 29px off-screen at 390px; mobile-only positioning is now fixed to the viewport, without changing the older page width (reserved for Patch 6).
+- **Next:** Patch 5 normal/brady/tachy education scenarios only after Patch 4 verification. Patch 6 mobile/accessibility cleanup; Patch 7 final integrated test, backup and release.

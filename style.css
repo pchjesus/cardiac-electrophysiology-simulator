@@ -851,3 +851,36 @@ Compact Controller + ECG View
  .wiggers-optional{display:inline-block;margin-top:4px}
  .wiggers-status{flex-direction:column;align-items:flex-start}
 }
+
+
+/* v1.10 Patch 4 — nonmodal help is a sibling of <details>, not inside <summary>. */
+.wiggers-shell{position:relative;min-width:0;max-width:100%}
+.wiggers-shell .wiggers-summary{padding-right:50px}
+.wiggers-help-button{position:absolute;right:22px;top:15px;z-index:2;
+ width:27px;height:27px;border:1px solid #6d869b;border-radius:50%;background:#f3f8fc;
+ color:#27455f;font-size:17px;font-weight:700;line-height:1;cursor:pointer}
+.wiggers-help-button:hover{background:#e3f0fb}
+.wiggers-help-button:focus-visible,.wiggers-help-heading button:focus-visible{
+ outline:3px solid #3778b6;outline-offset:2px}
+.wiggers-help-popover{position:absolute;z-index:10;right:9px;top:50px;
+ width:min(430px,calc(100% - 18px));max-height:min(70vh,540px);overflow-y:auto;
+ padding:13px 15px;background:#fff;border:1px solid #9bafc1;border-radius:9px;
+ box-shadow:0 6px 25px #1b2e4540;color:#22374d;font-size:12px;line-height:1.55}
+.wiggers-help-popover[hidden]{display:none!important}
+.wiggers-help-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.wiggers-help-heading button{min-width:29px;min-height:29px;border:0;border-radius:5px;
+ background:#eaf1f7;color:#243e53;font-size:21px;cursor:pointer}
+.wiggers-help-popover p{margin:9px 0}
+.wiggers-help-popover ol{margin:8px 0;padding-left:21px}
+.wiggers-help-popover li+li{margin-top:5px}
+.wiggers-learning{padding:9px 11px;border:1px solid #dce7f0;border-radius:7px;
+ background:#f8fbfd;color:#263f54;margin-top:9px;font-size:12px;line-height:1.55}
+.wiggers-learning h3{font-size:13px;margin:0 0 5px}
+.wiggers-learning p{margin:5px 0}
+.wiggers-learning .wiggers-learning-limit{font-size:11px;color:#56687a;margin-top:8px}
+@media(max-width:600px){
+ .wiggers-help-button{right:20px;top:15px;min-width:28px;min-height:28px}
+ /* Fixed to viewport: inherited v1.9 page overflow can shift the panel left. */
+ .wiggers-help-popover{position:fixed;left:12px;right:12px;top:12vh;width:auto;
+  max-height:70vh;max-height:70dvh;z-index:100}
+}

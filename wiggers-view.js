@@ -25,6 +25,51 @@
         ejection:'Ventricular ejection',
         isovolumetric_relaxation:'Isovolumetric relaxation'
     };
+    // Read-only educational interpretation of the existing Patch 2 profile.
+    const STAGE_LESSONS=Object.freeze({
+        filling:'Ventricular filling: left ventricular pressure is below left atrial pressure, the mitral valve opens and relative ventricular volume increases. Atrial contraction completes the final filling portion later in diastole.',
+        atrial_systole:'Atrial systole: the ECG P wave precedes atrial contraction, which adds the final portion of ventricular filling while the mitral valve is open.',
+        isovolumetric_contraction:'Isovolumetric contraction: after QRS depolarization, mitral closure (S1 marker) precedes aortic opening. Both valves are closed; ventricular pressure rises with unchanged relative volume.',
+        ejection:'Ventricular ejection: after the aortic valve opens, blood exits the ventricle and relative ventricular volume decreases. Ventricular repolarization (T wave) can overlap late ejection.',
+        isovolumetric_relaxation:'Isovolumetric relaxation: aortic valve closure (S2 marker) ends ejection. Both valves remain closed while ventricular pressure falls and relative ventricular volume is constant.'
+    });
+    const EVENT_LESSONS=Object.freeze({
+        'mitral-close':{
+            title:'Mitral closes / S1',
+            detail:'Mitral closure accompanies rising ventricular pressure. Physiological S1 is mainly associated with closure of the mitral and tricuspid valves; only this representative left-sided event is marked.'
+        },
+        'aortic-open':{
+            title:'Aortic opens',
+            detail:'Ventricular pressure reaches the aortic opening threshold; ejection starts and relative LV volume begins to fall. At the exact marker the illustrative pressures may be equal, with the event rule assigning the open state.'
+        },
+        'aortic-close':{
+            title:'Aortic closes / S2',
+            detail:'Aortic valve closure ends ejection and starts isovolumetric relaxation. Physiological S2 includes aortic and pulmonary valve closure; this simplified diagram marks only the left-sided event.'
+        },
+        'mitral-open':{
+            title:'Mitral opens',
+            detail:'As the left ventricle relaxes below left atrial pressure, the mitral valve opens and ventricular filling resumes.'
+        }
+    });
+    const lessonStage=document.getElementById('wiggersLearningStage');
+    const lessonEvent=document.getElementById('wiggersLearningEvent');
+    function updateLessons(snapshot){
+        if(!lessonStage || !lessonEvent)return;
+        const stage=STAGE_LESSONS[snapshot.mechanical.stage]||'A modeled cardiac phase.';
+        if(lessonStage.textContent!==stage)lessonStage.textContent=stage;
+        // Use Patch 2's canonical event ties, not v1.9's floating-point states.
+        const phase=snapshot.cycle.phaseMs;
+        const recent=snapshot.valveEvents.filter(e=>e.timeMs<=phase).at(-1);
+        let story='Before the first valve marker in this RR: the mitral valve is open, allowing ventricular filling.';
+        if(recent){
+            const info=EVENT_LESSONS[recent.id];
+            const atMarker=Math.abs(phase-recent.timeMs)<=1e-8;
+            story=(atMarker?'At valve marker: ':'Most recent valve event: ')+
+                info.title+' ('+Math.round(recent.timeMs)+' ms). '+info.detail;
+        }
+        if(lessonEvent.textContent!==story)lessonEvent.textContent=story;
+    }
+
     const plot=(id,values)=>{
         const node=document.getElementById(id);
         node.setAttribute('d',values.map(([x,y],i)=>
@@ -79,10 +124,7 @@
             dot.setAttribute('r','4');
             dot.setAttribute('class','wiggers-event-dot');
             const title=document.createElementNS(NS,'title');
-            const label={'mitral-close':'Mitral closes / S1',
-                         'aortic-open':'Aortic opens',
-                         'aortic-close':'Aortic closes / S2',
-                         'mitral-open':'Mitral opens'}[event.id] || event.id;
+            const label=EVENT_LESSONS[event.id]?.title || event.id;
             title.textContent=label+' — '+Math.round(event.timeMs)+' ms';
             group.append(line,dot,title);
             markerGroup.appendChild(group);
@@ -108,6 +150,7 @@
             Math.round(current.cycle.heartRateBpm)+' bpm';
         valveLabel.textContent='Mitral: '+(current.valves.mitral?'Open':'Closed')+
             ' · Aortic: '+(current.valves.aortic?'Open':'Closed');
+        updateLessons(current);
     }
 
     function reset() {
@@ -115,6 +158,8 @@
         sync();
         // Match v1.9 reset semantics: controls return to Ready, not active phase.
         phaseLabel.textContent='Ready';
+        if(lessonStage)lessonStage.textContent='Move the timeline or press Play to explore cardiac phases.';
+        if(lessonEvent)lessonEvent.textContent='Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.';
     }
 
     details.addEventListener('toggle',()=>{
