@@ -187,3 +187,14 @@ Two heart views share the same ECG panel, HR control, Timeline and Play/Pause/Re
 - Limitations: the same relative pressure-state profile is used for right/left heart **only for showing valve order**, not realistic right-vs-left pressure magnitudes; phase delays are heuristic; at high HR the existing QT approximation is not validated; flow and valve drawing is schematic (not anatomically scaled); no patient-specific measurements or disease simulation.
 - Automatic regression: `python tests/test_v18.py`, `python tests/stress_v18.py`, and `python tests/test_v19.py` all pass. v1.9 testing included 4,711 model/regression assertions over integer HR 30–180; the 239 v1.8 functional and 13,741 stress assertions still pass. JavaScript page errors = 0. Physical-browser visual acceptance remains pending; the inherited 390px horizontal overflow is 437px total width in both v1.8 and v1.9 and was not worsened.
 - Start further development using `V1.10_START_HERE.md`.
+
+
+## v1.10 Patch 1 Development — Wiggers Model Foundation
+
+The confirmed visible baseline remains **v1.9 FINAL**. This patch adds a passive `wiggers.js` model with no new UI panel and no changes to ECG, Mechanical mode, playback or animation speed.
+
+The browser API `window.CardiacWiggers.getSnapshot(phaseMs, getActiveTiming())` exposes consistent electrical/mechanical timestamps, current v1.9 *relative educational* pressure and ventricular volume, left-sided conceptual valve markers, and S1/S2 event markers. `inspectPressureBoundaries()` explicitly reports discontinuities in the existing v1.9 pressure indexes. These are **not calibrated physiological pressure traces**. Do not interpret the values as mmHg, mL, ejection fraction or patient data.
+
+Files: `wiggers.js` (model), `tests/test_v110.py` (contract and v1.9 regression), `.github/workflows/regression.yml` (automated browser regression). Run all v1.8, v1.9 and v1.10 tests before accepting this patch. The synchronized visual Wiggers panel is planned for a later patch; user-device visual acceptance remains pending.
+
+Next: v1.10 Patch 2 pressure/volume continuity and shared valve-state consistency.
