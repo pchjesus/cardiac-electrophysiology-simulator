@@ -556,3 +556,17 @@ Removed unused static measurement table, revised stale reference comments and up
 - Added `tests/test_v110_patch2.py`, extended regression workflow, specified scope and limits in `SPEC.md`. Full CI result to be appended after execution.
 - Known limitations: high-HR ECG QT clipping and Bazett rate bias remain; volume/pressure values are synthetic and uncalibrated; no dedicated right heart or independent vascular mechanics; legacy 390px overflow remains; actual user-device visual and clinical validation outstanding.
 - **Next:** Patch 3 expandable Wiggers teaching panel (chosen A UX), synced via single existing A/B playback adapter, with keyboard/viewport review and graph/event mismatch checks.
+
+
+### Patch 2 executed regression evidence
+
+GitHub Actions PR run: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/37953779360 — **all five steps passed**.
+- v1.8 functional: **239 checks PASS**
+- v1.8 HR stress: **13,741 checks PASS**
+- v1.9 mechanical: **4,711 checks PASS**
+- v1.10 Patch 1: **7,167 checks PASS**
+- v1.10 Patch 2: **422,404 checks PASS** (151 integer HR inputs, pressure/volume continuity, relative gradient direction, event tie and periodicity, isovolumetric invariants and v1.9 deterministic state comparison)
+- JavaScript page errors: **0** in new and baseline browser pages.
+- Combined check count: **448,262**. This is automated test coverage, not clinical validation or human-device visual acceptance.
+- Diagnostic finding and fix: initial static review showed 78/151 HR values produced a floating-point event-boundary mismatch when querying a mathematically equivalent phase at `phase+RR`. The new profile now canonicalizes only IEEE-754-scale ties (capped at 1e-8 ms); the rechecked cycle-equivalence scan found 0 mismatches over HR 30–180. v1.9 Mechanical code is unchanged.
+- Graph UI remains unimplemented; no user browser visual inspection required for this passive model-only patch. Human acceptance is still pending for v1.9 and future graphical Wiggers Patch 3.
