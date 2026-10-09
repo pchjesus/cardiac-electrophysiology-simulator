@@ -1033,51 +1033,15 @@ function updateHeartRateUI(){
 // ===============================
 
 function getECGMeasurements(){
-
-    const rrInterval =
-    getPhysiologicalRR(heartRate);
-
-
-    const prInterval =
-    ECG_MEASUREMENT_TIMING.qrsStart
-    -
-    ECG_MEASUREMENT_TIMING.pStart;
-
-
-    const qrsDuration =
-    ECG_MEASUREMENT_TIMING.qrsEnd
-    -
-    ECG_MEASUREMENT_TIMING.qrsStart;
-
-
-    const qtInterval =
-    ECG_MEASUREMENT_TIMING.tEnd
-    -
-    ECG_MEASUREMENT_TIMING.qrsStart;
-
-
-    // Bazett correction. RR is converted to seconds.
-    const qtc =
-    qtInterval /
-    Math.sqrt(rrInterval / 1000);
-
-
+    const timing = getActiveTiming();
     return {
-
         heartRate:heartRate,
-
-        rrInterval:rrInterval,
-
-        prInterval:prInterval,
-
-        qrsDuration:qrsDuration,
-
-        qtInterval:qtInterval,
-
-        qtc:qtc
-
+        rrInterval:timing.rr,
+        prInterval:timing.prInterval,
+        qrsDuration:timing.qrsDuration,
+        qtInterval:timing.qtInterval,
+        qtc:timing.qtc
     };
-
 }
 
 
@@ -1096,15 +1060,15 @@ function updateECGMeasurements(){
 
 
     measurementPR.textContent =
-    measurements.prInterval + " ms";
+    Math.round(measurements.prInterval) + " ms";
 
 
     measurementQRS.textContent =
-    measurements.qrsDuration + " ms";
+    Math.round(measurements.qrsDuration) + " ms";
 
 
     measurementQT.textContent =
-    measurements.qtInterval + " ms";
+    Math.round(measurements.qtInterval) + " ms";
 
 
     measurementQTc.textContent =
@@ -1117,188 +1081,23 @@ function updateECGMeasurements(){
 // ECG MODEL
 // ===============================
 
-function ecgValue(t){
-
-
-
-    if(t < 0){
-
-        return 0;
-
+function ecgValue(t, timing = getActiveTiming()){
+    if(t < 0) return 0;
+    t = ((t % timing.rr) + timing.rr) % timing.rr;
+    if(t >= timing.pStart && t < timing.pEnd){
+        return 25 * Math.sin(Math.PI * (t - timing.pStart)/(timing.pEnd-timing.pStart));
     }
-
-
-
-    t =
-
-    t %
-
-    baseCycleLength;
-
-
-
-    let value = 0;
-
-
-
-    // =========================
-    // P WAVE
-    // =========================
-
-    if(
-
-        t >= 80 &&
-
-        t <= 160
-
-    ){
-
-        const x =
-
-        (t - 80) / 80;
-
-
-
-        value =
-
-        Math.sin(
-
-            Math.PI * x
-
-        ) * 25;
-
+    if(t >= timing.qrsStart && t < timing.qrsEnd){
+        const x = (t - timing.qrsStart) / timing.qrsDuration;
+        if(x < 0.25) return -25 * Math.sin(Math.PI * x / 0.25);
+        if(x < 0.55) return 120 * Math.sin(Math.PI * (x - 0.25) / 0.30);
+        return -40 * Math.sin(Math.PI * (x - 0.55) / 0.45);
     }
-
-
-
-    // =========================
-    // QRS
-    // =========================
-
-    if(
-
-        t >= 300 &&
-
-        t <= 380
-
-    ){
-
-        const x =
-
-        (t - 300) / 80;
-
-
-
-        if(x < 0.25){
-
-            value =
-
-            -25 *
-
-            Math.sin(
-
-                Math.PI *
-                x /
-                0.25
-
-            );
-
-        }
-
-
-        else if(x < 0.55){
-
-            value =
-
-            120 *
-
-            Math.sin(
-
-                Math.PI *
-
-                (x - 0.25) /
-
-                0.3
-
-            );
-
-        }
-
-
-        else{
-
-            value =
-
-            -40 *
-
-            Math.sin(
-
-                Math.PI *
-
-                (x - 0.55) /
-
-                0.45
-
-            );
-
-        }
-
+    if(t >= timing.stEnd && t < timing.tEnd){
+        return 35 * Math.sin(Math.PI * (t - timing.stEnd)/(timing.tEnd-timing.stEnd));
     }
-
-
-
-    // =========================
-    // ST
-    // =========================
-
-    if(
-
-        t > 380 &&
-
-        t < 500
-
-    ){
-
-        value = 0;
-
-    }
-
-
-
-    // =========================
-    // T WAVE
-    // =========================
-
-    if(
-
-        t >= 500 &&
-
-        t <= 680
-
-    ){
-
-        const x =
-
-        (t - 500) / 180;
-
-
-
-        value =
-
-        Math.sin(
-
-            Math.PI * x
-
-        ) * 35;
-
-    }
-
-
-
-    return value;
-
+    return 0;
 }
-
 
 
 // ===============================
@@ -1857,7 +1656,7 @@ function addECGPoint(){
 
     const value =
     ecgValue(
-        getReferenceCyclePhase()
+        getPhysiologicalCyclePhase()
     );
 
 
@@ -3337,7 +3136,7 @@ function(){
             -
 
             ecgValue(
-                getReferenceCyclePhase(sampleTime)
+                sampleTime < 0 ? -1 : getPhysiologicalCyclePhase(sampleTime)
             )
 
         });
