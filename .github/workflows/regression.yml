@@ -35,3 +35,5 @@ jobs:
         run: python tests/test_v110.py
       - name: Verify v1.10 Patch 2 continuous pressure-volume profile
         run: python tests/test_v110_patch2.py
+      - name: Verify v1.10 Patch 3 Wiggers SVG and UI integration
+        run: python tests/test_v110_patch3.py
