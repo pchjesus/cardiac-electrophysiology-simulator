@@ -570,3 +570,31 @@ GitHub Actions PR run: https://github.com/pchjesus/cardiac-electrophysiology-sim
 - Combined check count: **448,262**. This is automated test coverage, not clinical validation or human-device visual acceptance.
 - Diagnostic finding and fix: initial static review showed 78/151 HR values produced a floating-point event-boundary mismatch when querying a mathematically equivalent phase at `phase+RR`. The new profile now canonicalizes only IEEE-754-scale ties (capped at 1e-8 ms); the rechecked cycle-equivalence scan found 0 mismatches over HR 30–180. v1.9 Mechanical code is unchanged.
 - Graph UI remains unimplemented; no user browser visual inspection required for this passive model-only patch. Human acceptance is still pending for v1.9 and future graphical Wiggers Patch 3.
+
+
+## v1.10 Patch 3 — Optional Wiggers Diagram
+
+- Baseline verified as v1.10 Patch 2 `main` SHA `65f984196ce1ede0e2eaa2ce9570d689060aeeb0`.
+- Added native collapsed `<details>` panel after existing user information, with separate single-RR ECG, left atrial/LV/aortic **relative** pressure traces, normalized LV volume, valve events and S1/S2 *marker labels*. Existing monitor sweep and heart diagram are unchanged.
+- Added `wiggers-view.js`, a source-backed SVG renderer querying existing `ecgValue` and `CardiacWiggersProfile` with 481 points per beat. Uses only existing A-clock phase; it does not own a timer/rAF and skips rendering when closed. Cached plots rebuild only on HR/timing changes.
+- Added three optional hooks for frame synchronization, HR change and Reset in `script.js`. Existing `mechanics.js`, Wiggers domain models and legacy CSS selectors remain unchanged; new styles are namespaced.
+- Added keyboard-accessible disclosure, text readouts without per-frame `aria-live` announcements, local horizontal SVG scroll, clear unit warning and explicit single RR/monitor sweep distinction.
+- Tests: `tests/test_v110_patch3.py` and the full 6-step workflow; execution results must be appended **after successful CI**. Browser rendering and manual user visual acceptance are separate from automatic functional validation.
+- Known inherited issues: 390px horizontal overflow, extreme-HR clinical interval limits, Bazett bias and v1.9 exact-boundary floating-point Mechanical tie. Pressure/volume are heuristic non-clinical indexes. Follow-on Patch 4 explains valve transitions and S1/S2 more deeply.
+
+
+### Patch 3 executed CI verification and known limits
+
+- CI run: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/37957039007 — **all six regression steps passed**.
+- `tests/test_v18.py`: **239 passed**
+- `tests/stress_v18.py`: **13,741 passed**
+- `tests/test_v19.py`: **4,711 passed**
+- `tests/test_v110.py`: **7,167 passed**
+- `tests/test_v110_patch2.py`: **422,404 passed**
+- `tests/test_v110_patch3.py`: **423 passed**
+- **448,685** total automated checks; no JS page errors in current/baseline browser contexts.
+- Initial Patch 3 UI test failed because its assertion checked the graph immediately after `<details>.open` changed, before the browser's asynchronous native `toggle` event was dispatched. The test now waits for the actual redraw completion; no clock or UI source change was necessary for the fix.
+- At 390px and 360px, new diagram scrolls **within its own region**; inherited document overflow is not increased relative to the v1.9 baseline. The inherited narrow-screen overflow itself is reserved for Patch 6.
+- Automated browser functional, geometric and accessibility-semantics checks passed. **Human visual acceptance on a physical browser has not yet occurred**, and must not be reported as passed or as physiological/clinical validation.
+
+Visual review commands (from repo root): `git switch main`, `git pull --ff-only origin main`, `python3 -m http.server 8000 --bind 0.0.0.0`. Open local or forwarded port 8000 and inspect the expanded Wiggers panel, relative trace legibility, synchronization, keyboard disclosure, 390px scroll and v1.9 core UI.

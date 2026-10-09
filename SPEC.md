@@ -656,3 +656,29 @@ Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatP
 OpenStax. (n.d.). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
 
 These references justify the qualitative cardiac-cycle sequence and valve-pressure relationship, not the new smoothstep curves, illustrative amplitudes, or normalized volume anchors.
+
+
+## v1.10 Patch 3 — Optional Wiggers Visualization Integration
+
+### User-facing scope
+
+- **Selected UX A:** one expandable native `<details>` Wiggers Diagram panel placed **after all v1.9 information panels**, collapsed by default. The top ECG monitor and Electrical/Mechanical diagram retain their existing placement, controls and animation speed.
+- Opening the panel displays **one physiological RR cycle**, not the existing ~3-second monitor sweep; the plot's horizontal fraction is `phaseMs / rrMs`. All five traces come from the existing v1.8 ECG function `ecgValue(phase,timing)` and the independently verified v1.10 Patch 2 `CardiacWiggersProfile.getSnapshot()` (left atrial pressure, left ventricular pressure, aortic pressure, normalized LV volume).
+- Four valve event markers are obtained from the Patch 2 snapshot's Patch 1 event schedule, with a key for mitral closing/S1, aortic opening, aortic closing/S2 and mitral opening. These represent **event labels**, not audio or separately modelled right-sided heart sounds.
+- A vertical cursor and status labels reflect **A clock** via `getPhysiologicalCyclePhase()`, preserving B visual pacing. No competing `requestAnimationFrame`, timer, independently advancing graphics state or ECG-calculation logic.
+- Panel visibility is user-controlled and persists through Play, Pause, Timeline, HR slider, Reset and Electrical/Mechanical mode switches. Reset restores the panel readout to Ready while keeping disclosure preference.
+- Rebuild the static SVG traces/events **only** on first open or when ECG timing/HR changes. On ongoing simulation frames, update just the cursor and minimal status. While the panel is closed, `sync()` makes no chart changes.
+- Use a keyboard-operable native disclosure, SVG accessible descriptions, event SVG titles and a horizontally scrolling **local chart region** at narrow widths. Do not change the inherited v1.9 mobile overflow in this patch; do not make it worse.
+
+### Architecture, data and safety
+
+- New `wiggers-view.js` is only a presentation adapter. It relies on `script.js`'s existing A-clock and pure Wiggers domain models; diagram coordinates derive from the source data at 481 samples per RR. Pressure traces have **relative-index**, volume has **normalized-relative** units, and ECG is the simulator's modeled waveform, not a measured lead II ECG.
+- Three **optional hooks** in `script.js`: after `updateConduction()`'s mechanical sync, when HR changes (even in Ready), and after Reset. All use `window.CardiacWiggersView?.sync/reset` so legacy baseline pages without the new module continue functioning.
+- Existing `mechanics.js`, `wiggers.js`, `wiggers-profile.js` are untouched. Wiggers uses the Patch 2 explicit event-boundary tie policy, while v1.9 Mechanical may show its known floating-point near-boundary difference; do **not** silently merge pressure models.
+- Do not claim numeric pressure (mmHg), volume (mL), ejection fraction, patient diagnostic values or validated clinical haemodynamic predictions.
+
+### Verification gate
+
+Run full v1.8–v1.10 Patch 2 regression plus `tests/test_v110_patch3.py` for disclosure keyboard operation, 5 source-backed SVG paths, valve event markers, HR 30–180 sample points, seek-based A-cursor, Play/Pause/Reset, mode switches, single-loop behavior, mobile scroll width and JS exceptions. This is automated QA only; **manual visual acceptance** is needed from the user on local `http://localhost:8000` for readability, scaling, markers and synchronized movement.
+
+Next Patch 4: add state-aware cardiac event/valve/S1/S2 educational explanations to Wiggers and clarify event-crossing tie semantics, without changing the validated physiological graphics/legacy Mechanical presentation.

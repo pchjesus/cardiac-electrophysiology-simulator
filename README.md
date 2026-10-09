@@ -207,3 +207,24 @@ Next: v1.10 Patch 2 pressure/volume continuity and shared valve-state consistenc
 The new `window.CardiacWiggersProfile.getSnapshot(physiologicalPhaseMs,getActiveTiming())` returns educational relative pressure, normalized ventricular volume, valve states, event markers and pressure-gradient signs. These are heuristic teaching values, **not mmHg, mL, EF or patient measurements**. An explicit half-open event boundary convention handles exact event ties for the new profile only.
 
 See `SPEC.md`, `DEVLOG.md`, `tests/test_v110_patch2.py` and GitHub Actions for implementation and verification. Manual browser visual acceptance remains pending. Next: v1.10 Patch 3 optional Wiggers graph UI.
+
+
+## v1.10 Patch 3 — Wiggers Diagram (optional)
+
+A collapsed **Wiggers Diagram** section now appears below the existing ECG, Electrical/Mechanical, measurement and phase panels. Open it to compare one physiological RR interval of the **modeled ECG** with illustrative relative left-atrial/left-ventricular/aortic pressure, normalized ventricular volume, four valve events and S1/S2 event markers. The vertical cursor follows the existing A time while the familiar monitor animation speed stays unchanged.
+
+The diagram is **educational only**: pressure is not mmHg, volume is not mL or ejection fraction, and S1/S2 labels are not audio. The horizontal axis is one complete physiological heartbeat, **not** the existing ECG monitor's scrolling time span.
+
+The optional panel is closed by default and preserves its open/closed state through playback, seek, reset and heart mode switches. On a narrow screen, scroll the chart horizontally within its own region. See `SPEC.md` / `DEVLOG.md` and `tests/test_v110_patch3.py`.
+
+### Local visual review after GitHub main is updated
+
+From the repository root:
+
+```bash
+git switch main
+git pull --ff-only origin main
+python3 -m http.server 8000 --bind 0.0.0.0
+```
+
+Open `http://localhost:8000` (or forward port 8000 from a remote development environment). Verify the default collapsed section, keyboard disclosure, chart labels and relative values, moving cursor, HR change, Timeline seek, reset and existing Electrical/Mechanical views.
