@@ -1026,7 +1026,7 @@ Compact Controller + ECG View
     grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:699px){
-  .dashboard-active .app{padding:8px;max-width:100%;overflow-x:clip}
+  .app.dashboard-active{padding:8px;max-width:100%;overflow-x:clip}
   .dashboard-active .dashboard-commands{padding:8px}
   .dashboard-active .dashboard-commands .controller-layout{
     grid-template-columns:minmax(0,1fr);gap:5px}
@@ -1048,4 +1048,36 @@ Compact Controller + ECG View
   .dashboard-active .dashboard-inspector .event-flow{overflow-x:auto}
   .dashboard-active .dashboard-commands,.dashboard-active .dashboard-workspace,
   .dashboard-active .dashboard-v111>.ecg-panel{min-width:0;max-width:100%}
+}
+
+
+/* v1.11 UI polish: more useful room for ECG + heart visualization. */
+.dashboard-active .dashboard-focus-button{
+  display:none;border:1px solid #afc3d4;background:#f5f9fc;
+  color:#254761;border-radius:6px;padding:5px 11px;
+  font-size:12px;font-weight:700;min-height:32px;cursor:pointer;
+  margin:-2px 0 6px auto}
+.dashboard-active .dashboard-focus-button:focus-visible{
+  outline:3px solid #3778b6;outline-offset:2px}
+.dashboard-active .dashboard-v111[data-view="wiggers"] .dashboard-focus-button{
+  display:block}
+.dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"] .dashboard-workspace{
+  grid-template-columns:minmax(0,1fr)}
+.dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"] .dashboard-inspector{
+  height:auto}
+.dashboard-active .dashboard-v111[data-view="wiggers"]>.ecg-panel #ecgCanvas{
+  height:130px}
+.dashboard-active .dashboard-v111[data-view="wiggers"] .learning-scenario-panel .learning-boundary{
+  display:none} /* existing clinical restrictions also remain in graph and inspector */
+@media(min-width:900px){
+  .dashboard-active .dashboard-commands .controller-sliders{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;align-items:center}
+  .dashboard-active .dashboard-commands .controller-sliders .heart-rate-control{
+    margin-top:0}
+  .dashboard-active .dashboard-commands .controller-layout{gap:10px}
+  .dashboard-active .dashboard-commands .controller-buttons button{min-height:34px}
+}
+@media(max-width:1199px){
+  .dashboard-active .dashboard-focus-button{display:none!important}
 }
