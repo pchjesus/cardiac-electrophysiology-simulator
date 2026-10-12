@@ -832,3 +832,13 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - Quiz `details` begins closed; before clicking `정답 확인` it shows neither the answer nor feedback. Submission locks the chosen radio and shows grounded correct/incorrect explanation; `다시 풀기` resets **only the active question**. Switching stages/levels or closing the guide preserves the transient answers. Original simulator Reset must not clear learning progress, but a new page load must.
 - All existing 12 regression suites and `tests/test_v112_patch3.py` must pass; test question bank/correct key, source text exact equality, retry, answer state isolation, A/B/HR/TIimeline/player unchanged from any quiz control, accessibility/390px no overflow and default 1366×768 ≤910px.
 - No extra permanent dashboard panels, timers, network APIs, localStorage/sessionStorage or alteration of the user-approved A/A/A study/Wiggers/seek behavior. Details: [V1.12_PATCH3_REPORT.md](V1.12_PATCH3_REPORT.md).
+
+
+
+## v1.12 Patch 4 — student progressive teaching contract
+
+- **basic (1. 기초 이해)**: one simple heart-cycle sentence; concise ECG, valve/pressure and relative LV-volume direction; optional basic concept question. Hide long numeric model midpoint and advanced nursing detail.
+- **intermediate (2. 간호 연결)**: reveal short qualitative nursing observation with prior basics; retains the explicit model-RR beginning/end filling difference and relative-value warning.
+- **advanced (3. 추가학습)**: only by explicit selection, expose the unchanged original full PHASES/RATE source, limitations, model timing and extra quiz question. Do not delete or alter ten questions or the independent six-part long teaching.
+- Next-level button advances one level, native selector may choose any. Level state is separate from five cardiac stages and A/B simulation, preserving existing manual Wiggers view and explicit original Timeline seek.
+- No permanently stacked card/default height increase beyond <=910px at 1366x768. Require prior 13 stages plus Patch 4 browser progression/overflow tests; device manual acceptance separately deferred.
