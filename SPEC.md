@@ -801,3 +801,12 @@ Detailed nursing/medical teaching curriculum and 10 qualitative practice questio
 ### v1.12 design v2 contract — planned, not implemented
 
 See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashboard must have no additional permanently visible learning card; instead a small header-row entry exchanges the live explanation with opt-in guided learning, retaining original DOM and all ECG/Wiggers views. Guided selected stage and the model's current stage are distinct. Previous/next steps have zero A/B, HR or playback effects. Explicit phase-seek alone uses the existing Timeline input and pauses. `filling` has two **model-RR** intervals; never mislabel the latter as clinically 'late diastolic filling'. No v1.12 code is authorized before the three user-visible UX decisions are confirmed.
+
+
+## v1.12 Patch 1 — implemented scope
+
+- Approved UX A/A/A: existing inspector in-place learning replacement; stage selection is informational only; no automatic Wiggers/tab changes.
+- Added `guided-content.js` (exactly five stage IDs, read-only representative midpoints checked against existing Mechanical/Wiggers interval rules), `guided-learning.js` (open/selected-stage state only), and a `CardiacLearning.getStageNarrative` read-only source method. Default closed; original ECG/short clinical/full six-part descriptions preserved.
+- Added an optional passive sync hook to the existing dashboard, no new timer/rAF or model/HR/A-B mutation; guidance entry does not resize the original first screen beyond the 16px budget at 1366x768.
+- In model-RR later-segment filling the representative midpoint is selected within `[relaxationEnd,RR)`; the earlier `[0,atrialStart)` filling stage's relative LV volume is flat 0.88. This is not clinical late-diastolic filling or a patient measurement.
+- Added `tests/test_v112_patch1.py` on top of the historical 10 suites. Previous/next, explicit guided seek/Wiggers-view buttons, difficulty levels and quizzes remain future Patch 2/3 work. Source-of-truth and handoff: [V1.12_PATCH1_REPORT.md](V1.12_PATCH1_REPORT.md).
