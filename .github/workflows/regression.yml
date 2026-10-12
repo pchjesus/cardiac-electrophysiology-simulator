@@ -45,6 +45,8 @@ jobs:
         run: python tests/test_v111.py
       - name: Verify v1.11.1 compact dashboard and complete clinical content
         run: python tests/test_v1111.py
+      - name: Verify v1.12 Patch 1 five-stage guided learning and model alignment
+        run: python tests/test_v112_patch1.py
       - name: Upload v1.11.1 actual-browser UI previews
         if: always()
         uses: actions/upload-artifact@v4
