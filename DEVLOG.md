@@ -692,3 +692,8 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 ### v1.12 design refinement v2 — 2026-10-12 (documentation only)
 
 Re-reviewed v1.11.1 main's actual model source and guided-learning v1 design against OpenStax and StatPearls cardiac cycle principles. Added [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) for precise opt-in inspector replacement (rather than a second stacked panel), clear live-vs-selected study stage, strictly explicit existing-Timeline seek, exercise placement and three UX approval choices. Corrected a potentially misleading term: 'RR latter-half filling' is a simulator-cycle coordinate, not clinical 'late diastolic filling'. Domain model, UI runtime, tests and current v1.11.1 behavior remain unchanged. User approval is still pending before v1.12 Patch 1.
+
+
+## v1.12 Patch 1 — guided learning foundation, user-approved A/A/A (2026-10-12)
+
+Added opt-in five-stage learning within the current live inspector, not a stacked panel. The original live summary and detailed medical/nursing content are preserved. Study-stage selection uses a native dropdown, distinct from the current running phase, and has no A/B, HR, playback, Timeline, or visualization side effects. Clinical text is sourced read-only via `CardiacLearning.getStageNarrative`; phase midpoint uses original Mechanical/Wiggers timing and validates the Wiggers stage, with explicit later-model-RR filling caveat. No new animation loop or data model. Added scoped CSS, in-app history/guide, new real-browser regression and updated old UI-title assertions for future versions only. See [V1.12_PATCH1_REPORT.md](V1.12_PATCH1_REPORT.md) for exact QA and next Patch 2 tasks. Device visual/clinical validation is not claimed.
