@@ -363,3 +363,10 @@ ECG electrical depolarization and mechanical contraction are not identical event
 Use desktop 1366×768 / 1440×900, tablet 768 and phone 390 / 360 widths. Confirm that ECG is always visible; view tabs do not change A/B, HR or Play/Pause state; Electrical pulses and Mechanical flow remain usable; Wiggers re-entry immediately synchronizes all five traces and four markers; focus/split and Reset preserve correct states; full nursing explanation, guide/changelog popups and keyboard controls work; only the Wiggers chart has horizontal scroll. Automated GitHub Actions and headless screenshots are **not** target-device human visual acceptance.
 
 The pre-v1.11 confirmed source and documents are archived in backups/v1.10-final/ (15 files, baseline f08e894ca6713d0828cf4739d33cd87ac0da46fa). Continue to use existing v1.10 reference citations for the unchanged medical descriptions.
+
+
+### v1.12 guided learning — design prepared, NOT yet implemented
+
+The current running version remains **v1.11.1**. The planned next release has a complete design in [V1.12_DESIGN.md](V1.12_DESIGN.md) and medically scoped teaching/quiz content in [V1.12_CLINICAL_CURRICULUM.md](V1.12_CLINICAL_CURRICULUM.md). These are **design documents only**, not active UI or released features.
+
+The design recommends an opt-in five-stage guide within the existing learning inspector, preserving the compact default and original ECG/Mechanical/Wiggers. Stage selection never changes A/B time or playback; **only explicit user action** to seek through the existing Timeline does so. The current normalized filling profile has two disjoint stage intervals with different LV-volume behaviors, explicitly addressed in the curriculum. The major visible UX alternatives (inline inspector / extra tab / modal, automatic Wiggers switching or user-triggered switch) remain **subject to user confirmation** prior to v1.12 implementation.
