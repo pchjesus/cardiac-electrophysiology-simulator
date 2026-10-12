@@ -736,3 +736,24 @@ American Heart Association. (2024, September 25). *Bradycardia: Slow heart rate*
 American Heart Association. (n.d.). *Tachycardia: Fast heart rate*. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/tachycardia--fast-heart-rate
 
 These references ground descriptive adult HR ranges, cardiac-cycle sequence, and nursing-context symptom awareness; they do not validate this application's mathematical curves.
+
+
+## v1.11 — Approved integrated dashboard implementation contract
+
+**DASH-1101:** Move original Play/Pause/Reset, Timeline, 30–180 bpm HR and three teaching presets into a shared command area. Never clone IDs or create independent HR/clock/slider handlers.
+
+**DASH-1102:** Keep the existing ECG Canvas and component explanation visible above all visualization views. CSS may adjust display dimensions but must not change Canvas waveform generation, ECG timing or A/B pacing.
+
+**DASH-1103:** Central visualization has Electrical (original conduction SVG), Mechanical (original Mechanical mode) and Wiggers (original native details/graph). Switching view must not alter any heartState A/B time, cycle origin, sweep position, HR or playback state. Preserve existing Mechanical.selectMode logic and buttons.
+
+**DASH-1104:** Keep Wiggers native details as rendering gate. On leaving Wiggers close details to prevent offscreen continuous SVG work; on reentering reopen and sync to the current physiological phase. Full clinical-learning disclosure stays independent and retains user choice. Optional desktop Wiggers focus/split changes layout only.
+
+**DASH-1105:** Present electrical and mechanical phases distinctly next to the visualization, together with source-derived concise physiology/nursing messages. Move, not discard, the Current Phase and ECG Event DOM panels. The full six-part v1.10 explanation and clinical-model caveats must remain accessible.
+
+**DASH-1106:** Wide screen 2-column visualization/inspector; below 1200px single-column; 390/360px no document horizontal overflow; bounded internal Wiggers graph scroll at its original minimum 720px. Three view controls have ARIA pressed states and keyboard Left/Right/Home/End navigation. Keep existing independent Wiggers and header help popups.
+
+**DASH-1107:** Use load-last dashboard-v111.js progressive DOM relocation. Existing JS modules bind to original DOM before relocation, with no second rAF/timer. Only optional Dashboard.sync calls are added to existing update paths, plus read-only inspector narrative from the existing learning dictionary. Backup 15 v1.10 files in backups/v1.10-final/.
+
+**Tests:** All eight historical v1.8–v1.10 tests remain unchanged and runnable; tests/test_v111.py loads the real index.html and verifies A/B identity, 3 modes, focus/split, HR presets/custom slider, Play/Pause/Reset/Timeline, popup keyboard interactions, original content and six viewport widths. The independent screenshot workflow supports visual review but is not human device acceptance.
+
+**Known scientific limitations:** no actual mmHg, mL, EF, stroke volume, output, patient perfusion or validated high-HR QTc interpretation; distinct Mechanical vs Wiggers exact event ties; deliberately simplified ECG/pressure/volume teaching relationships. Short screens require some vertical scrolling rather than shrinking explanations into illegibility.
