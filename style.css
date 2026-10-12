@@ -1339,3 +1339,36 @@ Compact Controller + ECG View
  .dashboard-active .guided-v112-current,
  .dashboard-active .guided-v112-note{font-size:13px}
 }
+
+
+/* v1.12 Patch 2 — explicit, separate lesson navigation and observation actions */
+.dashboard-active .guided-v112-navigation,
+.dashboard-active .guided-v112-observe{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;
+  min-width:0;
+}
+.dashboard-active .guided-v112-action{
+  min-width:0;min-height:40px;padding:8px 7px;
+  border:1px solid #a7c0d0;border-radius:7px;background:#fff;
+  font-size:12px;font-weight:650;line-height:1.4;
+  color:#264d66;cursor:pointer;white-space:normal;
+}
+.dashboard-active .guided-v112-action:hover:not(:disabled){
+  background:#e6f2fa;border-color:#719fbd;
+}
+.dashboard-active .guided-v112-action:focus-visible{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+.dashboard-active .guided-v112-action:disabled{
+  background:#edf2f6;color:#7e909b;cursor:not-allowed;
+}
+.dashboard-active .guided-v112-seek{
+  background:#eaf3fa;border-color:#97b6c9;
+}
+.dashboard-active .guided-v112-seek-notice{
+  margin:0;font-size:12px;line-height:1.45;color:#566e82;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-action{min-height:44px;font-size:13px}
+ .dashboard-active .guided-v112-seek-notice{font-size:13px}
+}
