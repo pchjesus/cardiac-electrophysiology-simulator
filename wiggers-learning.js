@@ -186,8 +186,23 @@
      rateCategory:label
    };
  }
+ function getStageNarrative(stageId){
+   // Single authoritative source for v1.12 learning: no duplicated
+   // physiological/nursing descriptions in the presentation adapter.
+   const content=PHASES[stageId];
+   if(!content)return null;
+   const hr=Number(slider.value);
+   const category=heartRateCategory(hr);
+   return Object.freeze({
+     phase:stageId,title:LABELS[stageId],
+     electrical:content.electrical,hemodynamics:content.hemo,
+     volume:content.volume,nursing:content.nursing,
+     caution:content.caution,comparison:RATE[category].compare,
+     heartRate:hr,rateCategory:category
+   });
+ }
  root.CardiacLearning=Object.freeze({
-  sync,reset,getInspectorNarrative,
+  sync,reset,getInspectorNarrative,getStageNarrative,
   get activePreset(){return activePreset;},
   get renderCount(){return renderCount;},
   get category(){return heartRateCategory(Number(slider.value));}

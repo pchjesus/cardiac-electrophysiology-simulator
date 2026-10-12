@@ -25,7 +25,7 @@ with sync_playwright() as p:
  page.wait_for_function('!!window.CardiacDashboard && !!window.CardiacLearning')
 
  density=page.locator('#dashboardDensityBtn')
- ck('v1.11.1' in page.locator('h1').inner_text(),'new patch title')
+ ck(any(v in page.locator('h1').inner_text() for v in ('v1.11.1','v1.12')),'new patch title')
  ck(page.evaluate('CardiacDashboard.density')=='compact','default compact density')
  ck(density.get_attribute('aria-pressed')=='false','compact aria state')
  ck(density.is_visible(),'full information toggle visible')

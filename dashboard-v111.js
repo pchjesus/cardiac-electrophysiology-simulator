@@ -125,6 +125,7 @@
     if(!narrative)return;
     const key=[view,ready,heartRate,heartState.currentStep,
       narrative.phase,$('phaseTitle').textContent,$('ecgEventIndicator').textContent].join('|');
+    root.CardiacGuidedLearning?.sync(narrative,ready);
     if(key===latestKey)return;
     latestKey=key;
     $('dashboardElectrical').textContent=ready?'Ready':($('phaseTitle').textContent||'—');

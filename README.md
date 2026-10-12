@@ -375,3 +375,8 @@ The design recommends an opt-in five-stage guide within the existing learning in
 ### v1.12 design refinement (design only, no new runtime)
 
 See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) for the improved **replace-in-place compact learning inspector**, separate study-step and live physiological-phase labels, explicit user-only seek behavior, model-RR filling terminology correction, proposed five-patch QA criteria and the three user UX decisions. Earlier v1.12 documents remain the original design and nursing syllabus. Active application version is **v1.11.1**, not v1.12.
+
+
+## v1.12 Patch 1 — active narrow development milestone
+
+User-approved A/A/A guided learning foundations have been implemented. The original compact ECG dashboard remains the default, with a small `5단계 학습` button replacing the existing short nursing summary only when opened. The five-phase dropdown and labels use the original PHASES medical teaching dictionary and current Wiggers model. Selecting a study phase never seeks, pauses, switches Wiggers, or changes HR/A/B. The six-part original educational narrative remains separately accessible. See [V1.12_PATCH1_REPORT.md](V1.12_PATCH1_REPORT.md) for risks, explicit non-goals, tests and Patch 2 handoff. v1.12 FINAL is NOT claimed; device acceptance is pending.

@@ -236,3 +236,8 @@ Automated v1.8 regression is complete; user physical-browser visual acceptance i
 ### v1.12 refined design mandatory handoff
 
 Before implementing Guided Learning, read [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) in addition to V1.12_DESIGN.md and V1.12_CLINICAL_CURRICULUM.md. The default compact Inspector keeps its height, the guide **replaces** rather than stacks with the existing summary, educational selection and live model time must be labeled distinctly, and only a visibly confirmed original Timeline action may seek/pause. 'RR latter-half filling' must not be presented as a clinical late-diastolic physiological stage. Seek/view/guide UX must be explicitly approved before coding.
+
+
+## v1.12 Patch 1 implementation guardrails
+
+A/A/A are APPROVED: in-place inspector learning, study phase changes only text, Wiggers never switches automatically. Keep `guided-content.js` stage IDs and observation timing read-only from existing Mechanical/Wiggers, and `getStageNarrative` bound to existing PHASES data. Do not mutate A/B, HR, Timeline, Playback or views or clone original DOM. Original short nursing summary is hidden only during guided mode, then restored; native six-part deep dive stays independent. Patch 1 contains no previous/next, explicit seek/view, quizzes or difficulty; use separate Patch 2/3 PRs. Run prior ten suites plus the v1.12 Patch 1 real-browser regression; do not claim physical-device QA or medical validation from CI.
