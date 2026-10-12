@@ -1219,3 +1219,50 @@ Compact Controller + ECG View
    width:min(100%,365px);max-height:320px
  }
 }
+
+
+/* Wide desktop only: place original ECG and original controls beside each other
+   in compact mode, keeping the waveform at a readable ~900px width on 1366px.
+   Expanded mode reverts to the comfortable full-width stacked layout. */
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111[data-density="compact"]{
+  display:grid;
+  grid-template-columns:minmax(350px,.37fr) minmax(0,1fr);
+  grid-template-areas:
+    "commands ecg"
+    "metrics metrics"
+    "workspace workspace";
+  align-items:stretch;gap:7px 9px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-commands{
+  grid-area:commands;justify-content:flex-start
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel{
+  grid-area:ecg
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel{
+  grid-area:metrics
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-workspace{
+  grid-area:workspace
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-commands .controller-layout{
+  grid-template-columns:minmax(0,1fr);gap:6px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-commands .controller-sliders{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets{
+  display:flex;flex-direction:column;align-items:stretch;
+  justify-content:flex-start;gap:5px;padding-top:5px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets .learning-preset-row{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets .learning-preset-row button{
+  white-space:normal;min-height:33px;padding:4px 3px;font-size:11px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-density-button{
+  margin:0;align-self:stretch;min-height:34px
+ }
+}
