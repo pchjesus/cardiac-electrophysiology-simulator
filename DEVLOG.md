@@ -687,3 +687,8 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 - Identified important model-specific case: Wiggers `filling` repeats before `atrialStart` (initial constant relative volume 0.88) and after `relaxationEnd` (late filling relative volume rises 0.48→0.88). Guided phase target must land in latter interval to avoid clinically misleading visualization.
 - Consulted OpenStax cardiac cycle and StatPearls cardiac cycle for generic pressure-gradient and electrical-mechanical relationships. These references do NOT validate heuristic simulated numbers.
 - Next coding is **on hold** until the user chooses the recommended in-inspector optional guide UX (or tab/modal alternative) and whether Wiggers should auto-switch (recommend no). This release intentionally modifies documentation only; the stable v1.11.1 application and all regression scripts are unchanged.
+
+
+### v1.12 design refinement v2 — 2026-10-12 (documentation only)
+
+Re-reviewed v1.11.1 main's actual model source and guided-learning v1 design against OpenStax and StatPearls cardiac cycle principles. Added [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) for precise opt-in inspector replacement (rather than a second stacked panel), clear live-vs-selected study stage, strictly explicit existing-Timeline seek, exercise placement and three UX approval choices. Corrected a potentially misleading term: 'RR latter-half filling' is a simulator-cycle coordinate, not clinical 'late diastolic filling'. Domain model, UI runtime, tests and current v1.11.1 behavior remain unchanged. User approval is still pending before v1.12 Patch 1.
