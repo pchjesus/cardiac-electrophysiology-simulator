@@ -796,3 +796,8 @@ Detailed nursing/medical teaching curriculum and 10 qualitative practice questio
 **GUIDE-1205 (regression):** preserve prior ten automation suites, add v1.12 real-browser tests at HR 30/50/60/72/80/100/120/180 and stage-event boundaries, seek-only-on-explicit-click, no default viewport height increase, mobile graph-local scrolling and keyboard operation. Physical-device QA is not asserted by automated tests.
 
 **Release gate:** User-visible guide location and automatic tab-switch choice require user approval; no v1.12 runtime implementation in this design-only change.
+
+
+### v1.12 design v2 contract — planned, not implemented
+
+See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashboard must have no additional permanently visible learning card; instead a small header-row entry exchanges the live explanation with opt-in guided learning, retaining original DOM and all ECG/Wiggers views. Guided selected stage and the model's current stage are distinct. Previous/next steps have zero A/B, HR or playback effects. Explicit phase-seek alone uses the existing Timeline input and pauses. `filling` has two **model-RR** intervals; never mislabel the latter as clinically 'late diastolic filling'. No v1.12 code is authorized before the three user-visible UX decisions are confirmed.
