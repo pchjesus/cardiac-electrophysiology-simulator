@@ -49,6 +49,16 @@ jobs:
         run: python tests/test_v112_patch1.py
       - name: Verify v1.12 Patch 2 explicit navigation and native Timeline seek
         run: python tests/test_v112_patch2.py
+      - name: Verify v1.12 Patch 3 source-based learning and ten questions
+        run: python tests/test_v112_patch3.py
+      - name: Upload v1.12 Patch 3 real educational UI screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch3-actual-learning-ui
+          path: preview-v112p3/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.12 Patch 2 desktop/mobile guide previews
         if: always()
         uses: actions/upload-artifact@v4

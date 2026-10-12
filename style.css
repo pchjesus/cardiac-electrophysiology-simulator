@@ -1372,3 +1372,112 @@ Compact Controller + ECG View
  .dashboard-active .guided-v112-action{min-height:44px;font-size:13px}
  .dashboard-active .guided-v112-seek-notice{font-size:13px}
 }
+
+
+/* v1.12 Patch 3: study-level and self-assessment are opt-in only.
+   Default compact dashboard height, original ECG and A/B are untouched. */
+.dashboard-active .guided-v112-advanced[hidden],
+.dashboard-active .guided-v112-question[hidden],
+.dashboard-active .guided-v112-feedback[hidden],
+.dashboard-active .guided-v112-question-actions button[hidden]{
+  display:none!important;
+}
+.dashboard-active .guided-v112-level-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  padding:5px 0;border-block:1px solid #e0e9f0;
+}
+.dashboard-active .guided-v112-level-label{
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:700;color:#305370;
+}
+.dashboard-active .guided-v112-level-select{
+  min-height:38px;padding:5px 10px;border-radius:7px;
+  border:1px solid #98b4c8;background:#fff;color:#244765;
+  font:inherit;font-size:13px;
+}
+.dashboard-active .guided-v112-level-hint{
+  flex:1 1 170px;margin:0;
+  font-size:12px;line-height:1.45;color:#5a7185;
+}
+.dashboard-active .guided-v112-advanced,
+.dashboard-active .guided-v112-quiz{
+  min-width:0;border:1px solid #ccdfea;background:#fff;
+  border-radius:8px;padding:0 10px;
+}
+.dashboard-active .guided-v112-advanced>summary,
+.dashboard-active .guided-v112-quiz>summary{
+  cursor:pointer;font-size:13px;font-weight:700;color:#225479;
+  line-height:1.45;padding:10px 2px;min-height:38px;
+}
+.dashboard-active .guided-v112-full-list{
+  margin:0;padding:0 0 10px;display:grid;gap:7px;
+}
+.dashboard-active .guided-v112-full-list dt{
+  font-weight:700;font-size:13px;color:#24506d;
+}
+.dashboard-active .guided-v112-full-list dd{
+  margin:0;font-size:13px;line-height:1.55;overflow-wrap:anywhere;
+}
+.dashboard-active .guided-v112-quiz-intro{
+  margin:0 0 9px;font-size:12px;line-height:1.5;color:#526c7e;
+}
+.dashboard-active .guided-v112-question{
+  border-top:1px solid #d8e5ed;padding:9px 0 12px;
+}
+.dashboard-active .guided-v112-question-heading{
+  margin:0 0 6px;font-size:13px;color:#2b506e;
+}
+.dashboard-active .guided-v112-choices{
+  border:0;min-width:0;padding:0;margin:0;
+}
+.dashboard-active .guided-v112-prompt{
+  font-size:13px;line-height:1.5;font-weight:700;
+  margin-bottom:7px;color:#233f55;
+}
+.dashboard-active .guided-v112-option{
+  display:flex;align-items:flex-start;gap:7px;
+  padding:6px 3px;border-radius:5px;font-size:13px;
+  line-height:1.5;color:#263f4e;cursor:pointer;
+}
+.dashboard-active .guided-v112-option input{
+  flex:0 0 auto;margin-top:3px;accent-color:#276e96;
+}
+.dashboard-active .guided-v112-question-actions{
+  margin-top:8px;display:flex;gap:7px;flex-wrap:wrap;
+}
+.dashboard-active .guided-v112-question-actions button{
+  flex:1 1 110px;
+}
+.dashboard-active .guided-v112-feedback{
+  margin:9px 0 0;padding:9px;border-radius:6px;
+  border:1px solid #d3dfe8;font-size:13px;line-height:1.55;
+  background:#f0f5fa;color:#2c4355;
+}
+.dashboard-active .guided-v112-feedback[data-result="correct"]{
+  border-color:#b6dbcf;background:#e9f7f0;color:#235743;
+}
+.dashboard-active .guided-v112-feedback[data-result="incorrect"]{
+  border-color:#ecd9a9;background:#fff6e4;color:#71531e;
+}
+.dashboard-active .guided-v112-level-select:focus-visible,
+.dashboard-active .guided-v112-quiz summary:focus-visible,
+.dashboard-active .guided-v112-advanced summary:focus-visible,
+.dashboard-active .guided-v112-option:focus-within{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-level-select{
+  min-height:44px;
+ }
+ .dashboard-active .guided-v112-option{
+  min-height:42px;font-size:14px;padding:9px 3px;
+ }
+ .dashboard-active .guided-v112-prompt,
+ .dashboard-active .guided-v112-full-list dd{
+  font-size:14px;
+ }
+ .dashboard-active .guided-v112-quiz>summary,
+ .dashboard-active .guided-v112-advanced>summary{
+  min-height:44px;
+ }
+}

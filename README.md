@@ -5,7 +5,7 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.11.1 Compact Learning Dashboard — stabilization implemented and automated regression verified; physical-device visual acceptance pending.**
+**v1.12 Patch 3 — guided teaching and concept-check milestone; automated regression required, real-device review deferred. Not v1.12 FINAL.**
 
 Use the default **핵심 보기** for ECG, controls, six measurements, selected visualization and concise nursing/physiology interpretation. Select **전체 정보 보기** to reveal original detailed ECG, conduction phase and ECG Event text plus reference notes; select **핵심 보기로 전환** to restore compact mode. Clicking P / PR / QRS / ST / T opens the relevant original ECG explanation automatically. The independent six-part **심화 의학·간호 해설** stays available in either mode.
 
@@ -385,3 +385,10 @@ User-approved A/A/A guided learning foundations have been implemented. The origi
 ### v1.12 Patch 2 — Guided navigation and explicit observation (incremental development)
 
 Patch 2 adds native `이전 단계`/`다음 단계` buttons to the opt-in five-stage teaching inspector; the selected lesson changes without seeking or pausing the simulation. It also adds two deliberately separate buttons: `Wiggers에서 보기` switches only the visualization, while `이 단계 관찰 시점으로 이동` explicitly dispatches the existing Timeline slider `input` and therefore pauses and synchronizes physiological A / visualization B. No independent clock, patient physiology or timeline calculation is created. The first/last study buttons disable at the boundaries. This preserves the closed compact dashboard and all original clinical explanations. See [V1.12_PATCH2_REPORT.md](V1.12_PATCH2_REPORT.md) for regression and next patch. Beginner/advanced quizzes are Patch 3 work; **v1.12 FINAL is not declared**.
+
+
+### v1.12 Patch 3 — Beginner/advanced and 10 source-grounded questions
+
+Current milestone: **v1.12 Patch 3 (NOT v1.12 FINAL)**. The existing opt-in guided inspector now provides **초급 / 심화** level choice and optional expandable learning review. Basic has one concept question per stage; advanced uses the complete original PHASES/RATE learning source and adds the second question for that stage. The 10 A/B/C items are mapped to [V1.12_CLINICAL_CURRICULUM.md](V1.12_CLINICAL_CURRICULUM.md). An answer becomes visible only after **정답 확인**; **다시 풀기** clears that item alone. The learner's in-memory responses survive guide close, stage switch and cardiac Reset but **not reload**; nothing is saved to the browser, a server or an EMR. Difficulty, question answers and feedback cannot change ECG waveform, the original A/B times, HR, playing state or visualization. The default closed compact dashboard and separate original six-part nursing explanation remain. Implementation/risk/QA: [V1.12_PATCH3_REPORT.md](V1.12_PATCH3_REPORT.md).
+
+Future Patch 4/5 will handle broader responsiveness, medical-text consistency and full release QA; user's actual-device touch/visual acceptance is scheduled separately for later.
