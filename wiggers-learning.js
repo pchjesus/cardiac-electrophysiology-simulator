@@ -172,4 +172,4 @@
   get renderCount(){return renderCount;},
   get category(){return heartRateCategory(Number(slider.value));}
  });
-})();
+})(window);
