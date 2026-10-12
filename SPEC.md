@@ -810,3 +810,16 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - Added an optional passive sync hook to the existing dashboard, no new timer/rAF or model/HR/A-B mutation; guidance entry does not resize the original first screen beyond the 16px budget at 1366x768.
 - In model-RR later-segment filling the representative midpoint is selected within `[relaxationEnd,RR)`; the earlier `[0,atrialStart)` filling stage's relative LV volume is flat 0.88. This is not clinical late-diastolic filling or a patient measurement.
 - Added `tests/test_v112_patch1.py` on top of the historical 10 suites. Previous/next, explicit guided seek/Wiggers-view buttons, difficulty levels and quizzes remain future Patch 2/3 work. Source-of-truth and handoff: [V1.12_PATCH1_REPORT.md](V1.12_PATCH1_REPORT.md).
+
+
+## v1.12 Patch 2 — approved explicit-interaction contract
+
+**Implemented scope:** only three incremental actions inside the existing optional learning inspector:
+
+1. `guidedV112Previous` / `guidedV112Next` change the selected study index (bounded 1–5) and update native select, text and aria states. First/last buttons disabled. No mutation of A/B time, HR, player state, view or timeSlider.
+2. `guidedV112ViewWiggers` calls `CardiacDashboard.setView('wiggers')` on a **direct user click only**. No hidden seek, Pause or new Wiggers model.
+3. `guidedV112Seek` is a separate, prominently described user click. Calculate the midpoint of the currently selected stage from original Mechanical timing, verified by Wiggers profile; quantize 100 × midpoint / RR to the existing 0.1%-step Timeline; dispatch **one** original slider input event. The original handler pauses and synchronizes A/B. Current active view and HR remain intact.
+
+**Prohibitions:** no automatic timeline seek, automatic Wiggers tab switch, new animation loop, new pressure/volume model, change to source nursing/ECG explanation, model-RR filling misinterpretation, or new patient-safety inference.
+
+**QA:** preserve all previous 11 suites and add `tests/test_v112_patch2.py`, including 50 real 10-HR × five-stage Timeline seeks and explicit event-counter verification. Default compact height must stay at or below 908px on 1366×768, full teaching and 360/390px mobile layout must remain. Read [V1.12_PATCH2_REPORT.md](V1.12_PATCH2_REPORT.md). This does not indicate clinical or real-device validation.

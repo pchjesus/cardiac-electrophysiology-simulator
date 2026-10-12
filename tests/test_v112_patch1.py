@@ -25,7 +25,7 @@ with sync_playwright() as playwright:
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
  page.wait_for_function('!!window.CardiacGuidedLearning && !!window.CardiacGuidedContent')
 
- check('v1.12 Patch 1' in page.locator('h1').inner_text(),'version')
+ check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2')),'version')
  check(page.evaluate('CardiacDashboard.density')=='compact','original compact layout')
  check(page.locator('#guidedV112Toggle').is_visible(),'compact entry point missing')
  check(page.locator('#guidedV112Panel').is_hidden(),'guide must default closed')
@@ -66,9 +66,12 @@ with sync_playwright() as playwright:
  check('Ready' in page.locator('#guidedV112Live').inner_text(),'Ready distinction missing')
  check(page.locator('#guidedV112Select option').count()==5,'five stages missing')
  check(state()==before,'opening guide modified canonical simulation')
- check(not page.locator('#guidedV112Panel').evaluate(
-       "(el)=>el.textContent.includes('이 단계 관찰 시점으로 이동')"),
-       'Patch 2 time-seek control prematurely added')
+ # Patch 2 controls are intentionally present, but have no side effects
+ # until the learner clicks the corresponding button.
+ check(page.locator('#guidedV112Seek').is_visible(),
+       'explicit guided seek control missing')
+ check(page.locator('#guidedV112ViewWiggers').is_visible(),
+       'user-triggered Wiggers view control missing')
 
  stages=[
  ('atrial_systole','심방 수축'),

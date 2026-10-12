@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.12 Patch 1</title>
+<title>Cardiac Electrophysiology Simulator v1.12 Patch 2</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 1</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 2</h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -434,6 +434,7 @@
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
     <section class="patch-group">
         <h3>기능 추가 · Features</h3>
+        <p><strong>v1.12 Patch 2</strong> — 기존 5단계 학습 카드에서 이전/다음(현재 시뮬레이션 시간 불변), 명시적 Wiggers 보기(시각화만 전환), 명시적 관찰 시점 이동(기존 Timeline의 일시 정지·A/B 시간 이동) 기능을 추가했습니다. 학습 단계 자동 이동·자동 재생 정지는 없습니다.</p>
         <p><strong>v1.12 Patch 1</strong> — 기존 실시간 해설 영역에서 선택적으로 열리는 심장 주기 5단계 학습. 전기·기계 상태를 따로 보여주며 현재 시뮬레이션의 시간과 재생은 변경하지 않습니다. 이전/다음·Wiggers 이동·Timeline 이동 및 문제풀이는 후속 패치에서 추가할 예정입니다.</p>
         <p><strong>v1.11</strong> — 공통 HR·Timeline·Play/Pause/Reset과 정상·서맥·빈맥 시나리오를 하나의 컨트롤 영역으로 통합.</p>
         <p><strong>v1.10 P5</strong> — Normal 72 / Bradycardia 50 / Tachycardia 120 bpm 교육 프리셋과 자유 HR 연동.</p>
@@ -450,6 +451,7 @@
     </section>
     <section class="patch-group">
         <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.12 Patch 2</strong> — 학습 이전/다음 버튼은 처음과 마지막 단계에서 비활성화됩니다. 세 동작은 독립된 버튼이며 모바일 터치 및 키보드 조작을 지원합니다. 학습을 닫으면 기존 실시간 해설로 복귀합니다.</p>
         <p><strong>v1.11.1</strong> — 핵심 보기(기본) / 전체 정보 보기 전환, ECG 상세·전도 단계·사건 정보의 접이식 배치, Measurements 요약을 주 시각화 바로 위로 이동. 기존 정보는 삭제하지 않음.</p>
         <p><strong>v1.11</strong> — ECG 상시 표시, Electrical/Mechanical/Wiggers 전환, Wiggers 확대 보기, 모바일 1열 레이아웃 및 가독성 개선.</p>
         <p><strong>v1.10 P5</strong> — 접이식 심화 학습, 패치 내역/사용 설명서 아이콘 팝업.</p>
@@ -458,6 +460,7 @@
     </section>
     <section class="patch-group">
         <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.12 Patch 2</strong> — 기존 A/B 시간과 HR·재생 상태는 학습 단계 이동·Wiggers 보기만으로 변경되지 않습니다. 시점 이동은 학습자가 직접 버튼을 누를 때만 기존 Timeline input을 사용합니다. 교육용 상대 압력·용적은 환자 측정값이 아닙니다.</p>
         <p><strong>v1.11.1</strong> — 읽기용 표시 계층만 개선하고 A/B 시계, ECG 파형, Mechanical/Wiggers 계산과 모든 HR·Timeline 제어 유지. 축소·확대 및 자동 상세 설명 표시를 회귀 검증.</p>
         <p><strong>v1.11</strong> — v1.10 FINAL 별도 백업, 원본 DOM·이벤트 유지, A/B 시계 불변, 9개 자동 회귀 단계와 실화면 캡처.</p>
         <p><strong>v1.10 P5</strong> — 교육용 해설은 읽기 전용, 기존 HR 슬라이더만 사용. 신규 UI 테스트 및 사용 설명서.</p>
@@ -472,7 +475,7 @@
         <button type="button" data-close-info aria-label="Close user guide">×</button>
     </div>
     <section class="guide-section"><h3>1. 기본 작동</h3>
-        <p>v1.12 Patch 1에서는 <strong>실시간 통합 해설</strong> 옆의 <strong>5단계 학습</strong> 버튼을 눌러 학습카드를 열고 단계 목록을 선택할 수 있습니다. 학습 설명과 실제 시뮬레이션의 현재 단계를 구분해 표시하며, 단계 선택은 현재 ECG·HR·Timeline·재생·시각화 탭을 변경하지 않습니다. <strong>학습 닫기</strong>로 기존 실시간 해설로 돌아옵니다. 학습 시점 이동, 이전/다음 버튼, Wiggers 직접 보기, 문제 풀기는 후속 패치 기능입니다.</p>
+        <p>v1.12 Patch 2에서는 <strong>실시간 통합 해설</strong> 옆 <strong>5단계 학습</strong>을 열어 드롭다운 또는 <strong>이전/다음 단계</strong>로 설명을 선택할 수 있습니다. 설명 단계만 바꾸면 실제 심장의 시간·재생은 변경되지 않습니다. <strong>Wiggers에서 보기</strong>는 시각화만 바꿉니다. <strong>이 단계 관찰 시점으로 이동</strong>은 사용자가 누른 경우에만 기존 Timeline을 움직이므로 <strong>재생이 일시 정지되고 A/B 시간이 해당 모델 단계로 이동</strong>합니다. <strong>학습 닫기</strong>로 기존 해설에 복귀할 수 있습니다. 심화 난이도·문제 풀기는 후속 Patch 3 범위입니다.</p>
         <p>기본값인 <strong>핵심 보기</strong>는 현재 학습에 필요한 요소를 우선 표시합니다. 상단 <strong>전체 정보 보기</strong>를 누르면 ECG 상세, 전도 단계 및 ECG Event 설명을 동시에 펼치고 측정값의 참고 범위도 표시합니다. 다시 <strong>핵심 보기로 전환</strong>하면 접히며 모든 HR·재생 상태는 유지됩니다. P/PR/QRS/ST/T를 클릭하면 해당 ECG 상세만 자동으로 열립니다.</p>
         <p>상단 <strong>공통 컨트롤 바</strong>의 Play로 재생, Pause로 정지, Reset으로 한 박동 시작 위치를 초기화합니다. Timeline을 움직이면 원하는 생리학적 주기 위치로 이동하면서 일시 정지합니다. 모든 시각화 탭이 동일한 제어 기능을 공유합니다.</p>
         <p><strong>Heart Rate (30–180 bpm)</strong>로 직접 선택하면 Custom 학습 모드가 됩니다. ECG Monitor는 시간에 따라 이동하는 표시이며 실제 환자 모니터가 아닙니다.</p>
