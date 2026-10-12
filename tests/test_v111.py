@@ -61,6 +61,21 @@ with sync_playwright() as p:
  ck(page.locator('#wiggersMarkers [data-event]').count()==4,'Valve markers lost')
  ck('ms' in page.locator('#wiggersCurrentTime').inner_text(),'Wiggers time missing')
  ck(page.locator('#heartSVG').is_hidden(),'Electrical view still taking dashboard space')
+ ck(page.locator('#dashboardFocusBtn').is_visible(),'Wiggers focus toggle not available')
+ page.locator('#dashboardFocusBtn').click()
+ ck(page.evaluate("document.querySelector('.dashboard-v111').dataset.wiggersFocus")=='true',
+    'Focus mode not activated')
+ ck(page.locator('#dashboardFocusBtn').get_attribute('aria-pressed')=='true',
+    'Focus mode accessibility state missing')
+ ck(before==page.evaluate("""() => ({
+    a:heartState.physiologicalTime,b:heartState.visualizationTime,
+    hr:heartRate,playing:heartState.playing,cycle:heartState.cycleStartTime,
+    sweep:heartState.sweepPosition
+ })"""),'Focus mode mutated simulation state')
+ page.locator('#dashboardFocusBtn').click()
+ ck(page.locator('#dashboardFocusBtn').get_attribute('aria-pressed')=='false',
+    'Focus mode cannot return to split view')
+
  ck(before==page.evaluate("""() => ({
     a:heartState.physiologicalTime,b:heartState.visualizationTime,
     hr:heartRate,playing:heartState.playing,cycle:heartState.cycleStartTime,
