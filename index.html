@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.10 Patch 4</title>
+<title>Cardiac Electrophysiology Simulator v1.10 Patch 5</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,8 +11,14 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.10 Patch 4</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.10 Patch 5</h1>
     <p>Sinus Rhythm ECG Engine</p>
+    <nav class="header-tools" aria-label="Simulator reference information">
+        <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
+                aria-haspopup="dialog" aria-controls="patchNotesPanel" aria-expanded="false">▤ Patch notes</button>
+        <button type="button" id="userGuideBtn" data-open-info="userGuidePanel"
+                aria-haspopup="dialog" aria-controls="userGuidePanel" aria-expanded="false">? User guide</button>
+    </nav>
 </header>
 
 <main class="main-container">
@@ -307,6 +313,19 @@
         </summary>
         <div class="wiggers-body">
             <p class="wiggers-disclaimer">One physiological heart cycle (RR), synchronized to the existing simulator. Pressure and volume traces are <strong>illustrative relative indexes</strong>, not mmHg, mL, ejection fraction, patient data or diagnostic measurements. S1/S2 are event markers, not audio.</p>
+
+            <section class="learning-scenario-panel" aria-label="Rate-based learning scenarios">
+                <h3>Learning scenarios · 정상 / 서맥 / 빈맥</h3>
+                <div class="learning-preset-row" role="group" aria-label="Set simulated heart-rate scenario">
+                    <button type="button" data-learning-preset="normal" aria-pressed="false">Normal · 72 bpm</button>
+                    <button type="button" data-learning-preset="bradycardia" aria-pressed="false">Bradycardia · 50 bpm</button>
+                    <button type="button" data-learning-preset="tachycardia" aria-pressed="false">Tachycardia · 120 bpm</button>
+                </div>
+                <strong id="learningScenarioSummary">Normal-range teaching cycle · 80 bpm · Custom HR</strong>
+                <p id="learningScenarioIntro">세 시나리오 또는 기존 HR 슬라이더로 심장 주기의 관계를 살펴보세요.</p>
+                <p id="learningDuration">Relative cycle timing appears here; not a patient measurement.</p>
+                <p class="learning-boundary">성인 안정 시 HR 범위에 따른 교육용 분류입니다. 동성 빈맥/서맥의 원인이나 환자의 혈역학적 안정성을 판단하지 않습니다.</p>
+            </section>
             <div class="wiggers-legend" aria-label="Wiggers trace key">
                 <span class="wiggers-key"><i class="wiggers-key-line wig-ecg"></i>ECG</span>
                 <span class="wiggers-key"><i class="wiggers-key-line wig-la"></i>Left atrium</span>
@@ -364,6 +383,25 @@
                 <p id="wiggersLearningEvent">Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.</p>
                 <p class="wiggers-learning-limit">Profiles are educational relative values, not clinical measurements. S1 and S2 are simplified left-sided event markers, not recorded sounds. Mechanical mode uses a separate model whose exact-boundary rounding may differ.</p>
             </section>
+
+            <details id="wiggersDeepDive" class="learning-deep-dive">
+                <summary>심화 의학·간호 해설 보기 · ECG → 압력/판막 → 용적 → 간호 관찰</summary>
+                <div class="learning-detail" aria-live="off">
+                    <h3 id="learningPhaseTitle">Ready · 시작 전</h3>
+                    <h4>① 전기적 활동과 수축의 시간 차</h4>
+                    <p id="learningElectrical">재생하거나 Timeline을 이동해보세요.</p>
+                    <h4>② 압력 변화 및 판막 개폐</h4>
+                    <p id="learningHemodynamics">현재 주기에 따른 판막 관계가 표시됩니다.</p>
+                    <h4>③ 심실 용적과 혈류 방향</h4>
+                    <p id="learningVolume">상대 용적 곡선은 실제 mL나 EF가 아닙니다.</p>
+                    <h4>④ 임상·간호 관찰 관점</h4>
+                    <p id="learningNursing">환자 상태를 HR 수치만으로 판단하지 않습니다.</p>
+                    <h4>⑤ HR에 따른 비교 사고</h4>
+                    <p id="learningRateComparison">RR을 바꾸고 비교해보세요.</p>
+                    <h4>모델의 가정·한계</h4>
+                    <p id="learningCaution">교육용 모형은 실제 환자의 혈역학을 예측하지 않습니다.</p>
+                </div>
+            </details>
             <p class="wiggers-footnote">The animated cursor uses physiological time (A). Your existing animation speed, ECG monitor sweep and Electrical/Mechanical displays remain unchanged. The teaching pressure curve and existing mechanical diagram have separate event-boundary rounding conventions.</p>
         </div>
     </details>
@@ -387,6 +425,65 @@
 
 </main>
 </div>
+<section id="patchNotesPanel" class="info-panel" role="dialog" aria-modal="false"
+         aria-labelledby="patchNotesHeading" data-info-panel hidden>
+    <div class="info-panel-head">
+        <h2 id="patchNotesHeading">▤ Version &amp; patch history</h2>
+        <button type="button" data-close-info aria-label="Close patch notes">×</button>
+    </div>
+    <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
+    <section class="patch-group">
+        <h3>기능 추가 · Features</h3>
+        <p><strong>v1.10 P5</strong> — Normal 72 / Bradycardia 50 / Tachycardia 120 bpm 교육 프리셋과 자유 HR 연동.</p>
+        <p><strong>v1.10 P1–3</strong> — Wiggers 사건·상대 압력/용적 프로필 및 동기화된 ECG/Wiggers 그래프.</p>
+        <p><strong>v1.9</strong> — 기존 Electrical 모드를 유지한 Mechanical 판막/혈류 시각화.</p>
+        <p><strong>v1.8</strong> — Physiological A / Visualization B 시간 분리 및 HR 관련 ECG 교육 모델.</p>
+    </section>
+    <section class="patch-group">
+        <h3>의학·간호 교육 · Clinical learning</h3>
+        <p><strong>v1.10 P5</strong> — 심장 주기 5단계마다 ECG·압력·판막·용적·간호 관찰·한계 설명 확장.</p>
+        <p><strong>v1.10 P4</strong> — 승모판/대동맥판 사건 및 S1/S2 단계별 해설.</p>
+    </section>
+    <section class="patch-group">
+        <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.10 P5</strong> — 접이식 심화 학습, 패치 내역/사용 설명서 아이콘 팝업.</p>
+        <p><strong>v1.10 P4</strong> — Wiggers ? 도움말 및 닫기·외부 클릭·Escape 지원.</p>
+        <p><strong>v1.10 P3</strong> — 접이식 Wiggers SVG, 모바일 그래프 영역 내 가로 스크롤.</p>
+    </section>
+    <section class="patch-group">
+        <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.10 P5</strong> — 교육용 해설은 읽기 전용, 기존 HR 슬라이더만 사용. 신규 UI 테스트 및 사용 설명서.</p>
+        <p><strong>v1.10 P1–4</strong> — 판막 경계 규칙과 상대 수치 한계 명시, 이전 버전 자동 회귀 테스트 유지.</p>
+    </section>
+    <p class="info-panel-disclaimer">압력은 상대 지표이며 심실 용적은 정규화된 값입니다. 본 프로그램은 교육용으로 임상 진단, EF/CO 계산 또는 치료 지시에 사용할 수 없습니다.</p>
+</section>
+<section id="userGuidePanel" class="info-panel" role="dialog" aria-modal="false"
+         aria-labelledby="userGuideHeading" data-info-panel hidden>
+    <div class="info-panel-head">
+        <h2 id="userGuideHeading">? User guide · 사용 설명서</h2>
+        <button type="button" data-close-info aria-label="Close user guide">×</button>
+    </div>
+    <section class="guide-section"><h3>1. 기본 작동</h3>
+        <p><strong>Play</strong> 재생, <strong>Pause</strong> 일시 정지, <strong>Reset</strong> 한 박동 시작 위치로 초기화. <strong>Timeline</strong>은 원하는 심장 주기 위치를 탐색하며 이동 시 일시 정지합니다.</p>
+        <p><strong>Heart Rate (30–180 bpm)</strong>로 직접 선택하면 Custom 학습 모드가 됩니다. ECG Monitor는 시간에 따라 이동하는 표시이며 실제 환자 모니터가 아닙니다.</p>
+    </section>
+    <section class="guide-section"><h3>2. Electrical / Mechanical</h3>
+        <p><strong>Electrical</strong>에서 심장 전도와 ECG P·PR·QRS·ST·T 해설 버튼을 살펴보세요. <strong>Mechanical</strong>에서 판막 상태, 상대 심실 충만과 혈류 화살표를 확인하세요. 모드 전환은 재생 시간 자체를 바꾸지 않습니다.</p>
+    </section>
+    <section class="guide-section"><h3>3. Wiggers Diagram</h3>
+        <p>아래쪽의 Wiggers Diagram을 펼쳐 ECG, 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
+        <p><strong>세로 커서는 physiological A 시간의 한 RR 주기</strong>를 나타냅니다. 위 ECG Monitor의 스크롤은 별도의 visualization B 표시이므로 두 화면의 가로좌표가 같지 않습니다.</p>
+    </section>
+    <section class="guide-section"><h3>4. 정상·서맥·빈맥 학습</h3>
+        <p>Wiggers를 펼쳐 <strong>Normal 72 / Bradycardia 50 / Tachycardia 120</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 자유 HR 슬라이더를 움직이면 사용자 선택 Custom으로 돌아옵니다.</p>
+        <p>아래 <strong>심화 의학·간호 해설</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다.</p>
+    </section>
+    <section class="guide-section"><h3>5. 간호학적 활용과 주의사항</h3>
+        <p>ECG 소견을 환자의 혈압, 맥박, 산소화, 의식, 증상, 관류 평가 및 심음 청진과 연결해서 학습하세요. P파/ QRS/ T파는 전기적 사건으로 기계적 수축과 정확히 같은 시각이 아닙니다.</p>
+        <p>서맥·빈맥 수치는 병적 상태를 확정하지 않습니다. 이 앱의 S1/S2는 소리가 아닌 사건 표시이며, 상대 압력은 mmHg가 아니고 상대 용적은 mL 또는 EF가 아닙니다. 고심박수 ECG 간격과 QTc에는 교육용 근사의 한계가 있습니다.</p>
+    </section>
+    <p class="info-panel-disclaimer">팝업은 ×, 바깥 클릭 또는 Escape로 닫습니다. 전체 학습 내용과 참고문헌은 README.md를 참조하세요.</p>
+</section>
 
 <script src="script.js"></script>
 <script src="mechanics.js"></script>
@@ -394,5 +491,7 @@
 <script src="wiggers-profile.js"></script>
 <script src="wiggers-view.js"></script>
 <script src="wiggers-help.js"></script>
+<script src="wiggers-learning.js"></script>
+<script src="ui-info-panels.js"></script>
 </body>
 </html>
