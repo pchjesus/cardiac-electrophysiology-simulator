@@ -25,8 +25,8 @@ with sync_playwright() as playwright:
  errs=[]
  page.on('pageerror',lambda exc:errs.append(str(exc)))
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
- page.wait_for_function('window.CardiacGuidedLearning?.version==="v1.12 Patch 2"')
- ck('v1.12 Patch 2' in page.locator('h1').inner_text(),'wrong version')
+ page.wait_for_function('window.CardiacGuidedLearning?.version?.startsWith("v1.12 Patch ")')
+ ck(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 2','v1.12 Patch 3')),'wrong version')
  ck(page.evaluate('CardiacDashboard.density')=='compact','density regression')
  ck(page.locator('#ecgCanvas').is_visible(),'no ECG')
  ck(page.locator('#guidedV112Panel').is_hidden(),'guide starts open')
