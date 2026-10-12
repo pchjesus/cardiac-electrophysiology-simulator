@@ -32,6 +32,8 @@
     return x;
   };
   const dashboard=node('div','dashboard-v111');
+  dashboard.id='dashboardV111';
+  dashboard.dataset.density='compact';
   dashboard.setAttribute('aria-label','Integrated cardiac simulation learning dashboard');
   const commands=node('section','dashboard-commands card');
   commands.setAttribute('aria-label','Shared simulation controls');
@@ -39,6 +41,13 @@
   const presets=node('div','dashboard-presets');
   const presetLabel=node('span','dashboard-presets-label','학습 시나리오');
   presets.append(presetLabel,scenarios);
+  const densityButton=node('button','dashboard-density-button','전체 정보 보기');
+  densityButton.id='dashboardDensityBtn';
+  densityButton.type='button';
+  densityButton.setAttribute('aria-pressed','false');
+  densityButton.setAttribute('aria-controls','dashboardV111');
+  densityButton.setAttribute('aria-label','상세 ECG 및 전도 단계 정보 펼치기');
+  presets.appendChild(densityButton);
   commands.appendChild(presets);
 
   const workspace=node('section','dashboard-workspace');
@@ -74,9 +83,25 @@
     '<h3>생리학적 변화</h3><p id="dashboardPhysiology">Play 또는 Timeline을 움직이면 현재 심장 주기를 설명합니다.</p>'+
     '<h3>간호학적 관찰</h3><p id="dashboardNursing">맥박·혈압·증상·관류를 함께 사정하는 관점으로 이해합니다.</p>'+
     '<p class="dashboard-caution">교육용 상대 지표 · 실제 혈압·박출량·EF·심박출량 예측 불가</p>';
-  inspector.append(insHeading,statuses,phasePanel,clinical,eventPanel,deepDive);
+  // Keep the original dynamic nodes intact; native disclosures only govern
+  // whether the learner sees the longer explanations.
+  const wrapDetails=(className,label,content)=>{
+    const disclosure=node('details','dashboard-disclosure '+className);
+    const summary=node('summary','dashboard-disclosure-summary');
+    summary.textContent=label;
+    disclosure.append(summary,content);
+    return disclosure;
+  };
+  const ecgExplanation=$('ecgExplanation');
+  const ecgDetails=wrapDetails('dashboard-ecg-details','ECG 구성요소 · 상세 설명',ecgExplanation);
+  ecg.querySelector('.ecg-interpretation').after(ecgDetails);
+  const phaseDetails=wrapDetails('dashboard-phase-details','전도 단계 · 전체 설명',phasePanel);
+  const eventDetails=wrapDetails('dashboard-event-details','ECG Event · 세부 전도 정보',eventPanel);
+  statuses.insertAdjacentHTML('beforeend',
+    '<div><span>ECG 사건</span><strong id="dashboardEvent">Ready</strong></div>');
+  inspector.append(insHeading,statuses,clinical,phaseDetails,eventDetails,deepDive);
   workspace.append(left,inspector);
-  dashboard.append(commands,ecg,workspace,measurements);
+  dashboard.append(commands,ecg,measurements,workspace);
   main.insertBefore(dashboard,oldVisual);
   oldVisual.remove();oldInfo.remove();
   app.classList.add('dashboard-active');
@@ -99,11 +124,12 @@
     const narrative=root.CardiacLearning.getInspectorNarrative?.();
     if(!narrative)return;
     const key=[view,ready,heartRate,heartState.currentStep,
-      narrative.phase,$('phaseTitle').textContent].join('|');
+      narrative.phase,$('phaseTitle').textContent,$('ecgEventIndicator').textContent].join('|');
     if(key===latestKey)return;
     latestKey=key;
     $('dashboardElectrical').textContent=ready?'Ready':($('phaseTitle').textContent||'—');
     $('dashboardMechanical').textContent=ready?'Ready':narrative.title;
+    $('dashboardEvent').textContent=ready?'Ready':($('ecgEventIndicator').textContent||'—');
     $('dashboardPhysiology').textContent=ready ?
       '재생하거나 Timeline을 이동하면 ECG·압력·판막·용적의 관계가 표시됩니다.' :
       brief(narrative.hemodynamics);
@@ -136,6 +162,25 @@
       workspace.setAttribute('data-active-visualization',next);
     }
   }
+  // A deliberate user selection of P, PR, QRS, ST or T reveals its
+  // unchanged detailed explanation even while the rest remains compact.
+  ecg.querySelectorAll('[data-ecg-component]').forEach(button=>{
+    button.addEventListener('click',()=>{ecgDetails.open=true;});
+  });
+  densityButton.addEventListener('click',()=>{
+    const expanded=dashboard.dataset.density!=='expanded';
+    dashboard.dataset.density=expanded?'expanded':'compact';
+    densityButton.textContent=expanded?'핵심 보기로 전환':'전체 정보 보기';
+    densityButton.setAttribute('aria-pressed',String(expanded));
+    densityButton.setAttribute('aria-label',expanded?
+      '상세 ECG 및 전도 단계 정보를 접고 핵심 보기로 돌아가기':
+      '상세 ECG 및 전도 단계 정보 펼치기');
+    for(const disclosure of [ecgDetails,phaseDetails,eventDetails]){
+      disclosure.open=expanded;
+    }
+    // Preserve the independent six-part clinical learning disclosure.
+    // Do not recalculate or reset A/B clock, selected view, or measurements.
+  });
   focusButton.addEventListener('click',()=>{
     const expanded=dashboard.dataset.wiggersFocus!=='true';
     dashboard.dataset.wiggersFocus=String(expanded);
@@ -164,6 +209,7 @@
   root.CardiacDashboard=Object.freeze({
     sync,
     setView,
+    get density(){return dashboard.dataset.density;},
     get view(){return view;},
     get isReady(){return isReady();}
   });
