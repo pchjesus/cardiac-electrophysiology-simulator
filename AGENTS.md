@@ -257,3 +257,12 @@ The approved A/A/A UX remains unchanged: no automatic Wiggers switching or seek,
 ## v1.12 Patch 4 learning scope
 
 Begin with a single phase concept plus ECG, valve and flow essentials for novice students. Add nursing observations only at the next learning level, and full source clinical narratives, model limits and the extra question through optional additional learning. Never delete the six-part full explanation, any of the original ten questions, or the two-segment model filling caution. Education-only transitions must not mutate A/B time, HR, playback, Timeline, ECG or modes; the user-approved A/A/A view and explicit seek remain unchanged. Run 14 CI stages (13 old + Patch 4), including six viewport widths and source-text parity. Actual device inspection remains user-deferred.
+
+
+## v1.12 Patch 5 — clinical/UX closeout guardrails (2026-10-12)
+
+- Keep v1.12 Patch 4 A/A/A behavior and three learning levels. Study-level/stage changes are view-only; only explicitly clicked native Timeline seek may pause/move A/B; Wiggers view switches only on direct action.
+- The profile has **two distinct model-RR filling intervals**: early [0,atrialStart) is 0.88 flat, late [relaxationEnd,RR) rises 0.48→0.88. Even if both read `filling` and mitral open, do not imply an increasing plotted volume throughout both intervals or clinical late-diastolic correspondence.
+- Teaching source text may be clarified without touching the established ECG, Mechanical, Wiggers physical proxy calculations. Treat source prose, model assumptions and clinical facts as distinct.
+- Preserve 10 existing quizzes and six-part original nursing explanation; keep compact startup and native keyboard/mobile controls. Tests now consist of 15 CI steps (14 historical + Patch 5) including clinical interval checks across HR 30–180 bpm.
+- This is **not v1.12 FINAL** until explicit user PC/mobile hands-on acceptance and remaining release criteria are met. No external independent clinical expert audit is claimed.
