@@ -719,3 +719,12 @@ New `tests/test_v112_patch2.py` runs 718 real-browser checks (50 10-HR × five-s
 ## v1.12 Patch 4 — beginner-first course (2026-10-12)
 
 Reorganized the existing optional inspector into 1. 기초 이해 → 2. 간호 연결 → 3. 추가학습, retaining full 5-stage source PHASES/RATE and all 10 existing conceptual questions. Basic displays a brief source-grounded sentence and three concise descriptions; second tier reveals nursing observation; original full paragraphs/relative model midpoint are only shown on demand. Filling's two model-RR intervals remain distinguished, with precise 0.88 caution preserved in intermediate/advanced. Source modules, ECG/Wiggers physics, A/B, HR, Play/Pause, Timeline and the original native seek are unchanged. Test suite adds actual Chromium three-tier assertions and screenshots atop all previous thirteen regression steps. Original Patch 1 assessment of the numerical filling caveat now switches to the tier where it is displayed. User postpones PC/mobile hands-on testing; never claim medical/device validation. See [V1.12_PATCH4_REPORT.md](V1.12_PATCH4_REPORT.md).
+
+
+## v1.12 Patch 5 — teaching accuracy, accessibility, stabilization (2026-10-12)
+
+**Changed:** Clarified the inherited `filling` detailed source narrative and visible Wiggers lesson to distinguish model RR-start 0.88 flat from RR-end 0.48→0.88 relative LV volume increase. Updated beginner filling anchor to explicitly name model-RR latter segment. Reconciled obsolete user-guide instructions to 3 teaching levels, refreshed patch history/version, increased size of optional educational caveats/mobile text. No calculations or physiological timing were modified.
+
+**Testing added:** `tests/test_v112_patch5.py` checks 10 HR × five Mechanical/Wiggers model stages and explicit boundary/midpoint relations, interval volume distinction, all 10 original question records, six responsive widths, native keyboard reopening and automated screenshots. Prior version-specific test expectations were extended to accept Patch 5 without weakening behavior contracts. CI suite grew from 14 to 15 stages.
+
+**Risk:** Explanatory text under the existing filling label may still be conflated with real physiological filling or imply clinical volumes. Standalone domain-model validation and real PC/mobile visual/user acceptance remain separate from browser CI. Medical reviewer sign-off is not claimed. See [V1.12_PATCH5_REPORT.md](V1.12_PATCH5_REPORT.md).

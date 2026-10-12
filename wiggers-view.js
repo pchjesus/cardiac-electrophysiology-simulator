@@ -27,7 +27,7 @@
     };
     // Read-only educational interpretation of the existing Patch 2 profile.
     const STAGE_LESSONS=Object.freeze({
-        filling:'Ventricular filling: left ventricular pressure is below left atrial pressure, the mitral valve opens and relative ventricular volume increases. Atrial contraction completes the final filling portion later in diastole.',
+        filling:'Ventricular filling: when left ventricular pressure falls below left atrial pressure, the mitral valve opens and filling occurs. Relative LV volume increases in this model\'s final RR filling segment, but is held at 0.88 (flat) in its initial RR filling segment; this plateau is a model simplification, not a claim that physiological filling stops. Atrial contraction then supplements filling.',
         atrial_systole:'Atrial systole: the ECG P wave precedes atrial contraction, which adds the final portion of ventricular filling while the mitral valve is open.',
         isovolumetric_contraction:'Isovolumetric contraction: after QRS depolarization, mitral closure (S1 marker) precedes aortic opening. Both valves are closed; ventricular pressure rises with unchanged relative volume.',
         ejection:'Ventricular ejection: after the aortic valve opens, blood exits the ventricle and relative ventricular volume decreases. Ventricular repolarization (T wave) can overlap late ejection.',

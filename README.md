@@ -398,3 +398,17 @@ Future Patch 4/5 will handle broader responsiveness, medical-text consistency an
 ### v1.12 Patch 4 — Novice-first progressive guided learning
 
 **Current milestone: v1.12 Patch 4, not FINAL.** The optional five-stage inspector now begins at **1. 기초 이해** (one-sentence overview; ECG, valve and relative-volume basics), advances to **2. 간호 연결** (qualitative nursing assessment connections), and opens **3. 추가학습** only by user choice (complete existing PHASES/RATE nursing/physiology source, modeled midpoint and the second advanced question). A next-level button and native selector coexist. All original ten quiz questions and six-part nursing explanation remain intact. Educational interactions do not change A/B, HR, playback, Timeline, Wiggers or the ECG. Details: [V1.12_PATCH4_REPORT.md](V1.12_PATCH4_REPORT.md). Real-device touch/visual acceptance is deferred at user request.
+
+
+### v1.12 Patch 5 — educational accuracy and final stabilization (not FINAL)
+
+Current implemented version: **v1.12 Patch 5**. The default compact dashboard remains unchanged. Select **5단계 학습** in the existing live explanation and follow **1. 기초 이해 → 2. 간호 연결 → 3. 추가학습**. Study stages and levels modify instructional text only. Only the separately clicked **Wiggers에서 보기** changes view; only separately clicked **이 단계 관찰 시점으로 이동** pauses and seeks through the original Timeline. All ten source-aligned conceptual questions remain optional and editable within the current page session.
+
+**Important model caveat:** The relative LV-volume trace under `filling` is flat at 0.88 in the beginning of the model RR cycle, and increases from 0.48 to 0.88 in its end segment. These dimensionless anchors are modeling choices rather than physiological fill fractions or patient EF/mL; actual filling may not pause when the drawn curve is flat. S1/S2 markers illustrate left-sided valve timing, not auscultatory sound reproduction.
+
+The original advanced nursing explanation, Electrical/Mechanical/Wiggers, ECG, A/B clocks, HR, Timeline and playback are preserved. New browser regression tests include stage and volume boundary verification, keyboard checks and mobile screenshots, but **actual user PC/mobile manual review remains outstanding**; this release is not marked v1.12 FINAL. See [Patch 5 report](V1.12_PATCH5_REPORT.md).
+
+**Selected references (APA 7):**
+- OpenStax. (2013). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
+- Pollock, J. D., & Makaryus, A. N. (2022, October 3). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+- Dornbush, S., & Turnquest, A. E. (2023, July 17). *Physiology, heart sounds*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK541010/

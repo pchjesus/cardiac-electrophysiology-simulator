@@ -1510,3 +1510,15 @@ Compact Controller + ECG View
  .dashboard-active .guided-v112-gist{font-size:14px}
  .dashboard-active .guided-v112-promote{width:100%;min-height:44px}
 }
+
+
+/* v1.12 Patch 5 — improve readability only inside opt-in study content.
+   No effect on the original compact dashboard or its first-screen height. */
+.dashboard-active .guided-v112-limits{font-size:12px;line-height:1.6}
+.dashboard-active .guided-v112-select-label{font-size:13px}
+.dashboard-active .guided-v112-level-hint{font-size:13px}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-limits{font-size:13px}
+ .dashboard-active .guided-v112-summary dt{font-size:13px}
+ .dashboard-active .guided-v112-quiz-intro{font-size:13px}
+}

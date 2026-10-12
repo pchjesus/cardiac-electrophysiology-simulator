@@ -842,3 +842,13 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - **advanced (3. 추가학습)**: only by explicit selection, expose the unchanged original full PHASES/RATE source, limitations, model timing and extra quiz question. Do not delete or alter ten questions or the independent six-part long teaching.
 - Next-level button advances one level, native selector may choose any. Level state is separate from five cardiac stages and A/B simulation, preserving existing manual Wiggers view and explicit original Timeline seek.
 - No permanently stacked card/default height increase beyond <=910px at 1366x768. Require prior 13 stages plus Patch 4 browser progression/overflow tests; device manual acceptance separately deferred.
+
+
+## v1.12 Patch 5 — educational consistency & QA contract (2026-10-12)
+
+- **Scope**: clinical-language consistency, explanatory Wiggers filling caveat, current three-level user documentation, readability and boundary regression. No new cardiac physiology, algorithms, animation timers, automatic navigation or persistence.
+- **Model fidelity**: retained `wiggers-profile.js` anchor volumes [0.88,0.88,1.00,1.00,0.48,0.48,0.88] and original `mechanics.js` stage boundaries. Initial RR filling is flat 0.88; final RR filling rises 0.48→0.88. Neither is mL, stroke volume or EF; relative pressure never represents patient mmHg.
+- **Educational categories**: established physiology (P/QRS/T versus subsequent contraction, pressure gradients, valve transitions, S1/S2); model-specific relative quantities and stage/event boundaries; qualitative nursing observation of ECG, vital signs, perfusion and symptoms.
+- **Presentation**: default compact layout unchanged; optional guide still basic → intermediate nursing → advanced source/quiz; mobile caution text increased without shortening old education. Wiggers, source PHASES and ten questions remain accessible.
+- **QA gate**: 14 earlier suites plus `tests/test_v112_patch5.py` via `.github/workflows/regression.yml`; test HR list 30/50/59/60/72/80/100/101/120/180, all five stage midpoints and exact boundaries, two filling intervals, keyboard, 360/390/768/1024/1366/1440 widths and automatic screenshots. Browser automation is not user device acceptance.
+- **Release**: Patch 5 can be merged only on passing CI; **v1.12 FINAL** label remains deferred until requested real-device manual review and declared scope review. See [V1.12_PATCH5_REPORT.md](V1.12_PATCH5_REPORT.md).
