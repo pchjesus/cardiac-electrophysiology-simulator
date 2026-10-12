@@ -102,7 +102,7 @@ with sync_playwright() as playwright:
     check(state()==before,'stage selection unexpectedly moved simulation')
     if stage=='filling':
        novice=page.locator('#guidedV112Limits').inner_text()
-       check('RR' in novice,'filling's two model intervals must remain acknowledged')
+       check('RR' in novice,'the two filling intervals must remain acknowledged')
        page.locator('#guidedV112Level').select_option('intermediate')
        caution=page.locator('#guidedV112Limits').inner_text()
        check('RR' in caution and '0.88' in caution,
