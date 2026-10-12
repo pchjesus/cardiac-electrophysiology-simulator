@@ -116,7 +116,7 @@
     for(const key of Object.keys(nodes))nodes[key].textContent=trimSentence(data[key]);
     const filling=stage.id==='filling';
     model.textContent='모델 대표 관찰점 '+Math.round(obs.midpointMs)+' / '+
-       Math.round(obs.rrMs)+' ms · 현재 위치는 이동하지 않음';
+       Math.round(obs.rrMs)+' ms · 단계 선택만으로는 현재 위치가 이동하지 않음';
     limits.textContent=(filling?
        '주의: 여기서 후반은 시뮬레이터 RR의 후반 구간입니다. RR 초반에도 filling 단계가 있으나 모형 상대 용적은 0.88로 일정합니다. ':'')+
        '압력·용적은 교육용 상대 지표이며 mmHg, mL, EF 또는 심박출량을 뜻하지 않습니다.';
