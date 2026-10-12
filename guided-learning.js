@@ -107,7 +107,7 @@
     isovolumetric_contraction:'심실에 힘이 생기고 압력이 올라가지만 두 판막은 닫혀 있어요.',
     ejection:'대동맥판이 열리고 심실에서 혈액이 밖으로 나가요.',
     isovolumetric_relaxation:'심실이 이완하며 압력이 떨어지고 두 판막은 잠시 닫혀 있어요.',
-    filling:'승모판이 열리고 심실에 혈액이 다시 들어오는 구간이에요.'
+    filling:'모델 RR 후반에는 승모판이 열리고 심실의 상대 용적이 증가해요.'
   });
   const summary=el('dl','guided-v112-summary');
   const fields=[
