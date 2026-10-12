@@ -81,8 +81,15 @@ with sync_playwright() as playwright:
     check(f'{i+1}/5' in page.locator('#guidedV112Counter').inner_text(),
           'step counter missing')
     for piece in ('Electrical','Hemodynamics','Volume','Nursing'):
-       check(len(page.locator('#guidedV112'+piece).inner_text())>24,
-             'phase nursing text missing '+stage+':'+piece)
+       text=page.locator('#guidedV112'+piece).inner_text()
+       from_source=page.evaluate("""(args)=>{
+         const [id,kind]=args;
+         const src=CardiacLearning.getStageNarrative(id)[kind.toLowerCase()];
+         const pos=src.indexOf('다.');
+         return pos>=0?src.slice(0,pos+2):src.trim();
+       }""",[stage,piece])
+       check(len(text)>8 and text==from_source,
+             'phase text must equal original nursing source '+stage+':'+piece)
     check('이동하지 않음' in page.locator('#guidedV112Model').inner_text(),
           'observation point must not imply an automatic seek')
     check(state()==before,'stage selection unexpectedly moved simulation')
