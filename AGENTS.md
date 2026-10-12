@@ -222,3 +222,12 @@ Automated v1.8 regression is complete; user physical-browser visual acceptance i
 - Preserve graph and clinical text readability. Desktop controls/ECG may share a row when >=1200px; mobile remains stacked with Wiggers-only internal horizontal scrolling.
 - Historical nine CI suites plus the v1.11.1 real-page suite are mandatory. Native details-toggle events are async; tests should wait for the actual dependent content/state, not arbitrary sleeps.
 - Before v1.12 feature work read V1.11.1_RELEASE_NOTES.md and V1.12_START_HERE.md. No diagnosis or patient hemodynamic prediction from relative plots and no unreviewed arrhythmia engine. Document meaningful UX options and obtain user choice first.
+
+
+## v1.12 planned guided-learning design (NOT YET CODE)
+
+- Read V1.12_DESIGN.md and V1.12_CLINICAL_CURRICULUM.md before starting new feature work. Do not redo the completed scientific/model/architecture inventory.
+- Important UX decision is pending explicit user approval: default recommend optional in-inspector guide and user-triggered, not automatic, Wiggers tab switch. No runtime Guided Learning code until decided.
+- Follow the existing five-stage Wiggers profile (including two noncontiguous filling segments); never invent new event times or use normalized pressure/volume as real patient metrics.
+- Learning navigation/answers are isolated presentation/progress state; no HR/clock/Timeline/playback side effects. Any seek is an explicitly labeled user action through the original Timeline. Preserve compact height, medical/nursing source content and Wiggers SVG scroll.
+- Release new functionality only after old ten CI test stages and new v1.12 scientific/interaction/regression tests; manual target-device acceptance remains a separate review.
