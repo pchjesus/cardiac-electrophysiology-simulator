@@ -703,3 +703,36 @@ Next Patch 4: add state-aware cardiac event/valve/S1/S2 educational explanations
 
 ### References (APA 7th)
 See the cardiac-cycle physiology references listed in this SPEC under v1.10 Patch 2 and in README's Patch 4 guide. Those sources justify the qualitative event sequence, not exact synthetic plots or pressures.
+
+
+## v1.10 Patch 5 — High-fidelity *explanations*, not higher-fidelity hemodynamic calculations
+
+**Starting base:** main v1.10 Patch 4 commit `b419506ea4ca79b088ec39703954f60f635b6e10`. This patch preserves physiological A time, visualization B pacing, mechanical state, ECG model, continuous Wiggers profile, normalized volume, static 481-point curves and the protected Electrical/Mechanical views.
+
+### Feature requirements
+- **WIG-501 — Presets:** Add Normal 72 bpm, Bradycardia 50 bpm, Tachycardia 120 bpm buttons inside the optional Wiggers panel. They assign the *existing* #heartRateSlider and dispatch the original input event. Do not add a competing HR source. Slider use returns educational preset selection to Custom; rhythm *classification* remains derived solely from HR (<60, 60–100, >100).
+- **WIG-502 — Stage education:** Add a second optional native disclosure below the Wiggers profile, initially collapsed, with five narratives for filling, atrial systole, isovolumetric contraction, ejection and isovolumetric relaxation. Each narrative has: electrical event, pressure/valve principle, ventricular volume, nursing observation, rate comparison, and limitations. Use `CardiacWiggersProfile.getSnapshot(getPhysiologicalCyclePhase(),getActiveTiming())` and canonical phase boundaries. Reuse existing `getMechanicalTiming()` strictly to describe *model* cycle/filling-window duration.
+- **WIG-503 — Rate-appropriate messaging:** Describe a reduced *available filling interval* at higher rates as a conditional physiological consideration, not measured preload, cardiac output or disease. Bradycardia alone need not be pathological; tachycardia can be a physiological response. Do not infer EF, stroke volume, blood pressure, cardiac output or patient stability from normalized profiles.
+- **WIG-504 — Interaction:** Respect Reset Ready semantics, original disclosure/deep-disclosure preference, Play/Pause, Timeline seek, current mode and HR change without rewinding clocks. `wiggers-learning.js` reads the existing model; sync occurs only via existing control/update hooks, using no second rAF or timer. Detailed text is updated on change, not every identical animation frame.
+
+### Document/UX requirements
+- **WIG-505 — Patch notes:** Header icon opens a nonmodal, scrollable, accessible patch-history popup categorized as Features / Medical and nursing education / UI-UX / Safety-QA-Documentation. Claims are tied to actual shipped v1.8–v1.10 changes.
+- **WIG-506 — User guide:** Second header icon opens a nonmodal user guide with controls, Electrical/Mechanical, Wiggers, scenario learning and clinical limitations. Both overlays have X, Escape, outside click; only one open at once, close with focus restoration for Escape/X, do not interfere with outside controls.
+- **WIG-507 — Limited layout change:** Keep original ECG Monitor, Current Phase, control panels and Electrical/Mechanical modes unchanged. Add a small header toolbar and place detailed explanations inside the existing optional Wiggers view to avoid growing the default single-screen layout. Mobile popup positions are viewport-relative, not document-relative (existing narrow-screen overflow remains a separate Patch 6 task).
+
+### Verification and clinical guardrails
+- Keep all 7 previous suites, add `tests/test_v110_patch5.py` (3 preset values, 7 HR classification boundaries, exact source-backed 5-stage data display, Reset/Timeline/play/modes, help popover state/focus/outside clicks, desktop/390/360px popup geometry, no JS errors). Run 8 suites via CI.
+- Illustrative relative pressures are not mmHg, normalized LV volume not mL or EF, S1/S2 markers not audio. At high HR the existing PR/QT/QTc approximations may be nonclinical. Do not claim independent ventricular hemodynamic adaptation to HR: rate changes shift event timing but the model does not calculate Frank–Starling response.
+- Maintain Patch 4's Wiggers-profile vs v1.9 Mechanical exact-boundary rounding note; no forcing their outputs to match at a floating-point event tie.
+- Clinical claims separated into established physiology (electrical activation preceding contraction; pressure-related valve transitions; cardiac-cycle phases), educational conventions (72/50/120 representative HR presets), and unsupported inference (numeric blood pressures, perfusion and output).
+
+### Supporting physiology (APA 7th)
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.4 Cardiac physiology*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-4-cardiac-physiology
+
+American Heart Association. (2024, September 25). *Bradycardia: Slow heart rate*. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/bradycardia--slow-heart-rate
+
+American Heart Association. (n.d.). *Tachycardia: Fast heart rate*. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/tachycardia--fast-heart-rate
+
+These references ground descriptive adult HR ranges, cardiac-cycle sequence, and nursing-context symptom awareness; they do not validate this application's mathematical curves.
