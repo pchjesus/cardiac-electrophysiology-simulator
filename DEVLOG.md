@@ -665,3 +665,14 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 - `backups/v1.10-final/`에 원본 15개 파일 존재 확인. `README.md`의 현재 버전 표기를 v1.9에서 v1.11로 정정.
 - 실제 사용자 기기에서 시각적 판독성, 전도·판막 애니메이션 체감, 터치 및 간호 설명의 사용성을 확인하는 **수동 검수는 아직 완료되지 않음**. 임상적 유효성이나 의료기기 적합성 검증도 수행하지 않음.
 - 인수 체크리스트, 확인된 제약, v1.11.1 안정화 우선순위 및 다음 채팅 시작문은 [`V1.11_CLOSEOUT.md`](V1.11_CLOSEOUT.md)로 분리. 모델 및 UI 실행 코드는 이 마무리 작업에서 변경하지 않음.
+
+
+## v1.11.1 — Compact-first stabilization (2026-10-12)
+
+**UI/UX:** Implemented reversible default 핵심 보기 / optional 전체 정보 보기. ECG detail, Current Phase detail and ECG Event detail are native disclosures holding the original DOM nodes. P/PR/QRS/ST/T opens its original detailed explanation on click. Six measurement values, selected view, distinct electrical and mechanical phases, ECG event, short physiology and nursing information remain visible in compact view. Long six-part medical/nursing teaching is independently opened by the user. Wide desktop (>=1200px) aligns control bar beside ECG Monitor; mobile remains stacked with bounded Wiggers plot scrolling.
+
+**Observed real Chromium geometry at 1366×768:** v1.11 saved full-document capture approximately 1289px; early vertical compact 1028px; final wide compact **892px**; optional expanded full **1375px**. Same-run compact/full difference **483px**; visualization workspace starts at **479px** vs 615px in early compact layout. The page cannot promise every Wiggers curve and long explanation fits within 768px height; preserves scientific graphic legibility.
+
+**Safety and regressions:** No numerical, waveform, A/B, Mechanical or Wiggers source changes. Added v1.11.1 real-page 98-assertion test and screenshot artifact to the existing GitHub Actions pipeline (10 test steps; 449265 assertions upon success). A pre-existing v1.11 automated test raced asynchronous native details.toggle and checked full nursing text before its update. The test now waits for actual content, retaining the original content-length expectation rather than adding fixed sleep or altering teaching data. An initial new test mistakenly measured local Wiggers scroll while its panel was hidden; corrected to activate the panel first.
+
+**Documentation and handoff:** Version label and categorized in-app patch history/guide updated; README, SPEC, this DEVLOG and AGENTS reflect current UI. V1.11.1_RELEASE_NOTES.md contains target-device acceptance and clinical limits. V1.12_START_HERE.md sketches next educational feature design. Only refer to latest verified Actions run for release-status claims; physical-device visual and medical-device clinical validation remain unclaimed.
