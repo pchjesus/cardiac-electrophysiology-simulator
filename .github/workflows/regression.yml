@@ -47,6 +47,16 @@ jobs:
         run: python tests/test_v1111.py
       - name: Verify v1.12 Patch 1 five-stage guided learning and model alignment
         run: python tests/test_v112_patch1.py
+      - name: Verify v1.12 Patch 2 explicit navigation and native Timeline seek
+        run: python tests/test_v112_patch2.py
+      - name: Upload v1.12 Patch 2 desktop/mobile guide previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch2-actual-ui
+          path: preview-v112p2/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.11.1 actual-browser UI previews
         if: always()
         uses: actions/upload-artifact@v4
