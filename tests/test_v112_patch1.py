@@ -8,6 +8,8 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
+CAPTURES=ROOT/'preview-v112p1'
+CAPTURES.mkdir(exist_ok=True)
 count=0
 def check(ok,label):
  global count
@@ -39,6 +41,7 @@ with sync_playwright() as playwright:
  check(page.evaluate('CardiacGuidedLearning.open') is False,'guide unexpectedly open')
  check(page.evaluate('CardiacGuidedLearning.selectedStageId')=='atrial_systole','default lesson')
  initial_height=page.evaluate('document.documentElement.scrollHeight')
+ page.screenshot(path=str(CAPTURES/'01-default-compact-desktop.png'),full_page=True,animations='disabled')
  check(initial_height<=910,
        f'default layout regressed beyond 16px budget: {initial_height}px')
 
@@ -54,6 +57,7 @@ with sync_playwright() as playwright:
  before=state()
  page.locator('#guidedV112Toggle').click()
  check(page.evaluate('CardiacGuidedLearning.open'),'guide did not open')
+ page.screenshot(path=str(CAPTURES/'02-guided-ready-desktop.png'),full_page=True,animations='disabled')
  check(page.locator('#guidedV112Panel').is_visible(),'guide panel hidden')
  check(page.locator('.dashboard-clinical').is_hidden(),'original clinical summary not replaced')
  check(page.locator('#guidedV112Toggle').get_attribute('aria-expanded')=='true',
@@ -203,6 +207,9 @@ with sync_playwright() as playwright:
     check(page.locator('#guidedV112Toggle').is_visible(),
           f'guided entry missing {width}')
     page.locator('#guidedV112Toggle').click()
+    if width==390:
+       page.screenshot(path=str(CAPTURES/'03-guided-mobile-390.png'),
+                       full_page=True,animations='disabled')
     check(page.locator('#guidedV112Panel').is_visible(),
           f'guide inaccessible {width}')
     check(page.evaluate('document.documentElement.scrollWidth <= innerWidth+2'),
