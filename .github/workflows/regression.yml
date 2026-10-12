@@ -41,3 +41,5 @@ jobs:
         run: python tests/test_v110_patch4.py
       - name: Verify v1.10 Patch 5 clinical learning and reference overlays
         run: python tests/test_v110_patch5.py
+      - name: Verify v1.11 integrated learning dashboard and responsive layout
+        run: python tests/test_v111.py
