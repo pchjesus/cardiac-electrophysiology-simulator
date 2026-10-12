@@ -21,8 +21,8 @@ with sync_playwright() as pw:
  errors=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
- page.wait_for_function('window.CardiacGuidedLearning?.version==="v1.12 Patch 3"')
- ck('v1.12 Patch 3' in page.locator('h1').inner_text(),'version')
+ page.wait_for_function('["v1.12 Patch 3","v1.12 Patch 4"].includes(window.CardiacGuidedLearning?.version)')
+ ck(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 3','v1.12 Patch 4')),'version')
  ck(page.evaluate('CardiacDashboard.density')=='compact','compact default')
  ck(page.locator('#guidedV112Panel').is_hidden(),'new content incorrectly visible by default')
  ck(page.locator('.dashboard-clinical').is_visible(),'original short source hidden')
