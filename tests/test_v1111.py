@@ -170,8 +170,11 @@ with sync_playwright() as p:
     ck(page.locator('#wiggersChart').is_visible(),
        f'Wiggers graph clipped or hidden at {width}')
     if width<700:
-       ck(dims['chartScroll']>dims['chartWidth'],
-          f'Wiggers no longer scrolls internally at {width}')
+       graph=page.locator('.wiggers-chart-scroll').evaluate("""el=>({
+          client:el.clientWidth,scroll:el.scrollWidth
+       })""")
+       ck(graph['scroll']>graph['client'],
+          f'Wiggers no longer scrolls internally at {width}: {graph}')
     page.locator('#electricalModeBtn').click()
 
  ck(not errors,f'JavaScript errors: {errors}')
