@@ -102,7 +102,7 @@
   }
  }
  function sync(){
-  if(!panel.open)return;
+  if(!panel.open&&!root.CardiacDashboard)return;
   const t=getActiveTiming(),hr=Number(slider.value);
   if(!Number.isFinite(hr))return;
   const type=heartRateCategory(hr);
@@ -166,8 +166,28 @@
  });
  panel.addEventListener('toggle',()=>{lastKey='';sync();});
  dive.addEventListener('toggle',()=>{lastKey='';sync();});
+ function getInspectorNarrative(){
+   const hr=Number(slider.value);
+   const label=heartRateCategory(hr);
+   const timing=getActiveTiming();
+   const snapshot=root.CardiacWiggersProfile.getSnapshot(getPhysiologicalCyclePhase(),timing);
+   const phase=snapshot.mechanical.stage;
+   const content=PHASES[phase];
+   const rate=RATE[label];
+   return {
+     phase,heartRate:hr,
+     title:LABELS[phase]||phase,
+     electrical:content?.electrical||'',
+     hemodynamics:content?.hemo||'',
+     volume:content?.volume||'',
+     nursing:(content?.nursing||'')+' '+rate.nursing,
+     comparison:rate.compare,
+     caution:content?.caution||'',
+     rateCategory:label
+   };
+ }
  root.CardiacLearning=Object.freeze({
-  sync,reset,
+  sync,reset,getInspectorNarrative,
   get activePreset(){return activePreset;},
   get renderCount(){return renderCount;},
   get category(){return heartRateCategory(Number(slider.value));}
