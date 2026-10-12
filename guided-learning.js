@@ -1,8 +1,8 @@
 /*
- * v1.12 Patch 1 — optional inline learning inspector.
+ * v1.12 Patch 2 — user-initiated learning step/view/time controls.
  * Runs after dashboard-v111.js and preserves original DOM/event listeners.
- * Never seeks, pauses, selects Wiggers, changes HR, or starts another clock.
- * Patch 2 will own explicit user-invoked navigation / viewing / seek.
+ * Previous/next are study-only. Wiggers view and original Timeline seek
+ * are invoked by separate, clearly labeled button clicks; no new clock.
  */
 (function(root){
   'use strict';
@@ -13,8 +13,9 @@
   const inspector=document.querySelector('.dashboard-inspector');
   const heading=inspector?.querySelector('.dashboard-inspector-heading');
   const clinical=inspector?.querySelector('.dashboard-clinical');
+  const timeline=document.getElementById('timeSlider');
   if(!dashboard||!content||!learning?.getStageNarrative||!mech||!profile||
-     !inspector||!heading||!clinical)return;
+     !inspector||!heading||!clinical||!timeline)return;
 
   const el=(tag,className,text)=>{
     const x=document.createElement(tag);
@@ -51,6 +52,31 @@
   title.setAttribute('aria-live','polite');
   const current=el('p','guided-v112-current');current.id='guidedV112Live';
   const note=el('p','guided-v112-note','학습 단계 선택은 현재 재생 위치를 변경하지 않습니다.');
+  const nav=el('div','guided-v112-navigation');
+  nav.setAttribute('role','group');
+  nav.setAttribute('aria-label','학습 단계 탐색');
+  const prev=el('button','guided-v112-action','← 이전 단계');
+  prev.id='guidedV112Previous';
+  prev.type='button';
+  const next=el('button','guided-v112-action','다음 단계 →');
+  next.id='guidedV112Next';
+  next.type='button';
+  nav.append(prev,next);
+  const observe=el('div','guided-v112-observe');
+  observe.setAttribute('role','group');
+  observe.setAttribute('aria-label','사용자가 직접 실행하는 관찰 동작');
+  const view=el('button','guided-v112-action','Wiggers에서 보기');
+  view.id='guidedV112ViewWiggers';
+  view.type='button';
+  view.setAttribute('aria-label','Wiggers 시각화로 전환 · 현재 시간 유지');
+  const seek=el('button','guided-v112-action guided-v112-seek','이 단계 관찰 시점으로 이동');
+  seek.id='guidedV112Seek';
+  seek.type='button';
+  seek.setAttribute('aria-describedby','guidedV112SeekNotice');
+  observe.append(view,seek);
+  const seekNotice=el('p','guided-v112-seek-notice',
+    '관찰 시점으로 이동을 누르면 재생이 일시 정지되고, 기존 Timeline이 해당 단계로 이동합니다.');
+  seekNotice.id='guidedV112SeekNotice';
   const summary=el('dl','guided-v112-summary');
   const fields=[
     ['ECG 전기 활동','electrical'],
@@ -68,7 +94,7 @@
   const model=el('p','guided-v112-model');model.id='guidedV112Model';
   const limits=el('p','guided-v112-limits');
   limits.id='guidedV112Limits';
-  panel.append(top,title,current,note,summary,model,limits);
+  panel.append(top,title,current,note,nav,observe,seekNotice,summary,model,limits);
   clinical.before(panel);
 
   let open=false,selectedIndex=0,lastKey='';
@@ -83,6 +109,8 @@
     if(!data)return;
     const obs=content.getObservation(stage.id,getActiveTiming(),mech,profile);
     select.value=stage.id;
+    prev.disabled=selectedIndex===0;
+    next.disabled=selectedIndex===content.stages.length-1;
     counter.textContent='학습 중인 단계 '+(selectedIndex+1)+'/5';
     title.textContent=stage.label;
     for(const key of Object.keys(nodes))nodes[key].textContent=trimSentence(data[key]);
@@ -119,16 +147,46 @@
     else {lastKey='';toggle.focus();}
   }
   toggle.addEventListener('click',()=>setOpen(!open));
-  select.addEventListener('change',()=>{
-    const index=content.stages.findIndex(x=>x.id===select.value);
-    if(index<0)return;
+  function chooseStage(index){
+    if(index<0||index>=content.stages.length||index===selectedIndex)return;
     selectedIndex=index;
-    lastKey='';sync();
+    lastKey='';
+    sync();
+    // Deliberately do not seek, change view or toggle playback here.
+  }
+  select.addEventListener('change',()=>{
+    chooseStage(content.stages.findIndex(x=>x.id===select.value));
+  });
+  prev.addEventListener('click',()=>chooseStage(selectedIndex-1));
+  next.addEventListener('click',()=>chooseStage(selectedIndex+1));
+  view.addEventListener('click',()=>{
+    if(!open)return;
+    // Separate explicit user action; no Timeline or playback side effects.
+    dashboard.setView('wiggers');
+  });
+  seek.addEventListener('click',()=>{
+    if(!open)return;
+    const chosen=content.stages[selectedIndex];
+    const observation=content.getObservation(
+      chosen.id,getActiveTiming(),mech,profile);
+    const percent=100*observation.midpointMs/observation.rrMs;
+    const step=Number(timeline.step)||0.1;
+    const min=Number(timeline.min)||0;
+    const max=Number(timeline.max)||100;
+    // Match native slider step and clamp inside its supported range.
+    const target=Math.max(min,Math.min(max,
+      min+Math.round((percent-min)/step)*step));
+    timeline.value=String(Number(target.toFixed(8)));
+    timeline.dispatchEvent(new Event('input',{bubbles:true}));
+    // The existing slider owns Pause/A/B seek and display synchronization.
+    // No alternate model updater or time state is created.
+    lastKey='';
+    sync();
   });
   root.CardiacGuidedLearning=Object.freeze({
     sync,
     get open(){return open;},
     get selectedStageId(){return content.stages[selectedIndex].id;},
-    get version(){return 'v1.12 Patch 1';}
+    get version(){return 'v1.12 Patch 2';}
   });
 })(window);
