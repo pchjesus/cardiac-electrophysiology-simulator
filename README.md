@@ -274,3 +274,64 @@ python3 -m http.server 8000 --bind 0.0.0.0
 Open http://localhost:8000 (or forward port 8000), try `?` both with the Wiggers panel collapsed and expanded, test Escape/×/outside click, compare five traces and four markers to changing phase lessons, and repeat on a phone-sized browser. Automated browser tests cannot replace visual acceptance on the user's actual device. **The inherited narrow-screen page overflow is reserved for Patch 6.**
 
 Next: Patch 5 focuses on normal/bradycardia/tachycardia educational scenarios. Patch 6 mobile/a11y improvements and Patch 7 final release remain out of scope.
+
+
+## v1.10 Patch 5 — Nursing and cardiac-cycle learning scenarios (2026-10-12)
+
+### What's new
+- Open **Wiggers Diagram** near the bottom. Inside it choose **Normal 72**, **Bradycardia 50** or **Tachycardia 120 bpm**. These buttons reuse the original Heart Rate slider, not a separate simulation mode. Move the slider directly to return to *Custom HR*.
+- Open **심화 의학·간호 해설 보기** to read a full, phase-specific six-part lesson: **electrical activation → relative pressure/valves → relative LV volume → patient nursing observation → rate comparison → modeling limitations**. Timeline seek or playback changes the current phase automatically. The inner explanation remains opt-in so the ECG Monitor and Wiggers plot are not displaced by paragraphs.
+- Use the top **▤ Patch notes** and **? User guide** buttons to open scrollable reference popups. Close using **×**, **Escape**, or by clicking elsewhere. They are independent of Play/Pause/Reset, and only one reference popup opens at once. Their content is included inline in the app; there is no network connection or external help dependency.
+
+### How to study the five phases
+1. **Ventricular filling:** the mitral valve is open when LV pressure is sufficiently low relative to LA. LV relative volume rises. Do not assume normal preload merely because the teaching trace rises.
+2. **Atrial systole:** P-wave atrial depolarization comes before atrial contraction; atrial contraction adds the end-diastolic contribution to ventricular filling. A P wave is an electrical signal, not a direct proof of mechanical atrial function.
+3. **Isovolumetric contraction:** QRS activation precedes contraction. Mitral/tricuspid valve closure is chiefly associated with S1; in the left-heart teaching model, mitral close starts a closed-valve interval when LV pressure increases and LV volume is flat.
+4. **Ventricular ejection:** aortic opening permits forward flow; relative LV volume falls. T-wave repolarization may overlap late ejection, but no exact mechanical end is inferred from the T wave.
+5. **Isovolumetric relaxation:** aortic/pulmonary closure is associated with S2; after aortic close and before mitral open, volume stays flat while LV pressure falls. The diagram does not synthesize S2 or left/right valve split sounds.
+
+### Heart rate scenarios: how to interpret safely
+- **Normal (72 bpm reference):** observe the sequence of ECG→pressure rise→valve opening→ejection→relaxation and compare electrical/mechanical offsets. Resting adult 60–100 bpm is a descriptive band, not a guarantee of healthy cardiac function.
+- **Bradycardia (50 bpm example):** a longer RR permits a longer model cycle. In real care bradycardia may be physiological (sleep, training) or associated with symptoms; assess dizziness, fainting, consciousness, blood pressure, pulse, breathing and medication/underlying context. The model does not represent AV block or compromised output.
+- **Tachycardia (120 bpm example):** a shorter RR commonly reduces available filling time, particularly in diastole; *this does not directly predict EDV, stroke volume, EF, perfusion or cardiac output*. Fever, pain, activity, anemia, dehydration and other causes demand contextual assessment, not automatically a decision to lower HR.
+
+**Nursing learning sequence:** pick a rate → observe P/QRS/T → locate mitral close (S1), aortic open, aortic close (S2), mitral open → examine pressure/volume → identify the present phase in the deeper learning area → ask what signs/symptoms, perfusion and auscultation findings would be needed in a *real* clinical assessment.
+
+### Scientific fidelity and important restrictions
+The simulator uses a simplified normal sinus electrical timing model, an educational mechanical event schedule, relative left atrial/LV/aortic pressure **indexes** and normalized LV volume. These are **not** invasive blood-pressure readings (mmHg), ventricular measurements (mL), stroke volume, cardiac output or ejection fraction, nor patient-specific predictions. The plotted S1/S2 are event markers, not sounds or independently computed right-heart valve closures. HR changes affect the modeled timestamps but not a physiological cardiac output/Frank–Starling system. QTc correction/high-HR electrical intervals and older Mechanical floating-point boundary ties also have documented limitations.
+
+**A vs B:** The Wiggers vertical cursor maps the current *physiological A-time phase within a single RR*. The ECG Monitor shows a separately paced, horizontally scrolling B-time visualization. Do not compare their x-coordinates pixel-for-pixel.
+
+### Quick controls and user guide
+- **Play / Pause / Reset:** start, hold and reset. Reset returns status labels to Ready but retains chosen view/disclosure.
+- **Timeline:** seek to cardiac-cycle time while pausing playback.
+- **Heart Rate:** change 30–180 bpm; manual changes return the learning preset to Custom.
+- **Electrical / Mechanical:** switch between conduction animation and educational schematic valves/flow without disturbing time.
+- **Wiggers / ? / deeper explanation:** optional panel, brief Wiggers help and longer physiologic/nursing guidance respectively.
+- **Header Patch notes / User guide:** categorized changelog and self-contained operation guide. ×, Escape or click outside closes.
+
+**Clinical context matters:** Abnormal HR alone is not a diagnosis. Never use these simulated curves to interpret clinical unstable rhythms or decide treatment. The simulator is intended for foundational ECG/heart-cycle learning, not emergency or medical-device use.
+
+### References (APA 7th)
+Pollock, J. D., & Makaryus, A. N. (2022). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
+
+OpenStax. (n.d.). *19.4 Cardiac physiology*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-4-cardiac-physiology
+
+American Heart Association. (2024, September 25). *Bradycardia: Slow heart rate*. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/bradycardia--slow-heart-rate
+
+American Heart Association. (n.d.). *Tachycardia: Fast heart rate*. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/tachycardia--fast-heart-rate
+
+These support qualitative human physiology and context, **not** the numeric simulator engine.
+
+### Manual visual review
+From the repository root after the new main is merged:
+
+~~~bash
+git switch main
+git pull --ff-only origin main
+python3 -m http.server 8000 --bind 0.0.0.0
+~~~
+
+Open http://localhost:8000 (or forward port 8000). Verify collapsed-by-default Wiggers and deep-education disclosures, three HR presets, changing full medical/nursing explanations, visible four valve/S1-S2 markers, long popup text scrolling, outside-click/X/Escape behavior and narrow-screen view. Automated CI/browser checks are distinct from inspection on an actual user device.
+
+**Next:** Patch 6 mobile/a11y improvements, then Patch 7 FINAL. Neither is included in Patch 5.
