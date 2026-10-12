@@ -884,3 +884,40 @@ Compact Controller + ECG View
  .wiggers-help-popover{position:fixed;left:12px;right:12px;top:12vh;width:auto;
   max-height:70vh;max-height:70dvh;z-index:100}
 }
+
+
+/* v1.10 Patch 5 — optional medical/nursing learning and reference popovers */
+.header-tools{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:7px}
+.header-tools button{cursor:pointer;min-height:29px;padding:4px 11px;background:#eff4f9;border:1px solid #a9bbc9;border-radius:7px;color:#28465b;font-size:12px;font-weight:700}
+.header-tools button:hover{background:#dfedf9}
+.header-tools button:focus-visible,.learning-preset-row button:focus-visible,.learning-deep-dive summary:focus-visible,.info-panel button:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+.learning-scenario-panel{border:1px solid #d6e3ef;background:#f8fbff;border-radius:8px;padding:10px 12px;margin:2px 0 10px;line-height:1.55;color:#28435b}
+.learning-scenario-panel h3{font-size:13px;margin:0 0 8px}
+.learning-scenario-panel strong{display:block;font-size:13px;margin-top:7px}
+.learning-scenario-panel p{margin:5px 0;font-size:12px}
+.learning-scenario-panel .learning-boundary{font-size:11px;color:#5a6b7c}
+.learning-preset-row{display:flex;flex-wrap:wrap;gap:6px}
+.learning-preset-row button{border:1px solid #9cb4c9;border-radius:6px;background:white;padding:7px 9px;color:#244961;font-size:12px;font-weight:600;cursor:pointer;min-height:32px}
+.learning-preset-row button.learning-preset-active{background:#dfeffc;border-color:#23679a;box-shadow:inset 0 0 0 1px #23679a}
+.learning-deep-dive{margin:9px 0;border:1px solid #cbdce9;border-radius:7px;background:#fff;min-width:0}
+.learning-deep-dive summary{cursor:pointer;font-size:13px;font-weight:700;padding:11px;color:#234965;line-height:1.5}
+.learning-detail{padding:2px 13px 13px;border-top:1px solid #e4edf4;font-size:12px;line-height:1.65;color:#32495b}
+.learning-detail h3{margin:9px 0;font-size:14px}
+.learning-detail h4{margin:12px 0 4px;font-size:12px;color:#245276}
+.learning-detail p{margin:4px 0}
+.info-panel{position:fixed;z-index:120;top:80px;right:18px;left:auto;width:min(650px,calc(100vw - 30px));max-height:calc(100vh - 95px);max-height:calc(100dvh - 95px);overflow:auto;padding:15px 17px;background:#fff;border:1px solid #a1b5c7;border-radius:11px;color:#293e50;box-shadow:0 12px 35px #162c4760;font-size:12px;line-height:1.6}
+.info-panel[hidden]{display:none!important}
+.info-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-15px;margin:-15px -17px 12px;padding:12px 16px;background:#f6f9fc;border-bottom:1px solid #d9e5ed;z-index:1}
+.info-panel-head h2{margin:0;font-size:16px;color:#1d4663}
+.info-panel-head button{cursor:pointer;border:0;background:#e7eff7;color:#1e405b;border-radius:6px;font-size:23px;min-width:32px;min-height:32px}
+.info-panel-intro,.info-panel-disclaimer{color:#586b7a}
+.patch-group,.guide-section{padding:8px 0;border-bottom:1px solid #e5ecf1}
+.patch-group h3,.guide-section h3{margin:2px 0 6px;color:#265371;font-size:13px}
+.patch-group p,.guide-section p{margin:6px 0}
+@media(max-width:600px){
+ .header-tools{margin-top:6px}
+ .info-panel{left:12px;right:12px;top:65px;width:auto;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);padding:12px}
+ .info-panel-head{margin:-12px -12px 10px;top:-12px;padding:10px 12px}
+ .learning-preset-row button{flex:1 1 140px}
+ .learning-scenario-panel{padding:9px}
+}
