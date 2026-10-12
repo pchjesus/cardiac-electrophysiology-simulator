@@ -676,3 +676,14 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 **Safety and regressions:** No numerical, waveform, A/B, Mechanical or Wiggers source changes. Added v1.11.1 real-page 98-assertion test and screenshot artifact to the existing GitHub Actions pipeline (10 test steps; 449265 assertions upon success). A pre-existing v1.11 automated test raced asynchronous native details.toggle and checked full nursing text before its update. The test now waits for actual content, retaining the original content-length expectation rather than adding fixed sleep or altering teaching data. An initial new test mistakenly measured local Wiggers scroll while its panel was hidden; corrected to activate the panel first.
 
 **Documentation and handoff:** Version label and categorized in-app patch history/guide updated; README, SPEC, this DEVLOG and AGENTS reflect current UI. V1.11.1_RELEASE_NOTES.md contains target-device acceptance and clinical limits. V1.12_START_HERE.md sketches next educational feature design. Only refer to latest verified Actions run for release-status claims; physical-device visual and medical-device clinical validation remain unclaimed.
+
+
+## v1.12 detailed design prepared (2026-10-12) — NO IMPLEMENTATION
+
+- Confirmed current main v1.11.1 stable code at SHA `9fee9e6c135fd29d718e79ff2ea024c416ef2371`, final main Actions `38197061231` success, 10 stages / 449265 explicit checks.
+- Inspected `mechanics.js`, `wiggers.js`, `wiggers-profile.js`, `wiggers-learning.js`, `wiggers-view.js` and `dashboard-v111.js` along with release notes and handoff.
+- Wrote [V1.12_DESIGN.md](V1.12_DESIGN.md): opt-in five-stage learning flow, three UX alternatives, strict A/B clock vs learning progress separation, user-authorized Timeline seek and target calculation, risk matrix, five small patches and regression plan.
+- Wrote [V1.12_CLINICAL_CURRICULUM.md](V1.12_CLINICAL_CURRICULUM.md): model-grounded five-stage education, ten concept questions/answers, evidence and warnings separating established physiology from illustrative pressure/volume values.
+- Identified important model-specific case: Wiggers `filling` repeats before `atrialStart` (initial constant relative volume 0.88) and after `relaxationEnd` (late filling relative volume rises 0.48→0.88). Guided phase target must land in latter interval to avoid clinically misleading visualization.
+- Consulted OpenStax cardiac cycle and StatPearls cardiac cycle for generic pressure-gradient and electrical-mechanical relationships. These references do NOT validate heuristic simulated numbers.
+- Next coding is **on hold** until the user chooses the recommended in-inspector optional guide UX (or tab/modal alternative) and whether Wiggers should auto-switch (recommend no). This release intentionally modifies documentation only; the stable v1.11.1 application and all regression scripts are unchanged.
