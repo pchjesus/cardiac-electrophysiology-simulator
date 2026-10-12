@@ -231,3 +231,8 @@ Automated v1.8 regression is complete; user physical-browser visual acceptance i
 - Follow the existing five-stage Wiggers profile (including two noncontiguous filling segments); never invent new event times or use normalized pressure/volume as real patient metrics.
 - Learning navigation/answers are isolated presentation/progress state; no HR/clock/Timeline/playback side effects. Any seek is an explicitly labeled user action through the original Timeline. Preserve compact height, medical/nursing source content and Wiggers SVG scroll.
 - Release new functionality only after old ten CI test stages and new v1.12 scientific/interaction/regression tests; manual target-device acceptance remains a separate review.
+
+
+### v1.12 refined design mandatory handoff
+
+Before implementing Guided Learning, read [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) in addition to V1.12_DESIGN.md and V1.12_CLINICAL_CURRICULUM.md. The default compact Inspector keeps its height, the guide **replaces** rather than stacks with the existing summary, educational selection and live model time must be labeled distinctly, and only a visibly confirmed original Timeline action may seek/pause. 'RR latter-half filling' must not be presented as a clinical late-diastolic physiological stage. Seek/view/guide UX must be explicitly approved before coding.
