@@ -655,3 +655,13 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 **Testing:** Original eight regression suites are retained unchanged; added tests/test_v111.py against the full real HTML entrypoint, covering original controls, three view switching, A/B exact equality, rates/presets, Wiggers markers, optional zoom, Reset/Play/Pause/seek, guide popups, keyboard navigation and 1440/1366/1024/768/390/360px screen widths. First complete nine-suite run passed: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38192283066 . Actual Chromium screenshots captured: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38192437652 . Screenshot review showed opportunity to compact the controls and add Wiggers focus; these changes are included in later commits and require another final CI check.
 
 **Known limitations:** At short display heights complete graph plus long nursing text requires vertical scrolling. The graph is readable instead of being compressed below a practical minimum. Physical-device manual visual acceptance has not yet been carried out; CI is not a substitute for that review.
+
+
+### v1.11 최종 개발 마무리 확인 (2026-10-12)
+
+- 실제 구현 병합: [PR #6](https://github.com/pchjesus/cardiac-electrophysiology-simulator/pull/6), squash commit `5b6698617d50cdec99d9f6be96faf15bcd960ab4`; **main에 반영됨**.
+- 최종 main Actions 실행 [#38193202584](https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38193202584): 이전 8개 + 신규 v1.11 1개 = **9개 단계 모두 성공, 449,167개 검사 통과**. 앞의 “추가 CI 필요” 문장은 개발 당시의 기록이며 최종 현재 상태가 아님.
+- 사용자에게 실행 코드가 아닌 목업을 보여준 것이 아니라, Chromium의 실제 데스크톱/모바일 캡처를 아티팩트로 보관함: [#38193063843](https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38193063843).
+- `backups/v1.10-final/`에 원본 15개 파일 존재 확인. `README.md`의 현재 버전 표기를 v1.9에서 v1.11로 정정.
+- 실제 사용자 기기에서 시각적 판독성, 전도·판막 애니메이션 체감, 터치 및 간호 설명의 사용성을 확인하는 **수동 검수는 아직 완료되지 않음**. 임상적 유효성이나 의료기기 적합성 검증도 수행하지 않음.
+- 인수 체크리스트, 확인된 제약, v1.11.1 안정화 우선순위 및 다음 채팅 시작문은 [`V1.11_CLOSEOUT.md`](V1.11_CLOSEOUT.md)로 분리. 모델 및 UI 실행 코드는 이 마무리 작업에서 변경하지 않음.

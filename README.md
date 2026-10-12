@@ -5,7 +5,9 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.9 FINAL — automated tests complete; user visual acceptance pending**
+**v1.11 Integrated Learning Dashboard — code merged, full CI passed; physical-device visual acceptance pending.**
+
+Current entrypoint is `index.html` with `dashboard-v111.js`. For the confirmed status and next development priorities see [`V1.11_CLOSEOUT.md`](V1.11_CLOSEOUT.md) and [`V1.11_START_HERE.md`](V1.11_START_HERE.md). Older sections below record historical development and should not be mistaken for the active UI.
 
 ## Educational Flow
 
