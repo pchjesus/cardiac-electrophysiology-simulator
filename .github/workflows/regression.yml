@@ -53,6 +53,16 @@ jobs:
         run: python tests/test_v112_patch3.py
       - name: Verify v1.12 Patch 4 novice-to-nursing progressive learning
         run: python tests/test_v112_patch4.py
+      - name: Verify v1.12 Patch 5 clinical profile and final readability
+        run: python tests/test_v112_patch5.py
+      - name: Upload v1.12 Patch 5 actual desktop/mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch5-education-ui
+          path: preview-v112p5/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.12 Patch 4 actual novice/mid/extra learning screenshots
         if: always()
         uses: actions/upload-artifact@v4
