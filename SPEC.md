@@ -757,3 +757,24 @@ These references ground descriptive adult HR ranges, cardiac-cycle sequence, and
 **Tests:** All eight historical v1.8–v1.10 tests remain unchanged and runnable; tests/test_v111.py loads the real index.html and verifies A/B identity, 3 modes, focus/split, HR presets/custom slider, Play/Pause/Reset/Timeline, popup keyboard interactions, original content and six viewport widths. The independent screenshot workflow supports visual review but is not human device acceptance.
 
 **Known scientific limitations:** no actual mmHg, mL, EF, stroke volume, output, patient perfusion or validated high-HR QTc interpretation; distinct Mechanical vs Wiggers exact event ties; deliberately simplified ECG/pressure/volume teaching relationships. Short screens require some vertical scrolling rather than shrinking explanations into illegibility.
+
+
+## v1.11.1 — Compact-first educational UI stabilization contract
+
+**SCOPE:** presentation, accessibility and QA. No physiology, ECG shape, simulation timer/rAF, mechanical calculation, Wiggers event boundary, pressure/volume profile or clinical diagnostic model changes.
+
+**DASH-1111-01** Initial compact view keeps ECG, native Play/Pause/Reset, HR (30–180 bpm), Timeline, three rate presets, six measured interval values, Electrical/Mechanical/Wiggers controls, electrical phase, mechanical phase, ECG Event and short nursing/physiology explanations visible. The three original detailed text panels must remain in the DOM in independent native details, initially collapsed.
+
+**DASH-1111-02** Full information toggle opens original ECG-component, Current Phase, ECG Event details and references. It closes them when restored to compact and cannot alter any simulation model or canonical clock. The independent six-part nursing/physiology deep disclosure is not automatically opened or closed by density changes.
+
+**DASH-1111-03** Clicking an existing P/PR/QRS/ST/T item reveals its original explanatory DOM node even in compact mode without auto-opening unrelated panels. UI view state must not compete with ECG selected-component state.
+
+**DASH-1111-04** At >=1200px, compact mode arranges original shared controls alongside the original ECG Canvas without cloning nodes. Expanded mode and smaller screens retain stacked layout. Do not make the canvas, Wiggers graph or clinical text unreadably small for first-viewport fitting.
+
+**DASH-1111-05** Measurements remain visible in compact mode; their historical normal-range footnotes are accessible in expanded mode and must not be represented as clinically calibrated output. Wiggers alone may scroll horizontally within its bounded plot.
+
+**DASH-1111-06** Preserve the protected nine v1.8–v1.11 suites and add a 98-assertion real-page v1.11.1 suite. Test full/compact document height, visible core info, complete nursing text, original mode and control bindings, A/B identity, Reset/Play/Pause/Timeline, help popups and widths 1440/1366/1024/768/390/360. Native toggle-associated content assertions wait on content rather than merely disclosure-open state. Record actual screenshots separately from physical-device acceptance.
+
+**Clinical guardrails:** ECG vs mechanical phases remain distinct. Pressure and volume are illustrative relative/normalized values, not mmHg/mL/EF/CO; S1/S2 are markers not audio. High-HR QT/QTc limitations and v1.9 Mechanical vs Wiggers exact-boundary ties are documented, not fixed through UI code.
+
+**NEXT:** v1.12 plans are in V1.12_START_HERE.md. Do not silently begin disease/rhythm-model additions in the stabilization patch.
