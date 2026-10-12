@@ -778,3 +778,21 @@ These references ground descriptive adult HR ranges, cardiac-cycle sequence, and
 **Clinical guardrails:** ECG vs mechanical phases remain distinct. Pressure and volume are illustrative relative/normalized values, not mmHg/mL/EF/CO; S1/S2 are markers not audio. High-HR QT/QTc limitations and v1.9 Mechanical vs Wiggers exact-boundary ties are documented, not fixed through UI code.
 
 **NEXT:** v1.12 plans are in V1.12_START_HERE.md. Do not silently begin disease/rhythm-model additions in the stabilization patch.
+
+
+## v1.12 PLANNED DESIGN — NOT IMPLEMENTED
+
+Detailed architecture, user-visible UX alternatives, state transition table, validated source mapping, phase interval targets, tests and risks: [V1.12_DESIGN.md](V1.12_DESIGN.md).
+Detailed nursing/medical teaching curriculum and 10 qualitative practice questions: [V1.12_CLINICAL_CURRICULUM.md](V1.12_CLINICAL_CURRICULUM.md).
+
+**GUIDE-1201 (pending UX confirmation):** Keep v1.11.1 compact view and clinical inspector unchanged by default. An explicit opt-in guide covers five currently modeled stages. Recommended location: existing inspector rather than a fourth visualization mode or blocking popup.
+
+**GUIDE-1202 (protected state):** Guided open/close/step/question/level actions never change A/B, HR, Timeline, ECG, Play/Pause, Electrical/Mechanical mode, Wiggers plot or Reset behavior. Optional explicit “move to this phase” action must invoke original Timeline input and clearly disclose that it pauses/seeks.
+
+**GUIDE-1203 (scientific integrity):** Canonical profile and valve events from existing CardiacWiggersProfile, model segment boundaries from CardiacMechanical.getMechanicalTiming. Handle the two disjoint `filling` segments correctly: initial [0,atrialStart) relative LV volume remains 0.88, while late [relaxationEnd,RR) increases 0.48→0.88. Mid-stage guide target for filling must be in late filling. No medical parameters or numerical clinical inferences.
+
+**GUIDE-1204 (teaching):** electrical event, mechanical activity, valve/pressure, relative LV volume, qualitative nursing assessment and current model limitation per stage; original source text reused, beginner/advanced selectable, test conceptual understanding without clinical prediction.
+
+**GUIDE-1205 (regression):** preserve prior ten automation suites, add v1.12 real-browser tests at HR 30/50/60/72/80/100/120/180 and stage-event boundaries, seek-only-on-explicit-click, no default viewport height increase, mobile graph-local scrolling and keyboard operation. Physical-device QA is not asserted by automated tests.
+
+**Release gate:** User-visible guide location and automatic tab-switch choice require user approval; no v1.12 runtime implementation in this design-only change.
