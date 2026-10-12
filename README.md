@@ -370,3 +370,8 @@ The pre-v1.11 confirmed source and documents are archived in backups/v1.10-final
 The current running version remains **v1.11.1**. The planned next release has a complete design in [V1.12_DESIGN.md](V1.12_DESIGN.md) and medically scoped teaching/quiz content in [V1.12_CLINICAL_CURRICULUM.md](V1.12_CLINICAL_CURRICULUM.md). These are **design documents only**, not active UI or released features.
 
 The design recommends an opt-in five-stage guide within the existing learning inspector, preserving the compact default and original ECG/Mechanical/Wiggers. Stage selection never changes A/B time or playback; **only explicit user action** to seek through the existing Timeline does so. The current normalized filling profile has two disjoint stage intervals with different LV-volume behaviors, explicitly addressed in the curriculum. The major visible UX alternatives (inline inspector / extra tab / modal, automatic Wiggers switching or user-triggered switch) remain **subject to user confirmation** prior to v1.12 implementation.
+
+
+### v1.12 design refinement (design only, no new runtime)
+
+See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) for the improved **replace-in-place compact learning inspector**, separate study-step and live physiological-phase labels, explicit user-only seek behavior, model-RR filling terminology correction, proposed five-patch QA criteria and the three user UX decisions. Earlier v1.12 documents remain the original design and nursing syllabus. Active application version is **v1.11.1**, not v1.12.
