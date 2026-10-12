@@ -122,6 +122,9 @@ with sync_playwright() as p:
 
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function("document.getElementById('wiggersDeepDive').open")
+ # Native details.toggle is queued asynchronously after .open changes. Wait
+ # for the actual educational-content update, not just the open property.
+ page.wait_for_function("document.getElementById('learningNursing').textContent.trim().length>70")
  ck(page.locator('#learningNursing').is_visible(),'Deep nursing paragraph not available')
  ck(len(page.locator('#learningNursing').inner_text())>70,'Nursing teaching text insufficient')
  ck(page.locator('#dashboardPhysiology').inner_text().strip()!='',

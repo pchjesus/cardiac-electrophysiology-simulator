@@ -43,3 +43,13 @@ jobs:
         run: python tests/test_v110_patch5.py
       - name: Verify v1.11 integrated learning dashboard and responsive layout
         run: python tests/test_v111.py
+      - name: Verify v1.11.1 compact dashboard and complete clinical content
+        run: python tests/test_v1111.py
+      - name: Upload v1.11.1 actual-browser UI previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v1111-compact-full-UI-screenshots
+          path: preview-v1111/
+          if-no-files-found: warn
+          retention-days: 30

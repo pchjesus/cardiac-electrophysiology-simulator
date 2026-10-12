@@ -5,9 +5,15 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.11 Integrated Learning Dashboard — code merged, full CI passed; physical-device visual acceptance pending.**
+**v1.11.1 Compact Learning Dashboard — stabilization implemented and automated regression verified; physical-device visual acceptance pending.**
 
-Current entrypoint is `index.html` with `dashboard-v111.js`. For the confirmed status and next development priorities see [`V1.11_CLOSEOUT.md`](V1.11_CLOSEOUT.md) and [`V1.11_START_HERE.md`](V1.11_START_HERE.md). Older sections below record historical development and should not be mistaken for the active UI.
+Use the default **핵심 보기** for ECG, controls, six measurements, selected visualization and concise nursing/physiology interpretation. Select **전체 정보 보기** to reveal original detailed ECG, conduction phase and ECG Event text plus reference notes; select **핵심 보기로 전환** to restore compact mode. Clicking P / PR / QRS / ST / T opens the relevant original ECG explanation automatically. The independent six-part **심화 의학·간호 해설** stays available in either mode.
+
+At desktop widths 1200px+, compact mode puts the original HR/Timeline/control panel beside the ECG Monitor rather than stacking it. Mobile preserves one-column layout and local Wiggers plot scrolling. Neither density toggle nor graph focus changes physiological A time, visualization B time, HR, playback or mechanical model.
+
+See [v1.11.1 Release Notes](V1.11.1_RELEASE_NOTES.md) for measured height savings and actual-device QA, and [v1.12 Start Here](V1.12_START_HERE.md) for safeguarded next-version design. Older version sections below remain development history.
+
+Current entrypoint remains index.html using dashboard-v111.js; the v1.11 closeout document is historical context. The v1.11.1 release notes and v1.12 handoff above are now authoritative.
 
 ## Educational Flow
 

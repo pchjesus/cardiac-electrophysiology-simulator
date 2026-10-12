@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.11</title>
+<title>Cardiac Electrophysiology Simulator v1.11.1</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.11</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.11.1</h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -448,6 +448,7 @@
     </section>
     <section class="patch-group">
         <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.11.1</strong> — 핵심 보기(기본) / 전체 정보 보기 전환, ECG 상세·전도 단계·사건 정보의 접이식 배치, Measurements 요약을 주 시각화 바로 위로 이동. 기존 정보는 삭제하지 않음.</p>
         <p><strong>v1.11</strong> — ECG 상시 표시, Electrical/Mechanical/Wiggers 전환, Wiggers 확대 보기, 모바일 1열 레이아웃 및 가독성 개선.</p>
         <p><strong>v1.10 P5</strong> — 접이식 심화 학습, 패치 내역/사용 설명서 아이콘 팝업.</p>
         <p><strong>v1.10 P4</strong> — Wiggers ? 도움말 및 닫기·외부 클릭·Escape 지원.</p>
@@ -455,6 +456,7 @@
     </section>
     <section class="patch-group">
         <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.11.1</strong> — 읽기용 표시 계층만 개선하고 A/B 시계, ECG 파형, Mechanical/Wiggers 계산과 모든 HR·Timeline 제어 유지. 축소·확대 및 자동 상세 설명 표시를 회귀 검증.</p>
         <p><strong>v1.11</strong> — v1.10 FINAL 별도 백업, 원본 DOM·이벤트 유지, A/B 시계 불변, 9개 자동 회귀 단계와 실화면 캡처.</p>
         <p><strong>v1.10 P5</strong> — 교육용 해설은 읽기 전용, 기존 HR 슬라이더만 사용. 신규 UI 테스트 및 사용 설명서.</p>
         <p><strong>v1.10 P1–4</strong> — 판막 경계 규칙과 상대 수치 한계 명시, 이전 버전 자동 회귀 테스트 유지.</p>
@@ -468,6 +470,7 @@
         <button type="button" data-close-info aria-label="Close user guide">×</button>
     </div>
     <section class="guide-section"><h3>1. 기본 작동</h3>
+        <p>기본값인 <strong>핵심 보기</strong>는 현재 학습에 필요한 요소를 우선 표시합니다. 상단 <strong>전체 정보 보기</strong>를 누르면 ECG 상세, 전도 단계 및 ECG Event 설명을 동시에 펼치고 측정값의 참고 범위도 표시합니다. 다시 <strong>핵심 보기로 전환</strong>하면 접히며 모든 HR·재생 상태는 유지됩니다. P/PR/QRS/ST/T를 클릭하면 해당 ECG 상세만 자동으로 열립니다.</p>
         <p>상단 <strong>공통 컨트롤 바</strong>의 Play로 재생, Pause로 정지, Reset으로 한 박동 시작 위치를 초기화합니다. Timeline을 움직이면 원하는 생리학적 주기 위치로 이동하면서 일시 정지합니다. 모든 시각화 탭이 동일한 제어 기능을 공유합니다.</p>
         <p><strong>Heart Rate (30–180 bpm)</strong>로 직접 선택하면 Custom 학습 모드가 됩니다. ECG Monitor는 시간에 따라 이동하는 표시이며 실제 환자 모니터가 아닙니다.</p>
     </section>
