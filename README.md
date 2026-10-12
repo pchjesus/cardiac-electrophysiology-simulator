@@ -335,3 +335,23 @@ python3 -m http.server 8000 --bind 0.0.0.0
 Open http://localhost:8000 (or forward port 8000). Verify collapsed-by-default Wiggers and deep-education disclosures, three HR presets, changing full medical/nursing explanations, visible four valve/S1-S2 markers, long popup text scrolling, outside-click/X/Escape behavior and narrow-screen view. Automated CI/browser checks are distinct from inspection on an actual user device.
 
 **Next:** Patch 6 mobile/a11y improvements, then Patch 7 FINAL. Neither is included in Patch 5.
+
+
+## v1.11 CURRENT — Integrated Learning Dashboard (2026-10-12)
+
+This is the **current** layout. Earlier v1.10 guide sections describe the historical UI; the underlying physiology is unchanged.
+
+### Current operation
+- The original ECG Monitor stays visible. The original Play, Pause, Reset, 30–180 bpm HR and Timeline controls, plus Normal 72 / Bradycardia 50 / Tachycardia 120 teaching presets, are gathered in one compact top command region. Moving the old buttons, not cloning them, preserves their original control paths.
+- Select Electrical (original SA/AV/His/Purkinje animation), Mechanical (original four-chamber valve/flow animation) or Wiggers (ECG, relative LA/LV/aorta pressures, normalized LV volume and four S1/S2/valve markers) in the central view. Every selection reads the same existing physiological time A, without seeking/pausing/resetting. A smaller separate ECG visualization-time clock B preserves existing sweep speed.
+- A paired **실시간 통합 해설** displays separate electrical and mechanical phases and a short source-derived nursing/physiology summary, alongside the original Current Phase and ECG Event content. Expand the adjacent **심화 의학·간호 해설** to read the complete six-part original lesson.
+- Desktop Wiggers has an optional **⤢ Wiggers 확대 보기** button: use full width and move the explanation below, then **⤢ 분할 보기** to restore the two-column view. This toggle changes no physiological state. On phones everything stacks; only the 720px-minimum Wiggers SVG plot scrolls horizontally.
+- View controls support keyboard Left/Right/Home/End when focused. The existing header patch notes, User guide, and Wiggers ? popup retain close button, Escape and outside click.
+
+### Physiological and clinical meaning
+ECG electrical depolarization and mechanical contraction are not identical events. The normal/brady/tachy presets classify example HRs, not pathological diagnoses. Wiggers relative pressures are not mmHg; normalized LV volume is not mL, EF, stroke volume or cardiac output, and S1/S2 are event markers not sound recordings. Mechanical and Wiggers exact-boundary rounding differ slightly, as already documented. At high HRs QT/QTc values reflect the original simplified teaching model, not validated clinical measurements. This release does not add patient diagnosis/treatment or any new physiological calculations.
+
+### Manual verification
+Use desktop 1366×768 / 1440×900, tablet 768 and phone 390 / 360 widths. Confirm that ECG is always visible; view tabs do not change A/B, HR or Play/Pause state; Electrical pulses and Mechanical flow remain usable; Wiggers re-entry immediately synchronizes all five traces and four markers; focus/split and Reset preserve correct states; full nursing explanation, guide/changelog popups and keyboard controls work; only the Wiggers chart has horizontal scroll. Automated GitHub Actions and headless screenshots are **not** target-device human visual acceptance.
+
+The pre-v1.11 confirmed source and documents are archived in backups/v1.10-final/ (15 files, baseline f08e894ca6713d0828cf4739d33cd87ac0da46fa). Continue to use existing v1.10 reference citations for the unchanged medical descriptions.

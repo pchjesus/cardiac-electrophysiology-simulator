@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.10 Patch 5</title>
+<title>Cardiac Electrophysiology Simulator v1.11</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.10 Patch 5</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.11</h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -434,6 +434,7 @@
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
     <section class="patch-group">
         <h3>기능 추가 · Features</h3>
+        <p><strong>v1.11</strong> — 공통 HR·Timeline·Play/Pause/Reset과 정상·서맥·빈맥 시나리오를 하나의 컨트롤 영역으로 통합.</p>
         <p><strong>v1.10 P5</strong> — Normal 72 / Bradycardia 50 / Tachycardia 120 bpm 교육 프리셋과 자유 HR 연동.</p>
         <p><strong>v1.10 P1–3</strong> — Wiggers 사건·상대 압력/용적 프로필 및 동기화된 ECG/Wiggers 그래프.</p>
         <p><strong>v1.9</strong> — 기존 Electrical 모드를 유지한 Mechanical 판막/혈류 시각화.</p>
@@ -441,17 +442,20 @@
     </section>
     <section class="patch-group">
         <h3>의학·간호 교육 · Clinical learning</h3>
+        <p><strong>v1.11</strong> — 전기적 단계와 기계적 단계를 구분하는 실시간 해설, 생리학적 변화·간호 관찰을 그래프와 나란히 배치.</p>
         <p><strong>v1.10 P5</strong> — 심장 주기 5단계마다 ECG·압력·판막·용적·간호 관찰·한계 설명 확장.</p>
         <p><strong>v1.10 P4</strong> — 승모판/대동맥판 사건 및 S1/S2 단계별 해설.</p>
     </section>
     <section class="patch-group">
         <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.11</strong> — ECG 상시 표시, Electrical/Mechanical/Wiggers 전환, Wiggers 확대 보기, 모바일 1열 레이아웃 및 가독성 개선.</p>
         <p><strong>v1.10 P5</strong> — 접이식 심화 학습, 패치 내역/사용 설명서 아이콘 팝업.</p>
         <p><strong>v1.10 P4</strong> — Wiggers ? 도움말 및 닫기·외부 클릭·Escape 지원.</p>
         <p><strong>v1.10 P3</strong> — 접이식 Wiggers SVG, 모바일 그래프 영역 내 가로 스크롤.</p>
     </section>
     <section class="patch-group">
         <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.11</strong> — v1.10 FINAL 별도 백업, 원본 DOM·이벤트 유지, A/B 시계 불변, 9개 자동 회귀 단계와 실화면 캡처.</p>
         <p><strong>v1.10 P5</strong> — 교육용 해설은 읽기 전용, 기존 HR 슬라이더만 사용. 신규 UI 테스트 및 사용 설명서.</p>
         <p><strong>v1.10 P1–4</strong> — 판막 경계 규칙과 상대 수치 한계 명시, 이전 버전 자동 회귀 테스트 유지.</p>
     </section>
@@ -464,19 +468,19 @@
         <button type="button" data-close-info aria-label="Close user guide">×</button>
     </div>
     <section class="guide-section"><h3>1. 기본 작동</h3>
-        <p><strong>Play</strong> 재생, <strong>Pause</strong> 일시 정지, <strong>Reset</strong> 한 박동 시작 위치로 초기화. <strong>Timeline</strong>은 원하는 심장 주기 위치를 탐색하며 이동 시 일시 정지합니다.</p>
+        <p>상단 <strong>공통 컨트롤 바</strong>의 Play로 재생, Pause로 정지, Reset으로 한 박동 시작 위치를 초기화합니다. Timeline을 움직이면 원하는 생리학적 주기 위치로 이동하면서 일시 정지합니다. 모든 시각화 탭이 동일한 제어 기능을 공유합니다.</p>
         <p><strong>Heart Rate (30–180 bpm)</strong>로 직접 선택하면 Custom 학습 모드가 됩니다. ECG Monitor는 시간에 따라 이동하는 표시이며 실제 환자 모니터가 아닙니다.</p>
     </section>
-    <section class="guide-section"><h3>2. Electrical / Mechanical</h3>
-        <p><strong>Electrical</strong>에서 심장 전도와 ECG P·PR·QRS·ST·T 해설 버튼을 살펴보세요. <strong>Mechanical</strong>에서 판막 상태, 상대 심실 충만과 혈류 화살표를 확인하세요. 모드 전환은 재생 시간 자체를 바꾸지 않습니다.</p>
+    <section class="guide-section"><h3>2. Electrical / Mechanical / Wiggers 탭</h3>
+        <p>ECG Monitor는 항상 표시됩니다. 주 시각화 영역에서 <strong>Electrical</strong>은 전기 전도 애니메이션, <strong>Mechanical</strong>은 판막과 혈류, <strong>Wiggers</strong>는 압력·ECG·용적 곡선을 보여줍니다. 탭 전환은 HR, 재생 상태와 A/B 시간 자체를 바꾸지 않습니다. 키보드 방향키·Home·End로도 시각화를 전환할 수 있습니다.</p>
     </section>
     <section class="guide-section"><h3>3. Wiggers Diagram</h3>
-        <p>아래쪽의 Wiggers Diagram을 펼쳐 ECG, 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
+        <p>중앙 시각화의 Wiggers 탭을 선택해 ECG, 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
         <p><strong>세로 커서는 physiological A 시간의 한 RR 주기</strong>를 나타냅니다. 위 ECG Monitor의 스크롤은 별도의 visualization B 표시이므로 두 화면의 가로좌표가 같지 않습니다.</p>
     </section>
     <section class="guide-section"><h3>4. 정상·서맥·빈맥 학습</h3>
-        <p>Wiggers를 펼쳐 <strong>Normal 72 / Bradycardia 50 / Tachycardia 120</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 자유 HR 슬라이더를 움직이면 사용자 선택 Custom으로 돌아옵니다.</p>
-        <p>아래 <strong>심화 의학·간호 해설</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다.</p>
+        <p>상단 시나리오에서 <strong>Normal 72 / Bradycardia 50 / Tachycardia 120</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 자유 HR 슬라이더를 움직이면 사용자 선택 Custom으로 돌아옵니다.</p>
+        <p>오른쪽의 <strong>심화 의학·간호 해설</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다. PC에서는 Wiggers 탭의 <strong>확대 보기</strong>로 그래프를 전체 너비로 볼 수 있고, 다시 분할 보기로 돌아올 수 있습니다.</p>
     </section>
     <section class="guide-section"><h3>5. 간호학적 활용과 주의사항</h3>
         <p>ECG 소견을 환자의 혈압, 맥박, 산소화, 의식, 증상, 관류 평가 및 심음 청진과 연결해서 학습하세요. P파/ QRS/ T파는 전기적 사건으로 기계적 수축과 정확히 같은 시각이 아닙니다.</p>
@@ -493,5 +497,6 @@
 <script src="wiggers-help.js"></script>
 <script src="wiggers-learning.js"></script>
 <script src="ui-info-panels.js"></script>
+<script src="dashboard-v111.js"></script>
 </body>
 </html>

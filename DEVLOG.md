@@ -640,3 +640,18 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 - v1.8 functional: 239 checks; v1.8 stress: 13,741; v1.9 Mechanical: 4,711; v1.10 Patch 1: 7,167; Patch 2: 422,404; Patch 3: 423; Patch 4: 238; **Patch 5: 145**. Total **449,068 automated checks passed**, Chromium browser errors absent.
 - Initial Patch 5 CI failed because the new IIFE adapter did not receive `window` and therefore did not initialize `CardiacLearning`. Fixed the adapter invocation, re-ran the full suite and confirmed passing results.
 - CI checks keyboard/mouse interactions, popup clipping and HR-stage data flow in headless Chromium; **physical-device user visual acceptance is still pending** and cannot be claimed based on CI alone.
+
+
+## v1.11 — Integrated Learning Dashboard implementation (2026-10-12)
+
+**Features:** Compact shared controls, original ECG visible in all views, Electrical / Mechanical / Wiggers central tabs, existing three HR teaching presets in shared toolbar, live electrical-vs-mechanical learning inspector, optional desktop Wiggers full-width focus and split restore.
+
+**UI/UX:** Moved existing DOM nodes and their attached event handlers rather than cloning them. Current Phase and ECG Event cards are preserved in the inspector, and all original six-part physiological/nursing explanations remain in the optional native detail disclosure. Responsive 2-column desktop and stacked mobile layout. Wiggers keeps its internal 720px-minimum SVG scroll instead of causing document-wide horizontal overflow.
+
+**Medical/nursing accuracy:** Concise inspector draws directly from the established Patch 5 explanation dictionaries and v1.10 Wiggers source; it does not invent new diagnoses, hemodynamic values or medical assumptions. Electrical phase and mechanical cycle phase remain distinct. Original educational QT/QTc, relative pressure/volume, S1/S2 marker and exact Mechanical/Wiggers valve tie limitations remain documented.
+
+**Implementation risk and protection:** 15 verified v1.10 baseline files archived under backups/v1.10-final/. The load-last dashboard-v111.js presentation adapter owns only active view/focus states. The existing original A physiological clock, B visualization clock, ECG sampling, Mechanical domain model and Wiggers profile are unchanged. No additional timer/rAF. Offscreen Wiggers native details is closed for efficiency, then reopened and resynchronized to existing A on selection.
+
+**Testing:** Original eight regression suites are retained unchanged; added tests/test_v111.py against the full real HTML entrypoint, covering original controls, three view switching, A/B exact equality, rates/presets, Wiggers markers, optional zoom, Reset/Play/Pause/seek, guide popups, keyboard navigation and 1440/1366/1024/768/390/360px screen widths. First complete nine-suite run passed: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38192283066 . Actual Chromium screenshots captured: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38192437652 . Screenshot review showed opportunity to compact the controls and add Wiggers focus; these changes are included in later commits and require another final CI check.
+
+**Known limitations:** At short display heights complete graph plus long nursing text requires vertical scrolling. The graph is readable instead of being compressed below a practical minimum. Physical-device manual visual acceptance has not yet been carried out; CI is not a substitute for that review.

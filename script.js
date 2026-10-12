@@ -1033,6 +1033,7 @@ function updateHeartRateUI(){
     // its HR-dependent chart; do not modify A/B playback state.
     window.CardiacWiggersView?.sync();
     window.CardiacLearning?.sync();
+    window.CardiacDashboard?.sync();
 
 }
 
@@ -1870,6 +1871,7 @@ function updateConduction(
     // Reuse the SAME existing animation/update path; no second rAF.
     window.CardiacWiggersView?.sync();
     window.CardiacLearning?.sync();
+    window.CardiacDashboard?.sync();
 
 }
 
@@ -2814,6 +2816,7 @@ function reset(){
     window.CardiacMechanical?.reset();
     window.CardiacWiggersView?.reset();
     window.CardiacLearning?.reset();
+    window.CardiacDashboard?.sync();
 
 }
 
