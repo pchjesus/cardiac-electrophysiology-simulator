@@ -823,3 +823,12 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 **Prohibitions:** no automatic timeline seek, automatic Wiggers tab switch, new animation loop, new pressure/volume model, change to source nursing/ECG explanation, model-RR filling misinterpretation, or new patient-safety inference.
 
 **QA:** preserve all previous 11 suites and add `tests/test_v112_patch2.py`, including 50 real 10-HR × five-stage Timeline seeks and explicit event-counter verification. Default compact height must stay at or below 908px on 1366×768, full teaching and 360/390px mobile layout must remain. Read [V1.12_PATCH2_REPORT.md](V1.12_PATCH2_REPORT.md). This does not indicate clinical or real-device validation.
+
+
+## v1.12 Patch 3 — curriculum-driven questions and information depth
+
+- Adds `guided-questions.js`: exactly 5 stages × 2 independent, immutable A/B/C conceptual questions transcribed from the project-approved V1.12_CLINICAL_CURRICULUM.md. No numerical patient prediction, EF/CO calculation or clinical proficiency certification.
+- Extends `guided-learning.js` only with `detailLevel=basic|advanced` and a transient `answers[stageId-level]` map; **not** with an alternate physiological clock or persistence. Basic is the initial level; selecting advanced exposes a separately collapsible original PHASES/RATE read-only explanation and the stage's second question.
+- Quiz `details` begins closed; before clicking `정답 확인` it shows neither the answer nor feedback. Submission locks the chosen radio and shows grounded correct/incorrect explanation; `다시 풀기` resets **only the active question**. Switching stages/levels or closing the guide preserves the transient answers. Original simulator Reset must not clear learning progress, but a new page load must.
+- All existing 12 regression suites and `tests/test_v112_patch3.py` must pass; test question bank/correct key, source text exact equality, retry, answer state isolation, A/B/HR/TIimeline/player unchanged from any quiz control, accessibility/390px no overflow and default 1366×768 ≤910px.
+- No extra permanent dashboard panels, timers, network APIs, localStorage/sessionStorage or alteration of the user-approved A/A/A study/Wiggers/seek behavior. Details: [V1.12_PATCH3_REPORT.md](V1.12_PATCH3_REPORT.md).
