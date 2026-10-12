@@ -633,3 +633,10 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 - New `tests/test_v110_patch5.py` and added to GitHub Actions. **Verification outcome must be recorded separately after observing the final CI result**; code commits alone do not constitute successful testing. Target physical-device visual acceptance also remains required.
 - Known carryovers: original v1.9 Mechanical exact-boundary floating-point behavior; 390px page-level overflow, high-HR ECG/QTc model limitations, no clinical pressure/volume/EF/output predictions.
 - Next planned Patch 6: isolated mobile page overflow and accessibility improvements; Patch 7 FINAL integrated validation, archive and release.
+
+
+### Patch 5 CI verified (before final main merge)
+- Successful 8-suite GitHub Actions run: https://github.com/pchjesus/cardiac-electrophysiology-simulator/actions/runs/38187956470
+- v1.8 functional: 239 checks; v1.8 stress: 13,741; v1.9 Mechanical: 4,711; v1.10 Patch 1: 7,167; Patch 2: 422,404; Patch 3: 423; Patch 4: 238; **Patch 5: 145**. Total **449,068 automated checks passed**, Chromium browser errors absent.
+- Initial Patch 5 CI failed because the new IIFE adapter did not receive `window` and therefore did not initialize `CardiacLearning`. Fixed the adapter invocation, re-ran the full suite and confirmed passing results.
+- CI checks keyboard/mouse interactions, popup clipping and HR-stage data flow in headless Chromium; **physical-device user visual acceptance is still pending** and cannot be claimed based on CI alone.
