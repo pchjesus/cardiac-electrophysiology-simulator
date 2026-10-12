@@ -20,7 +20,7 @@ with sync_playwright() as p:
  page.on('pageerror',lambda e:errors.append(str(e)))
  page.goto((ROOT/'index.html').as_uri())
  page.wait_for_function('!!window.CardiacDashboard && !!window.CardiacLearning')
- ck('v1.11' in page.locator('h1').inner_text(),'version headline')
+ ck(any(v in page.locator('h1').inner_text() for v in ('v1.11','v1.12')),'version headline')
  ck(page.locator('.app.dashboard-active').count()==1,'progressive dashboard failed')
  ck(page.locator('.dashboard-commands #playBtn').count()==1,'existing Play button not moved')
  ck(page.locator('.dashboard-commands #timeSlider').count()==1,'old Timeline not moved')
