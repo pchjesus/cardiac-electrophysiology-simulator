@@ -25,7 +25,7 @@ with sync_playwright() as playwright:
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
  page.wait_for_function('!!window.CardiacGuidedLearning && !!window.CardiacGuidedContent')
 
- check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3')),'version')
+ check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3','v1.12 Patch 4')),'version')
  check(page.evaluate('CardiacDashboard.density')=='compact','original compact layout')
  check(page.locator('#guidedV112Toggle').is_visible(),'compact entry point missing')
  check(page.locator('#guidedV112Panel').is_hidden(),'guide must default closed')
@@ -101,8 +101,13 @@ with sync_playwright() as playwright:
           'observation point must not imply an automatic seek')
     check(state()==before,'stage selection unexpectedly moved simulation')
     if stage=='filling':
+       novice=page.locator('#guidedV112Limits').inner_text()
+       check('RR' in novice,'filling's two model intervals must remain acknowledged')
+       page.locator('#guidedV112Level').select_option('intermediate')
        caution=page.locator('#guidedV112Limits').inner_text()
-       check('RR' in caution and '0.88' in caution,'filling model caveat absent')
+       check('RR' in caution and '0.88' in caution,
+             'detailed filling model caveat missing at nursing-connection level')
+       page.locator('#guidedV112Level').select_option('basic')
 
  # Stage text is taken from the source learning dictionary.
  check(page.evaluate("""() => {
