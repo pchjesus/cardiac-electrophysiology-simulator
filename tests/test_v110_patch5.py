@@ -56,7 +56,7 @@ with sync_playwright() as p:
     ck(guide.is_hidden(),"× did not dismiss")
     ck(guideBtn.evaluate("(e)=>document.activeElement===e"),"× focus restoration")
     notesBtn.click()
-    page.locator("#heartVisualTitle").click()
+    page.locator("#ecgCanvas").click(position={"x":12,"y":60})
     ck(notes.is_hidden(),"Outside click failed to dismiss")
     ck(saved==page.evaluate("""() => ({
         A:heartState.physiologicalTime,B:heartState.visualizationTime,
