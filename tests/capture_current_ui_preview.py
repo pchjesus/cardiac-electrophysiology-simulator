@@ -74,3 +74,21 @@ print("CAPTURE_OK:",len(files),"screens, page errors:",errors,"contact bytes:",c
 print("UI_SCREENSHOT_BASE64_BEGIN")
 print(base64.b64encode(contact.read_bytes()).decode("ascii"))
 print("UI_SCREENSHOT_BASE64_END")
+
+
+# Keep readable individual captures alongside the contact sheet.
+for label,filename in (
+    ("MAIN","01-actual-main.png"),
+    ("WIGGERS","02-actual-wiggers-learning.png"),
+    ("PATCH_NOTES","03-actual-patch-notes.png"),
+    ("USER_GUIDE","04-actual-user-guide.png"),
+):
+    shot=Image.open(OUT/filename).convert("RGB")
+    shot.thumbnail((1440,2800),Image.Resampling.LANCZOS)
+    from io import BytesIO
+    buf=BytesIO()
+    shot.save(buf,"JPEG",quality=76,optimize=True)
+    (OUT/("hires-"+label.lower().replace("_","-")+".jpg")).write_bytes(buf.getvalue())
+    print("UI_"+label+"_BASE64_BEGIN")
+    print(base64.b64encode(buf.getvalue()).decode("ascii"))
+    print("UI_"+label+"_BASE64_END")
