@@ -380,3 +380,8 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md) for the improved **
 ## v1.12 Patch 1 — active narrow development milestone
 
 User-approved A/A/A guided learning foundations have been implemented. The original compact ECG dashboard remains the default, with a small `5단계 학습` button replacing the existing short nursing summary only when opened. The five-phase dropdown and labels use the original PHASES medical teaching dictionary and current Wiggers model. Selecting a study phase never seeks, pauses, switches Wiggers, or changes HR/A/B. The six-part original educational narrative remains separately accessible. See [V1.12_PATCH1_REPORT.md](V1.12_PATCH1_REPORT.md) for risks, explicit non-goals, tests and Patch 2 handoff. v1.12 FINAL is NOT claimed; device acceptance is pending.
+
+
+### v1.12 Patch 2 — Guided navigation and explicit observation (incremental development)
+
+Patch 2 adds native `이전 단계`/`다음 단계` buttons to the opt-in five-stage teaching inspector; the selected lesson changes without seeking or pausing the simulation. It also adds two deliberately separate buttons: `Wiggers에서 보기` switches only the visualization, while `이 단계 관찰 시점으로 이동` explicitly dispatches the existing Timeline slider `input` and therefore pauses and synchronizes physiological A / visualization B. No independent clock, patient physiology or timeline calculation is created. The first/last study buttons disable at the boundaries. This preserves the closed compact dashboard and all original clinical explanations. See [V1.12_PATCH2_REPORT.md](V1.12_PATCH2_REPORT.md) for regression and next patch. Beginner/advanced quizzes are Patch 3 work; **v1.12 FINAL is not declared**.
