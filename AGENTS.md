@@ -241,3 +241,8 @@ Before implementing Guided Learning, read [V1.12_DESIGN_REFINEMENT.md](V1.12_DES
 ## v1.12 Patch 1 implementation guardrails
 
 A/A/A are APPROVED: in-place inspector learning, study phase changes only text, Wiggers never switches automatically. Keep `guided-content.js` stage IDs and observation timing read-only from existing Mechanical/Wiggers, and `getStageNarrative` bound to existing PHASES data. Do not mutate A/B, HR, Timeline, Playback or views or clone original DOM. Original short nursing summary is hidden only during guided mode, then restored; native six-part deep dive stays independent. Patch 1 contains no previous/next, explicit seek/view, quizzes or difficulty; use separate Patch 2/3 PRs. Run prior ten suites plus the v1.12 Patch 1 real-browser regression; do not claim physical-device QA or medical validation from CI.
+
+
+## v1.12 Patch 2 guardrails — latest implementation
+
+The user has approved A/A/A and Patch 1/2 are implemented on the development line. Study previous/next and native dropdown are **UI-only**; Wiggers switches only on direct click of its own button; native Timeline seeks and pauses only on separate explicitly labeled `이 단계 관찰 시점으로 이동` button. Keep the original source-of-truth A/B clock, 0.1%-step Timeline event handler, model-relative units, full nursing text and existing first-viewport height. Never merge view and seek actions or add an alternate timer. Run 12 full regression steps including the 718-check Patch 2 real-browser test and confirm both branch and merged-main CI. Before Patch 3 read V1.12_PATCH2_REPORT.md and V1.12_CLINICAL_CURRICULUM.md; difficulty and quizzes are NOT yet implemented.
