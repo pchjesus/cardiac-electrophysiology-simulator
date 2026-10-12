@@ -1481,3 +1481,32 @@ Compact Controller + ECG View
   min-height:44px;
  }
 }
+
+
+/* v1.12 Patch 4 — novice-first progressive course within the existing inspector.
+   First viewport stays unchanged; additional sources reveal only by user choice. */
+.dashboard-active .guided-v112 .guided-v112-summary [hidden],
+.dashboard-active .guided-v112 .guided-v112-model[hidden],
+.dashboard-active .guided-v112 .guided-v112-promote[hidden]{
+ display:none!important;
+}
+.dashboard-active .guided-v112-gist{
+ margin:0;padding:9px 10px;border:1px solid #bad2df;
+ border-radius:8px;background:#eef7fa;font-size:13px;
+ line-height:1.5;color:#244d60;
+}
+.dashboard-active .guided-v112-gist strong{
+ color:#205674;font-weight:750;
+}
+.dashboard-active .guided-v112-promote{
+ flex:1 1 100%;background:#e9f4fc;border-color:#8db4d2;
+ color:#205171;
+}
+.dashboard-active .guided-v112-summary dt[hidden],
+.dashboard-active .guided-v112-summary dd[hidden]{
+ display:none!important;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-gist{font-size:14px}
+ .dashboard-active .guided-v112-promote{width:100%;min-height:44px}
+}

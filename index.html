@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.12 Patch 3</title>
+<title>Cardiac Electrophysiology Simulator v1.12 Patch 4</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 3</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 4</h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -434,6 +434,7 @@
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
     <section class="patch-group">
         <h3>기능 추가 · Features</h3>
+        <p><strong>v1.12 Patch 4</strong> — 학습 수준을 <strong>1. 기초 이해 → 2. 간호 연결 → 3. 추가학습</strong>으로 재구성하고, 현재 수준에서 다음 수준으로 이동하는 버튼을 추가했습니다. ECG·심장주기 주요 흐름부터 배우고 필요할 때 간호 관찰·원문 설명으로 확장합니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 5단계 학습에서 초급·심화 난이도를 선택하고, 기존 교육 원문을 펼치며, 단계별 초급 1개와 심화 1개씩 총 10개 개념 확인 문제를 풀 수 있습니다. 정답과 근거는 제출 뒤 표시되고 각 문항은 다시 풀 수 있습니다.</p>
         <p><strong>v1.12 Patch 2</strong> — 기존 5단계 학습 카드에서 이전/다음(현재 시뮬레이션 시간 불변), 명시적 Wiggers 보기(시각화만 전환), 명시적 관찰 시점 이동(기존 Timeline의 일시 정지·A/B 시간 이동) 기능을 추가했습니다. 학습 단계 자동 이동·자동 재생 정지는 없습니다.</p>
         <p><strong>v1.12 Patch 1</strong> — 기존 실시간 해설 영역에서 선택적으로 열리는 심장 주기 5단계 학습. 전기·기계 상태를 따로 보여주며 현재 시뮬레이션의 시간과 재생은 변경하지 않습니다. 이전/다음·Wiggers 이동·Timeline 이동 및 문제풀이는 후속 패치에서 추가할 예정입니다.</p>
@@ -445,6 +446,7 @@
     </section>
     <section class="patch-group">
         <h3>의학·간호 교육 · Clinical learning</h3>
+        <p><strong>v1.12 Patch 4</strong> — 시작 수준에는 한 문장 핵심과 ECG·판막·용적의 기초 관계를 표시합니다. 간호 관찰은 두 번째 수준에서 연결하며, 원본 의학·간호 서술, 모형 시간 경계, 고급 이해도 문항과 상대 수치 한계는 선택형 추가학습에서 제공합니다. 기존 원문·10문항은 삭제하지 않았습니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 기존 PHASES 및 HR별 RATE 학습 설명 원문을 읽기 전용으로 사용하며, 전기적 사건·판막·상대 용적·S1/S2 및 간호 관찰과 모델 한계에 관한 질적 이해도 문항 10개를 추가했습니다. 실제 환자 진단·치료 판단이나 EF·박출량 계산 문제는 없습니다.</p>
         <p><strong>v1.12 Patch 1</strong> — 기존 Wiggers/간호학 설명 원문을 재사용하고 5단계의 모델 관찰점을 기존 판막·용적 프로필과 대조. RR 후반 충만과 주기 초반 평탄한 용적을 구분합니다. 상대 지표를 실제 혈압·용적·EF로 해석하지 않습니다.</p>
         <p><strong>v1.11</strong> — 전기적 단계와 기계적 단계를 구분하는 실시간 해설, 생리학적 변화·간호 관찰을 그래프와 나란히 배치.</p>
@@ -453,6 +455,7 @@
     </section>
     <section class="patch-group">
         <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.12 Patch 4</strong> — 기본 ECG 대시보드 배치는 그대로 유지합니다. 열어둔 가이드에서도 학생이 선택한 수준에 필요한 정보만 우선 표시하며, 심화 원문은 접이식으로 유지합니다. 모바일 학습 버튼·키보드 포커스와 화면 가로 넘침을 점검합니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 기본 핵심 대시보드는 유지하고, 가이드를 연 뒤에만 난이도 선택이 나타납니다. 심화 원문과 이해도 문항은 각각 필요할 때 펼쳐 읽을 수 있고 모바일에서도 기존 Wiggers 그래프는 별도로 스크롤됩니다.</p>
         <p><strong>v1.12 Patch 2</strong> — 학습 이전/다음 버튼은 처음과 마지막 단계에서 비활성화됩니다. 세 동작은 독립된 버튼이며 모바일 터치 및 키보드 조작을 지원합니다. 학습을 닫으면 기존 실시간 해설로 복귀합니다.</p>
         <p><strong>v1.11.1</strong> — 핵심 보기(기본) / 전체 정보 보기 전환, ECG 상세·전도 단계·사건 정보의 접이식 배치, Measurements 요약을 주 시각화 바로 위로 이동. 기존 정보는 삭제하지 않음.</p>
@@ -463,6 +466,7 @@
     </section>
     <section class="patch-group">
         <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.12 Patch 4</strong> — 수준 변경은 오직 학습 정보 표시만 바꿉니다. 기존 A/B 시간, ECG, Play/Pause/Reset, HR, Wiggers, Timeline, 10개 문제와 간호학 원문은 유지하고 기본/심화 정보의 노출만 회귀 검증합니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 학습 난이도·문항 선택·채점·다시 풀기는 교육용 화면 상태만 바꾸며 기존 Timeline, 재생, A/B 시간, HR, Electrical/Mechanical/Wiggers 계산을 변경하지 않습니다. 문항 응답은 서버나 브라우저 저장소에 보관하지 않습니다.</p>
         <p><strong>v1.12 Patch 2</strong> — 기존 A/B 시간과 HR·재생 상태는 학습 단계 이동·Wiggers 보기만으로 변경되지 않습니다. 시점 이동은 학습자가 직접 버튼을 누를 때만 기존 Timeline input을 사용합니다. 교육용 상대 압력·용적은 환자 측정값이 아닙니다.</p>
         <p><strong>v1.11.1</strong> — 읽기용 표시 계층만 개선하고 A/B 시계, ECG 파형, Mechanical/Wiggers 계산과 모든 HR·Timeline 제어 유지. 축소·확대 및 자동 상세 설명 표시를 회귀 검증.</p>
@@ -479,6 +483,7 @@
         <button type="button" data-close-info aria-label="Close user guide">×</button>
     </div>
     <section class="guide-section"><h3>1. 기본 작동</h3>
+        <p><strong>처음 배우는 학생은 1. 기초 이해부터</strong> 시작하면 됩니다. 한 문장으로 개념을 익히고 ECG·판막·혈액 흐름을 확인한 뒤 <strong>다음 수준: 간호 연결</strong>을 누르면 간호 관찰이 추가됩니다. 더 자세한 생리학, 원문, 현재 모형의 한계는 <strong>3. 추가학습</strong>에서 펼쳐볼 수 있습니다. <strong>이해도 확인</strong> 문제는 선택형이며 기본·추가 문항 총 10개를 보존했습니다. 학습 수준과 답안 선택은 심장 애니메이션·시간을 바꾸지 않습니다.</p>
         <p>v1.12 Patch 3의 <strong>5단계 학습</strong>을 연 뒤 <strong>초급/심화</strong>를 선택할 수 있습니다. 초급에서는 단계별 핵심 설명과 기본 문항 1개를, 심화에서는 기존 의학·간호학 원문을 <strong>심화 의학·간호 설명 펼치기</strong>로 확인하고 추가 문항을 볼 수 있습니다. <strong>이해도 확인</strong>을 열어 보기를 선택하고 <strong>정답 확인</strong>을 누르면 정답·오답 이유를 볼 수 있습니다. <strong>다시 풀기</strong>는 해당 문항의 답안만 초기화합니다. 이는 학습용 개념 점검이며 의료인 숙련도 인증이 아닙니다. 초급/심화·답안 조작만으로 시뮬레이터 재생·시간·시각화는 바뀌지 않습니다.</p>
         <p>v1.12 Patch 2에서는 <strong>실시간 통합 해설</strong> 옆 <strong>5단계 학습</strong>을 열어 드롭다운 또는 <strong>이전/다음 단계</strong>로 설명을 선택할 수 있습니다. 설명 단계만 바꾸면 실제 심장의 시간·재생은 변경되지 않습니다. <strong>Wiggers에서 보기</strong>는 시각화만 바꿉니다. <strong>이 단계 관찰 시점으로 이동</strong>은 사용자가 누른 경우에만 기존 Timeline을 움직이므로 <strong>재생이 일시 정지되고 A/B 시간이 해당 모델 단계로 이동</strong>합니다. <strong>학습 닫기</strong>로 기존 해설에 복귀할 수 있습니다. 심화 난이도·문제 풀기는 후속 Patch 3 범위입니다.</p>
         <p>기본값인 <strong>핵심 보기</strong>는 현재 학습에 필요한 요소를 우선 표시합니다. 상단 <strong>전체 정보 보기</strong>를 누르면 ECG 상세, 전도 단계 및 ECG Event 설명을 동시에 펼치고 측정값의 참고 범위도 표시합니다. 다시 <strong>핵심 보기로 전환</strong>하면 접히며 모든 HR·재생 상태는 유지됩니다. P/PR/QRS/ST/T를 클릭하면 해당 ECG 상세만 자동으로 열립니다.</p>

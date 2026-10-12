@@ -51,6 +51,16 @@ jobs:
         run: python tests/test_v112_patch2.py
       - name: Verify v1.12 Patch 3 source-based learning and ten questions
         run: python tests/test_v112_patch3.py
+      - name: Verify v1.12 Patch 4 novice-to-nursing progressive learning
+        run: python tests/test_v112_patch4.py
+      - name: Upload v1.12 Patch 4 actual novice/mid/extra learning screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch4-progressive-learning-ui
+          path: preview-v112p4/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.12 Patch 3 real educational UI screenshots
         if: always()
         uses: actions/upload-artifact@v4
