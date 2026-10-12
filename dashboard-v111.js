@@ -56,7 +56,11 @@
   tabs.setAttribute('aria-label','Visualization view: Electrical, Mechanical, or Wiggers');
   tabs.appendChild(wiggersButton);
   stage.append(heart,wiggers);
-  left.append(tabs,stage);
+  const focusButton=node('button','dashboard-focus-button','⤢ Wiggers 확대 보기');
+  focusButton.type='button';focusButton.id='dashboardFocusBtn';
+  focusButton.setAttribute('aria-pressed','false');
+  focusButton.setAttribute('aria-label','Wiggers 그래프 확대 보기 전환');
+  left.append(tabs,focusButton,stage);
 
   const inspector=node('aside','dashboard-inspector card');
   inspector.setAttribute('aria-label','Live physiological and nursing explanation');
@@ -132,6 +136,12 @@
       workspace.setAttribute('data-active-visualization',next);
     }
   }
+  focusButton.addEventListener('click',()=>{
+    const expanded=dashboard.dataset.wiggersFocus!=='true';
+    dashboard.dataset.wiggersFocus=String(expanded);
+    focusButton.setAttribute('aria-pressed',String(expanded));
+    focusButton.textContent=expanded?'⤢ 분할 보기':'⤢ Wiggers 확대 보기';
+  });
   electrical.addEventListener('click',()=>setView('electrical'));
   mechanical.addEventListener('click',()=>setView('mechanical'));
   wiggersButton.addEventListener('click',()=>setView('wiggers'));
