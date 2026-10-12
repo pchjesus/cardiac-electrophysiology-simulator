@@ -204,3 +204,12 @@ Automated v1.8 regression is complete; user physical-browser visual acceptance i
 - Preserve selected view when resetting simulation; clear the Mechanical ready/phase feedback appropriately.
 - Medical data is illustrative; do not present synthetic pressure indexes/volume ratio as clinical values. Keep high-HR QT and mobile overflow known limitations visible.
 - Run `tests/test_v18.py`, `tests/stress_v18.py` and `tests/test_v19.py` after changes. Next design handoff: `V1.10_START_HERE.md`.
+
+
+## v1.11 dashboard development guardrails
+- The confirmed baseline is preserved in backups/v1.10-final/ (15 files); do not overwrite it.
+- dashboard-v111.js loads last and only relocates original attached DOM elements. Never clone Canvas/SVG/HR/Timeline/Mechanical controls or duplicate IDs.
+- Maintain one original A/B animation driver with no additional timer; mode/focus selection is UI state and cannot alter heartState, HR, Timeline, playback, ECG sampling, Mechanical or Wiggers domain models.
+- When Wiggers is offscreen its native details closes to avoid wasted render work. On return open/sync with current A phase. The full deep-learning disclosure keeps its separate open state.
+- The inspector distinguishes electrical conduction vs mechanical phase and uses the existing scientific/nursing description source. Do not derive clinical blood pressure, actual stroke volume, EF, CO, prognosis or therapeutic advice from illustrative curves.
+- Run eight legacy suites plus the new real-entry v1.11 suite; check all six viewport widths, keyboard controls, popup dismissal, A/B equality and graph focus mode. Target-device manual visual sign-off is separate.
