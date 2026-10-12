@@ -7,6 +7,8 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
+SCREENSHOTS=ROOT/'preview-v1111'
+SCREENSHOTS.mkdir(exist_ok=True)
 n=0
 def ck(ok,message):
  global n
@@ -57,6 +59,7 @@ with sync_playwright() as p:
 
  original=snapshot()
  compact_height=page.evaluate('document.documentElement.scrollHeight')
+ page.screenshot(path=str(SCREENSHOTS/'01-compact-desktop.png'),full_page=True,animations='disabled')
  worktop=page.locator('.dashboard-workspace').evaluate('el=>el.getBoundingClientRect().top')
  ck(worktop<660,f'workspace starts too low: {worktop}')
  density.click()
@@ -68,6 +71,7 @@ with sync_playwright() as p:
  ck(page.locator('.dashboard-v111 .measurement-list small').first.is_visible(),
     'normal interval reference was lost in expanded mode')
  full_height=page.evaluate('document.documentElement.scrollHeight')
+ page.screenshot(path=str(SCREENSHOTS/'02-full-desktop.png'),full_page=True,animations='disabled')
  ck(full_height>compact_height+100,
     f'compact view not materially shorter: compact={compact_height},full={full_height}')
  ck(snapshot()==original,'showing full clinical information mutated simulation')
@@ -115,6 +119,7 @@ with sync_playwright() as p:
  # Switch all three visualizations, focus Wiggers and prove state identity.
  page.locator('#dashboardWiggersBtn').click()
  ck(page.locator('#wiggersChart').is_visible(),'Wiggers graph not visible')
+ page.screenshot(path=str(SCREENSHOTS/'03-wiggers-desktop.png'),full_page=True,animations='disabled')
  ck(page.locator('#wiggersMarkers [data-event]').count()==4,
     'valve event markers lost')
  active=snapshot()
@@ -169,6 +174,9 @@ with sync_playwright() as p:
     page.locator('#dashboardWiggersBtn').click()
     ck(page.locator('#wiggersChart').is_visible(),
        f'Wiggers graph clipped or hidden at {width}')
+    if width==390:
+       page.screenshot(path=str(SCREENSHOTS/'04-wiggers-mobile-390.png'),
+                       full_page=True,animations='disabled')
     if width<700:
        graph=page.locator('.wiggers-chart-scroll').evaluate("""el=>({
           client:el.clientWidth,scroll:el.scrollWidth
