@@ -264,6 +264,9 @@ with sync_playwright() as pw:
  page.locator('#electricalModeBtn').click()
  ck(page.locator('#ecgCanvas').is_visible(),'ECG unexpectedly hidden')
 
+ # The advanced disclosure is deliberately hidden in basic mode.
+ # Select advanced explicitly before testing its visual responsiveness.
+ page.locator('#guidedV112Level').select_option('advanced')
  # No page-level horizontal overflow in original layouts + opened study.
  for width in (1440,1366,1024,768,390,360):
     page.set_viewport_size({'width':width,'height':800})
