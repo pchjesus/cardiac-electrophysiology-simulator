@@ -610,3 +610,26 @@ Visual review commands (from repo root): `git switch main`, `git pull --ff-only 
 - Added `tests/test_v110_patch4.py` to the existing regression workflow. **Verification status: pending the CI results for the final patch commit; do not infer success from code publication.** Physical desktop/mobile visual acceptance remains user-pending.
 - Main functional risk mitigations: native disclosure/help click separation, one-time event subscriptions, outside-click handler moved from pointerdown to click to avoid disclosure activation conflicts; nonmodal focus behavior, event tie consistency without changing mechanical physiology, and no per-frame recalculation of static ECG/pressure traces. CI exposed inherited horizontal scrolling shifting an absolutely positioned help popover 29px off-screen at 390px; mobile-only positioning is now fixed to the viewport, without changing the older page width (reserved for Patch 6).
 - **Next:** Patch 5 normal/brady/tachy education scenarios only after Patch 4 verification. Patch 6 mobile/accessibility cleanup; Patch 7 final integrated test, backup and release.
+
+
+## v1.10 Patch 5 — Educational depth and reference popovers (2026-10-12)
+
+### Features
+- Added three explicit educational presets (72 / 50 / 120 bpm), preserving 30–180 bpm manual HR through dispatching the same slider input path. Current active preset is UI-only and manually adjusting the slider returns to Custom; underlying normal/brady/tachy classification still depends on HR.
+- Added separate passive `wiggers-learning.js` with five physiological stage dictionaries and rate-specific explanations: ECG/activation, pressure/valve transitions, ventricular volume, nursing assessment, cross-rate comparison, model limitations. Current phase reads `CardiacWiggersProfile`, not independent simulated physiology.
+- Derived teaching-only model RR and mitral-open→next-close window directly from existing timing. Explicitly not measured diastolic filling time or stroke volume.
+
+### UI/UX
+- Added optional deeper Wiggers teaching disclosure, closed by default to protect single-screen presentation; no replacement of working ECG/Mechanical visualizations.
+- Header includes `▤ Patch notes` and `? User guide`, each with a nonmodal, keyboard-accessible popup. Outside click, X, Escape, focus restoration, max-viewport-scroll and exclusive opening handled in `ui-info-panels.js`.
+- Patch history groups actual changes by feature, medical/nursing education, UI/UX and safety/verification/docs.
+
+### Medical / nursing accuracy & safety
+- Normal adult resting band 60–100 bpm, below 60 bradycardia, above 100 tachycardia are educational descriptive categories, not diagnoses; source-aware notes stress context, symptoms and perfusion assessment.
+- Differentiate ECG depolarization from subsequent mechanical contraction; S1/S2 marker/valve relationships; isovolumetric pressure-volume interpretation; qualitative effects of shorter RR on filling time. Guard against claiming numerical hemodynamics from relative plots.
+- Never changed `mechanics.js`, `wiggers.js` or `wiggers-profile.js`. Added only optional `CardiacLearning?.sync/reset` hooks to existing `script.js` update paths. No new timer/rAF; the same A/B state remains authoritative.
+
+### QA, known issues, handoff
+- New `tests/test_v110_patch5.py` and added to GitHub Actions. **Verification outcome must be recorded separately after observing the final CI result**; code commits alone do not constitute successful testing. Target physical-device visual acceptance also remains required.
+- Known carryovers: original v1.9 Mechanical exact-boundary floating-point behavior; 390px page-level overflow, high-HR ECG/QTc model limitations, no clinical pressure/volume/EF/output predictions.
+- Next planned Patch 6: isolated mobile page overflow and accessibility improvements; Patch 7 FINAL integrated validation, archive and release.
