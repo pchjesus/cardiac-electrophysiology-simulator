@@ -1266,3 +1266,76 @@ Compact Controller + ECG View
   margin:0;align-self:stretch;min-height:34px
  }
 }
+
+
+/* v1.12 Patch 1: opt-in guided lesson replaces, never stacks with,
+   the existing clinical summary. No default first-screen height growth. */
+.dashboard-active .dashboard-inspector .guided-v112-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.dashboard-active .guided-v112-trigger{
+  flex:0 0 auto;white-space:nowrap;
+  background:#eef6fc;color:#244d6c;border:1px solid #aec5d7;
+  border-radius:7px;padding:6px 10px;min-height:34px;
+  font-size:12px;font-weight:700;cursor:pointer;
+}
+.dashboard-active .guided-v112-trigger:hover{background:#e0eff9}
+.dashboard-active .guided-v112-trigger:focus-visible,
+.dashboard-active .guided-v112-select:focus-visible{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+.dashboard-active .dashboard-inspector .dashboard-clinical[hidden],
+.dashboard-active .guided-v112[hidden]{display:none!important}
+.dashboard-active .guided-v112{
+  border:1px solid #d5e5f0;background:#f8fbff;
+  border-radius:9px;padding:10px;min-width:0;
+  display:flex;flex-direction:column;gap:8px
+}
+.dashboard-active .guided-v112-top{
+  display:flex;flex-wrap:wrap;justify-content:space-between;
+  align-items:center;gap:7px
+}
+.dashboard-active .guided-v112-counter{font-size:13px;color:#345d7a}
+.dashboard-active .guided-v112-select-label{
+  display:flex;gap:5px;align-items:center;
+  font-size:12px;color:#536b80;
+}
+.dashboard-active .guided-v112-select{
+  max-width:100%;min-height:38px;min-width:0;
+  background:#fff;border:1px solid #9eb6c8;border-radius:6px;
+  font-size:13px;padding:5px 6px;color:#233f56;
+}
+.dashboard-active .guided-v112-title{
+  margin:0;font-size:16px;color:#1e4665
+}
+.dashboard-active .guided-v112-current,
+.dashboard-active .guided-v112-note{
+  font-size:12px;line-height:1.45;margin:0;color:#546b7c
+}
+.dashboard-active .guided-v112-current{font-weight:650;color:#235f70}
+.dashboard-active .guided-v112-summary{margin:0;display:grid;gap:7px}
+.dashboard-active .guided-v112-summary dt{
+  margin:0;font-size:12px;font-weight:700;color:#274d65
+}
+.dashboard-active .guided-v112-summary dd{
+  margin:1px 0 0;font-size:13px;line-height:1.55;color:#294151;
+  overflow-wrap:anywhere
+}
+.dashboard-active .guided-v112-model{
+  margin:0;padding:6px 8px;background:#eaf3f9;border-radius:5px;
+  font-size:12px;color:#305777
+}
+.dashboard-active .guided-v112-limits{
+  margin:0;font-size:11px;line-height:1.5;color:#627483
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-top{align-items:stretch;flex-direction:column}
+ .dashboard-active .guided-v112-select-label{
+   align-items:stretch;flex-direction:column;width:100%
+ }
+ .dashboard-active .guided-v112-select{width:100%;min-height:44px}
+ .dashboard-active .guided-v112-trigger{min-height:42px}
+ .dashboard-active .guided-v112-summary dd{font-size:14px}
+ .dashboard-active .guided-v112-current,
+ .dashboard-active .guided-v112-note{font-size:13px}
+}
