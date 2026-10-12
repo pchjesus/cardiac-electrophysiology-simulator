@@ -1,0 +1,35 @@
+name: Capture v1.11 Actual UI Screens
+on:
+  push:
+    branches: [develop/v1.11-integrated-dashboard]
+    paths:
+      - tests/capture_v111.py
+      - .github/workflows/v111-screens.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install headless Chromium
+        run: |
+          python -m pip install 'playwright==1.56.0' Pillow
+          python -m playwright install --with-deps chromium
+          BROWSER=$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux*/chrome' -print -quit)
+          test -n "$BROWSER"
+          sudo ln -sf "$BROWSER" /usr/bin/chromium
+      - name: Render actual desktop and mobile screens
+        run: python tests/capture_v111.py
+      - name: Upload actual UI captures
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardiac-v111-real-browser-screens
+          path: preview-v111/
+          retention-days: 30
+          if-no-files-found: error
