@@ -1,5 +1,6 @@
 /*
- * v1.12 Patch 3 — independent beginner/advanced study and quiz progress.
+ * v1.12 Patch 4 — novice-first progressive learning: essentials, nursing links,
+ * optional full-source additional learning. Preserves question and A/B isolation.
  * Runs after dashboard-v111.js and preserves original DOM/event listeners.
  * Previous/next are study-only. Wiggers view and original Timeline seek
  * are invoked by separate, clearly labeled button clicks; no new clock.
@@ -54,18 +55,23 @@
   const current=el('p','guided-v112-current');current.id='guidedV112Live';
   const note=el('p','guided-v112-note','학습 단계 선택은 현재 재생 위치를 변경하지 않습니다.');
   const levelLine=el('div','guided-v112-level-row');
-  const levelLabel=el('label','guided-v112-level-label','학습 난이도');
+  const levelLabel=el('label','guided-v112-level-label','학습 수준');
   const levelSelect=el('select','guided-v112-level-select');
   levelSelect.id='guidedV112Level';
-  for(const [value,label] of [['basic','초급'],['advanced','심화']]){
+  const learningLevels=Object.freeze(['basic','intermediate','advanced']);
+  for(const [value,label] of [['basic','1. 기초 이해'],['intermediate','2. 간호 연결'],['advanced','3. 추가학습']]){
     const item=el('option','',label);
     item.value=value;
     levelSelect.appendChild(item);
   }
   levelLabel.appendChild(levelSelect);
   const levelHint=el('p','guided-v112-level-hint',
-    '초급은 핵심 개념을, 심화는 원문 설명과 모델 한계를 학습합니다.');
-  levelLine.append(levelLabel,levelHint);
+    '먼저 심장주기 핵심을 익혀요. 다음 수준에서 간호 관찰을 연결합니다.');
+  levelHint.id='guidedV112LevelHint';
+  const promote=el('button','guided-v112-action guided-v112-promote','다음 수준: 간호 연결 →');
+  promote.type='button';
+  promote.id='guidedV112Promote';
+  levelLine.append(levelLabel,levelHint,promote);
   const nav=el('div','guided-v112-navigation');
   nav.setAttribute('role','group');
   nav.setAttribute('aria-label','학습 단계 탐색');
@@ -91,6 +97,18 @@
   const seekNotice=el('p','guided-v112-seek-notice',
     '관찰 시점으로 이동을 누르면 재생이 일시 정지되고, 기존 Timeline이 해당 단계로 이동합니다.');
   seekNotice.id='guidedV112SeekNotice';
+  const gist=el('p','guided-v112-gist');
+  gist.id='guidedV112Gist';
+  const gistLabel=el('strong','','한 문장으로 이해하기 · ');
+  const gistText=el('span','');
+  gist.append(gistLabel,gistText);
+  const noviceText=Object.freeze({
+    atrial_systole:'P파가 나타난 뒤 심방이 수축해 심실에 혈액을 더 채워요.',
+    isovolumetric_contraction:'심실에 힘이 생기고 압력이 올라가지만 두 판막은 닫혀 있어요.',
+    ejection:'대동맥판이 열리고 심실에서 혈액이 밖으로 나가요.',
+    isovolumetric_relaxation:'심실이 이완하며 압력이 떨어지고 두 판막은 잠시 닫혀 있어요.',
+    filling:'승모판이 열리고 심실에 혈액이 다시 들어오는 구간이에요.'
+  });
   const summary=el('dl','guided-v112-summary');
   const fields=[
     ['ECG 전기 활동','electrical'],
@@ -98,11 +116,12 @@
     ['좌심실 상대 용적','volume'],
     ['간호학적 관찰','nursing']
   ];
-  const nodes={};
+  const nodes={},sections={};
   for(const [name,id] of fields){
     const dt=el('dt','',name),dd=el('dd','');
     dd.id='guidedV112'+id[0].toUpperCase()+id.slice(1);
     nodes[id]=dd;
+    sections[id]=[dt,dd];
     summary.append(dt,dd);
   }
   const model=el('p','guided-v112-model');model.id='guidedV112Model';
@@ -113,7 +132,7 @@
   const advanced=el('details','guided-v112-advanced');
   advanced.id='guidedV112Advanced';
   advanced.hidden=true;
-  advanced.appendChild(el('summary','','심화 의학·간호 설명 펼치기'));
+  advanced.appendChild(el('summary','','추가학습: 의학·간호 원문과 모델 한계 펼치기'));
   const advancedList=el('dl','guided-v112-full-list');
   const longFields=[
     ['ECG·전기 활동','electrical'],['판막·혈역학','hemodynamics'],
@@ -180,7 +199,7 @@
     quiz.appendChild(card);
     quizCards[level]={card,legend,choices,submit,retry,feedback};
   }
-  panel.append(top,title,current,note,levelLine,nav,observe,seekNotice,
+  panel.append(top,title,current,note,levelLine,gist,nav,observe,seekNotice,
     summary,model,limits,advanced,quiz);
 
   clinical.before(panel);
@@ -231,7 +250,24 @@
     counter.textContent='학습 중인 단계 '+(selectedIndex+1)+'/5';
     title.textContent=stage.label;
     for(const key of Object.keys(nodes))nodes[key].textContent=trimSentence(data[key]);
+    gistText.textContent=noviceText[stage.id];
+    for(const [id,pair] of Object.entries(sections)){
+      const visible=id!=='nursing'||detailLevel!=='basic';
+      for(const node of pair)node.hidden=!visible;
+    }
     levelSelect.value=detailLevel;
+    const currentLevel=learningLevels.indexOf(detailLevel);
+    levelHint.textContent=[
+      '1단계 · P파/QRS, 판막, 혈액 흐름의 핵심부터 살펴봐요.',
+      '2단계 · ECG와 혈액 흐름을 간호 관찰에 연결해요.',
+      '추가학습 · 필요할 때 원문 설명, 모델 한계와 응용 문제를 살펴봐요.'
+    ][currentLevel];
+    promote.hidden=currentLevel===learningLevels.length-1;
+    if(!promote.hidden){
+      promote.textContent=currentLevel===0?'다음 수준: 간호 연결 →':
+        '다음 수준: 추가학습 →';
+    }
+    model.hidden=detailLevel!=='advanced';
     advanced.hidden=detailLevel!=='advanced';
     if(detailLevel==='advanced'){
       for(const key of Object.keys(longNodes))longNodes[key].textContent=data[key];
@@ -241,8 +277,12 @@
     model.textContent='모델 대표 관찰점 '+Math.round(obs.midpointMs)+' / '+
        Math.round(obs.rrMs)+' ms · 단계 선택만으로는 현재 위치가 이동하지 않음';
     limits.textContent=(filling?
-       '주의: 여기서 후반은 시뮬레이터 RR의 후반 구간입니다. RR 초반에도 filling 단계가 있으나 모형 상대 용적은 0.88로 일정합니다. ':'')+
-       '압력·용적은 교육용 상대 지표이며 mmHg, mL, EF 또는 심박출량을 뜻하지 않습니다.';
+       (detailLevel==='basic'?
+         '이 앱에서는 RR 주기의 앞부분과 뒷부분에 충만 단계가 나타나며, 용적의 변화가 서로 다릅니다. ':
+         '모형 주의: 시뮬레이터 RR의 앞 충만 구간은 상대 용적 0.88로 평탄하며, 뒤 충만 구간은 증가합니다. '):'')+
+       (detailLevel==='advanced'?
+       '압력·용적은 교육용 상대 지표이며 mmHg, mL, EF 또는 심박출량을 뜻하지 않습니다.':
+       '이 그림은 교육용 모형입니다. 수치는 실제 환자의 혈압·심실 용적이 아닙니다.');
   }
   function sync(narrative,ready){
     if(!open)return;
@@ -280,12 +320,18 @@
   select.addEventListener('change',()=>{
     chooseStage(content.stages.findIndex(x=>x.id===select.value));
   });
-  levelSelect.addEventListener('change',()=>{
-    if(!questions.levels.includes(levelSelect.value))return;
-    detailLevel=levelSelect.value;
-    if(detailLevel==='basic')advanced.open=false;
-    // Difficulty is educational UI state: never seek or pause playback.
+  function chooseLevel(value){
+    if(!learningLevels.includes(value)||value===detailLevel)return;
+    detailLevel=value;
+    if(detailLevel!=='advanced')advanced.open=false;
+    // Level is educational UI state, never an implicit seek/pause.
     renderSelected();
+  }
+  levelSelect.addEventListener('change',()=>chooseLevel(levelSelect.value));
+  promote.addEventListener('click',()=>{
+    const index=learningLevels.indexOf(detailLevel);
+    if(index>=0&&index<learningLevels.length-1)
+      chooseLevel(learningLevels[index+1]);
   });
   for(const level of questions.levels){
     const ui=quizCards[level];
@@ -347,6 +393,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 3';}
+    get version(){return 'v1.12 Patch 4';}
   });
 })(window);
