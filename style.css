@@ -921,3 +921,131 @@ Compact Controller + ECG View
  .learning-preset-row button{flex:1 1 140px}
  .learning-scenario-panel{padding:9px}
 }
+
+
+/* =============================================================
+   v1.11: Progressive enhancement. Nothing below applies until
+   dashboard-v111.js successfully moves original DOM controls/views.
+   ============================================================== */
+.dashboard-active .main-container{gap:0}
+.dashboard-active .dashboard-v111{display:flex;flex-direction:column;gap:9px;min-width:0}
+.dashboard-active .dashboard-v111 > *{min-width:0;max-width:100%}
+.dashboard-active .dashboard-commands{padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.dashboard-active .dashboard-commands .embedded-control-panel{padding:0;margin:0}
+.dashboard-active .dashboard-commands .controller-layout{
+  grid-template-columns:minmax(175px,205px) minmax(0,1fr);align-items:center;gap:14px}
+.dashboard-active .dashboard-commands .controller-buttons{flex-direction:row;gap:5px}
+.dashboard-active .dashboard-commands .controller-buttons button{
+  min-height:35px;min-width:0;font-size:12px}
+.dashboard-active .dashboard-presets{display:flex;align-items:center;justify-content:flex-end;
+  gap:8px;border-top:1px solid #e4ebf1;padding-top:5px;min-width:0}
+.dashboard-active .dashboard-presets-label{font-weight:700;font-size:12px;white-space:nowrap;color:#315169}
+.dashboard-active .dashboard-presets .learning-preset-row{gap:6px}
+.dashboard-active .dashboard-presets .learning-preset-row button{min-height:31px;padding:4px 10px}
+.dashboard-active .dashboard-v111>.ecg-panel{min-height:0;padding:10px 12px}
+.dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{
+  height:clamp(145px,19vh,195px)}
+.dashboard-active .dashboard-v111>.ecg-panel .ecg-explanation{padding:6px 9px}
+.dashboard-active .dashboard-workspace{
+  display:grid;grid-template-columns:minmax(0,1.96fr) minmax(310px,1fr);
+  gap:9px;align-items:start;min-width:0}
+.dashboard-active .dashboard-visual,.dashboard-active .dashboard-inspector{
+  min-width:0;max-width:100%;height:100%;padding:10px 12px}
+.dashboard-active .dashboard-visual .heart-mode-switch{
+  width:100%;max-width:none;margin:0 0 9px;display:flex;gap:5px}
+.dashboard-active .dashboard-visual .heart-mode-switch button{
+  flex:1;min-height:38px;font-size:13px;cursor:pointer}
+.dashboard-active .dashboard-visual .heart-mode-switch button:focus-visible{
+  outline:3px solid #3778b6;outline-offset:2px}
+.dashboard-active .dashboard-stage{min-width:0;max-width:100%}
+.dashboard-active .dashboard-stage>.heart-panel{
+  width:100%;box-shadow:none;padding:4px 2px 0;max-width:100%;min-width:0}
+.dashboard-active .dashboard-stage>.heart-panel #heartSVG{
+  width:min(100%,315px);max-height:315px}
+.dashboard-active .dashboard-stage>.heart-panel #mechanicalSVG{
+  width:min(100%,365px);max-height:320px}
+.dashboard-active .dashboard-stage[data-view="wiggers"]>.heart-panel{display:none}
+.dashboard-active .dashboard-stage:not([data-view="wiggers"])>.wiggers-shell{display:none}
+.dashboard-active .dashboard-stage>.wiggers-shell{max-width:100%;min-width:0}
+.dashboard-active .dashboard-stage .wiggers-panel{
+  padding:6px;box-shadow:none;border:1px solid #e1e9f1}
+.dashboard-active .dashboard-stage #wiggersChart{min-width:720px}
+.dashboard-active .dashboard-stage .wiggers-disclaimer{
+  font-size:11px;margin:4px 1px 6px}
+.dashboard-active .dashboard-stage .learning-scenario-panel{
+  padding:7px 9px;margin:4px 0 7px}
+.dashboard-active .dashboard-stage .learning-scenario-panel .learning-preset-row{
+  display:none} /* same original buttons are now shared above */
+.dashboard-active .dashboard-stage .learning-scenario-panel h3{display:none}
+.dashboard-active .dashboard-stage .learning-scenario-panel p{font-size:11px}
+.dashboard-active .dashboard-stage .wiggers-footnote{font-size:10px}
+.dashboard-active .dashboard-inspector{
+  display:flex;flex-direction:column;gap:9px;align-self:stretch}
+.dashboard-active .dashboard-inspector-heading{
+  font-size:16px;margin:0;border-bottom:1px solid #dce6ef;padding-bottom:8px}
+.dashboard-active .dashboard-statuses{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.dashboard-active .dashboard-statuses>div{background:#f0f6fb;padding:8px;border-radius:7px;min-width:0}
+.dashboard-active .dashboard-statuses span{display:block;color:#5c7082;font-size:11px}
+.dashboard-active .dashboard-statuses strong{display:block;font-size:13px;color:#234766;line-height:1.4;overflow-wrap:anywhere}
+.dashboard-active .dashboard-inspector .phase-panel{
+  margin:0;min-height:0;padding:8px;box-shadow:none;border:1px solid #e4ebf0}
+.dashboard-active .dashboard-inspector .phase-panel h2{font-size:12px;margin:0 0 7px;padding-bottom:4px}
+.dashboard-active .dashboard-inspector #phaseTitle{font-size:16px;margin-bottom:5px}
+.dashboard-active .dashboard-inspector #phaseDescription{font-size:12px;margin-bottom:7px;line-height:1.45}
+.dashboard-active .dashboard-inspector .phase-ecg-link{min-height:29px;padding:6px 8px;font-size:11px}
+.dashboard-active .dashboard-clinical{border:1px solid #d9e4ec;background:#f8fbfe;border-radius:8px;padding:9px}
+.dashboard-active .dashboard-clinical h3{font-size:13px;margin:0 0 3px;color:#224d69}
+.dashboard-active .dashboard-clinical p{font-size:12px;line-height:1.5;margin:0 0 8px}
+.dashboard-active .dashboard-clinical .dashboard-caution{font-size:10px;color:#617383;margin:6px 0 0}
+.dashboard-active .dashboard-inspector>.event-panel{
+  min-height:0;padding:7px 8px;box-shadow:none;border:1px solid #e4ebf0}
+.dashboard-active .dashboard-inspector>.event-panel h2{font-size:12px}
+.dashboard-active .dashboard-inspector .event-flow{
+  gap:3px;justify-content:flex-start;min-height:30px;overflow-x:auto;max-width:100%}
+.dashboard-active .dashboard-inspector .event-item{
+  font-size:10px;padding:4px 6px;flex:0 0 auto}
+.dashboard-active .dashboard-inspector .event-flow>span{font-size:11px;flex:0 0 auto}
+.dashboard-active .dashboard-inspector .event-ecg-row{margin-top:3px;padding:4px}
+.dashboard-active .dashboard-inspector .event-sync-status{margin:3px 0}
+.dashboard-active .dashboard-inspector>.learning-deep-dive{margin:0}
+.dashboard-active .dashboard-inspector .learning-deep-dive summary{
+  font-size:13px;padding:9px;line-height:1.5}
+.dashboard-active .dashboard-v111>.measurements-panel{
+  min-height:0;padding:9px 12px}
+.dashboard-active .dashboard-v111>.measurements-panel h2{margin-bottom:6px;font-size:14px}
+.dashboard-active .dashboard-v111 .measurement-list{
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.dashboard-active .dashboard-v111 .measurement-list .measurement-item{padding:6px 7px}
+.dashboard-active .dashboard-v111 .measurement-row{flex-wrap:wrap;gap:3px;font-size:12px}
+.dashboard-active .dashboard-v111 .measurement-list small{white-space:normal;font-size:10px}
+@media(max-width:1199px){
+  .dashboard-active .dashboard-workspace{grid-template-columns:minmax(0,1fr)}
+  .dashboard-active .dashboard-stage>.heart-panel #heartSVG{width:min(100%,350px)}
+  .dashboard-active .dashboard-inspector{height:auto}
+  .dashboard-active .dashboard-v111 .measurement-list{
+    grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:699px){
+  .dashboard-active .app{padding:8px;max-width:100%;overflow-x:clip}
+  .dashboard-active .dashboard-commands{padding:8px}
+  .dashboard-active .dashboard-commands .controller-layout{
+    grid-template-columns:minmax(0,1fr);gap:5px}
+  .dashboard-active .dashboard-commands .controller-buttons{
+    flex-direction:row;justify-content:center}
+  .dashboard-active .dashboard-commands .controller-buttons button{max-width:125px}
+  .dashboard-active .dashboard-presets{align-items:flex-start;flex-direction:column;gap:4px}
+  .dashboard-active .dashboard-presets .learning-preset-row{display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));width:100%;min-width:0}
+  .dashboard-active .dashboard-presets .learning-preset-row button{
+    font-size:11px;min-height:40px;padding:5px 4px;white-space:normal}
+  .dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{height:175px}
+  .dashboard-active .dashboard-statuses{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-active .dashboard-v111 .measurement-list{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-active .dashboard-visual .heart-mode-switch button{
+    font-size:12px;min-width:0;padding:7px 4px}
+  .dashboard-active .dashboard-stage .wiggers-summary-hint{display:none}
+  .dashboard-active .dashboard-inspector .event-flow{overflow-x:auto}
+  .dashboard-active .dashboard-commands,.dashboard-active .dashboard-workspace,
+  .dashboard-active .dashboard-v111>.ecg-panel{min-width:0;max-width:100%}
+}
