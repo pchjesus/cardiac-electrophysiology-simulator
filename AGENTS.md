@@ -213,3 +213,12 @@ Automated v1.8 regression is complete; user physical-browser visual acceptance i
 - When Wiggers is offscreen its native details closes to avoid wasted render work. On return open/sync with current A phase. The full deep-learning disclosure keeps its separate open state.
 - The inspector distinguishes electrical conduction vs mechanical phase and uses the existing scientific/nursing description source. Do not derive clinical blood pressure, actual stroke volume, EF, CO, prognosis or therapeutic advice from illustrative curves.
 - Run eight legacy suites plus the new real-entry v1.11 suite; check all six viewport widths, keyboard controls, popup dismissal, A/B equality and graph focus mode. Target-device manual visual sign-off is separate.
+
+
+## v1.11.1 stabilization and v1.12 transition guardrails
+
+- Default is compact, with explicit reversible full information mode. Never delete old teaching/ECG/Event/Current Phase DOM nodes merely to shorten the page; preserve native details and the independent long-form six-part clinical disclosure.
+- Do not clone Play/Pause/Reset, HR, Timeline, ECG, Electrical/Mechanical/Wiggers or graph nodes; the dashboard remains a load-last presentation-only adapter. Compact mode cannot mutate A/B clocks or any model.
+- Preserve graph and clinical text readability. Desktop controls/ECG may share a row when >=1200px; mobile remains stacked with Wiggers-only internal horizontal scrolling.
+- Historical nine CI suites plus the v1.11.1 real-page suite are mandatory. Native details-toggle events are async; tests should wait for the actual dependent content/state, not arbitrary sleeps.
+- Before v1.12 feature work read V1.11.1_RELEASE_NOTES.md and V1.12_START_HERE.md. No diagnosis or patient hemodynamic prediction from relative plots and no unreviewed arrhythmia engine. Document meaningful UX options and obtain user choice first.
