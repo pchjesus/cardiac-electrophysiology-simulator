@@ -132,6 +132,11 @@
   const model=el('p','guided-v112-model');model.id='guidedV112Model';
   const limits=el('p','guided-v112-limits');
   limits.id='guidedV112Limits';
+  // Keep detailed educational caveats available on request, not in the
+  // student’s default reading path. Original source text stays unchanged.
+  const assumptions=el('details','guided-v112-assumptions');
+  assumptions.id='guidedV112Assumptions';
+  assumptions.append(el('summary','','ⓘ 모형 가정·수치 안내'),limits);
   // Detailed wording is the exact original PHASES/RATE source, never
   // shortened or independently re-authored.
   const advanced=el('details','guided-v112-advanced');
@@ -205,7 +210,7 @@
     quizCards[level]={card,legend,choices,submit,retry,feedback};
   }
   panel.append(top,title,current,gist,nav,summary,promote,tools,
-    model,limits,advanced,quiz);
+    model,assumptions,advanced,quiz);
 
   clinical.before(panel);
 
@@ -415,6 +420,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 12';}
+    get version(){return 'v1.12 Patch 13';}
   });
 })(window);

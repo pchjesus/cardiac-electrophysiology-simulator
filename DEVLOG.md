@@ -782,3 +782,10 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - On <=699px, rendered all five original ECG component buttons as a 3-column responsive grid instead of a horizontally scrolling strip; retained click-to-open existing original ECG explanation. Enhanced native disclosure keyboard focus styling.
 - Localized the five ECG electrical component captions, preserved dataset codes and scientific model.
 - Reconciled current version in README/SPEC and prepended authoritative current handoff to START_HERE. Historical milestones retained as such. Added visual/reflow/keyboard CI. User physical-device QA pending; v1.12 is not FINAL.
+
+
+## v1.12 Patch 13 — mechanical diagram + readout parallelization and quiet caveats
+- On desktop >=900px, reflowed the ORIGINAL `#mechanicalSVG` and `.mechanical-readout` as adjacent grid cells inside `#mechanicalView`. Under 900px they remain stacked with no duplicate SVG, clocks, or render handlers.
+- Removed redundant *visible* mechanical SVG captions and lengthy default disclaimer; preserved their clinical-model meaning and original disclaimer in a keyboard-accessible `ⓘ 모형 안내` disclosure adjacent to phase title.
+- Kept all guided learning source paragraphs, including `#guidedV112Limits` original wording; relocated that recurring warning behind `ⓘ 모형 가정·수치 안내`, with full advanced six-part source and ten questions untouched.
+- No edits to `mechanics.js`, `script.js`, `wiggers-*.js`, HR/A-B model, valves/particle flow or learning source bank. Tests cover layout, disclosure, Play/Pause/Reset, HR/seek, Wiggers, six widths, keyboard and sources. NOT FINAL pending device acceptance.

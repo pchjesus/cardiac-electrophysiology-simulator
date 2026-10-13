@@ -866,3 +866,9 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - P11: learner-first 5-stage guided entry from Ready auto-Pauses/Seeks once through native Timeline; step Previous/Next continues guided-only Pause/Seek. Core/gist/navigation precede optional manual tools. Re-entry during free playback never seeks.
 - P12: readable 15–16px guided body; mobile ECG component buttons all discoverable without internal side-scroll; clear focus affordance, updated user and developer docs.
 - Original A/B clocks, ECG waveform, Electrical/Mechanical/Wiggers, all six-source clinical narratives, ten qualitative quiz questions/feedback, and complete native controls are preserved. No disease/clinical prediction model introduced. v1.12 FINAL requires separate real-device user review.
+
+
+## v1.12 Patch 13 — quieter educational visualization
+- Existing mechanical chamber SVG and mechanical phase/readout appear beside each other at >=900px; mobile stack remains intact. No simulation model or animation update behavior changed.
+- Repeated caveats are removed from the default reading flow but accessible through native keyboard/touch expandable educational-model information beside the phase title and the guided study details. Original wording and ten quizzes retained.
+- Await real-device visual checks before v1.12 FINAL.

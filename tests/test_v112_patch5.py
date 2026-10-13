@@ -124,7 +124,7 @@ with sync_playwright() as pw:
     page.locator("#guidedV112Toggle").click()
     page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
     page.locator("#guidedV112Select").select_option("filling")
-    ck("RR" in page.locator("#guidedV112Limits").inner_text(),
+    ck("RR" in page.locator("#guidedV112Limits").text_content(),
        "student-facing two-segment caveat missing")
     ck("0.88" in page.evaluate(
        "CardiacLearning.getStageNarrative('filling').volume"),

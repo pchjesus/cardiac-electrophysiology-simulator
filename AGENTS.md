@@ -278,3 +278,7 @@ P6-8 are already merged with validated CI. New changes only consolidate the sour
 
 ## Current v1.12 Patch 12 development contract (supersedes historical A/A/A)
 B/B/B/B guided ECG-first interface + student-first adjustments P10–12 are active. Only a deliberate first guided launch from canonical Ready seeks stage 1 once; subsequent free playback entry is non-seeking. Later guided stage changes Pause/Seek via native Timeline only. All ten questions and original clinical sources are protected data. No duplicate canvases/SVG/timers, no physiological model changes for presentation. New UX modifications must verify source availability, first-use/focus, six widths including narrow 200%-equivalent CSS viewports, old regression suites, and user device signoff. Do not claim FINAL from CI only.
+
+
+## v1.12 Patch 13 source/display boundary
+In compact study views, keep only the learner-relevant phase, valve, flow and relative volume visible. Retain qualitative model limits and non-patient values in contextual `ⓘ` native disclosures. Do not erase original pedagogic source texts or copy the SVG/DOM/animation clocks. PC mechanical SVG and live readout are side-by-side from 900 CSS pixels; mobile stacks. Preserve all tests and physical-device signoff before FINAL.

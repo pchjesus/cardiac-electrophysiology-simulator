@@ -25,7 +25,7 @@ with sync_playwright() as playwright:
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
  page.wait_for_function('!!window.CardiacGuidedLearning && !!window.CardiacGuidedContent')
 
- check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3','v1.12 Patch 4','v1.12 Patch 5','v1.12 Patch 6','v1.12 Patch 7','v1.12 Patch 8','v1.12 Patch 9','v1.12 Patch 10','v1.12 Patch 11','v1.12 Patch 12')),'version')
+ check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3','v1.12 Patch 4','v1.12 Patch 5','v1.12 Patch 6','v1.12 Patch 7','v1.12 Patch 8','v1.12 Patch 9','v1.12 Patch 10','v1.12 Patch 11','v1.12 Patch 12','v1.12 Patch 13')),'version')
  check(page.evaluate('CardiacDashboard.density')=='compact','original compact layout')
  check(page.locator('#guidedV112Toggle').is_visible(),'compact entry point missing')
  check(page.locator('#guidedV112Panel').is_hidden(),'guide must default closed')
@@ -103,10 +103,10 @@ with sync_playwright() as playwright:
           'observation point must not imply an automatic seek')
     check(not state()['playing'] and (i==0 or page.evaluate('CardiacMechanical.currentState.stage')==stage),'guided stage observation mismatch')
     if stage=='filling':
-       novice=page.locator('#guidedV112Limits').inner_text()
+       novice=page.locator('#guidedV112Limits').text_content()
        check('RR' in novice,'the two filling intervals must remain acknowledged')
        page.locator('#guidedV112Level').select_option('intermediate')
-       caution=page.locator('#guidedV112Limits').inner_text()
+       caution=page.locator('#guidedV112Limits').text_content()
        check('RR' in caution and '0.88' in caution,
              'detailed filling model caveat missing at nursing-connection level')
        page.locator('#guidedV112Level').select_option('basic')
