@@ -282,3 +282,9 @@ B/B/B/B guided ECG-first interface + student-first adjustments P10–12 are acti
 
 ## v1.12 Patch 13 source/display boundary
 In compact study views, keep only the learner-relevant phase, valve, flow and relative volume visible. Retain qualitative model limits and non-patient values in contextual `ⓘ` native disclosures. Do not erase original pedagogic source texts or copy the SVG/DOM/animation clocks. PC mechanical SVG and live readout are side-by-side from 900 CSS pixels; mobile stacks. Preserve all tests and physical-device signoff before FINAL.
+
+
+## v1.12 Patch 14 current usability guardrail
+- Mechanical's original SVG/readout uses auto-fitting columns with >=320px minimum at viewport widths >=900px; if actual work area is too narrow it stacks. Mobile remains stacked. Do not base future width decisions solely on viewport width.
+- Keep model note inside the readout in normal layout flow when open, never covering adjacent cards. Retain all established note/source wording, and protect disclosure keyboard and touch access.
+- No new timers, DOM clones or changes to model, clinical text, ten questions or original A/B time. Before FINAL, confirm new Patch 14 automated browser checks and physical PC/mobile visual acceptance separately.
