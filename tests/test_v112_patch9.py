@@ -28,6 +28,18 @@ with sync_playwright() as pw:
     ck(page.locator("#userGuidePanel").inner_text().find("자동 Pause")>=0,
         "current guided automatic seek missing from help")
 
+    pos=page.evaluate("""()=>{
+      const rect=q=>{const b=document.querySelector(q).getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height}};
+      return {ecg:rect('.dashboard-v111>.ecg-panel'),
+          heart:rect('.dashboard-v111>.dashboard-workspace'),
+          inspector:rect('.dashboard-v111>.dashboard-inspector')}
+    }""")
+    ck(abs(pos["ecg"]["y"]-pos["inspector"]["y"])<10,"ECG/study start not aligned")
+    ck(abs(pos["ecg"]["x"]-pos["heart"]["x"])<10,"ECG and heart not aligned left")
+    ck(pos["heart"]["y"]>=pos["ecg"]["y"]+pos["ecg"]["h"],
+       "Heart visual overlaps the ECG")
+    ck(pos["heart"]["y"]-(pos["ecg"]["y"]+pos["ecg"]["h"])<35,
+       f"Large blank gap below ECG: {pos}")
     page.screenshot(path=str(SHOTS/"01-default-desktop-1366.png"),
                     full_page=True,animations="disabled")
     state=page.evaluate("""()=>({
@@ -102,6 +114,13 @@ with sync_playwright() as pw:
         for level in ("basic","advanced"):
             q=page.evaluate("""(args)=>CardiacGuidedQuestions.get(args[0],args[1])""",[st,level])
             ck(bool(q and len(q["options"])==3 and q["explanation"]),f"quiz bank lost {st}/{level}")
+    guidedPos=page.evaluate("""()=>{
+      const a=document.querySelector('.dashboard-v111>.ecg-panel').getBoundingClientRect();
+      const b=document.querySelector('.dashboard-v111>.dashboard-workspace').getBoundingClientRect();
+      return {gap:b.top-a.bottom,alignment:b.x-a.x}
+    }""")
+    ck(guidedPos["gap"]<35 and abs(guidedPos["alignment"])<10,
+       f"Guided lessons left huge empty ECG area: {guidedPos}")
     page.locator("#guidedV112Level").select_option("advanced")
     page.locator("#guidedV112Advanced summary").click()
     for st in ("atrial_systole","ejection","filling"):

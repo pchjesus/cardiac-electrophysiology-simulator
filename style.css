@@ -1536,7 +1536,7 @@ Compact Controller + ECG View
  .dashboard-active .dashboard-v111[data-density="compact"],
  .dashboard-active .dashboard-v111[data-density="expanded"]{
    display:grid;grid-template-columns:minmax(0,1.9fr) minmax(350px,1fr);
-   grid-template-areas:"commands commands" "ecg inspector" "metrics metrics" "workspace workspace" "resources resources";
+   grid-template-areas:"commands commands" "ecg inspector" "workspace inspector" "metrics metrics" "resources resources";
    gap:8px 10px;align-items:start
  }
  .dashboard-active .dashboard-v111>.dashboard-commands{
@@ -1580,4 +1580,21 @@ Compact Controller + ECG View
   .dashboard-active .dashboard-resources>.dashboard-disclosure summary{
     min-height:44px;
   }
+}
+
+/* Patch 9 workspace correction: keep ECG+heart close in the left column,
+   while the persistent reading inspector occupies the right column.
+   Avoid a full-screen blank gap under ECG when long lessons are open. */
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111>.ecg-panel{
+   height:auto;align-self:start;
+ }
+ .dashboard-active .dashboard-v111>.dashboard-workspace{
+   align-self:start;
+ }
+ .dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"]{
+   grid-template-areas:
+     "commands commands" "ecg inspector" "workspace workspace"
+     "metrics metrics" "resources resources";
+ }
 }

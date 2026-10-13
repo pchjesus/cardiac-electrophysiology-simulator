@@ -33,8 +33,13 @@ with sync_playwright() as pw:
         ck(page.locator("#guidedV112Title").is_visible(),f"Study title missing {st}")
     page.locator("#guidedV112Toggle").click()
     page.locator("#dashboardDensityBtn").click()
-    ck(page.locator(".dashboard-phase-details").evaluate("(e)=>e.open"),"Full detail phase lost")
-    ck(page.locator(".dashboard-event-details").evaluate("(e)=>e.open"),"Full detail events lost")
+    ck(page.locator("#dashboardResources").evaluate("(e)=>e.open"),"Source index unavailable")
+    ck(not page.locator(".dashboard-phase-details").evaluate("(e)=>e.open"),
+       "Source index must not bulk-open phase")
+    ck(not page.locator(".dashboard-event-details").evaluate("(e)=>e.open"),
+       "Source index must not bulk-open events")
+    page.locator(".dashboard-phase-details>summary").click()
+    ck(page.locator("#phaseDescription").is_visible(),"Original phase info not accessible")
     page.locator("#dashboardDensityBtn").click()
     page.locator("#dashboardWiggersBtn").click()
     ck(page.locator("#wiggersChart").is_visible(),"Wiggers view missing")
