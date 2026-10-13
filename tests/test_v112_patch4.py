@@ -95,7 +95,7 @@ with sync_playwright() as pw:
     ck(page.locator('#guidedV112Advanced').is_hidden(),
        'source caution leaked '+stage)
     if stage=='filling':
-       ck('RR' in page.locator('#guidedV112Limits').inner_text(),
+       ck('RR' in page.locator('#guidedV112Limits').text_content(),
           'important two-interval filling caveat lost')
     ck(not state()['playing'] and (index==0 or page.evaluate('CardiacMechanical.currentState.stage')==stage),'stage auto-observation wrong '+stage)
  ck(page.evaluate('CardiacGuidedLearning.selectedStageId')=='filling',
@@ -119,7 +119,7 @@ with sync_playwright() as pw:
     'full advanced content leaked in nursing tier')
  ck(page.locator('#guidedV112Model').is_hidden(),
     'model midpoint should stay extra study')
- ck('0.88' in page.locator('#guidedV112Limits').inner_text(),
+ ck('0.88' in page.locator('#guidedV112Limits').text_content(),
     'detailed filling safety caveat missing when ready')
  ck('추가학습' in page.locator('#guidedV112Promote').inner_text(),
     'advance to optional extra study missing')
