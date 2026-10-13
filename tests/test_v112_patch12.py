@@ -36,9 +36,9 @@ with sync_playwright() as p:
    ck(allButtons.count()==5,f"five ECG buttons missing {width}")
    layout=page.evaluate("""()=>{let e=document.querySelector('.ecg-interpretation');
       return {outer:e.clientWidth,scroll:e.scrollWidth,items:Array.from(e.children).map(x=>{
-      let r=x.getBoundingClientRect();return {width:r.width,height:r.height}})}}""")
+      let r=x.getBoundingClientRect();return {width:r.width,height:r.height,tag:x.tagName,minHeight:getComputedStyle(x).minHeight,display:getComputedStyle(x).display}})}}""")
    ck(layout["scroll"]<=layout["outer"]+2,f"ECG still scrolls sideways {width}: {layout}")
-   ck(all(item["height"]>=40 for item in layout["items"]),f"ECG tap target too small {width}")
+   ck(all(item["height"]>=40 for item in layout["items"]),f"ECG tap target too small {width}: {layout}")
   if width in (390,1366):
    page.screenshot(path=str(SHOTS/f"{width}-guided-basic.png"),full_page=True,animations="disabled")
  # Native summary is accessible by keyboard; controls have no hidden simulation side effects.
