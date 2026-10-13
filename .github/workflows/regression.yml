@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 14 adaptive mechanical UI and non-overlapping model notes
+        run: python tests/test_v112_patch14.py
       - name: Patch 13 mechanical side-by-side and model info disclosures
         run: python tests/test_v112_patch13.py
       - name: Patch 12 readable mobile study and documentation
@@ -144,5 +146,14 @@ jobs:
         with:
           name: v112-patch13-mechanics-ux
           path: preview-v112p13/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Patch 14 adaptive Mechanical PC/mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch14-mechanical-usability
+          path: preview-v112p14/
           retention-days: 30
           if-no-files-found: warn
