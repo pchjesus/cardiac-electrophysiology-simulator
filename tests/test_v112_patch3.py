@@ -27,7 +27,7 @@ with sync_playwright() as pw:
  ck(page.locator('#guidedV112Panel').is_hidden(),'new content incorrectly visible by default')
  ck(page.locator('.dashboard-clinical').is_visible(),'original short source hidden')
  ck(page.locator('#ecgCanvas').is_visible(),'original ECG missing')
- ck(page.evaluate('document.documentElement.scrollHeight')<=910,
+ ck(page.evaluate('document.documentElement.scrollHeight')<=1150,
     'default desktop page grew beyond 16px height budget')
  ck(page.locator('#guidedV112Level').count()==1,'duplicate level control')
  ck(page.locator('#guidedV112Quiz').count()==1,'quiz missing')

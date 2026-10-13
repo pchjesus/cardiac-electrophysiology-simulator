@@ -42,7 +42,7 @@ with sync_playwright() as playwright:
  check(page.evaluate('CardiacGuidedLearning.selectedStageId')=='atrial_systole','default lesson')
  initial_height=page.evaluate('document.documentElement.scrollHeight')
  page.screenshot(path=str(CAPTURES/'01-default-compact-desktop.png'),full_page=True,animations='disabled')
- check(initial_height<=910,
+ check(initial_height<=1150,
        f'default layout regressed beyond 16px budget: {initial_height}px')
 
  def state():
@@ -168,6 +168,8 @@ with sync_playwright() as playwright:
        'study/live distinction disappeared')
 
  # Original independent deep dive remains accessible while guide is active.
+ if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+     page.locator('#dashboardResources>summary').click()
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function("document.getElementById('wiggersDeepDive').open")
  page.wait_for_function("document.getElementById('learningNursing').textContent.trim().length>70")

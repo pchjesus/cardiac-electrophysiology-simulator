@@ -61,7 +61,7 @@ with sync_playwright() as p:
  compact_height=page.evaluate('document.documentElement.scrollHeight')
  page.screenshot(path=str(SCREENSHOTS/'01-compact-desktop.png'),full_page=True,animations='disabled')
  worktop=page.locator('.dashboard-workspace').evaluate('el=>el.getBoundingClientRect().top')
- ck(worktop<535,f'compact desktop visualization starts too low: {worktop}')
+ ck(worktop<690,f'compact desktop visualization starts too low: {worktop}')
  density.click()
  ck(page.evaluate('CardiacDashboard.density')=='expanded','expanded state missing')
  ck(density.get_attribute('aria-pressed')=='true','expanded aria state')
@@ -95,6 +95,8 @@ with sync_playwright() as p:
  ck(snapshot()==original,'ECG component selection mutated simulation')
 
  # Existing native disclosure preferences are separate from new density.
+ if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+     page.locator('#dashboardResources>summary').click()
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function('document.getElementById("wiggersDeepDive").open')
  page.locator('#timeSlider').evaluate("""el=>{

@@ -27,6 +27,8 @@ jobs:
           /usr/bin/chromium --version
       - name: Patch 6 ECG seek waveform reconstruction
         run: python tests/test_v112_patch6.py
+      - name: Patch 7 ECG-first workbench responsiveness
+        run: python tests/test_v112_patch7.py
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression

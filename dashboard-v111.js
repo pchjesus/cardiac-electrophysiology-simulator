@@ -99,9 +99,16 @@
   const eventDetails=wrapDetails('dashboard-event-details','ECG Event · 세부 전도 정보',eventPanel);
   statuses.insertAdjacentHTML('beforeend',
     '<div><span>ECG 사건</span><strong id="dashboardEvent">Ready</strong></div>');
-  inspector.append(insHeading,statuses,clinical,phaseDetails,eventDetails,deepDive);
-  workspace.append(left,inspector);
-  dashboard.append(commands,ecg,measurements,workspace);
+  // Relocate the SAME native long-form disclosures below the visual workspace.
+  // Do not clone their original nodes, IDs, handlers, or source narratives.
+  inspector.append(insHeading,statuses,clinical);
+  const resources=node('details','dashboard-resources card');
+  resources.id='dashboardResources';
+  resources.setAttribute('aria-label','Additional cardiac education and source notes');
+  resources.append(node('summary','dashboard-resources-heading','자세한 정보 · 전도 단계 · ECG 사건 · 간호 원문'),
+    phaseDetails,eventDetails,deepDive);
+  workspace.append(left);
+  dashboard.append(commands,ecg,inspector,measurements,workspace,resources);
   main.insertBefore(dashboard,oldVisual);
   oldVisual.remove();oldInfo.remove();
   app.classList.add('dashboard-active');
@@ -179,6 +186,8 @@
     for(const disclosure of [ecgDetails,phaseDetails,eventDetails]){
       disclosure.open=expanded;
     }
+    if(expanded)resources.open=true;
+    else if(!deepDive.open)resources.open=false;
     // Preserve the independent six-part clinical learning disclosure.
     // Do not recalculate or reset A/B clock, selected view, or measurements.
   });

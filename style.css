@@ -1522,3 +1522,41 @@ Compact Controller + ECG View
  .dashboard-active .guided-v112-summary dt{font-size:13px}
  .dashboard-active .guided-v112-quiz-intro{font-size:13px}
 }
+
+/* v1.12 Patch 7: ECG and reading inspector share a desktop row; original SVG/Canvas are never cloned. */
+.dashboard-active .dashboard-v111>.dashboard-inspector{height:auto;align-self:start}
+.dashboard-active .dashboard-v111>.dashboard-workspace{grid-template-columns:minmax(0,1fr)}
+.dashboard-active .dashboard-v111 .dashboard-visual{height:auto}
+.dashboard-active .dashboard-v111 .dashboard-resources{min-width:0;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.dashboard-active .dashboard-resources-heading{margin:0;font-size:14px;border-bottom:1px solid #dce6ef;padding-bottom:6px}
+.dashboard-active .dashboard-resources>.dashboard-disclosure{margin:0}
+.dashboard-active .dashboard-stage[data-view="wiggers"]>.wiggers-shell{max-width:920px;margin:auto}
+.dashboard-active .dashboard-v111[data-wiggers-focus="true"] .dashboard-stage[data-view="wiggers"]>.wiggers-shell{max-width:none}
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111[data-density="compact"],
+ .dashboard-active .dashboard-v111[data-density="expanded"]{
+   display:grid;grid-template-columns:minmax(0,1.9fr) minmax(350px,1fr);
+   grid-template-areas:"commands commands" "ecg inspector" "metrics metrics" "workspace workspace" "resources resources";
+   gap:8px 10px;align-items:start
+ }
+ .dashboard-active .dashboard-v111>.dashboard-commands{
+   grid-area:commands;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(370px,.9fr);gap:16px;align-items:center
+ }
+ .dashboard-active .dashboard-v111>.dashboard-commands .controller-layout{grid-template-columns:minmax(175px,240px) minmax(0,1fr);gap:12px}
+ .dashboard-active .dashboard-v111>.dashboard-commands .dashboard-presets{border-top:0;padding-top:0;justify-content:flex-end;align-items:stretch}
+ .dashboard-active .dashboard-v111>.ecg-panel{grid-area:ecg}
+ .dashboard-active .dashboard-v111>.dashboard-inspector{grid-area:inspector}
+ .dashboard-active .dashboard-v111>.measurements-panel{grid-area:metrics}
+ .dashboard-active .dashboard-v111>.dashboard-workspace{grid-area:workspace}
+ .dashboard-active .dashboard-v111>.dashboard-resources{grid-area:resources}
+}
+
+/* Patch 7 correction: nested source disclosures are one opt-in group, not a long default footer. */
+.dashboard-active .dashboard-resources:not([open])>:not(summary){display:none!important}
+.dashboard-active .dashboard-resources>.dashboard-resources-heading{
+  display:list-item;cursor:pointer;font-weight:700;font-size:14px;padding:6px 7px;
+  border-bottom:0;line-height:1.6;min-height:38px
+}
+.dashboard-active .dashboard-resources[open]>.dashboard-resources-heading{
+  border-bottom:1px solid #dce6ef;margin-bottom:5px
+}

@@ -736,3 +736,11 @@ Reorganized the existing optional inspector into 1. 기초 이해 → 2. 간호 
 - Added real Chromium HR 30–180 × five-stage seek waveform regression; baseline 15 suites remain. Staged B/B/B/B redesign continues through P7–P9; not FINAL.
 
 Patch 6 CI finding: attempting to stabilize live-height by reserving extra rows made the baseline compact page 47px taller; after a narrowed CSS adjustment it remained 27px above the old contract. Reverted that CSS entirely rather than weaken the baseline. ECG regression remains Patch 6; visual jitter will be resolved by decoupling inspector and visual grid in Patch 7 with new geometry tests.
+
+
+## v1.12 Patch 7 — ECG-first workbench
+- Reused original ECG/controls/inspector DOM; ECG and short Inspector share the upper desktop row, heart views occupy the following full-width stage. Moved original electrical/event/six-part clinical disclosure nodes (not clones) into a categorized resources section below the active visualization.
+- Prevented tall Inspector text from stretching the main heart visual. Kept full Wiggers split/focus functionality and narrow-screen vertical stacking.
+- Intentional change to prior compact initial document-height tests: new ECG/inspector first-row geometry replaces the previous single viewport metric, with six-width browser checks. Do not remove original source or quiz content.
+
+Patch 7 visual regression correction: moving three source disclosures below the main SVG increased default 1366px document height to 1240px. The original source elements are now nested in one keyboard-operable, opt-in resources `<details>` group; UI no longer forces the extra information into the first page. Historical browser tests open that containing group explicitly before checking original nursing source text.
