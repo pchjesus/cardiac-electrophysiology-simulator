@@ -73,7 +73,7 @@ with sync_playwright() as playwright:
  ck('Timeline' in page.locator('#guidedV112SeekNotice').inner_text(),
     'seek notice should identify original Timeline')
  ck(not clock()['playing'] and clock()['inputCount']==before['inputCount']+1,'course start must use one Timeline seek')
-  before=clock()
+ before=clock()
  page.screenshot(path=str(SHOTS/'02-guided-navigation-desktop.png'),
                  full_page=True,animations='disabled')
 

@@ -75,7 +75,7 @@ with sync_playwright() as pw:
  ck(page.locator('#guidedV112Quiz').evaluate('(el)=>!el.open'),
     'quiz must stay optional closed')
  ck(not state()['playing'] and state()['a']>0,'course start failed to show stage 1')
-  original=state()
+ original=state()
  page.screenshot(path=str(SHOTS/'02-novice-first-stage-desktop.png'),
                  full_page=True,animations='disabled')
 

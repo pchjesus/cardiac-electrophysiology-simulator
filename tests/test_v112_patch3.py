@@ -98,7 +98,7 @@ with sync_playwright() as pw:
  ck(page.locator('#guidedV112BasicQuestion').is_hidden(),
     'quiz content should remain hidden until native disclosure')
  ck(not state()['playing'] and state()['a']>0,'course start did not observe stage 1')
-  start=state()
+ start=state()
  page.screenshot(path=str(SHOT/'02-basic-guide-1366.png'),
     full_page=True,animations='disabled')
 

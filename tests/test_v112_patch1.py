@@ -67,7 +67,7 @@ with sync_playwright() as playwright:
  check('현재 시뮬레이션' in page.locator('#guidedV112Live').inner_text(),'first observation status missing')
  check(page.locator('#guidedV112Select option').count()==5,'five stages missing')
  check(not state()['playing'] and state()['a']>0,'first guide entry must pause/seek from Ready')
-  before=state()
+ before=state()
  # Patch 2 controls are intentionally present, but have no side effects
  # until the learner clicks the corresponding button.
  check(page.locator('#guidedV112Seek').is_visible(),
