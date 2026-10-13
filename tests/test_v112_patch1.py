@@ -56,6 +56,7 @@ with sync_playwright() as playwright:
 
  before=state()
  page.locator('#guidedV112Toggle').click()
+ page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
  check(page.evaluate('CardiacGuidedLearning.open'),'guide did not open')
  page.screenshot(path=str(CAPTURES/'02-guided-ready-desktop.png'),full_page=True,animations='disabled')
  check(page.locator('#guidedV112Panel').is_visible(),'guide panel hidden')
@@ -63,9 +64,10 @@ with sync_playwright() as playwright:
  check(page.locator('#guidedV112Toggle').get_attribute('aria-expanded')=='true',
        'button accessibility state')
  check('1/5' in page.locator('#guidedV112Counter').inner_text(),'stage count')
- check('Ready' in page.locator('#guidedV112Live').inner_text(),'Ready distinction missing')
+ check('현재 시뮬레이션' in page.locator('#guidedV112Live').inner_text(),'first observation status missing')
  check(page.locator('#guidedV112Select option').count()==5,'five stages missing')
- check(state()==before,'opening guide modified canonical simulation')
+ check(not state()['playing'] and state()['a']>0,'first guide entry must pause/seek from Ready')
+ before=state()
  # Patch 2 controls are intentionally present, but have no side effects
  # until the learner clicks the corresponding button.
  check(page.locator('#guidedV112Seek').is_visible(),

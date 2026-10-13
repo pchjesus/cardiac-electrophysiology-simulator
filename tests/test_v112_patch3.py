@@ -88,6 +88,7 @@ with sync_playwright() as pw:
     })""")
  start=state()
  page.locator('#guidedV112Toggle').click()
+ page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
  ck(page.locator('#guidedV112Panel').is_visible(),'guide fails to open')
  ck(page.locator('.dashboard-clinical').is_hidden(),'original summary did not get replaced')
  ck(page.locator('#guidedV112Level').input_value()=='basic','level not initially basic')
@@ -96,7 +97,8 @@ with sync_playwright() as pw:
     'quiz expanded without user request')
  ck(page.locator('#guidedV112BasicQuestion').is_hidden(),
     'quiz content should remain hidden until native disclosure')
- ck(state()==start,'opening teaching changed simulation')
+ ck(not state()['playing'] and state()['a']>0,'course start did not observe stage 1')
+ start=state()
  page.screenshot(path=str(SHOT/'02-basic-guide-1366.png'),
     full_page=True,animations='disabled')
 

@@ -56,6 +56,7 @@ with sync_playwright() as pw:
 
  original=state()
  page.locator('#guidedV112Toggle').click()
+ page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
  ck(page.locator('#guidedV112Panel').is_visible(),'study not opened')
  ck(page.locator('.dashboard-clinical').is_hidden(),'old summary not replaced')
  ck(page.locator('#guidedV112Level').input_value()=='basic','not beginner tier')
@@ -73,7 +74,8 @@ with sync_playwright() as pw:
     'progressive first-step instruction missing')
  ck(page.locator('#guidedV112Quiz').evaluate('(el)=>!el.open'),
     'quiz must stay optional closed')
- ck(state()==original,'opening course changed simulation')
+ ck(not state()['playing'] and state()['a']>0,'course start failed to show stage 1')
+ original=state()
  page.screenshot(path=str(SHOTS/'02-novice-first-stage-desktop.png'),
                  full_page=True,animations='disabled')
 
