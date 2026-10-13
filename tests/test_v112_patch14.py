@@ -131,6 +131,9 @@ with sync_playwright() as p:
     page.locator('#guidedV112Toggle').click()
     ck(page.locator('#guidedV112Assumptions').count()==1,
        'original five-stage note lost')
+    # Only the existing filling-stage/advanced model assumptions carry text;
+    # the basic non-filling lesson intentionally has no repeated warning.
+    page.locator('#guidedV112Select').select_option('filling')
     note=page.locator('#guidedV112Assumptions>summary')
     state=snapshot(page)
     note.focus()
