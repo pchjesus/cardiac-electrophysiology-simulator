@@ -30,8 +30,8 @@ with sync_playwright() as pw:
 
     pos=page.evaluate("""()=>{
       const rect=q=>{const b=document.querySelector(q).getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height}};
-      return {ecg:rect('.dashboard-v111>.ecg-panel'),
-          heart:rect('.dashboard-v111>.dashboard-workspace'),
+      return {ecg:rect('.dashboard-v111 .dashboard-primary>.ecg-panel'),
+          heart:rect('.dashboard-v111 .dashboard-primary>.dashboard-workspace'),
           inspector:rect('.dashboard-v111>.dashboard-inspector')}
     }""")
     ck(abs(pos["ecg"]["y"]-pos["inspector"]["y"])<10,"ECG/study start not aligned")
@@ -122,8 +122,8 @@ with sync_playwright() as pw:
             q=page.evaluate("""(args)=>CardiacGuidedQuestions.get(args[0],args[1])""",[st,level])
             ck(bool(q and len(q["options"])==3 and q["explanation"]),f"quiz bank lost {st}/{level}")
     guidedPos=page.evaluate("""()=>{
-      const a=document.querySelector('.dashboard-v111>.ecg-panel').getBoundingClientRect();
-      const b=document.querySelector('.dashboard-v111>.dashboard-workspace').getBoundingClientRect();
+      const a=document.querySelector('.dashboard-v111 .dashboard-primary>.ecg-panel').getBoundingClientRect();
+      const b=document.querySelector('.dashboard-v111 .dashboard-primary>.dashboard-workspace').getBoundingClientRect();
       return {gap:b.top-a.bottom,alignment:b.x-a.x}
     }""")
     ck(guidedPos["gap"]<35 and abs(guidedPos["alignment"])<10,

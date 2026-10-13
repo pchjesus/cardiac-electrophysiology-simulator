@@ -15,8 +15,8 @@ with sync_playwright() as pw:
     page.goto((ROOT/"index.html").as_uri())
     geo=page.evaluate("""()=>{
       const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}};
-      return {ecg:rect('.dashboard-v111>.ecg-panel'),guide:rect('.dashboard-v111>.dashboard-inspector'),
-        visual:rect('.dashboard-v111>.dashboard-workspace'),
+      return {ecg:rect('.dashboard-v111 .dashboard-primary>.ecg-panel'),guide:rect('.dashboard-v111>.dashboard-inspector'),
+        visual:rect('.dashboard-v111 .dashboard-primary>.dashboard-workspace'),
         detail:rect('.dashboard-v111>.dashboard-resources')}
     }""")
     ck(abs(geo["ecg"]["y"]-geo["guide"]["y"])<10,f"ECG+guide not aligned {geo}")
@@ -51,7 +51,7 @@ with sync_playwright() as pw:
         ck(page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),f"Horizontal overflow at {width}")
         if width>=1200:
             g=page.evaluate("""()=>{
-              const a=document.querySelector('.dashboard-v111>.ecg-panel').getBoundingClientRect();
+              const a=document.querySelector('.dashboard-v111 .dashboard-primary>.ecg-panel').getBoundingClientRect();
               const b=document.querySelector('.dashboard-v111>.dashboard-inspector').getBoundingClientRect();
               return {ay:a.y,by:b.y,ax:a.x,bx:b.x}
             }""")

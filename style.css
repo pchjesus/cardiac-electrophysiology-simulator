@@ -942,10 +942,10 @@ Compact Controller + ECG View
 .dashboard-active .dashboard-presets-label{font-weight:700;font-size:12px;white-space:nowrap;color:#315169}
 .dashboard-active .dashboard-presets .learning-preset-row{gap:6px}
 .dashboard-active .dashboard-presets .learning-preset-row button{min-height:31px;padding:4px 10px}
-.dashboard-active .dashboard-v111>.ecg-panel{min-height:0;padding:10px 12px}
-.dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{
+.dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel{min-height:0;padding:10px 12px}
+.dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel #ecgCanvas{
   height:clamp(145px,19vh,195px)}
-.dashboard-active .dashboard-v111>.ecg-panel .ecg-explanation{padding:6px 9px}
+.dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel .ecg-explanation{padding:6px 9px}
 .dashboard-active .dashboard-workspace{
   display:grid;grid-template-columns:minmax(0,1.96fr) minmax(310px,1fr);
   gap:9px;align-items:start;min-width:0}
@@ -1038,7 +1038,7 @@ Compact Controller + ECG View
     grid-template-columns:repeat(3,minmax(0,1fr));width:100%;min-width:0}
   .dashboard-active .dashboard-presets .learning-preset-row button{
     font-size:11px;min-height:40px;padding:5px 4px;white-space:normal}
-  .dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{height:175px}
+  .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel #ecgCanvas{height:175px}
   .dashboard-active .dashboard-statuses{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dashboard-active .dashboard-v111 .measurement-list{
     grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1047,7 +1047,7 @@ Compact Controller + ECG View
   .dashboard-active .dashboard-stage .wiggers-summary-hint{display:none}
   .dashboard-active .dashboard-inspector .event-flow{overflow-x:auto}
   .dashboard-active .dashboard-commands,.dashboard-active .dashboard-workspace,
-  .dashboard-active .dashboard-v111>.ecg-panel{min-width:0;max-width:100%}
+  .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel{min-width:0;max-width:100%}
 }
 
 
@@ -1065,7 +1065,7 @@ Compact Controller + ECG View
   grid-template-columns:minmax(0,1fr)}
 .dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"] .dashboard-inspector{
   height:auto}
-.dashboard-active .dashboard-v111[data-view="wiggers"]>.ecg-panel #ecgCanvas{
+.dashboard-active .dashboard-v111[data-view="wiggers"] .dashboard-primary>.ecg-panel #ecgCanvas{
   height:130px}
 .dashboard-active .dashboard-v111[data-view="wiggers"] .learning-scenario-panel .learning-boundary{
   display:none} /* existing clinical restrictions also remain in graph and inspector */
@@ -1137,22 +1137,22 @@ Compact Controller + ECG View
 }
 .dashboard-active .dashboard-statuses>div{padding:7px}
 .dashboard-active .dashboard-statuses strong{font-size:13px;line-height:1.35}
-.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel{
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel{
   padding:8px 12px
 }
-.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel #ecgCanvas{
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel #ecgCanvas{
   height:clamp(150px,18vh,178px)
 }
-.dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"]>.ecg-panel #ecgCanvas{
+.dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"] .dashboard-primary>.ecg-panel #ecgCanvas{
   height:145px
 }
-.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-info{
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-info{
   margin-top:4px;font-size:13px
 }
-.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-interpretation{
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-interpretation{
   margin-top:4px
 }
-.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-item{
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-item{
   min-height:30px;padding:5px 6px
 }
 .dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel{
@@ -1206,10 +1206,10 @@ Compact Controller + ECG View
  .dashboard-active .dashboard-statuses{
    grid-template-columns:repeat(2,minmax(0,1fr))
  }
- .dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel #ecgCanvas{
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel #ecgCanvas{
    height:175px /* keep ECG legibility on touch screens */
  }
- .dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"]>.ecg-panel #ecgCanvas{
+ .dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"] .dashboard-primary>.ecg-panel #ecgCanvas{
    height:175px
  }
  .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-stage>.heart-panel #heartSVG{
@@ -1237,13 +1237,13 @@ Compact Controller + ECG View
  .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-commands{
   grid-area:commands;justify-content:flex-start
  }
- .dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel{
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel{
   grid-area:ecg
  }
  .dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel{
   grid-area:metrics
  }
- .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-workspace{
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.dashboard-workspace{
   grid-area:workspace
  }
  .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-commands .controller-layout{
@@ -1525,7 +1525,7 @@ Compact Controller + ECG View
 
 /* v1.12 Patch 7: ECG and reading inspector share a desktop row; original SVG/Canvas are never cloned. */
 .dashboard-active .dashboard-v111>.dashboard-inspector{height:auto;align-self:start}
-.dashboard-active .dashboard-v111>.dashboard-workspace{grid-template-columns:minmax(0,1fr)}
+.dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{grid-template-columns:minmax(0,1fr)}
 .dashboard-active .dashboard-v111 .dashboard-visual{height:auto}
 .dashboard-active .dashboard-v111 .dashboard-resources{min-width:0;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
 .dashboard-active .dashboard-resources-heading{margin:0;font-size:14px;border-bottom:1px solid #dce6ef;padding-bottom:6px}
@@ -1544,10 +1544,10 @@ Compact Controller + ECG View
  }
  .dashboard-active .dashboard-v111>.dashboard-commands .controller-layout{grid-template-columns:minmax(175px,240px) minmax(0,1fr);gap:12px}
  .dashboard-active .dashboard-v111>.dashboard-commands .dashboard-presets{border-top:0;padding-top:0;justify-content:flex-end;align-items:stretch}
- .dashboard-active .dashboard-v111>.ecg-panel{grid-area:ecg}
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel{grid-area:ecg}
  .dashboard-active .dashboard-v111>.dashboard-inspector{grid-area:inspector}
  .dashboard-active .dashboard-v111>.measurements-panel{grid-area:metrics}
- .dashboard-active .dashboard-v111>.dashboard-workspace{grid-area:workspace}
+ .dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{grid-area:workspace}
  .dashboard-active .dashboard-v111>.dashboard-resources{grid-area:resources}
 }
 
@@ -1592,10 +1592,10 @@ Compact Controller + ECG View
       grow the visual workspace row rather than insert a gap below the ECG. */
    grid-template-rows:max-content max-content auto max-content max-content;
  }
- .dashboard-active .dashboard-v111>.ecg-panel{
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel{
    height:auto;align-self:start;
  }
- .dashboard-active .dashboard-v111>.dashboard-workspace{
+ .dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{
    align-self:start;
  }
  .dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"]{
@@ -1603,4 +1603,37 @@ Compact Controller + ECG View
      "commands commands" "ecg inspector" "workspace workspace"
      "metrics metrics" "resources resources";
  }
+}
+
+/* v1.12 Patch 9 structural layout: one left-column parent, one right inspector.
+   This avoids CSS Grid distributing the right-side text height into the gap
+   between ECG and heart drawing. Does not clone any original runtime nodes. */
+.dashboard-active .dashboard-primary{min-width:0;max-width:100%}
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111[data-density="compact"],
+ .dashboard-active .dashboard-v111[data-density="expanded"]{
+   grid-template-areas:"commands commands" "primary inspector" "metrics metrics" "resources resources";
+   grid-template-rows:auto auto auto auto;
+ }
+ .dashboard-active .dashboard-v111>.dashboard-primary{
+   grid-area:primary;display:flex;flex-direction:column;gap:8px;
+   align-self:start;min-width:0;max-width:100%;
+ }
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel,
+ .dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{
+   min-width:0;max-width:100%;width:100%;height:auto;align-self:stretch;
+ }
+ .dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"]{
+   grid-template-areas:"commands commands" "primary primary" "inspector inspector" "metrics metrics" "resources resources";
+   grid-template-rows:auto auto auto auto auto;
+ }
+}
+@media(max-width:1199px){
+ .dashboard-active .dashboard-primary{display:contents}
+ .dashboard-active .dashboard-v111>.dashboard-commands{order:0}
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel{order:1}
+ .dashboard-active .dashboard-v111>.dashboard-inspector{order:2}
+ .dashboard-active .dashboard-v111>.measurements-panel{order:3}
+ .dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{order:4}
+ .dashboard-active .dashboard-v111>.dashboard-resources{order:5}
 }

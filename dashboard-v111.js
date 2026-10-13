@@ -110,7 +110,13 @@
   resources.append(node('summary','dashboard-resources-heading','자료 찾아보기 · 전도 단계 / ECG 사건 / 간호 원문'),
     resourceHint,phaseDetails,eventDetails,deepDive);
   workspace.append(left);
-  dashboard.append(commands,ecg,inspector,measurements,workspace,resources);
+  // Left observation column shares one layout parent; a long right Inspector
+  // cannot redistribute row height between ECG and the original heart SVG.
+  // Move original nodes rather than cloning Canvas/SVG/handlers.
+  const primary=node('section','dashboard-primary');
+  primary.setAttribute('aria-label','ECG and synchronized cardiac visualization');
+  primary.append(ecg,workspace);
+  dashboard.append(commands,primary,inspector,measurements,resources);
   main.insertBefore(dashboard,oldVisual);
   oldVisual.remove();oldInfo.remove();
   app.classList.add('dashboard-active');
