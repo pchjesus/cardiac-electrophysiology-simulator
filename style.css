@@ -1648,3 +1648,29 @@ Compact Controller + ECG View
 .dashboard-active .guided-v112-title{font-size:17px}
 .dashboard-active .guided-v112-promote{min-height:40px}
 @media(max-width:699px){.dashboard-active .guided-v112-tools>summary{font-size:14px;min-height:44px}}
+
+/* v1.12 Patch 12 — readable student-first hierarchy. All original text remains in DOM. */
+.dashboard-active .guided-v112-gist{font-size:16px;line-height:1.65}
+.dashboard-active .guided-v112-summary dt{font-size:14px;line-height:1.5}
+.dashboard-active .guided-v112-summary dd{font-size:15px;line-height:1.6}
+.dashboard-active .guided-v112-limits{font-size:13px;line-height:1.6}
+.dashboard-active .guided-v112-full-list dd{font-size:15px;line-height:1.65}
+.dashboard-active .guided-v112-prompt,
+.dashboard-active .guided-v112-option,
+.dashboard-active .guided-v112-feedback{font-size:15px;line-height:1.6}
+.dashboard-active .dashboard-clinical p{font-size:15px;line-height:1.55}
+.dashboard-active .dashboard-statuses strong{font-size:14px;line-height:1.45}
+.dashboard-active .guided-v112-tools>summary:focus-visible,
+.dashboard-active .dashboard-resources>summary:focus-visible{outline:3px solid #3473a6;outline-offset:2px}
+@media(max-width:699px){
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel .ecg-interpretation{
+   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;
+   overflow-x:visible;overflow-y:visible
+ }
+ .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel .ecg-item{
+   flex:initial;min-width:0;min-height:44px;white-space:normal;
+   padding:7px 4px;font-size:12px;line-height:1.3
+ }
+ .dashboard-active .guided-v112-action{min-height:44px;font-size:14px}
+ .dashboard-active .dashboard-clinical p{font-size:15px}
+}

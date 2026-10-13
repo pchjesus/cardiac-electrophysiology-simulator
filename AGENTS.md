@@ -274,3 +274,7 @@ Previous A/A/A no-seek navigation assertions in historical tests are intentional
 
 ## v1.12 Patch 9 UX closeout rules
 P6-8 are already merged with validated CI. New changes only consolidate the source directory and user-facing documentation, not original PHASES/RATE source text, native A/B clock, ECG/Mechanical/Wiggers profiles, or ten question bank. Header source-index toggle and native details summary must synchronize. No bulk-open on '자료 목록 보기'. Full original long-form source text available through the user's selected disclosure. Run all 18 legacy/current stages + Patch 9 Chromium six-view tests, verify branch PR and merged main. Version remains Patch 9, **NOT FINAL** without PC/mobile user acceptance.
+
+
+## Current v1.12 Patch 12 development contract (supersedes historical A/A/A)
+B/B/B/B guided ECG-first interface + student-first adjustments P10–12 are active. Only a deliberate first guided launch from canonical Ready seeks stage 1 once; subsequent free playback entry is non-seeking. Later guided stage changes Pause/Seek via native Timeline only. All ten questions and original clinical sources are protected data. No duplicate canvases/SVG/timers, no physiological model changes for presentation. New UX modifications must verify source availability, first-use/focus, six widths including narrow 200%-equivalent CSS viewports, old regression suites, and user device signoff. Do not claim FINAL from CI only.

@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 12 readable mobile study and documentation
+        run: python tests/test_v112_patch12.py
       - name: Patch 11 guided student first-step and optional tools
         run: python tests/test_v112_patch11.py
       - name: Patch 10 ECG past-only labels and Ready states
@@ -122,5 +124,14 @@ jobs:
         with:
           name: v112-patch9-ecg-guided-and-sources
           path: preview-v112p9/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Patch 12 student-readable desktop/mobile previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch12-student-readability
+          path: preview-v112p12/
           retention-days: 30
           if-no-files-found: warn

@@ -775,3 +775,10 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - First deliberate '5단계 학습 시작' from canonical Ready uses the original Timeline exactly once to pause and show stage 1; reopening during play never secretly seeks or pauses. Previous/Next still use the original native seek, preserving A/B and model boundaries.
 - The beginner-first reading order is title/current state → one-sentence core → stage navigation → ECG/valve/volume summaries → next learning level. Existing level picker, Wiggers shortcut and repeated observation remain accessible via native optional tools disclosure. Original clinical PHASES/RATE, all 10 quiz items/feedback and explanatory source stay unchanged.
 - Chromium first-use/continuity validation; tests updated solely for explicit initial-study contract and newly hidden optional tools. Not FINAL.
+
+
+## v1.12 Patch 12 — educational reading, responsive discoverability and current documentation
+- Raised guided core to 16px, detailed descriptions and choices to 15px while retaining all original words, nursing/source disclaimers and question logic.
+- On <=699px, rendered all five original ECG component buttons as a 3-column responsive grid instead of a horizontally scrolling strip; retained click-to-open existing original ECG explanation. Enhanced native disclosure keyboard focus styling.
+- Localized the five ECG electrical component captions, preserved dataset codes and scientific model.
+- Reconciled current version in README/SPEC and prepended authoritative current handoff to START_HERE. Historical milestones retained as such. Added visual/reflow/keyboard CI. User physical-device QA pending; v1.12 is not FINAL.
