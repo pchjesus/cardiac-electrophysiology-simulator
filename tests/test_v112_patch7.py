@@ -28,6 +28,7 @@ with sync_playwright() as pw:
     ck(page.locator("#ecgCanvas").count()==1,"ECG Canvas duplicated")
     ck(page.locator("#guidedV112Panel").is_hidden(),"Study mode not opt-in")
     page.locator("#guidedV112Toggle").click()
+    page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
     for st in ("atrial_systole","ejection","isovolumetric_relaxation","filling"):
         page.locator("#guidedV112Select").select_option(st)
         ck(page.locator("#guidedV112Title").is_visible(),f"Study title missing {st}")

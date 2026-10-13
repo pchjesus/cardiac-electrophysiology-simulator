@@ -15,6 +15,7 @@ with sync_playwright() as p:
     page.on("pageerror",lambda e:errs.append(str(e)))
     page.goto((ROOT/"index.html").as_uri())
     page.locator("#guidedV112Toggle").click()
+    page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
     for hr in (30,50,59,60,72,80,100,101,120,180):
         page.locator("#heartRateSlider").evaluate("""(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}""",hr)
         for st in STAGES:

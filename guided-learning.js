@@ -26,7 +26,7 @@
     return x;
   };
   const originalHeading=heading.firstChild;
-  const toggle=el('button','guided-v112-trigger','5단계 학습');
+  const toggle=el('button','guided-v112-trigger','5단계 학습 시작');
   toggle.type='button';toggle.id='guidedV112Toggle';
   toggle.setAttribute('aria-expanded','false');
   toggle.setAttribute('aria-controls','guidedV112Panel');
@@ -71,7 +71,7 @@
   const promote=el('button','guided-v112-action guided-v112-promote','다음 수준: 간호 연결 →');
   promote.type='button';
   promote.id='guidedV112Promote';
-  levelLine.append(levelLabel,levelHint,promote);
+  levelLine.append(levelLabel,levelHint);
   const nav=el('div','guided-v112-navigation');
   nav.setAttribute('role','group');
   nav.setAttribute('aria-label','학습 단계 탐색');
@@ -97,6 +97,11 @@
   const seekNotice=el('p','guided-v112-seek-notice',
     '재관찰 버튼을 누르면 재생이 일시 정지되고, 기존 Timeline이 현재 학습 단계의 관찰점으로 이동합니다.');
   seekNotice.id='guidedV112SeekNotice';
+  // Optional controls remain original nodes; prioritize the reading path.
+  const tools=el('details','guided-v112-tools');
+  tools.id='guidedV112Tools';
+  tools.append(el('summary','guided-v112-tools-heading','추가 도구 · 학습 수준 / Wiggers / 재관찰'),
+    levelLine,observe,seekNotice,note);
   const gist=el('p','guided-v112-gist');
   gist.id='guidedV112Gist';
   const gistLabel=el('strong','','한 문장으로 이해하기 · ');
@@ -199,12 +204,12 @@
     quiz.appendChild(card);
     quizCards[level]={card,legend,choices,submit,retry,feedback};
   }
-  panel.append(top,title,current,note,levelLine,gist,nav,observe,seekNotice,
-    summary,model,limits,advanced,quiz);
+  panel.append(top,title,current,gist,nav,summary,promote,tools,
+    model,limits,advanced,quiz);
 
   clinical.before(panel);
 
-  let open=false,selectedIndex=0,lastKey='',lastRenderedSelection='';
+  let open=false,selectedIndex=0,lastKey='',lastRenderedSelection='',hasStarted=false;
   const trimSentence=value=>{
     const text=String(value||'').trim();
     const i=text.indexOf('다.');
@@ -309,10 +314,18 @@
     clinical.hidden=open;
     if(open)lastRenderedSelection='';
     toggle.setAttribute('aria-expanded',String(open));
-    toggle.textContent=open?'학습 닫기':'5단계 학습';
+    toggle.textContent=open?'학습 닫기':(hasStarted?'5단계 학습 이어보기':'5단계 학습 시작');
     originalHeading.textContent=open?'5단계 심장 주기 학습':'실시간 통합 해설';
-    if(open){lastKey='';sync();}
-    else {lastKey='';toggle.focus();}
+    if(open){
+      lastKey='';sync();
+      // First explicit course entry from Ready gives a visible first stage.
+      // Reopening during playback/after leaving a study does not secretly seek.
+      if(!hasStarted){
+        const startAtReady=dashboard.isReady;
+        hasStarted=true;
+        if(startAtReady)observeSelected();
+      }
+    }else {lastKey='';toggle.focus();}
   }
   toggle.addEventListener('click',()=>setOpen(!open));
   function chooseStage(index){
@@ -402,6 +415,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 10';}
+    get version(){return 'v1.12 Patch 11';}
   });
 })(window);

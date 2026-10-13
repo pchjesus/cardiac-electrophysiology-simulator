@@ -18,8 +18,9 @@ with sync_playwright() as pw:
       .addEventListener('input',()=>{window.__p8Events++})}""")
     before=page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")
     page.locator("#guidedV112Toggle").click()
-    ck(page.evaluate("heartState.physiologicalTime")==before["a"],"Course entry implicitly sought")
-    ck(page.evaluate("heartState.visualizationTime")==before["b"],"Course entry changed B")
+    page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
+    ck(page.evaluate("heartState.physiologicalTime")>before["a"],"Course entry did not observe stage 1")
+    ck(page.evaluate("heartState.visualizationTime")>before["b"],"Course entry did not move B with A")
     last="atrial_systole"
     for hr in (30,50,59,60,72,80,100,101,120,180):
         page.locator("#heartRateSlider").evaluate("""(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}""",hr)

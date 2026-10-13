@@ -769,3 +769,9 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - Previously P/QRS/T captions predicted future positions even before waveform traversal. Now place captions only behind the actual sweep cursor, using the existing A/B coordinate relationship without changing physiological timing or ECG data.
 - Replaced mid-cycle 'Ready' on intervals without a lit conduction node by '전도 점등 구간 외'. Reset and initial Ready behavior remain unchanged; current ECG event is still shown.
 - Added dedicated Chromium test at 30/80/180 bpm and Ready/Seek/Reset; previous tests retained. Not FINAL.
+
+
+## v1.12 Patch 11 — first-step learning and reduced control overload
+- First deliberate '5단계 학습 시작' from canonical Ready uses the original Timeline exactly once to pause and show stage 1; reopening during play never secretly seeks or pauses. Previous/Next still use the original native seek, preserving A/B and model boundaries.
+- The beginner-first reading order is title/current state → one-sentence core → stage navigation → ECG/valve/volume summaries → next learning level. Existing level picker, Wiggers shortcut and repeated observation remain accessible via native optional tools disclosure. Original clinical PHASES/RATE, all 10 quiz items/feedback and explanatory source stay unchanged.
+- Chromium first-use/continuity validation; tests updated solely for explicit initial-study contract and newly hidden optional tools. Not FINAL.

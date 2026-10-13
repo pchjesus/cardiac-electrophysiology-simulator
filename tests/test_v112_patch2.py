@@ -62,6 +62,7 @@ with sync_playwright() as playwright:
     })""")
  before=clock()
  page.locator('#guidedV112Toggle').click()
+ page.locator("#guidedV112Tools").evaluate("(e)=>e.open=true")
  ck(page.evaluate('CardiacGuidedLearning.open'),'guide did not open')
  ck(page.locator('#guidedV112Previous').is_disabled(),'first previous not disabled')
  ck(not page.locator('#guidedV112Next').is_disabled(),'first next unexpectedly disabled')
@@ -71,7 +72,8 @@ with sync_playwright() as playwright:
     'seek effects must be announced before click')
  ck('Timeline' in page.locator('#guidedV112SeekNotice').inner_text(),
     'seek notice should identify original Timeline')
- ck(clock()==before,'opening guide changed clock or playback')
+ ck(not clock()['playing'] and clock()['inputCount']==before['inputCount']+1,'course start must use one Timeline seek')
+  before=clock()
  page.screenshot(path=str(SHOTS/'02-guided-navigation-desktop.png'),
                  full_page=True,animations='disabled')
 

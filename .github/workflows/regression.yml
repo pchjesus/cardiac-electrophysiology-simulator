@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 11 guided student first-step and optional tools
+        run: python tests/test_v112_patch11.py
       - name: Patch 10 ECG past-only labels and Ready states
         run: python tests/test_v112_patch10.py
       - name: Patch 6 ECG seek waveform reconstruction

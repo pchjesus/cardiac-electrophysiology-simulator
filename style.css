@@ -1637,3 +1637,14 @@ Compact Controller + ECG View
  .dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{order:4}
  .dashboard-active .dashboard-v111>.dashboard-resources{order:5}
 }
+
+/* v1.12 Patch 11: reading and navigation first; original optional controls in disclosure. */
+.dashboard-active .guided-v112-tools{border:1px solid #dce6ef;background:#f7fafc;border-radius:8px;padding:2px 9px}
+.dashboard-active .guided-v112-tools>summary{cursor:pointer;padding:9px 3px;font-size:13px;font-weight:650;line-height:1.5;color:#31536c;min-height:40px}
+.dashboard-active .guided-v112-tools[open]{padding-bottom:10px}
+.dashboard-active .guided-v112-tools .guided-v112-level-row{margin:7px 0 9px}
+.dashboard-active .guided-v112-tools .guided-v112-observe{margin:7px 0}
+.dashboard-active .guided-v112-gist{font-size:15px;line-height:1.55}
+.dashboard-active .guided-v112-title{font-size:17px}
+.dashboard-active .guided-v112-promote{min-height:40px}
+@media(max-width:699px){.dashboard-active .guided-v112-tools>summary{font-size:14px;min-height:44px}}
