@@ -156,9 +156,10 @@ with sync_playwright() as p:
  ck(page.evaluate('heartState.playing'),'Play stopped working')
  page.locator('#pauseBtn').click()
  ck(not page.evaluate('heartState.playing'),'Pause stopped working')
+ savedDensity=page.evaluate('CardiacDashboard.density')
  page.locator('#resetBtn').click()
  ck(page.evaluate('CardiacDashboard.isReady'),'Reset did not reach Ready')
- ck(page.evaluate('CardiacDashboard.density')=='compact','Reset changed learner view density')
+ ck(page.evaluate('CardiacDashboard.density')==savedDensity,'Reset changed learner view density')
  ck(page.locator('#dashboardEvent').inner_text()=='Ready','Reset ECG event summary stale')
  ck(page.locator('#dashboardMechanical').inner_text()=='Ready',
     'Reset mechanical status stale')
