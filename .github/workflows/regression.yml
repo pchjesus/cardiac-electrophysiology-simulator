@@ -29,6 +29,8 @@ jobs:
         run: python tests/test_v112_patch6.py
       - name: Patch 7 ECG-first workbench responsiveness
         run: python tests/test_v112_patch7.py
+      - name: Patch 8 guided automatic observation and readable explanations
+        run: python tests/test_v112_patch8.py
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression

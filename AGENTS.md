@@ -266,3 +266,7 @@ Begin with a single phase concept plus ECG, valve and flow essentials for novice
 - Teaching source text may be clarified without touching the established ECG, Mechanical, Wiggers physical proxy calculations. Treat source prose, model assumptions and clinical facts as distinct.
 - Preserve 10 existing quizzes and six-part original nursing explanation; keep compact startup and native keyboard/mobile controls. Tests now consist of 15 CI steps (14 historical + Patch 5) including clinical interval checks across HR 30–180 bpm.
 - This is **not v1.12 FINAL** until explicit user PC/mobile hands-on acceptance and remaining release criteria are met. No external independent clinical expert audit is claimed.
+
+
+## v1.12 Patch 8 guided-only seek rule
+Previous A/A/A no-seek navigation assertions in historical tests are intentionally replaced by B-mode tests. Guided course must only change A/B and Pause on deliberate stage selection (dropdown or previous/next), through original Timeline input; learning level/quiz/source/closing remain non-seeking. A fixed chosen-stage explanation is distinct from rapidly updating live model status. Free Play/Pause/HR and A/B remain original.

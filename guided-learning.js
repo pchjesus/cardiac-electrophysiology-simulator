@@ -53,7 +53,7 @@
   const title=el('h3','guided-v112-title');title.id='guidedV112Title';
   title.setAttribute('aria-live','polite');
   const current=el('p','guided-v112-current');current.id='guidedV112Live';
-  const note=el('p','guided-v112-note','학습 단계 선택은 현재 재생 위치를 변경하지 않습니다.');
+  const note=el('p','guided-v112-note','학습 모드에서 이전·다음 단계를 누르면 재생을 멈추고 해당 관찰 시점으로 이동합니다.');
   const levelLine=el('div','guided-v112-level-row');
   const levelLabel=el('label','guided-v112-level-label','학습 수준');
   const levelSelect=el('select','guided-v112-level-select');
@@ -89,13 +89,13 @@
   view.id='guidedV112ViewWiggers';
   view.type='button';
   view.setAttribute('aria-label','Wiggers 시각화로 전환 · 현재 시간 유지');
-  const seek=el('button','guided-v112-action guided-v112-seek','이 단계 관찰 시점으로 이동');
+  const seek=el('button','guided-v112-action guided-v112-seek','이 단계 다시 관찰');
   seek.id='guidedV112Seek';
   seek.type='button';
   seek.setAttribute('aria-describedby','guidedV112SeekNotice');
   observe.append(view,seek);
   const seekNotice=el('p','guided-v112-seek-notice',
-    '관찰 시점으로 이동을 누르면 재생이 일시 정지되고, 기존 Timeline이 해당 단계로 이동합니다.');
+    '재관찰 버튼을 누르면 재생이 일시 정지되고, 기존 Timeline이 현재 학습 단계의 관찰점으로 이동합니다.');
   seekNotice.id='guidedV112SeekNotice';
   const gist=el('p','guided-v112-gist');
   gist.id='guidedV112Gist';
@@ -204,7 +204,7 @@
 
   clinical.before(panel);
 
-  let open=false,selectedIndex=0,lastKey='';
+  let open=false,selectedIndex=0,lastKey='',lastRenderedSelection='';
   const trimSentence=value=>{
     const text=String(value||'').trim();
     const i=text.indexOf('다.');
@@ -275,7 +275,7 @@
     for(const level of questions.levels)renderQuestion(level);
     const filling=stage.id==='filling';
     model.textContent='모델 대표 관찰점 '+Math.round(obs.midpointMs)+' / '+
-       Math.round(obs.rrMs)+' ms · 단계 선택만으로는 현재 위치가 이동하지 않음';
+       Math.round(obs.rrMs)+' ms · 학습 단계 이동 시 기존 Timeline으로 자동 관찰';
     limits.textContent=(filling?
        (detailLevel==='basic'?
          '이 앱에서는 RR 주기의 앞부분과 뒷부분에 충만 단계가 나타나며, 용적의 변화가 서로 다릅니다. ':
@@ -296,13 +296,18 @@
       '현재 시뮬레이션: '+live.title+
       (live.phase===content.stages[selectedIndex].id?
        ' · 학습 단계와 일치':' · 학습 중인 단계와 다름');
-    renderSelected(); // HR-responsive midpoint; does not seek.
+    const readingKey=[selectedIndex,live.heartRate,detailLevel].join('|');
+    if(lastRenderedSelection!==readingKey){
+      renderSelected();
+      lastRenderedSelection=readingKey;
+    }
   }
   function setOpen(next){
     if(open===next)return;
     open=next;
     panel.hidden=!open;
     clinical.hidden=open;
+    if(open)lastRenderedSelection='';
     toggle.setAttribute('aria-expanded',String(open));
     toggle.textContent=open?'학습 닫기':'5단계 학습';
     originalHeading.textContent=open?'5단계 심장 주기 학습':'실시간 통합 해설';
@@ -315,7 +320,9 @@
     selectedIndex=index;
     lastKey='';
     sync();
-    // Deliberately do not seek, change view or toggle playback here.
+    // Guided navigation is the deliberate learner action: pause/seek once.
+    // The free-observation controls and original A/B driver remain untouched.
+    if(open)observeSelected();
   }
   select.addEventListener('change',()=>{
     chooseStage(content.stages.findIndex(x=>x.id===select.value));
@@ -326,6 +333,7 @@
     if(detailLevel!=='advanced')advanced.open=false;
     // Level is educational UI state, never an implicit seek/pause.
     renderSelected();
+    lastRenderedSelection=[selectedIndex,heartRate,detailLevel].join('|');
   }
   levelSelect.addEventListener('change',()=>chooseLevel(levelSelect.value));
   promote.addEventListener('click',()=>{
@@ -366,7 +374,7 @@
     // Separate explicit user action; no Timeline or playback side effects.
     dashboard.setView('wiggers');
   });
-  seek.addEventListener('click',()=>{
+  function observeSelected(){
     if(!open)return;
     const chosen=content.stages[selectedIndex];
     const observation=content.getObservation(
@@ -384,7 +392,8 @@
     // No alternate model updater or time state is created.
     lastKey='';
     sync();
-  });
+  }
+  seek.addEventListener('click',observeSelected);
   root.CardiacGuidedLearning=Object.freeze({
     sync,
     get open(){return open;},
@@ -393,6 +402,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 7';}
+    get version(){return 'v1.12 Patch 8';}
   });
 })(window);

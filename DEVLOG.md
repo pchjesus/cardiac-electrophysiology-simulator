@@ -744,3 +744,9 @@ Patch 6 CI finding: attempting to stabilize live-height by reserving extra rows 
 - Intentional change to prior compact initial document-height tests: new ECG/inspector first-row geometry replaces the previous single viewport metric, with six-width browser checks. Do not remove original source or quiz content.
 
 Patch 7 visual regression correction: moving three source disclosures below the main SVG increased default 1366px document height to 1240px. The original source elements are now nested in one keyboard-operable, opt-in resources `<details>` group; UI no longer forces the extra information into the first page. Historical browser tests open that containing group explicitly before checking original nursing source text.
+
+
+## v1.12 Patch 8 — Guided mode automatic observation + readable fixed lessons
+- UX B/B/B/B decision supersedes historical A/A/A only inside explicitly opened guided mode: previous/next and dropdown call the same original native Timeline input exactly once and pause simulation.
+- Opening/closing course, difficulty changes, source details, quizzes and free observation do not seek; view changes stay manual. Live phase labels update but selected education text is rendered only for selected stage/rate/level, not each moving live phase.
+- Updated historical test contracts to new approved guided-only navigation semantics, retaining full physiological/source/quiz assertions. Added ten HR × five-stage real-browser mode and reading tests. Not FINAL before real-device inspection.
