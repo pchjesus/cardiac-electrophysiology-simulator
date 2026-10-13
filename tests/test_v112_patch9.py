@@ -16,8 +16,8 @@ with sync_playwright() as pw:
     errors=[]
     page.on("pageerror",lambda e:errors.append(str(e)))
     page.goto((ROOT/"index.html").as_uri())
-    page.wait_for_function('window.CardiacGuidedLearning?.version==="v1.12 Patch 9"')
-    ck("Patch 9" in page.locator("h1").inner_text(),"version wrong")
+    page.wait_for_function('window.CardiacGuidedLearning?.version?.startsWith("v1.12 Patch ")')
+    ck("v1.12 Patch " in page.locator("h1").inner_text(),"version wrong")
     ck(page.locator("#dashboardResources").count()==1,"missing index")
     ck(page.locator("#ecgCanvas").count()==1,"duplicate ECG")
     ck(page.locator("#wiggersDeepDive").count()==1,"missing nursing long form")

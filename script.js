@@ -1332,9 +1332,9 @@ function drawBaseline(){
 // ===============================
 
 function drawECGLabels(){
-
-
-
+    // No P/QRS/T event can be annotated before Play/Seek.
+    if(heartState.physiologicalTime===0 && heartState.visualizationTime===0 && !heartState.playing)return;
+    if(ecgPoints.length<2)return;
     ctx.save();
 
 
@@ -1368,9 +1368,9 @@ function drawECGLabels(){
 
     if(
 
-        pX >= 0 &&
+        Number.isFinite(pX) && pX >= 0 &&
 
-        pX <= canvas.width
+        pX <= heartState.sweepPosition
 
     ){
 
@@ -1386,9 +1386,9 @@ function drawECGLabels(){
 
     if(
 
-        qrsX >= 0 &&
+        Number.isFinite(qrsX) && qrsX >= 0 &&
 
-        qrsX <= canvas.width
+        qrsX <= heartState.sweepPosition
 
     ){
 
@@ -1404,9 +1404,9 @@ function drawECGLabels(){
 
     if(
 
-        tX >= 0 &&
+        Number.isFinite(tX) && tX >= 0 &&
 
-        tX <= canvas.width
+        tX <= heartState.sweepPosition
 
     ){
 
@@ -1430,54 +1430,15 @@ function drawECGLabels(){
 // MAP ECG TIME
 // ===============================
 
-function mapECGTimeToScreen(
-    waveformTime
-){
-
-
-
-    const currentTime =
-
-    getPhysiologicalCyclePhase();
-
-
-
-    let delta =
-
-    waveformTime -
-
-    currentTime;
-
-
-
-    if(delta < 0){
-
-                delta +=
-        getActiveCycleLength();
-
-    }
-
-
-
-        const ratio =
-    (delta * baseCycleLength / getActiveCycleLength()) /
-    sweepDuration;
-
-
-
-    return (
-
-        heartState.sweepPosition
-
-        +
-
-        ratio *
-        canvas.width
-
-    );
-
+function mapECGTimeToScreen(waveformTime){
+    // The display label follows historical ECG drawn up to the sweep cursor.
+    // Coordinate conversion B<->A is for annotation only, never for samples.
+    const elapsedA = getPhysiologicalCyclePhase() - waveformTime;
+    if(elapsedA < 0)return NaN;
+    const backB = elapsedA * baseCycleLength / getActiveCycleLength();
+    const x = heartState.sweepPosition - backB / sweepDuration * canvas.width;
+    return x>=0 && x<=heartState.sweepPosition ? x : NaN;
 }
-
 
 
 // ===============================
@@ -2178,16 +2139,14 @@ function renderStep(){
 
     if(!step){
 
-        phaseTitle.textContent =
-        "Ready";
-
-
-        phaseDescription.textContent =
-        "Press Play to begin the cardiac conduction cycle.";
-
-
-        phaseECG.textContent =
-        "Ready";
+        const ready = heartState.physiologicalTime===0 &&
+            heartState.visualizationTime===0 && !heartState.playing;
+        phaseTitle.textContent = ready ? "Ready" : "전도 점등 구간 외";
+        phaseDescription.textContent = ready ?
+            "Press Play to begin the cardiac conduction cycle." :
+            "현재 전도 경로에 점등된 구간이 없습니다. ECG와 기계적 심장 활동은 계속됩니다.";
+        phaseECG.textContent = ready ? "Ready" :
+            getCurrentECGEvent(getPhysiologicalCyclePhase()).label;
 
         updateConductionFlowIndicator();
 
