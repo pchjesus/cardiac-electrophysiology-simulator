@@ -110,6 +110,9 @@ with sync_playwright() as pw:
        "QRS explanation inaccurate")
     page.locator("#guidedV112Toggle").click()
     ck(page.locator("#guidedV112Panel").is_visible(),"guided mode unavailable")
+    # Opening the course is intentionally non-seeking; first select a different
+    # stage so the next 'atrial_systole' dropdown is an actual user change.
+    page.locator("#guidedV112Select").select_option("ejection")
     for st in ("atrial_systole","isovolumetric_contraction","ejection","isovolumetric_relaxation","filling"):
         page.locator("#guidedV112Select").select_option(st)
         ck(page.evaluate("CardiacGuidedLearning.selectedStageId")==st,f"study stage lost {st}")
