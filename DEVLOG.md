@@ -763,3 +763,9 @@ Patch 7 visual regression correction: moving three source disclosures below the 
 Patch 9 screenshot-led improvement: earlier Patch 7 capture showed large vertical whitespace underneath ECG when the guided Inspector was tall. On >=1200px desktop the cardiac visualization now follows ECG in the same left column while the fixed lesson occupies the right column, instead of holding the entire visualization below the taller Inspector. Wiggers focus intentionally reverts to full-width workspace. New P9 browser geometry assertions validate ECG-to-heart adjacency at default and guided states.
 
 Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not prevent an 84px blank gap because the Inspector spans two Grid rows. A new layout-only `dashboard-primary` wrapper groups **original** ECG and heart workspace under the left desktop column, with the original Inspector in the right column. No cloned controls or new animation driver. At <1200px, `display: contents` and explicit ordering restores compact stacked ECG → inspector → measurements → heart; Wiggers focus intentionally spans both desktop columns. Updated canonical DOM-selector tests rather than weakening physiology assertions.
+
+
+## v1.12 Patch 10 — ECG past-only labels and conduction gap clarity
+- Previously P/QRS/T captions predicted future positions even before waveform traversal. Now place captions only behind the actual sweep cursor, using the existing A/B coordinate relationship without changing physiological timing or ECG data.
+- Replaced mid-cycle 'Ready' on intervals without a lit conduction node by '전도 점등 구간 외'. Reset and initial Ready behavior remain unchanged; current ECG event is still shown.
+- Added dedicated Chromium test at 30/80/180 bpm and Ready/Seek/Reset; previous tests retained. Not FINAL.

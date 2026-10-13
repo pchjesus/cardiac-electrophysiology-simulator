@@ -402,6 +402,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 9';}
+    get version(){return 'v1.12 Patch 10';}
   });
 })(window);
