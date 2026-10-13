@@ -15,7 +15,7 @@ with sync_playwright() as p:
     errs=[]
     page.on("pageerror",lambda e:errs.append(str(e)))
     page.goto((ROOT/"index.html").as_uri())
-    ck("Patch 13" in page.locator("h1").inner_text(),"active version wrong")
+    ck("v1.12 Patch " in page.locator("h1").inner_text(),"active version wrong")
     ck(page.locator("#mechanicalSVG").count()==1,"original mechanical SVG duplicated")
     ck(page.locator("#mechanicalPhase").count()==1,"original mechanical phase duplicated")
     ck(page.locator("#mechanicalModelInfo").count()==1,"source info missing")

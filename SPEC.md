@@ -13,7 +13,7 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 ## 2. Current Version
 
-**Current development: v1.12 Patch 12 (NOT FINAL; user PC/mobile signoff pending).** v1.7 FINAL is an archived confirmed milestone, not the active build.
+**Current development: v1.12 Patch 14 (NOT FINAL; user PC/mobile signoff pending).** v1.7 FINAL is an archived confirmed milestone, not the active build.
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
 
@@ -872,3 +872,11 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - Existing mechanical chamber SVG and mechanical phase/readout appear beside each other at >=900px; mobile stack remains intact. No simulation model or animation update behavior changed.
 - Repeated caveats are removed from the default reading flow but accessible through native keyboard/touch expandable educational-model information beside the phase title and the guided study details. Original wording and ten quizzes retained.
 - Await real-device visual checks before v1.12 FINAL.
+
+
+## v1.12 Patch 14 — responsive mechanical usability
+- Preserve the original Mechanical SVG, live phase/readout, A/B timing, valve/flow/volume calculations, source notes and all ten guided questions.
+- At >=900 CSS px, use an available-space auto-fitting two-column grid for the original SVG and readout; stack if their actual content area cannot fit 320px per cell. Below 900px preserve stacked display.
+- Native model note expands inside the readout rather than overlaying adjacent education cards. Both contextual ⓘ notes keep keyboard/touch focus and original caution text.
+- Improve live mechanical explanation to 14px and valve/flow/volume readouts to 13px. At small mobile widths, disclosure touch targets are at least 44px high.
+- This is a display-only change. Real-device PC/mobile acceptance and v1.12 FINAL remain pending.
