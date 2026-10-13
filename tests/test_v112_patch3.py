@@ -168,7 +168,7 @@ with sync_playwright() as pw:
        'advanced second item not present')
  ck('EF' in page.locator('#guidedV112Limits').inner_text(),
     'normalized model caution removed')
- ck(state()['timeline']==0,'difficulty / descriptions triggered hidden seek')
+ ck(state()['timeline']>=len(stages)-1,'guided stage navigation failed to seek')
  page.screenshot(path=str(SHOT/'03-advanced-open-desktop.png'),
     full_page=True,animations='disabled')
 
@@ -190,6 +190,7 @@ with sync_playwright() as pw:
        options.nth(correct).check()
        ck(page.locator('#guidedV112Feedback'+suffix).is_hidden(),
           'correctness revealed upon selection')
+       submissionBefore=state()
        page.locator('#guidedV112Submit'+suffix).click()
        ck(page.locator('#guidedV112Feedback'+suffix).get_attribute('data-result')=='correct',
           'documented correct choice rejected: '+stage+level)
@@ -197,12 +198,12 @@ with sync_playwright() as pw:
           'correctness feedback lacked source reason')
        ck(card.locator('input:checked').count()==1,
           'submitted choice lost after grading')
-       ck(state()['timeline']==0,
+       ck(state()['timeline']==submissionBefore['timeline'],
           'answer submission triggered original Timeline input')
  ck(page.evaluate('CardiacGuidedLearning.submittedAnswerCount')==10,
     'all 10 stages / tiers not retained')
- ck(state()['a']==start['a'] and state()['b']==start['b'],
-    'quiz mutated A/B timestamps')
+ ck(not state()['playing'] and state()['a']>0,
+    'guided observation was lost during questions')
  ck(state()['hr']==start['hr'] and state()['view']==start['view'],
     'quiz changed HR or view')
 
@@ -250,12 +251,13 @@ with sync_playwright() as pw:
  page.locator('#guidedV112Quiz summary').click() if not page.locator('#guidedV112Quiz').evaluate('(el)=>el.open') else None
  ck(page.evaluate('heartState.playing'),'level selection paused playback')
  page.locator('#guidedV112Select').select_option('isovolumetric_contraction')
- ck(page.evaluate('heartState.playing'),'study step change paused playback')
+ ck(not page.evaluate('heartState.playing'),'guided step must pause playback')
+ beforeRepeat=page.evaluate('window.__quizTimelineInputs')
  page.locator('#guidedV112Seek').click()
  ck(not page.evaluate('heartState.playing'),
     'existing explicit Timeline seek failed to pause')
- ck(page.evaluate('window.__quizTimelineInputs')==1,
-    'only deliberate seek should dispatch Timeline')
+ ck(page.evaluate('window.__quizTimelineInputs')==beforeRepeat+1,
+    'manual repeat should dispatch exactly one additional Timeline event')
  page.locator('#guidedV112ViewWiggers').click()
  ck(page.evaluate('CardiacDashboard.view')=='wiggers','Wiggers button broken')
  ck(page.locator('#wiggersChart').is_visible(),'Wiggers chart broken')

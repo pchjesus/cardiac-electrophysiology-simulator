@@ -97,9 +97,9 @@ with sync_playwright() as playwright:
        }""",[stage,piece])
        check(len(text)>8 and text==from_source,
              'phase text must equal original nursing source '+stage+':'+piece)
-    check('이동하지 않음' in page.locator('#guidedV112Model').inner_text(),
+    check('자동 관찰' in page.locator('#guidedV112Model').inner_text(),
           'observation point must not imply an automatic seek')
-    check(state()==before,'stage selection unexpectedly moved simulation')
+    check(not state()['playing'] and (i==0 or page.evaluate('CardiacMechanical.currentState.stage')==stage),'guided stage observation mismatch')
     if stage=='filling':
        novice=page.locator('#guidedV112Limits').inner_text()
        check('RR' in novice,'the two filling intervals must remain acknowledged')
@@ -147,8 +147,7 @@ with sync_playwright() as playwright:
                 'filling guide target must be in RR later segment')
           check(.48<actual['volume']<.88,
                 f'filling relative LV volume midpoint wrong at {hr}')
-    check(state()['a']==before['a'] and state()['b']==before['b'],
-          'guide or HR altered Ready-time A/B unexpectedly')
+    check(not state()['playing'],'HR change unexpectedly resumed guided playback')
  check('180' in page.locator('#guidedV112Model').inner_text() or
        'ms' in page.locator('#guidedV112Model').inner_text(),
        'HR-dependent model observation not updated')
@@ -162,7 +161,8 @@ with sync_playwright() as playwright:
  check('현재 시뮬레이션' in page.locator('#guidedV112Live').inner_text(),
        'live simulation status missing')
  page.locator('#guidedV112Select').select_option('ejection')
- check(state()==a,'study stage selection changed sought A/B')
+ check(state()['a']>0 and not state()['playing'],'guided stage selection did not observe selected position')
+ a=state()
  check('다름' in page.locator('#guidedV112Live').inner_text() or
        '일치' in page.locator('#guidedV112Live').inner_text(),
        'study/live distinction disappeared')

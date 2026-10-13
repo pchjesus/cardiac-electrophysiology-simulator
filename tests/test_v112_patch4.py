@@ -95,9 +95,10 @@ with sync_playwright() as pw:
     if stage=='filling':
        ck('RR' in page.locator('#guidedV112Limits').inner_text(),
           'important two-interval filling caveat lost')
-    ck(state()==original,'study navigation changed clocks '+stage)
+    ck(not state()['playing'] and (index==0 or page.evaluate('CardiacMechanical.currentState.stage')==stage),'stage auto-observation wrong '+stage)
  ck(page.evaluate('CardiacGuidedLearning.selectedStageId')=='filling',
     'stage selection lost')
+ original=state()
 
  # Second tier reveals concise nursing observation WITHOUT extra 
  # diagnosis or full length advanced source.
@@ -149,7 +150,8 @@ with sync_playwright() as pw:
        expected=page.evaluate(
          '(s)=>CardiacLearning.getStageNarrative(s[0])[s[1]]',[stage,source])
        ck(actual==expected,'source paragraph changed: '+stage+' '+source)
-    ck(state()==original,'extra study stage selection sought Timeline')
+    ck(not state()['playing'] and page.evaluate('CardiacMechanical.currentState.stage')==stage,'extra study observation failed')
+ original=state()
  page.screenshot(path=str(SHOTS/'04-additional-study-desktop.png'),
                  full_page=True,animations='disabled')
 
@@ -183,15 +185,16 @@ with sync_playwright() as pw:
  ck(state()==original,'tier switching mutated simulation')
 
  # Original explicit Wiggers and Timeline controls retain Patch 2 semantics.
+ beforeWiggers=page.evaluate('window.__p4SeekEvents')
  page.locator('#guidedV112ViewWiggers').click()
  ck(page.evaluate('CardiacDashboard.view')=='wiggers','manual Wiggers broken')
  ck(page.locator('#wiggersChart').is_visible(),'Wiggers chart missing')
  ck(page.locator('#wiggersMarkers [data-event]').count()==4,
     'valve event markers missing')
- ck(page.evaluate('window.__p4SeekEvents')==0,'Wiggers view auto-sought')
+ ck(page.evaluate('window.__p4SeekEvents')==beforeWiggers,'Wiggers view auto-sought')
  page.locator('#guidedV112Seek').click()
- ck(page.evaluate('window.__p4SeekEvents')==1,
-    'native Timeline seek should only occur on explicit click')
+ ck(page.evaluate('window.__p4SeekEvents')==beforeWiggers+1,
+    'manual Timeline repeat should fire exactly once')
  ck(not page.evaluate('heartState.playing'),'explicit seek must pause playback')
  ck(page.evaluate('CardiacDashboard.view')=='wiggers',
     'explicit seek should not change view')
