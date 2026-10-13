@@ -168,7 +168,7 @@ with sync_playwright() as pw:
        'stage scientific caveat missing')
     ck(page.locator('#guidedV112AdvancedQuestion').is_visible(),
        'advanced second item not present')
- ck('EF' in page.locator('#guidedV112Limits').inner_text(),
+ ck('EF' in page.locator('#guidedV112Limits').text_content(),
     'normalized model caution removed')
  ck(state()['timeline']>=len(stages)-1,'guided stage navigation failed to seek')
  page.screenshot(path=str(SHOT/'03-advanced-open-desktop.png'),
