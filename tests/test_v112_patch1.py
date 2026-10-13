@@ -103,10 +103,10 @@ with sync_playwright() as playwright:
           'observation point must not imply an automatic seek')
     check(not state()['playing'] and (i==0 or page.evaluate('CardiacMechanical.currentState.stage')==stage),'guided stage observation mismatch')
     if stage=='filling':
-       novice=page.locator('#guidedV112Limits').inner_text()
+       novice=page.locator('#guidedV112Limits').text_content()
        check('RR' in novice,'the two filling intervals must remain acknowledged')
        page.locator('#guidedV112Level').select_option('intermediate')
-       caution=page.locator('#guidedV112Limits').inner_text()
+       caution=page.locator('#guidedV112Limits').text_content()
        check('RR' in caution and '0.88' in caution,
              'detailed filling model caveat missing at nursing-connection level')
        page.locator('#guidedV112Level').select_option('basic')
