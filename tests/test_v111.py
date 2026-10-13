@@ -31,7 +31,7 @@ with sync_playwright() as p:
     'measurements not preserved')
  ck(page.locator('#phaseTitle').count()==1 and page.locator('#ecgEventIndicator').count()==1,
     'original event/phase nodes duplicated or removed')
- ck(page.locator('.dashboard-inspector #wiggersDeepDive').count()==1,
+ ck(page.locator('.dashboard-resources #wiggersDeepDive').count()==1,
     'long-form lesson not relocated')
  ck(page.locator('.dashboard-visual #mechanicalModeBtn').is_visible(),'mode button inaccessible')
  ck(page.locator('#heartSVG').is_visible(),'default Electrical SVG missing')
