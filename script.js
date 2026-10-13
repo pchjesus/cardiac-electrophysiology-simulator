@@ -2872,7 +2872,7 @@ function(){
 
     Math.max(
 
-        1,
+        0,
 
         Math.floor(
             heartState.sweepPosition
@@ -2918,6 +2918,15 @@ function(){
 
     }
 
+
+
+    // Include the exact sub-pixel cursor location as the final sample.
+    // At slow HR the preceding integer pixel may correspond to a notably
+    // different point on a steep QRS flank.
+    ecgPoints.push({
+        x:heartState.sweepPosition,
+        y:canvas.height * 0.58 - ecgValue(getPhysiologicalCyclePhase())
+    });
 
 
     updateConduction(true);
