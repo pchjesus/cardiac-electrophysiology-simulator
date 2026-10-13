@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 13 mechanical side-by-side and model info disclosures
+        run: python tests/test_v112_patch13.py
       - name: Patch 12 readable mobile study and documentation
         run: python tests/test_v112_patch12.py
       - name: Patch 11 guided student first-step and optional tools
@@ -133,5 +135,14 @@ jobs:
         with:
           name: v112-patch12-student-readability
           path: preview-v112p12/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Patch 13 mechanics side-by-side screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch13-mechanics-ux
+          path: preview-v112p13/
           retention-days: 30
           if-no-files-found: warn

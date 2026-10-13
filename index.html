@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.12 Patch 12</title>
+<title>Cardiac Electrophysiology Simulator v1.12 Patch 13</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 12</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 13</h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -199,11 +199,21 @@
                     <text class="model-caption" x="250" y="405" text-anchor="middle">Schematic — not an anatomical scale drawing</text>
                 </svg>
                 <div class="mechanical-readout" aria-live="off">
-                    <strong id="mechanicalPhase">Ready</strong>
+                    <div class="mechanical-readout-header">
+                        <strong id="mechanicalPhase">Ready</strong>
+                        <details id="mechanicalModelInfo" class="mechanical-model-info">
+                            <summary aria-label="모형 가정과 수치 주의사항 보기">ⓘ 모형 안내</summary>
+                            <div class="mechanical-model-info-body">
+                                <p>심장 그림은 실제 해부학적 크기와 비례하지 않는 교육용 도식입니다.</p>
+                                <p>판막·압력 관계와 심실 용적은 교육용 상대 지표입니다. 실제 환자의 혈압·심실 용적 또는 박출률(EF)을 나타내지 않습니다.</p>
+                                <p>이 모델은 RR 앞 충만 구간을 상대 용적 0.88로 평탄하게, 뒤 충만 구간은 증가하도록 단순화했습니다.</p>
+                                <p>Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
+                            </div>
+                        </details>
+                    </div>
                     <p id="mechanicalExplanation">Play or move the timeline to explore the mechanical cycle.</p>
                     <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
                     <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
-                    <p class="mechanical-disclaimer">Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
                 </div>
             </div>
         </section>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiac Electrophysiology Simulator v1.12 Patch 12</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+
+<header class="header">
+    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 12</h1>
+    <p>Sinus Rhythm ECG Engine</p>
+    <nav class="header-tools" aria-label="Simulator reference information">
+        <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
+                aria-haspopup="dialog" aria-controls="patchNotesPanel" aria-expanded="false">▤ Patch notes</button>
+        <button type="button" id="userGuideBtn" data-open-info="userGuidePanel"
+                aria-haspopup="dialog" aria-controls="userGuidePanel" aria-expanded="false">? User guide</button>
+    </nav>
+</header>
+
+<main class="main-container">
+
+    <!-- TOP AREA -->
+    <section class="visual-grid">
+
+        <!-- ECG -->
+        <section class="card ecg-panel">
+            <h2>ECG Monitor</h2>
+
+            <div class="ecg-wrapper">
+                <canvas id="ecgCanvas" width="900" height="220"></canvas>
+            </div>
+
+            <div class="ecg-info">
+                <span id="heartRateDisplay">Heart Rate : 80 bpm</span>
+                <span id="rhythmStatus">Normal Sinus Rhythm</span>
+            </div>
+
+            <div class="ecg-interpretation" aria-label="Interactive ECG components">
+                <button type="button" class="ecg-item" data-ecg-component="P">
+                    <span class="ecg-label">P</span><span>심방 탈분극</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="PR">
+                    <span class="ecg-label">PR</span><span>방실 전도</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="QRS">
+                    <span class="ecg-label">QRS</span><span>심실 탈분극</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="ST">
+                    <span class="ecg-label">ST</span><span>심실 회복 초기</span>
+                </button>
+                <button type="button" class="ecg-item" data-ecg-component="T">
+                    <span class="ecg-label">T</span><span>심실 재분극</span>
+                </button>
+            </div>
+
+            <div class="ecg-explanation" id="ecgExplanation" aria-live="polite">
+                <div class="ecg-explanation-header">
+                    <span>ECG Component Explanation</span>
+                    <strong id="ecgExplanationTitle">Select an ECG component</strong>
+                </div>
+                <p id="ecgExplanationText">Click P, PR, QRS, ST, or T above to see how the ECG component relates to cardiac electrical activity.</p>
+                <div class="ecg-explanation-link">
+                    <span>Conduction / activity</span>
+                    <strong id="ecgExplanationLink">—</strong>
+                </div>
+            </div>
+
+            <!-- CONTROL PANEL MOVED INTO ECG PANEL -->
+            <section class="embedded-control-panel compact-controller">
+                <div class="controller-layout">
+                    <div class="controller-buttons">
+                    <button id="playBtn">▶ Play</button>
+                    <button id="pauseBtn">⏸ Pause</button>
+                    <button id="resetBtn">↻ Reset</button>
+                    </div>
+
+                    <div class="controller-sliders">
+                <div class="timeline">
+                    <p class="control-title">Cardiac Cycle Timeline</p>
+                    <input id="timeSlider" type="range" min="0" max="100" value="0" step="0.1">
+                    <div class="timeline-labels">
+                        <span>Start</span>
+                        <span>One Cardiac Cycle</span>
+                    </div>
+                </div>
+
+                <div class="heart-rate-control">
+                    <p class="control-title">Heart Rate</p>
+
+                    <div class="heart-rate-slider-wrap">
+                        <div class="normal-range-track">
+                            <div class="normal-range-fill"></div>
+                        </div>
+                        <input id="heartRateSlider" type="range" min="30" max="180" value="80" step="1">
+                    </div>
+
+                    <div class="heart-rate-scale">
+                        <span class="scale-30">30</span>
+                        <span class="scale-60">60</span>
+                        <span class="scale-100">100</span>
+                        <span class="scale-180">180 bpm</span>
+                    </div>
+
+                    <div class="normal-range-label">Normal Range: 60–100 bpm</div>
+                    <strong id="heartRateValue">80 bpm</strong>
+                </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- CARDIAC CONDUCTION -->
+        <section class="card heart-panel">
+            <h2 id="heartVisualTitle">Cardiac Conduction</h2>
+            <div class="heart-mode-switch" role="group" aria-label="Heart visualization mode">
+                <button id="electricalModeBtn" type="button" class="mode-active" aria-pressed="true">Electrical</button>
+                <button id="mechanicalModeBtn" type="button" aria-pressed="false">Mechanical</button>
+            </div>
+
+            <svg id="heartSVG" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path id="heartShape"
+                    d="M250 420 C150 350 70 270 90 170 C110 80 230 90 250 160 C270 90 390 80 410 170 C430 270 350 350 250 420 Z"/>
+                <path id="atriaRegion"
+                    d="M250 160 C210 125 150 115 120 160 C105 185 115 215 145 235 C175 255 215 245 250 220 C285 245 325 255 355 235 C385 215 395 185 380 160 C350 115 290 125 250 160 Z"/>
+                <path id="ventricleRegion"
+                    d="M145 235 C120 255 115 290 135 325 C155 360 205 400 250 420 C295 400 345 360 365 325 C385 290 380 255 355 235 C325 255 285 245 250 220 C215 245 175 255 145 235 Z"/>
+
+                <circle id="SA" cx="250" cy="160" r="12"/>
+                <circle id="AV" cx="250" cy="220" r="12"/>
+                <circle id="His" cx="250" cy="280" r="12"/>
+                <circle id="Purkinje" cx="250" cy="360" r="12"/>
+
+                <line id="AVPath" x1="250" y1="172" x2="250" y2="208"/>
+                <line id="HisPath" x1="250" y1="232" x2="250" y2="268"/>
+                <line id="RBB" x1="250" y1="280" x2="340" y2="360"/>
+                <line id="LBB" x1="250" y1="280" x2="160" y2="360"/>
+
+                <circle id="conductionPulse" cx="250" cy="160" r="7" class="conduction-pulse"/>
+                <circle id="conductionPulseR" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
+                <circle id="conductionPulseL" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
+
+                <text x="280" y="165">SA Node</text>
+                <text x="280" y="225">AV Node</text>
+                <text x="280" y="285">His Bundle</text>
+                <text x="350" y="365">RBB</text>
+                <text x="90" y="365">LBB</text>
+                <text x="280" y="370">Purkinje</text>
+                <text id="atriaLabel" x="180" y="195">Atria</text>
+                <text id="ventricleLabel" x="175" y="335">Ventricles</text>
+            </svg>
+            <div id="mechanicalView" class="mechanical-view" hidden>
+                <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="Educational diagram of heart chambers, four valves, and blood-flow direction">
+                    <defs>
+                        <marker id="blueArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#328bbd"/></marker>
+                        <marker id="redArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#bd5252"/></marker>
+                    </defs>
+                    <text class="model-caption" x="250" y="22" text-anchor="middle">Simplified four-chamber circulation model</text>
+                    <g class="flow-tract flow-deoxygenated">
+                        <path id="flowRightAV" d="M132 134 L132 212"/>
+                        <path id="flowPulmonary" d="M132 290 L132 319 L67 319 L67 44"/>
+                    </g>
+                    <g class="flow-tract flow-oxygenated">
+                        <path id="flowLeftAV" d="M370 134 L370 212"/>
+                        <path id="flowAortic" d="M370 290 L370 319 L435 319 L435 44"/>
+                    </g>
+                    <g class="chamber atrial-chamber">
+                        <ellipse id="rightAtrialShape" class="chamber-blue" cx="132" cy="112" rx="74" ry="48"/>
+                        <ellipse id="leftAtrialShape" class="chamber-red" cx="370" cy="112" rx="74" ry="48"/>
+                        <text x="132" y="108">RA</text><text x="370" y="108">LA</text>
+                    </g>
+                    <g class="chamber ventricular-chamber">
+                        <ellipse id="rightVentricleShape" class="chamber-blue" cx="132" cy="256" rx="74" ry="54"/>
+                        <ellipse id="leftVentricleShape" class="chamber-red" cx="370" cy="256" rx="74" ry="54"/>
+                        <text x="132" y="254">RV</text><text x="370" y="254">LV</text>
+                    </g>
+                    <g class="valve-group">
+                        <line class="valve-segment" id="tricuspidValve" x1="103" y1="173" x2="161" y2="173"/>
+                        <line class="valve-segment" id="mitralValve" x1="341" y1="173" x2="399" y2="173"/>
+                        <line class="valve-segment" id="pulmonaryValve" x1="66" y1="339" x2="96" y2="339"/>
+                        <line class="valve-segment" id="aorticValve" x1="403" y1="339" x2="433" y2="339"/>
+                    </g>
+                    <g class="flow-dots">
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowRightAV" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot blue-dot" data-flow="flowPulmonary" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowLeftAV" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                        <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
+                    </g>
+                    <text class="flow-target blue-text" x="55" y="50">Pulmonary a.</text>
+                    <text class="flow-target red-text" x="395" y="50">Aorta</text>
+                    <text class="model-caption" x="250" y="405" text-anchor="middle">Schematic — not an anatomical scale drawing</text>
+                </svg>
+                <div class="mechanical-readout" aria-live="off">
+                    <strong id="mechanicalPhase">Ready</strong>
+                    <p id="mechanicalExplanation">Play or move the timeline to explore the mechanical cycle.</p>
+                    <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
+                    <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
+                    <p class="mechanical-disclaimer">Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <!-- NEW LOWER INFORMATION AREA -->
+    <section class="info-grid">
+
+        <section class="card placeholder-panel measurements-panel">
+            <h2>ECG Measurements</h2>
+
+            <div class="measurement-list">
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>Heart Rate</span>
+                        <strong id="measurementHeartRate">—</strong>
+                    </div>
+                    <small>(normal range: 60–100 bpm)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>RR Interval</span>
+                        <strong id="measurementRR">—</strong>
+                    </div>
+                    <small>(normal range: 600–1000 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>PR Interval</span>
+                        <strong id="measurementPR">—</strong>
+                    </div>
+                    <small>(normal range: 120–200 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QRS Duration</span>
+                        <strong id="measurementQRS">—</strong>
+                    </div>
+                    <small>(normal range: 70–100 ms)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QT Interval</span>
+                        <strong id="measurementQT">—</strong>
+                    </div>
+                    <small>(normal range: HR-dependent)</small>
+                </div>
+
+                <div class="measurement-item">
+                    <div class="measurement-row">
+                        <span>QTc</span>
+                        <strong id="measurementQTc">—</strong>
+                    </div>
+                    <small>(normal range: ≤450 ms (male) / ≤460 ms (female))</small>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="card placeholder-panel event-panel">
+            <h2>ECG Event / Phase Indicator</h2>
+
+            <div class="event-flow" aria-label="Current conduction phase">
+                <div class="event-item" data-conduction="SA">SA Node</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="AV">AV Node</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="His">His Bundle</div>
+                <span>→</span>
+                <div class="event-item" data-conduction="Purkinje">Purkinje</div>
+            </div>
+
+            <div class="event-ecg-row">
+                <span>ECG Event</span>
+                <strong id="ecgEventIndicator">Ready</strong>
+            </div>
+
+            <p class="event-sync-status" id="eventSyncStatus">Press Play to begin synchronization.</p>
+        </section>
+
+    </section>
+
+
+    <!-- CURRENT PHASE -->
+    <section class="card phase-panel">
+        <h2>Current Phase</h2>
+        <div id="phaseTitle">Ready</div>
+        <p id="phaseDescription">Press Play to begin the cardiac conduction cycle.</p>
+
+        <div class="phase-ecg-link">
+            <span>ECG Component</span>
+            <strong id="phaseECG">Ready</strong>
+        </div>
+    </section>
+
+    <!-- v1.10 Patch 3: independent opt-in graph, AFTER existing core UI. -->
+    <div class="wiggers-shell">
+    <details id="wiggersDetails" class="card wiggers-panel">
+        <summary id="wiggersToggle" class="wiggers-summary">
+            <span class="wiggers-summary-title">Wiggers Diagram <span class="wiggers-optional">Optional learning panel</span></span>
+            <span class="wiggers-summary-hint">ECG · relative pressure · relative ventricular volume · S1/S2 markers</span>
+        </summary>
+        <div class="wiggers-body">
+            <p class="wiggers-disclaimer">One physiological heart cycle (RR), synchronized to the existing simulator. Pressure and volume traces are <strong>illustrative relative indexes</strong>, not mmHg, mL, ejection fraction, patient data or diagnostic measurements. S1/S2 are event markers, not audio.</p>
+
+            <section class="learning-scenario-panel" aria-label="Rate-based learning scenarios">
+                <h3>Learning scenarios · 정상 / 서맥 / 빈맥</h3>
+                <div class="learning-preset-row" role="group" aria-label="Set simulated heart-rate scenario">
+                    <button type="button" data-learning-preset="normal" aria-pressed="false">Normal · 72 bpm</button>
+                    <button type="button" data-learning-preset="bradycardia" aria-pressed="false">Bradycardia · 50 bpm</button>
+                    <button type="button" data-learning-preset="tachycardia" aria-pressed="false">Tachycardia · 120 bpm</button>
+                </div>
+                <strong id="learningScenarioSummary">Normal-range teaching cycle · 80 bpm · Custom HR</strong>
+                <p id="learningScenarioIntro">세 시나리오 또는 기존 HR 슬라이더로 심장 주기의 관계를 살펴보세요.</p>
+                <p id="learningDuration">Relative cycle timing appears here; not a patient measurement.</p>
+                <p class="learning-boundary">성인 안정 시 HR 범위에 따른 교육용 분류입니다. 동성 빈맥/서맥의 원인이나 환자의 혈역학적 안정성을 판단하지 않습니다.</p>
+            </section>
+            <div class="wiggers-legend" aria-label="Wiggers trace key">
+                <span class="wiggers-key"><i class="wiggers-key-line wig-ecg"></i>ECG</span>
+                <span class="wiggers-key"><i class="wiggers-key-line wig-la"></i>Left atrium</span>
+                <span class="wiggers-key"><i class="wiggers-key-line wig-lv"></i>Left ventricle</span>
+                <span class="wiggers-key"><i class="wiggers-key-line wig-ao"></i>Aorta</span>
+                <span class="wiggers-key"><i class="wiggers-key-line wig-vol"></i>LV volume (relative)</span>
+            </div>
+            <div class="wiggers-chart-scroll" tabindex="0" role="region" aria-label="Scrollable Wiggers diagram; scroll horizontally on narrow screens">
+                <svg id="wiggersChart" viewBox="0 0 1000 470" role="img"
+                     aria-label="Educational single-beat diagram: relative left atrial, left ventricular and aortic pressure, ECG, normalized ventricular volume, valve event ticks and synchronized phase cursor">
+                    <rect x="52" y="29" width="912" height="181" rx="7" class="wiggers-band"/>
+                    <rect x="52" y="224" width="912" height="85" rx="7" class="wiggers-band"/>
+                    <rect x="52" y="322" width="912" height="99" rx="7" class="wiggers-band"/>
+                    <g class="wiggers-axis">
+                        <line x1="64" y1="65" x2="955" y2="65"/>
+                        <line x1="64" y1="125" x2="955" y2="125"/>
+                        <line x1="64" y1="185" x2="955" y2="185"/>
+                        <line x1="64" y1="267" x2="955" y2="267"/>
+                        <line x1="64" y1="338" x2="955" y2="338"/>
+                        <line x1="64" y1="400" x2="955" y2="400"/>
+                    </g>
+                    <g class="wiggers-plot-labels">
+                        <text x="66" y="23">PRESSURE — RELATIVE INDEX</text>
+                        <text x="66" y="221">ECG — SAME MODEL AS ECG MONITOR</text>
+                        <text x="66" y="318">LV VOLUME — NORMALIZED, NOT EF</text>
+                        <text x="64" y="456">0%</text>
+                        <text x="287" y="456" text-anchor="middle">25%</text>
+                        <text x="510" y="456" text-anchor="middle">50%</text>
+                        <text x="733" y="456" text-anchor="middle">75%</text>
+                        <text x="955" y="456" text-anchor="end">100% RR</text>
+                    </g>
+                    <g class="wiggers-traces" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path id="wiggersPathLA" class="wiggers-trace wig-la"/>
+                        <path id="wiggersPathLV" class="wiggers-trace wig-lv"/>
+                        <path id="wiggersPathAorta" class="wiggers-trace wig-ao"/>
+                        <path id="wiggersPathECG" class="wiggers-trace wig-ecg"/>
+                        <path id="wiggersPathVolume" class="wiggers-trace wig-vol"/>
+                    </g>
+                    <g id="wiggersMarkers" aria-label="Valve events"></g>
+                    <line id="wiggersCursor" x1="64" x2="64" y1="29" y2="421" class="wiggers-cursor"/>
+                </svg>
+            </div>
+            <div class="wiggers-event-key" aria-label="Valve and heart sound event markers">
+                <span>Mitral close = S1</span><span>Aortic open</span>
+                <span>Aortic close = S2</span><span>Mitral open</span>
+            </div>
+            <div class="wiggers-status" aria-live="off">
+                <strong id="wiggersCurrentStage">Ready</strong>
+                <span id="wiggersCurrentTime">Physiological phase 0 ms</span>
+                <span id="wiggersCurrentValves">Mitral: — · Aortic: —</span>
+            </div>
+            <section class="wiggers-learning" aria-label="Valve and heart sound education">
+                <h3>ECG → pressure → valves → volume</h3>
+                <p id="wiggersLearningStage">Move the timeline or press Play to explore cardiac phases.</p>
+                <p id="wiggersLearningEvent">Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.</p>
+                <p class="wiggers-learning-limit">Profiles are educational relative values, not clinical measurements. S1 and S2 are simplified left-sided event markers, not recorded sounds. Mechanical mode uses a separate model whose exact-boundary rounding may differ.</p>
+            </section>
+
+            <details id="wiggersDeepDive" class="learning-deep-dive">
+                <summary>심화 의학·간호 해설 보기 · ECG → 압력/판막 → 용적 → 간호 관찰</summary>
+                <div class="learning-detail" aria-live="off">
+                    <h3 id="learningPhaseTitle">Ready · 시작 전</h3>
+                    <h4>① 전기적 활동과 수축의 시간 차</h4>
+                    <p id="learningElectrical">재생하거나 Timeline을 이동해보세요.</p>
+                    <h4>② 압력 변화 및 판막 개폐</h4>
+                    <p id="learningHemodynamics">현재 주기에 따른 판막 관계가 표시됩니다.</p>
+                    <h4>③ 심실 용적과 혈류 방향</h4>
+                    <p id="learningVolume">상대 용적 곡선은 실제 mL나 EF가 아닙니다.</p>
+                    <h4>④ 임상·간호 관찰 관점</h4>
+                    <p id="learningNursing">환자 상태를 HR 수치만으로 판단하지 않습니다.</p>
+                    <h4>⑤ HR에 따른 비교 사고</h4>
+                    <p id="learningRateComparison">RR을 바꾸고 비교해보세요.</p>
+                    <h4>모델의 가정·한계</h4>
+                    <p id="learningCaution">교육용 모형은 실제 환자의 혈역학을 예측하지 않습니다.</p>
+                </div>
+            </details>
+            <p class="wiggers-footnote">The animated cursor uses physiological time (A). Your existing animation speed, ECG monitor sweep and Electrical/Mechanical displays remain unchanged. The teaching pressure curve and existing mechanical diagram have separate event-boundary rounding conventions.</p>
+        </div>
+    </details>
+    <button id="wiggersHelpButton" class="wiggers-help-button" type="button"
+            aria-label="Wiggers Diagram help" aria-expanded="false" aria-controls="wiggersHelp">?</button>
+    <aside id="wiggersHelp" class="wiggers-help-popover" role="group" aria-labelledby="wiggersHelpTitle" hidden>
+        <div class="wiggers-help-heading">
+            <strong id="wiggersHelpTitle">How to read a Wiggers Diagram</strong>
+            <button id="wiggersHelpClose" type="button" aria-label="Close Wiggers help">×</button>
+        </div>
+        <p>A Wiggers Diagram connects <strong>ECG → pressure → valve events → ventricular volume</strong> within one cardiac cycle.</p>
+        <ol>
+            <li><strong>ECG:</strong> P precedes atrial contraction, QRS precedes ventricular contraction and T reflects ventricular recovery.</li>
+            <li><strong>Pressure:</strong> compare relative left atrial, left ventricular and aortic curves to understand opening/closure.</li>
+            <li><strong>Volume:</strong> level during isovolumetric phases, falling during ejection, rising during filling.</li>
+            <li><strong>Events:</strong> mitral close / S1 → aortic open → aortic close / S2 → mitral open.</li>
+        </ol>
+        <p>The cursor follows <strong>physiological time (A)</strong> in one RR. The ECG Monitor uses a separate scrolling visualization (B). Relative pressures and volume are not mmHg, mL, EF or patient predictions. See README.md for details.</p>
+    </aside>
+    </div>
+
+</main>
+</div>
+<section id="patchNotesPanel" class="info-panel" role="dialog" aria-modal="false"
+         aria-labelledby="patchNotesHeading" data-info-panel hidden>
+    <div class="info-panel-head">
+        <h2 id="patchNotesHeading">▤ Version &amp; patch history</h2>
+        <button type="button" data-close-info aria-label="Close patch notes">×</button>
+    </div>
+    <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
+    <section class="patch-group">
+        <h3>기능 추가 · Features</h3>
+        <p><strong>v1.12 Patch 8</strong> — 단계 학습에서 이전/다음·단계 선택 시 기존 Timeline으로 자동 일시정지·관찰하고, 학습 설명은 재생 중에도 고정합니다. 자유 관찰의 시간과 시각화 전환은 그대로 유지합니다.</p>
+        <p><strong>v1.12 Patch 4</strong> — 학습 수준을 <strong>1. 기초 이해 → 2. 간호 연결 → 3. 추가학습</strong>으로 재구성하고, 현재 수준에서 다음 수준으로 이동하는 버튼을 추가했습니다. ECG·심장주기 주요 흐름부터 배우고 필요할 때 간호 관찰·원문 설명으로 확장합니다.</p>
+        <p><strong>v1.12 Patch 3</strong> — 5단계 학습에서 초급·심화 난이도를 선택하고, 기존 교육 원문을 펼치며, 단계별 초급 1개와 심화 1개씩 총 10개 개념 확인 문제를 풀 수 있습니다. 정답과 근거는 제출 뒤 표시되고 각 문항은 다시 풀 수 있습니다.</p>
+        <p><strong>v1.12 Patch 2</strong> — 기존 5단계 학습 카드에서 이전/다음(현재 시뮬레이션 시간 불변), 명시적 Wiggers 보기(시각화만 전환), 명시적 관찰 시점 이동(기존 Timeline의 일시 정지·A/B 시간 이동) 기능을 추가했습니다. 학습 단계 자동 이동·자동 재생 정지는 없습니다.</p>
+        <p><strong>v1.12 Patch 1</strong> — 기존 실시간 해설 영역에서 선택적으로 열리는 심장 주기 5단계 학습. 전기·기계 상태를 따로 보여주며 현재 시뮬레이션의 시간과 재생은 변경하지 않습니다. 이전/다음·Wiggers 이동·Timeline 이동 및 문제풀이는 후속 패치에서 추가할 예정입니다.</p>
+        <p><strong>v1.11</strong> — 공통 HR·Timeline·Play/Pause/Reset과 정상·서맥·빈맥 시나리오를 하나의 컨트롤 영역으로 통합.</p>
+        <p><strong>v1.10 P5</strong> — Normal 72 / Bradycardia 50 / Tachycardia 120 bpm 교육 프리셋과 자유 HR 연동.</p>
+        <p><strong>v1.10 P1–3</strong> — Wiggers 사건·상대 압력/용적 프로필 및 동기화된 ECG/Wiggers 그래프.</p>
+        <p><strong>v1.9</strong> — 기존 Electrical 모드를 유지한 Mechanical 판막/혈류 시각화.</p>
+        <p><strong>v1.8</strong> — Physiological A / Visualization B 시간 분리 및 HR 관련 ECG 교육 모델.</p>
+    </section>
+    <section class="patch-group">
+        <h3>의학·간호 교육 · Clinical learning</h3>
+        <p><strong>v1.12 Patch 5</strong> — 심실 충만의 RR 초반 상대 용적 0.88 평탄 구간과 RR 후반 0.48→0.88 증가 구간을 기존 Wiggers/원문 학습 설명에 모두 구분해 표시합니다. 확립된 생리 원리와 모형상의 값은 별도로 안내합니다.</p>
+        <p><strong>v1.12 Patch 4</strong> — 시작 수준에는 한 문장 핵심과 ECG·판막·용적의 기초 관계를 표시합니다. 간호 관찰은 두 번째 수준에서 연결하며, 원본 의학·간호 서술, 모형 시간 경계, 고급 이해도 문항과 상대 수치 한계는 선택형 추가학습에서 제공합니다. 기존 원문·10문항은 삭제하지 않았습니다.</p>
+        <p><strong>v1.12 Patch 3</strong> — 기존 PHASES 및 HR별 RATE 학습 설명 원문을 읽기 전용으로 사용하며, 전기적 사건·판막·상대 용적·S1/S2 및 간호 관찰과 모델 한계에 관한 질적 이해도 문항 10개를 추가했습니다. 실제 환자 진단·치료 판단이나 EF·박출량 계산 문제는 없습니다.</p>
+        <p><strong>v1.12 Patch 1</strong> — 기존 Wiggers/간호학 설명 원문을 재사용하고 5단계의 모델 관찰점을 기존 판막·용적 프로필과 대조. RR 후반 충만과 주기 초반 평탄한 용적을 구분합니다. 상대 지표를 실제 혈압·용적·EF로 해석하지 않습니다.</p>
+        <p><strong>v1.11</strong> — 전기적 단계와 기계적 단계를 구분하는 실시간 해설, 생리학적 변화·간호 관찰을 그래프와 나란히 배치.</p>
+        <p><strong>v1.10 P5</strong> — 심장 주기 5단계마다 ECG·압력·판막·용적·간호 관찰·한계 설명 확장.</p>
+        <p><strong>v1.10 P4</strong> — 승모판/대동맥판 사건 및 S1/S2 단계별 해설.</p>
+    </section>
+    <section class="patch-group">
+        <h3>화면과 사용성 · UI/UX</h3>
+        <p><strong>v1.12 Patch 12</strong> — 전체 설명 일괄 펼침을 선택형 자료 목록으로 바꾸고, 전도·ECG 사건·간호 원문을 필요할 때만 여는 정보 구조로 정리했습니다. 최신 사용 설명서를 실제 자동 관찰 동작에 맞게 갱신했습니다.</p>
+        <p><strong>v1.12 Patch 7</strong> — PC에서 ECG와 핵심 해설을 상단에 나란히 배치하고, 원래 심장 그림과 Wiggers를 독립된 전체 너비 영역으로 이동했습니다. 원본 상세자료는 아래 자료 목록에 보존했습니다.</p>
+        <p><strong>v1.12 Patch 5</strong> — 사용 설명서를 현재 세 단계 학습 체계에 맞게 정리하고, 열리는 학습 영역의 소형 주의문과 모바일 설명 텍스트를 읽기 쉽게 조정했습니다. 기본 컴팩트 배치는 유지합니다.</p>
+        <p><strong>v1.12 Patch 4</strong> — 기본 ECG 대시보드 배치는 그대로 유지합니다. 열어둔 가이드에서도 학생이 선택한 수준에 필요한 정보만 우선 표시하며, 심화 원문은 접이식으로 유지합니다. 모바일 학습 버튼·키보드 포커스와 화면 가로 넘침을 점검합니다.</p>
+        <p><strong>v1.12 Patch 3</strong> — 기본 핵심 대시보드는 유지하고, 가이드를 연 뒤에만 난이도 선택이 나타납니다. 심화 원문과 이해도 문항은 각각 필요할 때 펼쳐 읽을 수 있고 모바일에서도 기존 Wiggers 그래프는 별도로 스크롤됩니다.</p>
+        <p><strong>v1.12 Patch 2</strong> — 학습 이전/다음 버튼은 처음과 마지막 단계에서 비활성화됩니다. 세 동작은 독립된 버튼이며 모바일 터치 및 키보드 조작을 지원합니다. 학습을 닫으면 기존 실시간 해설로 복귀합니다.</p>
+        <p><strong>v1.11.1</strong> — 핵심 보기(기본) / 전체 정보 보기 전환, ECG 상세·전도 단계·사건 정보의 접이식 배치, Measurements 요약을 주 시각화 바로 위로 이동. 기존 정보는 삭제하지 않음.</p>
+        <p><strong>v1.11</strong> — ECG 상시 표시, Electrical/Mechanical/Wiggers 전환, Wiggers 확대 보기, 모바일 1열 레이아웃 및 가독성 개선.</p>
+        <p><strong>v1.10 P5</strong> — 접이식 심화 학습, 패치 내역/사용 설명서 아이콘 팝업.</p>
+        <p><strong>v1.10 P4</strong> — Wiggers ? 도움말 및 닫기·외부 클릭·Escape 지원.</p>
+        <p><strong>v1.10 P3</strong> — 접이식 Wiggers SVG, 모바일 그래프 영역 내 가로 스크롤.</p>
+    </section>
+    <section class="patch-group">
+        <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <p><strong>v1.12 Patch 12</strong> — 기존 18개 회귀 단계에 자료 목록·임상 원문 보존·10문항·키보드·6개 화면 너비의 실브라우저 검사를 추가합니다. 실제 PC·모바일 사용자 검수와 별도 전문가 검토는 여전히 미완료입니다.</p>
+        <p><strong>v1.12 Patch 6</strong> — Timeline Seek로 과거 파형을 복원할 때 잘못된 시각 보간을 수정하고, 10개 HR × 5단계에서 파형 가시성·시계 정합성을 검증했습니다.</p>
+        <p><strong>v1.12 Patch 5</strong> — 교육 원문과 실제 상대 용적 프로필의 구간 차이를 검사하며, 기존 A/B 시간 및 사용자 명시적 이동 원칙을 회귀 검증합니다. 실제 PC·모바일 사용자의 수동 검수는 별도로 진행합니다.</p>
+        <p><strong>v1.12 Patch 4</strong> — 수준 변경은 오직 학습 정보 표시만 바꿉니다. 기존 A/B 시간, ECG, Play/Pause/Reset, HR, Wiggers, Timeline, 10개 문제와 간호학 원문은 유지하고 기본/심화 정보의 노출만 회귀 검증합니다.</p>
+        <p><strong>v1.12 Patch 3</strong> — 학습 난이도·문항 선택·채점·다시 풀기는 교육용 화면 상태만 바꾸며 기존 Timeline, 재생, A/B 시간, HR, Electrical/Mechanical/Wiggers 계산을 변경하지 않습니다. 문항 응답은 서버나 브라우저 저장소에 보관하지 않습니다.</p>
+        <p><strong>v1.12 Patch 2</strong> — 기존 A/B 시간과 HR·재생 상태는 학습 단계 이동·Wiggers 보기만으로 변경되지 않습니다. 시점 이동은 학습자가 직접 버튼을 누를 때만 기존 Timeline input을 사용합니다. 교육용 상대 압력·용적은 환자 측정값이 아닙니다.</p>
+        <p><strong>v1.11.1</strong> — 읽기용 표시 계층만 개선하고 A/B 시계, ECG 파형, Mechanical/Wiggers 계산과 모든 HR·Timeline 제어 유지. 축소·확대 및 자동 상세 설명 표시를 회귀 검증.</p>
+        <p><strong>v1.11</strong> — v1.10 FINAL 별도 백업, 원본 DOM·이벤트 유지, A/B 시계 불변, 9개 자동 회귀 단계와 실화면 캡처.</p>
+        <p><strong>v1.10 P5</strong> — 교육용 해설은 읽기 전용, 기존 HR 슬라이더만 사용. 신규 UI 테스트 및 사용 설명서.</p>
+        <p><strong>v1.10 P1–4</strong> — 판막 경계 규칙과 상대 수치 한계 명시, 이전 버전 자동 회귀 테스트 유지.</p>
+    </section>
+    <p class="info-panel-disclaimer">압력은 상대 지표이며 심실 용적은 정규화된 값입니다. 본 프로그램은 교육용으로 임상 진단, EF/CO 계산 또는 치료 지시에 사용할 수 없습니다.</p>
+</section>
+<section id="userGuidePanel" class="info-panel" role="dialog" aria-modal="false"
+         aria-labelledby="userGuideHeading" data-info-panel hidden>
+    <div class="info-panel-head">
+        <h2 id="userGuideHeading">? User guide · 사용 설명서</h2>
+        <button type="button" data-close-info aria-label="Close user guide">×</button>
+    </div>
+    <section class="guide-section"><h3>1. 처음 시작 · 자유 관찰과 단계 학습</h3>
+        <p><strong>자유 관찰</strong>에서는 Play / Pause / Reset, HR(30–180 bpm), Timeline을 그대로 조작합니다. ECG·현재 전기/기계 단계·간호 요약은 실시간으로 갱신됩니다. 타임라인 직접 조작은 일시정지와 위치 이동을 수행하며 모든 시각화 탭이 같은 모델 시계를 사용합니다.</p>
+        <p><strong>5단계 학습</strong>을 열면 먼저 1. 기초 이해로 시작합니다. 심방 수축 → 등용적 수축 → 심실 박출 → 등용적 이완 → <strong>모델 RR 후반</strong> 심실 충만을 탐색합니다. <strong>이전/다음 또는 단계 선택</strong>은 사용자 명시적인 학습 행동으로서 <strong>자동 Pause + 해당 단계 대표 관찰 시점 Seek</strong>를 기존 Timeline으로 정확히 한 번 수행합니다. 단, 학습 창을 여는 것만으로 재생 시각은 이동하지 않습니다.</p>
+        <p><strong>읽는 설명과 실제 재생 상태는 다릅니다.</strong> Play를 눌러 심장이 움직여도 선택한 학습 카드 문장은 사용자가 단계나 수준을 바꾸기 전까지 유지됩니다. 실시간 전기·기계·ECG 상태는 계속 갱신됩니다. <strong>이 단계 다시 관찰</strong>은 같은 단계의 대표 시점으로 돌아가며 일시정지합니다. Wiggers 전환은 사용자가 직접 탭 또는 Wiggers 보기 버튼을 누를 때만 이루어집니다.</p>
+        <p><strong>읽는 깊이</strong>는 1. 기초 이해 → 2. 간호 연결 → 3. 추가학습 순으로 높일 수 있습니다. 단계나 학습 수준을 바꿔도 기존 문제의 답안은 유지됩니다. <strong>이해도 확인</strong>을 펼쳐 기본·심화 총 10개 문항에 접근하고, 정답 확인 후 해설을 읽거나 해당 문제만 다시 풀 수 있습니다. 답안은 새로고침 시 초기화되며 환자 진단이나 자격 평가가 아닙니다.</p>
+        <p><strong>자료 목록 보기</strong>를 누르면 긴 해설을 전부 펼치지 않고 전도 단계·ECG 사건·간호 원문의 <strong>주제 목록</strong>만 보여줍니다. 읽고 싶은 주제만 펼치고, <strong>핵심 보기로 전환</strong>하면 다시 접습니다. ECG Monitor의 P/PR/QRS/ST/T는 해당 ECG 구성요소 설명을 직접 열어줍니다. 자료 원문과 상대 지표 한계는 보존됩니다.</p>
+    </section>
+    <section class="guide-section"><h3>2. Electrical / Mechanical / Wiggers 탭</h3>
+        <p>ECG Monitor는 항상 표시됩니다. 주 시각화 영역에서 <strong>Electrical</strong>은 전기 전도 애니메이션, <strong>Mechanical</strong>은 판막과 혈류, <strong>Wiggers</strong>는 압력·ECG·용적 곡선을 보여줍니다. 탭 전환은 HR, 재생 상태와 A/B 시간 자체를 바꾸지 않습니다. 키보드 방향키·Home·End로도 시각화를 전환할 수 있습니다.</p>
+    </section>
+    <section class="guide-section"><h3>3. Wiggers Diagram</h3>
+        <p>중앙 시각화의 Wiggers 탭을 선택해 ECG, 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
+        <p><strong>세로 커서는 physiological A 시간의 한 RR 주기</strong>를 나타냅니다. 위 ECG Monitor의 스크롤은 별도의 visualization B 표시이므로 두 화면의 가로좌표가 같지 않습니다.</p>
+    </section>
+    <section class="guide-section"><h3>4. 정상·서맥·빈맥 학습</h3>
+        <p>상단 시나리오에서 <strong>Normal 72 / Bradycardia 50 / Tachycardia 120</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 자유 HR 슬라이더를 움직이면 사용자 선택 Custom으로 돌아옵니다.</p>
+        <p>하단 <strong>자료 찾아보기 → 간호 원문</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다. PC에서는 Wiggers 탭의 <strong>확대 보기</strong>로 그래프를 전체 너비로 볼 수 있고, 다시 분할 보기로 돌아올 수 있습니다.</p>
+    </section>
+    <section class="guide-section"><h3>5. 간호학적 활용과 주의사항</h3>
+        <p>ECG 소견을 환자의 혈압, 맥박, 산소화, 의식, 증상, 관류 평가 및 심음 청진과 연결해서 학습하세요. P파/ QRS/ T파는 전기적 사건으로 기계적 수축과 정확히 같은 시각이 아닙니다.</p>
+        <p>서맥·빈맥 수치는 병적 상태를 확정하지 않습니다. 이 앱의 S1/S2는 소리가 아닌 사건 표시이며, 상대 압력은 mmHg가 아니고 상대 용적은 mL 또는 EF가 아닙니다. 고심박수 ECG 간격과 QTc에는 교육용 근사의 한계가 있습니다.</p>
+    </section>
+    <p class="info-panel-disclaimer">팝업은 ×, 바깥 클릭 또는 Escape로 닫습니다. 전체 학습 내용과 참고문헌은 README.md를 참조하세요.</p>
+</section>
+
+<script src="script.js"></script>
+<script src="mechanics.js"></script>
+<script src="wiggers.js"></script>
+<script src="wiggers-profile.js"></script>
+<script src="wiggers-view.js"></script>
+<script src="wiggers-help.js"></script>
+<script src="wiggers-learning.js"></script>
+<script src="ui-info-panels.js"></script>
+<script src="dashboard-v111.js"></script>
+<script src="guided-content.js"></script>
+<script src="guided-questions.js"></script>
+<script src="guided-learning.js"></script>
+</body>
+</html>

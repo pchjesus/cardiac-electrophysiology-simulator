@@ -15,7 +15,7 @@ with sync_playwright() as p:
  errors=[]
  page.on("pageerror",lambda e:errors.append(str(e)))
  page.goto((ROOT/"index.html").as_uri())
- ck("Patch 12" in page.locator("h1").inner_text(),"version incorrect")
+ ck("v1.12 Patch " in page.locator("h1").inner_text(),"version incorrect")
  ck(page.locator("#guidedV112Toggle").is_visible(),"guided start missing")
  ck(page.evaluate("CardiacDashboard.isReady"),"initial Ready state missing")
  page.locator("#guidedV112Toggle").click()

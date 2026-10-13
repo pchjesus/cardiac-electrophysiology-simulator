@@ -25,7 +25,7 @@ with sync_playwright() as playwright:
  page.goto((ROOT/'index.html').as_uri(),wait_until='load')
  page.wait_for_function('!!window.CardiacGuidedLearning && !!window.CardiacGuidedContent')
 
- check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3','v1.12 Patch 4','v1.12 Patch 5','v1.12 Patch 6','v1.12 Patch 7','v1.12 Patch 8','v1.12 Patch 9','v1.12 Patch 10','v1.12 Patch 11','v1.12 Patch 12')),'version')
+ check(any(v in page.locator('h1').inner_text() for v in ('v1.12 Patch 1','v1.12 Patch 2','v1.12 Patch 3','v1.12 Patch 4','v1.12 Patch 5','v1.12 Patch 6','v1.12 Patch 7','v1.12 Patch 8','v1.12 Patch 9','v1.12 Patch 10','v1.12 Patch 11','v1.12 Patch 12','v1.12 Patch 13')),'version')
  check(page.evaluate('CardiacDashboard.density')=='compact','original compact layout')
  check(page.locator('#guidedV112Toggle').is_visible(),'compact entry point missing')
  check(page.locator('#guidedV112Panel').is_hidden(),'guide must default closed')

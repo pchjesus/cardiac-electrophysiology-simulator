@@ -5,7 +5,7 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.12 Patch 12 — ECG-time clarity, beginner-first guided study, readable responsive learning. PC/mobile user acceptance pending; NOT v1.12 FINAL.**
+**v1.12 Patch 13 — mechanical learning layout and on-demand model caveats; PC/mobile user acceptance pending. NOT v1.12 FINAL.**
 
 Default view is compact: ECG + controls, live three-part status, physiological/nursing summary, six measurements and synchronized Electrical/Mechanical/Wiggers visualization. The '자료 목록 보기' button opens a **categorized source index only**, not every long description. All original detailed clinical content and ten concept questions remain available.
 
@@ -13,7 +13,7 @@ Start from Reset/Ready and press **5단계 학습 시작**. The first deliberate
 
 Desktop >=1200px keeps ECG and heart visualization together to the left of the learning card. Narrow and mobile widths stack sections, and the five ECG concept buttons wrap without horizontal swiping. Displayed normalized pressures/volumes and five stage boundaries are simplified educational models, not patient data or validated cardiac-output/EF predictions. P is electrical atrial depolarization that precedes mechanical atrial contraction; QRS is electrical ventricular depolarization.
 
-See [V1.12_PATCH12_REPORT.md](V1.12_PATCH12_REPORT.md) for current implementation, remaining QA gates and checks. Older roadmap/version references in sections below are historical only. Run locally with `python -m http.server 8000` and open `http://localhost:8000`.
+See [V1.12_PATCH13_REPORT.md](V1.12_PATCH13_REPORT.md) for current implementation, remaining QA gates and checks. Older roadmap/version references in sections below are historical only. Run locally with `python -m http.server 8000` and open `http://localhost:8000`.
 
 ## Educational Flow
 
