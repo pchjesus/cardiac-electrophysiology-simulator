@@ -174,7 +174,11 @@ with sync_playwright() as playwright:
  page.wait_for_function("document.getElementById('wiggersDeepDive').open")
  page.wait_for_function("document.getElementById('learningNursing').textContent.trim().length>70")
  check(page.locator('#learningNursing').is_visible(),'full nursing detail not accessible')
- check(state()==a,'opening independent nursing detail changed simulation')
+ check({k:v for k,v in state().items() if k!='density'}==
+       {k:v for k,v in a.items() if k!='density'},
+       'opening independent nursing detail changed simulation')
+ check(page.evaluate('CardiacDashboard.density')=='expanded',
+       'opening native resource list not mirrored in source button')
  page.locator('#guidedV112Toggle').click()
  check(page.locator('#guidedV112Panel').is_hidden(),'guide did not close')
  check(page.locator('.dashboard-clinical').is_visible(),'original summary did not restore')
@@ -182,7 +186,9 @@ with sync_playwright() as playwright:
        'close aria state')
  check(page.locator('#wiggersDeepDive').evaluate('(e)=>e.open'),
        'closing guide discarded full teaching state')
- check(state()==a,'closing guide changed original simulation state')
+ check({k:v for k,v in state().items() if k!='density'}==
+       {k:v for k,v in a.items() if k!='density'},
+       'closing guide changed original simulation state')
 
  # Existing modes and controls remain independently functional.
  page.locator('#mechanicalModeBtn').click()
