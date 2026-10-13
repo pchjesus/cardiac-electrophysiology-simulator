@@ -1667,7 +1667,8 @@ Compact Controller + ECG View
    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;
    overflow-x:visible;overflow-y:visible
  }
- .dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel .ecg-item{
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-item,
+ .dashboard-active .dashboard-v111[data-density="expanded"] .dashboard-primary>.ecg-panel .ecg-item{
    flex:initial;min-width:0;min-height:44px;white-space:normal;
    padding:7px 4px;font-size:12px;line-height:1.3
  }
