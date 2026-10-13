@@ -24,7 +24,7 @@ with sync_playwright() as pw:
     ck(geo["visual"]["y"]>geo["ecg"]["y"],"Visualization not below ECG")
     ck(geo["detail"]["y"]>=geo["visual"]["y"],"Resources not below visual")
     ck(page.locator("#wiggersDeepDive").count()==1,"Original source duplicated")
-    ck(page.locator("#phasePanel").count()==1,"Original phases duplicated")
+    ck(page.locator(".phase-panel").count()==1,"Original phases duplicated")
     ck(page.locator("#ecgCanvas").count()==1,"ECG Canvas duplicated")
     ck(page.locator("#guidedV112Panel").is_hidden(),"Study mode not opt-in")
     page.locator("#guidedV112Toggle").click()
