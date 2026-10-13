@@ -1522,3 +1522,12 @@ Compact Controller + ECG View
  .dashboard-active .guided-v112-summary dt{font-size:13px}
  .dashboard-active .guided-v112-quiz-intro{font-size:13px}
 }
+
+/* v1.12 Patch 6: no live-feedback vertical jumping in compact desktop mode. */
+@media(min-width:700px){
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-statuses strong{min-height:2.7em;max-height:2.7em;overflow:hidden}
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-clinical #dashboardPhysiology,
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-clinical #dashboardNursing{
+   height:3em;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+ }
+}

@@ -2892,37 +2892,11 @@ function(){
 
     ){
 
-        const ratio =
-
-        i /
-
-        canvas.width;
-
-
-
-        const sampleTime =
-
-        heartState.physiologicalTime
-
-        -
-
-        (
-
-            1 - ratio
-
-        )
-
-        *
-
-        sweepDuration
-
-        *
-
-        BASE_SPEED_FACTOR
-
-        *
-
-        getActiveCycleLength() / baseCycleLength;
+        // Reconstruct history backward from actual sweep cursor.
+        // Offset in B-time is converted to physiological A exactly once.
+        const offsetB = (heartState.sweepPosition - i) / canvas.width * sweepDuration;
+        const sampleTime = heartState.physiologicalTime -
+            offsetB * getActiveCycleLength() / baseCycleLength;
 
 
 
