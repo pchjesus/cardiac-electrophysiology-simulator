@@ -87,10 +87,12 @@ with sync_playwright() as pw:
     page.locator("#dashboardResources>summary").focus()
     page.keyboard.press("Enter")
     page.wait_for_function("document.getElementById('dashboardResources').open")
+    page.wait_for_function("document.getElementById('dashboardDensityBtn').getAttribute('aria-pressed')==='true'")
     ck(page.locator("#dashboardDensityBtn").get_attribute("aria-pressed")=="true",
         "keyboard resource open not reflected in header")
     page.keyboard.press("Enter")
     page.wait_for_function("!document.getElementById('dashboardResources').open")
+    page.wait_for_function("document.getElementById('dashboardDensityBtn').getAttribute('aria-pressed')==='false'")
     ck(page.locator("#dashboardDensityBtn").get_attribute("aria-pressed")=="false",
         "keyboard resource close not reflected in header")
     ck(page.evaluate("""()=>({
