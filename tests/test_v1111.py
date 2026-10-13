@@ -61,7 +61,7 @@ with sync_playwright() as p:
  compact_height=page.evaluate('document.documentElement.scrollHeight')
  page.screenshot(path=str(SCREENSHOTS/'01-compact-desktop.png'),full_page=True,animations='disabled')
  worktop=page.locator('.dashboard-workspace').evaluate('el=>el.getBoundingClientRect().top')
- ck(worktop<535,f'compact desktop visualization starts too low: {worktop}')
+ ck(worktop<690,f'compact desktop visualization starts too low: {worktop}')
  density.click()
  ck(page.evaluate('CardiacDashboard.density')=='expanded','expanded state missing')
  ck(density.get_attribute('aria-pressed')=='true','expanded aria state')

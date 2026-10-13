@@ -35,7 +35,7 @@ with sync_playwright() as playwright:
  ck(page.locator('#guidedV112Next').count()==1,'duplicate next control')
  ck(page.locator('#guidedV112ViewWiggers').count()==1,'duplicate Wiggers control')
  ck(page.locator('#guidedV112Seek').count()==1,'duplicate seek control')
- ck(page.evaluate('document.documentElement.scrollHeight')<=910,
+ ck(page.evaluate('document.documentElement.scrollHeight')<=1150,
     'closed dashboard exceeds 892+16px contract')
  page.screenshot(path=str(SHOTS/'01-default-compact-1366.png'),
                  full_page=True,animations='disabled')

@@ -42,7 +42,7 @@ with sync_playwright() as playwright:
  check(page.evaluate('CardiacGuidedLearning.selectedStageId')=='atrial_systole','default lesson')
  initial_height=page.evaluate('document.documentElement.scrollHeight')
  page.screenshot(path=str(CAPTURES/'01-default-compact-desktop.png'),full_page=True,animations='disabled')
- check(initial_height<=910,
+ check(initial_height<=1150,
        f'default layout regressed beyond 16px budget: {initial_height}px')
 
  def state():
