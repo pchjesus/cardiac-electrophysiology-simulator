@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 6 ECG seek waveform reconstruction
+        run: python tests/test_v112_patch6.py
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression

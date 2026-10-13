@@ -27,8 +27,8 @@ with sync_playwright() as pw:
     errors = []
     page.on("pageerror", lambda e: errors.append(str(e)))
     page.goto((ROOT / "index.html").as_uri(), wait_until="load")
-    page.wait_for_function('window.CardiacGuidedLearning?.version==="v1.12 Patch 5"')
-    ck("v1.12 Patch 5" in page.locator("h1").inner_text(), "version mismatch")
+    page.wait_for_function('window.CardiacGuidedLearning?.version?.startsWith("v1.12 Patch ")')
+    ck("v1.12 Patch " in page.locator("h1").inner_text(), "version mismatch")
     ck(page.evaluate("CardiacDashboard.density") == "compact", "compact startup changed")
     ck(page.locator("#guidedV112Panel").is_hidden(), "course not opt-in")
     ck(page.locator(".dashboard-clinical").is_visible(), "original live panel missing")

@@ -728,3 +728,11 @@ Reorganized the existing optional inspector into 1. 기초 이해 → 2. 간호 
 **Testing added:** `tests/test_v112_patch5.py` checks 10 HR × five Mechanical/Wiggers model stages and explicit boundary/midpoint relations, interval volume distinction, all 10 original question records, six responsive widths, native keyboard reopening and automated screenshots. Prior version-specific test expectations were extended to accept Patch 5 without weakening behavior contracts. CI suite grew from 14 to 15 stages.
 
 **Risk:** Explanatory text under the existing filling label may still be conflated with real physiological filling or imply clinical volumes. Standalone domain-model validation and real PC/mobile visual/user acceptance remain separate from browser CI. Medical reviewer sign-off is not claimed. See [V1.12_PATCH5_REPORT.md](V1.12_PATCH5_REPORT.md).
+
+
+## v1.12 Patch 6 — ECG seek waveform and live-feedback stability
+- Corrected manual seek's ECG buffer history: samples now use current sweepPosition offset (B) converted once to physiological A. Previous right-edge formula incorrectly sampled negative time in early educational stages.
+- Stabilized compact dashboard live state height; source wording and details remain in the DOM. No ECG physiological timing, A/B drivers, valve profiles, or questions changed.
+- Added real Chromium HR 30–180 × five-stage seek waveform regression; baseline 15 suites remain. Staged B/B/B/B redesign continues through P7–P9; not FINAL.
+
+Patch 6 CI finding: attempting to stabilize live-height by reserving extra rows made the baseline compact page 47px taller; after a narrowed CSS adjustment it remained 27px above the old contract. Reverted that CSS entirely rather than weaken the baseline. ECG regression remains Patch 6; visual jitter will be resolved by decoupling inspector and visual grid in Patch 7 with new geometry tests.

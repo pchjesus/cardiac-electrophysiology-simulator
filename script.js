@@ -2872,7 +2872,7 @@ function(){
 
     Math.max(
 
-        1,
+        0,
 
         Math.floor(
             heartState.sweepPosition
@@ -2892,37 +2892,11 @@ function(){
 
     ){
 
-        const ratio =
-
-        i /
-
-        canvas.width;
-
-
-
-        const sampleTime =
-
-        heartState.physiologicalTime
-
-        -
-
-        (
-
-            1 - ratio
-
-        )
-
-        *
-
-        sweepDuration
-
-        *
-
-        BASE_SPEED_FACTOR
-
-        *
-
-        getActiveCycleLength() / baseCycleLength;
+        // Reconstruct history backward from actual sweep cursor.
+        // Offset in B-time is converted to physiological A exactly once.
+        const offsetB = (heartState.sweepPosition - i) / canvas.width * sweepDuration;
+        const sampleTime = heartState.physiologicalTime -
+            offsetB * getActiveCycleLength() / baseCycleLength;
 
 
 
@@ -2944,6 +2918,15 @@ function(){
 
     }
 
+
+
+    // Include the exact sub-pixel cursor location as the final sample.
+    // At slow HR the preceding integer pixel may correspond to a notably
+    // different point on a steep QRS flank.
+    ecgPoints.push({
+        x:heartState.sweepPosition,
+        y:canvas.height * 0.58 - ecgValue(getPhysiologicalCyclePhase())
+    });
 
 
     updateConduction(true);
