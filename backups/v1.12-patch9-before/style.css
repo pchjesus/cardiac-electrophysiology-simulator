@@ -1,0 +1,1562 @@
+*{box-sizing:border-box}
+
+html,body{margin:0;min-height:100%}
+
+body{
+font-family:Arial,"Malgun Gothic",sans-serif;
+background:#f4f5f7;
+color:#222;
+}
+
+.app{
+width:100%;
+max-width:1500px;
+margin:0 auto;
+padding:12px 18px 14px;
+}
+
+.header{text-align:center;margin-bottom:9px}
+.header h1{
+margin:0 0 2px;
+font-size:clamp(22px,2.1vw,30px);
+line-height:1.15;
+}
+.header p{
+margin:0;
+color:#666;
+font-size:clamp(13px,1.15vw,17px);
+}
+
+.main-container{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.card{
+background:#fff;
+border-radius:10px;
+padding:11px 12px;
+box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.card h2{
+margin:0 0 7px;
+padding-bottom:6px;
+font-size:16px;
+border-bottom:1px solid #ddd;
+}
+
+/* =======================
+TOP VISUAL AREA
+======================= */
+
+.visual-grid{
+display:grid;
+grid-template-columns:minmax(0,2.15fr) minmax(300px,.85fr);
+gap:10px;
+align-items:stretch;
+}
+
+/* =======================
+ECG PANEL
+======================= */
+
+.ecg-panel{
+min-width:0;
+overflow:hidden;
+}
+
+.ecg-wrapper{
+width:100%;
+overflow:hidden;
+border-radius:7px;
+}
+
+#ecgCanvas{
+width:100%;
+height:clamp(165px,18vh,205px);
+display:block;
+background:#111;
+border-radius:7px;
+box-shadow:inset 0 0 16px rgba(0,255,136,.15);
+}
+
+.ecg-info{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-top:8px;
+font-size:14px;
+font-weight:bold;
+}
+
+#rhythmStatus{
+color:#8b0000;
+text-align:right;
+}
+
+.ecg-interpretation{
+width:100%;
+margin:8px auto 0;
+display:flex;
+gap:4px;
+flex-wrap:nowrap;
+overflow:hidden;
+}
+
+.ecg-item{
+min-width:0;
+padding:5px 6px;
+border-radius:5px;
+background:#f5f5f5;
+font-size:clamp(9px,.78vw,12px);
+white-space:nowrap;
+flex:1 1 0;
+text-align:center;
+}
+
+.ecg-label{
+font-weight:bold;
+margin-right:3px;
+color:#8b0000;
+}
+
+.ecg-item.ecg-active{
+background:#ffe7e7;
+box-shadow:0 0 0 1px rgba(139,0,0,.15);
+}
+
+.ecg-item{
+border:0;
+text-align:left;
+font-family:inherit;
+color:inherit;
+cursor:pointer;
+}
+
+.ecg-item:hover{
+background:#f2f2f2;
+}
+
+.ecg-item:focus-visible{
+outline:2px solid #777;
+outline-offset:1px;
+}
+
+.ecg-item.ecg-selected{
+background:#e9eef5;
+box-shadow:0 0 0 1px rgba(70,90,120,.22);
+}
+
+.ecg-item.ecg-active.ecg-selected{
+background:linear-gradient(90deg,#ffe7e7,#e9eef5);
+}
+
+.ecg-explanation{
+margin-top:8px;
+padding:8px 9px;
+border:1px solid #e1e1e1;
+border-radius:7px;
+background:#fafafa;
+}
+
+.ecg-explanation-header{
+display:flex;
+justify-content:space-between;
+align-items:baseline;
+gap:10px;
+}
+
+.ecg-explanation-header span{
+font-size:10px;
+color:#777;
+}
+
+.ecg-explanation-header strong{
+font-size:12px;
+color:#333;
+}
+
+.ecg-explanation p{
+margin:5px 0 6px;
+font-size:10px;
+line-height:1.45;
+color:#555;
+}
+
+.ecg-explanation-link{
+display:flex;
+justify-content:space-between;
+gap:8px;
+font-size:10px;
+}
+
+.ecg-explanation-link span{
+color:#888;
+}
+
+.ecg-explanation-link strong{
+color:#8b0000;
+}
+
+/* =======================
+EMBEDDED CONTROL PANEL
+======================= */
+
+.embedded-control-panel{
+margin-top:9px;
+padding:8px 9px 7px;
+border:1px solid #e1e1e1;
+border-radius:8px;
+background:#fafafa;
+}
+
+.main-buttons{
+display:flex;
+justify-content:center;
+gap:3px;
+}
+
+button{
+padding:7px 19px;
+margin:0 2px;
+border:0;
+border-radius:7px;
+background:#333;
+color:#fff;
+font-size:13px;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{background:#555}
+
+.control-title{
+margin:0 0 5px;
+font-weight:bold;
+font-size:14px;
+text-align:center;
+}
+
+.timeline{margin-top:7px}
+
+#timeSlider{
+display:block;
+width:94%;
+margin:0 auto;
+cursor:pointer;
+}
+
+.timeline-labels{
+width:94%;
+margin:2px auto 0;
+display:flex;
+justify-content:space-between;
+font-size:10px;
+color:#777;
+}
+
+.heart-rate-control{
+margin-top:7px;
+text-align:center;
+}
+
+.heart-rate-slider-wrap{
+position:relative;
+width:94%;
+height:18px;
+margin:auto;
+}
+
+#heartRateSlider{
+position:absolute;
+left:0;
+top:0;
+z-index:3;
+width:100%;
+margin:0;
+cursor:pointer;
+}
+
+.normal-range-track{
+position:absolute;
+left:calc(7px + (100% - 14px) * 0.2);
+width:calc((100% - 14px) * 0.2666667);
+top:50%;
+height:0;
+z-index:1;
+pointer-events:none;
+}
+
+.normal-range-fill{display:none}
+
+.normal-range-track:before,
+.normal-range-track:after{
+content:"";
+position:absolute;
+top:-6px;
+width:2px;
+height:16px;
+background:#4d8df7;
+border-radius:2px;
+}
+
+.normal-range-track:before{left:0}
+.normal-range-track:after{right:0}
+
+.heart-rate-scale{
+position:relative;
+width:94%;
+height:16px;
+margin:2px auto 0;
+font-size:10px;
+color:#777;
+}
+
+.heart-rate-scale span{
+position:absolute;
+top:0;
+white-space:nowrap;
+}
+
+.scale-30{
+left:7px;
+}
+
+.scale-60{
+left:calc(7px + (100% - 14px) * 0.2);
+transform:translateX(-50%);
+}
+
+.scale-100{
+left:calc(7px + (100% - 14px) * 0.4666667);
+transform:translateX(-50%);
+}
+
+.scale-180{
+left:calc(100% - 7px);
+transform:translateX(-100%);
+}
+
+.normal-range-label{
+margin-top:0;
+font-size:11px;
+color:#666;
+}
+
+#heartRateValue{
+display:block;
+margin-top:1px;
+font-size:15px;
+color:#8b0000;
+}
+
+/* =======================
+HEART
+======================= */
+
+.heart-panel{
+min-width:0;
+text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+#heartSVG{
+width:min(100%,390px);
+height:auto;
+max-height:390px;
+}
+
+#heartShape{
+fill:#f8d7da;
+stroke:#8b0000;
+stroke-width:5;
+}
+
+#atriaRegion,#ventricleRegion{
+fill:#f8d7da;
+stroke:#8b0000;
+stroke-width:3;
+opacity:.85;
+transition:fill .2s ease,opacity .2s ease;
+}
+
+#heartSVG circle[id]{
+fill:#fff;
+stroke:#333;
+stroke-width:3;
+transition:fill .15s ease,stroke .15s ease;
+}
+
+#heartSVG line{
+stroke:#444;
+stroke-width:5;
+stroke-linecap:round;
+transition:stroke .15s ease,stroke-width .15s ease;
+}
+
+#heartSVG text{
+font-size:18px;
+font-weight:bold;
+fill:#333;
+}
+
+#atriaLabel,#ventricleLabel{
+font-size:16px;
+fill:#555;
+pointer-events:none;
+}
+
+.active-node{
+fill:#ffd700!important;
+stroke:#ff6600!important;
+stroke-width:5!important;
+}
+
+.active-path{
+stroke:#ff0000!important;
+stroke-width:8!important;
+}
+
+.conduction-pulse,
+.conduction-branch-pulse{
+fill:#fff200;
+stroke:#ff6600;
+stroke-width:3;
+pointer-events:none;
+filter:drop-shadow(0 0 5px rgba(255,180,0,.8));
+transition:opacity .08s linear;
+}
+
+.atria-active{fill:#ffd6a5!important;opacity:1!important}
+.ventricles-active{fill:#ef9a9a!important;opacity:1!important}
+.ventricles-recovery{fill:#f5c6cb!important;opacity:.95!important}
+
+/* =======================
+NEW INFORMATION AREA
+======================= */
+
+.info-grid{
+display:grid;
+grid-template-columns:minmax(0,1.25fr) minmax(0,1.75fr);
+gap:10px;
+}
+
+.placeholder-panel{
+min-height:128px;
+}
+
+.placeholder-panel h2{
+font-size:15px;
+}
+
+.measurement-list{
+display:grid;
+grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+gap:5px 12px;
+}
+
+.measurement-list .measurement-item{
+display:block;
+min-width:0;
+padding:6px 7px;
+background:#f7f7f7;
+border-radius:5px;
+font-size:12px;
+}
+
+.measurement-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+}
+
+.measurement-list strong{
+color:#777;
+}
+
+.measurement-list small{
+display:block;
+margin-top:2px;
+font-size:9px;
+line-height:1.2;
+color:#999;
+white-space:nowrap;
+}
+
+.placeholder-note{
+margin:7px 0 0;
+font-size:10px;
+color:#999;
+}
+
+.event-flow{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+min-height:45px;
+}
+
+.event-item{
+padding:7px 12px;
+border:1px solid #ddd;
+border-radius:6px;
+background:#f7f7f7;
+font-size:12px;
+font-weight:bold;
+white-space:nowrap;
+transition:background .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.event-item.event-active{
+background:#ffe7e7;
+border-color:#d9a0a0;
+box-shadow:0 0 0 1px rgba(139,0,0,.12);
+}
+
+.event-flow>span{
+color:#888;
+font-size:14px;
+}
+
+.event-ecg-row{
+margin-top:7px;
+padding:6px 9px;
+background:#f7f7f7;
+border-radius:5px;
+display:flex;
+justify-content:space-between;
+font-size:12px;
+}
+
+.event-ecg-row strong{color:#8b0000}
+
+.event-sync-status{
+margin:6px 0 0;
+font-size:10px;
+color:#777;
+}
+
+/* =======================
+CURRENT PHASE
+======================= */
+
+.phase-panel{
+min-height:175px;
+padding:16px 18px;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+}
+
+.phase-panel h2{
+margin:0 0 11px;
+padding-bottom:7px;
+}
+
+#phaseTitle{
+font-size:clamp(19px,1.6vw,24px);
+font-weight:bold;
+margin-bottom:11px;
+color:#8b0000;
+line-height:1.25;
+}
+
+#phaseDescription{
+margin:0 0 14px;
+font-size:clamp(13px,1vw,15px);
+line-height:1.5;
+max-width:1100px;
+}
+
+.phase-ecg-link{
+margin-top:auto;
+padding:9px 12px;
+border-radius:7px;
+background:#f8f8f8;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:13px;
+min-height:36px;
+}
+
+.phase-ecg-link span{color:#666}
+#phaseECG{color:#8b0000}
+
+/* =======================
+RESPONSIVE
+======================= */
+
+@media(min-width:900px){
+.visual-grid{
+min-height:52vh;
+}
+.ecg-panel,.heart-panel{
+height:100%;
+}
+}
+
+@media(max-width:899px){
+.visual-grid{
+grid-template-columns:1fr;
+}
+.info-grid{
+grid-template-columns:1fr;
+}
+.heart-panel{
+min-height:360px;
+}
+}
+
+@media(max-width:700px){
+.app{padding:9px}
+.visual-grid,.info-grid{gap:8px}
+.card{padding:10px}
+.ecg-info{font-size:12px}
+.ecg-interpretation{overflow-x:auto}
+.ecg-item{flex:0 0 auto;font-size:11px}
+#ecgCanvas{height:155px}
+.event-flow{justify-content:flex-start;overflow-x:auto}
+.event-item{flex:0 0 auto}
+.ecg-explanation-header{align-items:flex-start;flex-direction:column;gap:2px}
+.main-buttons{flex-wrap:wrap}
+}
+
+
+/* =======================
+v1.6 UI PATCH 2
+Compact Controller + ECG View
+======================= */
+
+.ecg-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+#ecgCanvas {
+    /* More vertical room for the actual ECG display */
+    height: clamp(220px, 25vh, 285px);
+}
+
+/* Controller is compact and horizontal */
+.embedded-control-panel.compact-controller {
+    margin-top: 10px;
+    padding: 7px 9px;
+}
+
+.controller-layout {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+}
+
+.controller-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.controller-buttons button {
+    width: 100%;
+    min-height: 27px;
+    padding: 4px 5px;
+    margin: 0;
+    font-size: 11px;
+    border-radius: 5px;
+}
+
+.controller-sliders {
+    min-width: 0;
+}
+
+.controller-sliders .control-title {
+    margin: 0 0 2px;
+    font-size: 12px;
+}
+
+.controller-sliders .timeline {
+    margin: 0;
+}
+
+.controller-sliders #timeSlider {
+    width: 100%;
+    height: 13px;
+    margin: 0;
+}
+
+.controller-sliders .timeline-labels {
+    width: 100%;
+    height: 11px;
+    margin: 0;
+    font-size: 8px;
+}
+
+.controller-sliders .heart-rate-control {
+    margin-top: 2px;
+}
+
+.controller-sliders .heart-rate-slider-wrap {
+    height: 15px;
+}
+
+.controller-sliders #heartRateSlider {
+    height: 13px;
+}
+
+.controller-sliders .heart-rate-scale {
+    width: 94%;
+    height: 12px;
+    margin: 0 auto;
+    font-size: 8px;
+}
+
+.controller-sliders .normal-range-track::before,
+.controller-sliders .normal-range-track::after {
+    top: -5px;
+    height: 14px;
+}
+
+.controller-sliders .normal-range-label {
+    margin-top: 0;
+    font-size: 9px;
+    line-height: 1.1;
+}
+
+.controller-sliders #heartRateValue {
+    margin-top: 0;
+    font-size: 13px;
+    line-height: 1.1;
+}
+
+/* Keep the lower placeholder area compact but visible */
+.info-grid {
+    gap: 10px;
+}
+
+.placeholder-panel {
+    min-height: 115px;
+}
+
+@media (min-width: 900px) {
+    .visual-grid {
+        min-height: 0;
+    }
+
+    .ecg-panel {
+        min-height: 0;
+    }
+
+    .heart-panel {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 899px) {
+    .controller-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .controller-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .controller-buttons button {
+        width: auto;
+        min-width: 75px;
+    }
+}
+
+@media (max-width: 700px) {
+    #ecgCanvas {
+        height: 175px;
+    }
+}
+
+
+/* v1.9: mode only changes the heart diagram; existing ECG UI is preserved. */
+.heart-mode-switch{display:flex;gap:4px;padding:3px;border-radius:9px;background:#edf0f4;width:min(100%,300px);margin:3px auto 9px}
+.heart-mode-switch button{flex:1;padding:7px 8px;margin:0;border-radius:7px;background:transparent;color:#35404b;font-weight:700;font-size:12px}
+.heart-mode-switch button.mode-active{background:#fff;box-shadow:0 1px 3px #0002;color:#172a44}
+.heart-mode-switch button:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+#heartSVG[hidden],.mechanical-view[hidden]{display:none!important}
+.mechanical-view{width:100%;max-width:420px;margin:0 auto;min-width:0}
+#mechanicalSVG{width:100%;height:auto;max-height:350px;overflow:visible;display:block}
+#mechanicalSVG .chamber-blue{fill:#d7eefa;stroke:#2078ab;stroke-width:3}
+#mechanicalSVG .chamber-red{fill:#f9dddd;stroke:#b54d4d;stroke-width:3}
+#mechanicalSVG .chamber text{font-weight:700;fill:#283643;font-size:19px;text-anchor:middle;pointer-events:none}
+#mechanicalSVG .flow-tract path{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.70}
+#mechanicalSVG .flow-deoxygenated path{stroke:#328bbd}
+#mechanicalSVG .flow-oxygenated path{stroke:#bd5252}
+#mechanicalSVG .valve-segment{stroke:#6c7580;stroke-width:8;stroke-linecap:round}
+#mechanicalSVG .valve-segment.valve-open{stroke:#228a61;stroke-width:6;stroke-dasharray:6 9}
+#mechanicalSVG .valve-segment.valve-closed{stroke:#bd4d4d;stroke-width:9;stroke-dasharray:none}
+#mechanicalSVG .flow-dot{opacity:0;pointer-events:none}
+#mechanicalSVG .blue-dot{fill:#126ca8;stroke:#fff;stroke-width:1.5}
+#mechanicalSVG .red-dot{fill:#b72c46;stroke:#fff;stroke-width:1.5}
+#mechanicalSVG .model-caption{font-size:13px;fill:#687586}
+#mechanicalSVG .flow-target{font-size:12px;fill:#485464}
+.mechanical-readout{padding:8px 9px;border:1px solid #e0e7ee;border-radius:8px;background:#fafcfe;text-align:left}
+.mechanical-readout>strong{display:block;color:#172a44;font-size:13px}
+.mechanical-readout>p{margin:5px 0;color:#45556a;font-size:11px;line-height:1.45}
+.mechanical-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px;font-size:11px;color:#1b394d}
+.mechanical-stats span{padding:5px 6px;background:#ecf3f8;border-radius:5px}
+.mechanical-readout .mechanical-disclaimer{font-size:10px;color:#727c85;margin-bottom:0}
+@media(max-width:400px){.mechanical-stats{grid-template-columns:1fr}}
+
+
+/* v1.10 Patch 3: opt-in chart AFTER the protected v1.9 UI. */
+.wiggers-panel{min-width:0;max-width:100%;overflow:hidden}
+.wiggers-summary{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;column-gap:16px;row-gap:5px;cursor:pointer;list-style:revert;padding:3px 5px;min-height:35px;color:#193e5a}
+.wiggers-summary:focus-visible{outline:3px solid #3778b6;outline-offset:3px;border-radius:5px}
+.wiggers-summary-title{font-weight:700;font-size:16px}
+.wiggers-optional{font-size:11px;font-weight:400;color:#526779;background:#eaf1f7;padding:3px 7px;border-radius:12px;margin-left:6px;white-space:nowrap}
+.wiggers-summary-hint{font-size:12px;color:#58697b}
+.wiggers-body{max-width:100%;min-width:0;padding-top:8px}
+.wiggers-disclaimer{font-size:12px;line-height:1.5;margin:0 1px 8px;color:#445569}
+.wiggers-legend{display:flex;flex-wrap:wrap;gap:5px 16px;padding:7px 9px;margin-bottom:7px;background:#f5f8fb;border-radius:6px}
+.wiggers-key{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#27374a;white-space:nowrap}
+.wiggers-key-line{display:inline-block;width:19px;min-width:19px;border-top:3px solid currentColor}
+.wiggers-chart-scroll{min-width:0;max-width:100%;width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #e2e8ef;border-radius:7px;background:white}
+.wiggers-chart-scroll:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+#wiggersChart{display:block;width:100%;min-width:720px;height:auto;min-height:260px}
+.wiggers-band{fill:#f8fafc;stroke:#e5ebf1;stroke-width:1}
+.wiggers-axis line{stroke:#cdd8e2;stroke-width:1;stroke-dasharray:3 6}
+.wiggers-plot-labels text{font-size:12px;font-weight:600;fill:#465c74}
+.wiggers-trace{stroke-width:3.1}
+.wig-ecg{color:#1676b9;stroke:#1676b9}
+.wig-la{color:#409b82;stroke:#409b82}
+.wig-lv{color:#ca5654;stroke:#ca5654}
+.wig-ao{color:#b18826;stroke:#b18826}
+.wig-vol{color:#805eb5;stroke:#805eb5}
+.wiggers-event-line{stroke:#637a91;stroke-width:1.35;stroke-dasharray:5 6;opacity:.64}
+.wiggers-event-dot{fill:#40586c;stroke:white;stroke-width:1.2}
+.wiggers-cursor{stroke:#233d5b;stroke-width:2;pointer-events:none;stroke-dasharray:3 2}
+.wiggers-event-key{display:flex;flex-wrap:wrap;gap:5px 17px;font-size:11px;color:#526276;margin:7px 1px}
+.wiggers-event-key span::before{content:"◆";color:#40586c;padding-right:5px;font-size:9px}
+.wiggers-status{display:flex;flex-wrap:wrap;gap:5px 15px;align-items:center;border-radius:7px;background:#eef4f9;padding:8px 10px;font-size:12px;color:#23435a}
+.wiggers-status strong{font-size:13px}
+.wiggers-footnote{font-size:11px;color:#6b7786;line-height:1.5;margin:7px 1px 2px}
+@media(max-width:600px){
+ .wiggers-summary{align-items:flex-start}
+ .wiggers-summary-hint{font-size:11px}
+ .wiggers-optional{display:inline-block;margin-top:4px}
+ .wiggers-status{flex-direction:column;align-items:flex-start}
+}
+
+
+/* v1.10 Patch 4 — nonmodal help is a sibling of <details>, not inside <summary>. */
+.wiggers-shell{position:relative;min-width:0;max-width:100%}
+.wiggers-shell .wiggers-summary{padding-right:50px}
+.wiggers-help-button{position:absolute;right:22px;top:15px;z-index:2;
+ width:27px;height:27px;border:1px solid #6d869b;border-radius:50%;background:#f3f8fc;
+ color:#27455f;font-size:17px;font-weight:700;line-height:1;cursor:pointer}
+.wiggers-help-button:hover{background:#e3f0fb}
+.wiggers-help-button:focus-visible,.wiggers-help-heading button:focus-visible{
+ outline:3px solid #3778b6;outline-offset:2px}
+.wiggers-help-popover{position:absolute;z-index:10;right:9px;top:50px;
+ width:min(430px,calc(100% - 18px));max-height:min(70vh,540px);overflow-y:auto;
+ padding:13px 15px;background:#fff;border:1px solid #9bafc1;border-radius:9px;
+ box-shadow:0 6px 25px #1b2e4540;color:#22374d;font-size:12px;line-height:1.55}
+.wiggers-help-popover[hidden]{display:none!important}
+.wiggers-help-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.wiggers-help-heading button{min-width:29px;min-height:29px;border:0;border-radius:5px;
+ background:#eaf1f7;color:#243e53;font-size:21px;cursor:pointer}
+.wiggers-help-popover p{margin:9px 0}
+.wiggers-help-popover ol{margin:8px 0;padding-left:21px}
+.wiggers-help-popover li+li{margin-top:5px}
+.wiggers-learning{padding:9px 11px;border:1px solid #dce7f0;border-radius:7px;
+ background:#f8fbfd;color:#263f54;margin-top:9px;font-size:12px;line-height:1.55}
+.wiggers-learning h3{font-size:13px;margin:0 0 5px}
+.wiggers-learning p{margin:5px 0}
+.wiggers-learning .wiggers-learning-limit{font-size:11px;color:#56687a;margin-top:8px}
+@media(max-width:600px){
+ .wiggers-help-button{right:20px;top:15px;min-width:28px;min-height:28px}
+ /* Fixed to viewport: inherited v1.9 page overflow can shift the panel left. */
+ .wiggers-help-popover{position:fixed;left:12px;right:12px;top:12vh;width:auto;
+  max-height:70vh;max-height:70dvh;z-index:100}
+}
+
+
+/* v1.10 Patch 5 — optional medical/nursing learning and reference popovers */
+.header-tools{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:7px}
+.header-tools button{cursor:pointer;min-height:29px;padding:4px 11px;background:#eff4f9;border:1px solid #a9bbc9;border-radius:7px;color:#28465b;font-size:12px;font-weight:700}
+.header-tools button:hover{background:#dfedf9}
+.header-tools button:focus-visible,.learning-preset-row button:focus-visible,.learning-deep-dive summary:focus-visible,.info-panel button:focus-visible{outline:3px solid #3778b6;outline-offset:2px}
+.learning-scenario-panel{border:1px solid #d6e3ef;background:#f8fbff;border-radius:8px;padding:10px 12px;margin:2px 0 10px;line-height:1.55;color:#28435b}
+.learning-scenario-panel h3{font-size:13px;margin:0 0 8px}
+.learning-scenario-panel strong{display:block;font-size:13px;margin-top:7px}
+.learning-scenario-panel p{margin:5px 0;font-size:12px}
+.learning-scenario-panel .learning-boundary{font-size:11px;color:#5a6b7c}
+.learning-preset-row{display:flex;flex-wrap:wrap;gap:6px}
+.learning-preset-row button{border:1px solid #9cb4c9;border-radius:6px;background:white;padding:7px 9px;color:#244961;font-size:12px;font-weight:600;cursor:pointer;min-height:32px}
+.learning-preset-row button.learning-preset-active{background:#dfeffc;border-color:#23679a;box-shadow:inset 0 0 0 1px #23679a}
+.learning-deep-dive{margin:9px 0;border:1px solid #cbdce9;border-radius:7px;background:#fff;min-width:0}
+.learning-deep-dive summary{cursor:pointer;font-size:13px;font-weight:700;padding:11px;color:#234965;line-height:1.5}
+.learning-detail{padding:2px 13px 13px;border-top:1px solid #e4edf4;font-size:12px;line-height:1.65;color:#32495b}
+.learning-detail h3{margin:9px 0;font-size:14px}
+.learning-detail h4{margin:12px 0 4px;font-size:12px;color:#245276}
+.learning-detail p{margin:4px 0}
+.info-panel{position:fixed;z-index:120;top:80px;right:18px;left:auto;width:min(650px,calc(100vw - 30px));max-height:calc(100vh - 95px);max-height:calc(100dvh - 95px);overflow:auto;padding:15px 17px;background:#fff;border:1px solid #a1b5c7;border-radius:11px;color:#293e50;box-shadow:0 12px 35px #162c4760;font-size:12px;line-height:1.6}
+.info-panel[hidden]{display:none!important}
+.info-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-15px;margin:-15px -17px 12px;padding:12px 16px;background:#f6f9fc;border-bottom:1px solid #d9e5ed;z-index:1}
+.info-panel-head h2{margin:0;font-size:16px;color:#1d4663}
+.info-panel-head button{cursor:pointer;border:0;background:#e7eff7;color:#1e405b;border-radius:6px;font-size:23px;min-width:32px;min-height:32px}
+.info-panel-intro,.info-panel-disclaimer{color:#586b7a}
+.patch-group,.guide-section{padding:8px 0;border-bottom:1px solid #e5ecf1}
+.patch-group h3,.guide-section h3{margin:2px 0 6px;color:#265371;font-size:13px}
+.patch-group p,.guide-section p{margin:6px 0}
+@media(max-width:600px){
+ .header-tools{margin-top:6px}
+ .info-panel{left:12px;right:12px;top:65px;width:auto;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);padding:12px}
+ .info-panel-head{margin:-12px -12px 10px;top:-12px;padding:10px 12px}
+ .learning-preset-row button{flex:1 1 140px}
+ .learning-scenario-panel{padding:9px}
+}
+
+
+/* =============================================================
+   v1.11: Progressive enhancement. Nothing below applies until
+   dashboard-v111.js successfully moves original DOM controls/views.
+   ============================================================== */
+.dashboard-active .main-container{gap:0}
+.dashboard-active .dashboard-v111{display:flex;flex-direction:column;gap:9px;min-width:0}
+.dashboard-active .dashboard-v111 > *{min-width:0;max-width:100%}
+.dashboard-active .dashboard-commands{padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.dashboard-active .dashboard-commands .embedded-control-panel{padding:0;margin:0}
+.dashboard-active .dashboard-commands .controller-layout{
+  grid-template-columns:minmax(175px,205px) minmax(0,1fr);align-items:center;gap:14px}
+.dashboard-active .dashboard-commands .controller-buttons{flex-direction:row;gap:5px}
+.dashboard-active .dashboard-commands .controller-buttons button{
+  min-height:35px;min-width:0;font-size:12px}
+.dashboard-active .dashboard-presets{display:flex;align-items:center;justify-content:flex-end;
+  gap:8px;border-top:1px solid #e4ebf1;padding-top:5px;min-width:0}
+.dashboard-active .dashboard-presets-label{font-weight:700;font-size:12px;white-space:nowrap;color:#315169}
+.dashboard-active .dashboard-presets .learning-preset-row{gap:6px}
+.dashboard-active .dashboard-presets .learning-preset-row button{min-height:31px;padding:4px 10px}
+.dashboard-active .dashboard-v111>.ecg-panel{min-height:0;padding:10px 12px}
+.dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{
+  height:clamp(145px,19vh,195px)}
+.dashboard-active .dashboard-v111>.ecg-panel .ecg-explanation{padding:6px 9px}
+.dashboard-active .dashboard-workspace{
+  display:grid;grid-template-columns:minmax(0,1.96fr) minmax(310px,1fr);
+  gap:9px;align-items:start;min-width:0}
+.dashboard-active .dashboard-visual,.dashboard-active .dashboard-inspector{
+  min-width:0;max-width:100%;height:100%;padding:10px 12px}
+.dashboard-active .dashboard-visual .heart-mode-switch{
+  width:100%;max-width:none;margin:0 0 9px;display:flex;gap:5px}
+.dashboard-active .dashboard-visual .heart-mode-switch button{
+  flex:1;min-height:38px;font-size:13px;cursor:pointer}
+.dashboard-active .dashboard-visual .heart-mode-switch button:focus-visible{
+  outline:3px solid #3778b6;outline-offset:2px}
+.dashboard-active .dashboard-stage{min-width:0;max-width:100%}
+.dashboard-active .dashboard-stage>.heart-panel{
+  width:100%;box-shadow:none;padding:4px 2px 0;max-width:100%;min-width:0}
+.dashboard-active .dashboard-stage>.heart-panel #heartSVG{
+  width:min(100%,315px);max-height:315px}
+.dashboard-active .dashboard-stage>.heart-panel #mechanicalSVG{
+  width:min(100%,365px);max-height:320px}
+.dashboard-active .dashboard-stage[data-view="wiggers"]>.heart-panel{display:none}
+.dashboard-active .dashboard-stage:not([data-view="wiggers"])>.wiggers-shell{display:none}
+.dashboard-active .dashboard-stage>.wiggers-shell{max-width:100%;min-width:0}
+.dashboard-active .dashboard-stage .wiggers-panel{
+  padding:6px;box-shadow:none;border:1px solid #e1e9f1}
+.dashboard-active .dashboard-stage #wiggersChart{min-width:720px}
+.dashboard-active .dashboard-stage .wiggers-disclaimer{
+  font-size:11px;margin:4px 1px 6px}
+.dashboard-active .dashboard-stage .learning-scenario-panel{
+  padding:7px 9px;margin:4px 0 7px}
+.dashboard-active .dashboard-stage .learning-scenario-panel .learning-preset-row{
+  display:none} /* same original buttons are now shared above */
+.dashboard-active .dashboard-stage .learning-scenario-panel h3{display:none}
+.dashboard-active .dashboard-stage .learning-scenario-panel p{font-size:11px}
+.dashboard-active .dashboard-stage .wiggers-footnote{font-size:10px}
+.dashboard-active .dashboard-inspector{
+  display:flex;flex-direction:column;gap:9px;align-self:stretch}
+.dashboard-active .dashboard-inspector-heading{
+  font-size:16px;margin:0;border-bottom:1px solid #dce6ef;padding-bottom:8px}
+.dashboard-active .dashboard-statuses{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.dashboard-active .dashboard-statuses>div{background:#f0f6fb;padding:8px;border-radius:7px;min-width:0}
+.dashboard-active .dashboard-statuses span{display:block;color:#5c7082;font-size:11px}
+.dashboard-active .dashboard-statuses strong{display:block;font-size:13px;color:#234766;line-height:1.4;overflow-wrap:anywhere}
+.dashboard-active .dashboard-inspector .phase-panel{
+  margin:0;min-height:0;padding:8px;box-shadow:none;border:1px solid #e4ebf0}
+.dashboard-active .dashboard-inspector .phase-panel h2{font-size:12px;margin:0 0 7px;padding-bottom:4px}
+.dashboard-active .dashboard-inspector #phaseTitle{font-size:16px;margin-bottom:5px}
+.dashboard-active .dashboard-inspector #phaseDescription{font-size:12px;margin-bottom:7px;line-height:1.45}
+.dashboard-active .dashboard-inspector .phase-ecg-link{min-height:29px;padding:6px 8px;font-size:11px}
+.dashboard-active .dashboard-clinical{border:1px solid #d9e4ec;background:#f8fbfe;border-radius:8px;padding:9px}
+.dashboard-active .dashboard-clinical h3{font-size:13px;margin:0 0 3px;color:#224d69}
+.dashboard-active .dashboard-clinical p{font-size:12px;line-height:1.5;margin:0 0 8px}
+.dashboard-active .dashboard-clinical .dashboard-caution{font-size:10px;color:#617383;margin:6px 0 0}
+.dashboard-active .dashboard-inspector>.event-panel{
+  min-height:0;padding:7px 8px;box-shadow:none;border:1px solid #e4ebf0}
+.dashboard-active .dashboard-inspector>.event-panel h2{font-size:12px}
+.dashboard-active .dashboard-inspector .event-flow{
+  gap:3px;justify-content:flex-start;min-height:30px;overflow-x:auto;max-width:100%}
+.dashboard-active .dashboard-inspector .event-item{
+  font-size:10px;padding:4px 6px;flex:0 0 auto}
+.dashboard-active .dashboard-inspector .event-flow>span{font-size:11px;flex:0 0 auto}
+.dashboard-active .dashboard-inspector .event-ecg-row{margin-top:3px;padding:4px}
+.dashboard-active .dashboard-inspector .event-sync-status{margin:3px 0}
+.dashboard-active .dashboard-inspector>.learning-deep-dive{margin:0}
+.dashboard-active .dashboard-inspector .learning-deep-dive summary{
+  font-size:13px;padding:9px;line-height:1.5}
+.dashboard-active .dashboard-v111>.measurements-panel{
+  min-height:0;padding:9px 12px}
+.dashboard-active .dashboard-v111>.measurements-panel h2{margin-bottom:6px;font-size:14px}
+.dashboard-active .dashboard-v111 .measurement-list{
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.dashboard-active .dashboard-v111 .measurement-list .measurement-item{padding:6px 7px}
+.dashboard-active .dashboard-v111 .measurement-row{flex-wrap:wrap;gap:3px;font-size:12px}
+.dashboard-active .dashboard-v111 .measurement-list small{white-space:normal;font-size:10px}
+@media(max-width:1199px){
+  .dashboard-active .dashboard-workspace{grid-template-columns:minmax(0,1fr)}
+  .dashboard-active .dashboard-stage>.heart-panel #heartSVG{width:min(100%,350px)}
+  .dashboard-active .dashboard-inspector{height:auto}
+  .dashboard-active .dashboard-v111 .measurement-list{
+    grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:699px){
+  .app.dashboard-active{padding:8px;max-width:100%;overflow-x:clip}
+  .dashboard-active .dashboard-commands{padding:8px}
+  .dashboard-active .dashboard-commands .controller-layout{
+    grid-template-columns:minmax(0,1fr);gap:5px}
+  .dashboard-active .dashboard-commands .controller-buttons{
+    flex-direction:row;justify-content:center}
+  .dashboard-active .dashboard-commands .controller-buttons button{max-width:125px}
+  .dashboard-active .dashboard-presets{align-items:flex-start;flex-direction:column;gap:4px}
+  .dashboard-active .dashboard-presets .learning-preset-row{display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));width:100%;min-width:0}
+  .dashboard-active .dashboard-presets .learning-preset-row button{
+    font-size:11px;min-height:40px;padding:5px 4px;white-space:normal}
+  .dashboard-active .dashboard-v111>.ecg-panel #ecgCanvas{height:175px}
+  .dashboard-active .dashboard-statuses{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-active .dashboard-v111 .measurement-list{
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-active .dashboard-visual .heart-mode-switch button{
+    font-size:12px;min-width:0;padding:7px 4px}
+  .dashboard-active .dashboard-stage .wiggers-summary-hint{display:none}
+  .dashboard-active .dashboard-inspector .event-flow{overflow-x:auto}
+  .dashboard-active .dashboard-commands,.dashboard-active .dashboard-workspace,
+  .dashboard-active .dashboard-v111>.ecg-panel{min-width:0;max-width:100%}
+}
+
+
+/* v1.11 UI polish: more useful room for ECG + heart visualization. */
+.dashboard-active .dashboard-focus-button{
+  display:none;border:1px solid #afc3d4;background:#f5f9fc;
+  color:#254761;border-radius:6px;padding:5px 11px;
+  font-size:12px;font-weight:700;min-height:32px;cursor:pointer;
+  margin:-2px 0 6px auto}
+.dashboard-active .dashboard-focus-button:focus-visible{
+  outline:3px solid #3778b6;outline-offset:2px}
+.dashboard-active .dashboard-v111[data-view="wiggers"] .dashboard-focus-button{
+  display:block}
+.dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"] .dashboard-workspace{
+  grid-template-columns:minmax(0,1fr)}
+.dashboard-active .dashboard-v111[data-view="wiggers"][data-wiggers-focus="true"] .dashboard-inspector{
+  height:auto}
+.dashboard-active .dashboard-v111[data-view="wiggers"]>.ecg-panel #ecgCanvas{
+  height:130px}
+.dashboard-active .dashboard-v111[data-view="wiggers"] .learning-scenario-panel .learning-boundary{
+  display:none} /* existing clinical restrictions also remain in graph and inspector */
+@media(min-width:900px){
+  .dashboard-active .dashboard-commands .controller-sliders{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;align-items:center}
+  .dashboard-active .dashboard-commands .controller-sliders .heart-rate-control{
+    margin-top:0}
+  .dashboard-active .dashboard-commands .controller-layout{gap:10px}
+  .dashboard-active .dashboard-commands .controller-buttons button{min-height:34px}
+}
+@media(max-width:1199px){
+  .dashboard-active .dashboard-focus-button{display:none!important}
+}
+
+
+/* ============================================================
+   v1.11.1 compact-first stabilization
+   No DOM cloning, animation sampling, model, clock, or canvas
+   resolution changes. All longer explanations remain in
+   native keyboard-operable disclosures.
+   ============================================================ */
+.dashboard-active .dashboard-v111{gap:7px}
+.dashboard-active .dashboard-commands{gap:4px}
+.dashboard-active .dashboard-presets{flex-wrap:wrap}
+.dashboard-active .dashboard-density-button{
+  margin-left:auto;flex:0 0 auto;
+  border:1px solid #7195ad;border-radius:7px;
+  background:#f0f8fd;color:#244c68;cursor:pointer;
+  font-size:12px;font-weight:700;
+  min-height:34px;padding:6px 12px
+}
+.dashboard-active .dashboard-density-button:hover{background:#e4f1f9}
+.dashboard-active .dashboard-density-button:focus-visible,
+.dashboard-active .dashboard-disclosure summary:focus-visible{
+  outline:3px solid #3473a6;outline-offset:2px
+}
+.dashboard-active .dashboard-disclosure{
+  border:1px solid #dce6ee;
+  border-radius:7px;background:#fff;
+  max-width:100%;min-width:0
+}
+.dashboard-active .dashboard-disclosure summary{
+  cursor:pointer;color:#2b5573;
+  font-size:13px;line-height:1.45;font-weight:650;
+  padding:8px 11px;min-height:35px
+}
+.dashboard-active .dashboard-disclosure[open]>summary{
+  border-bottom:1px solid #e7edf3
+}
+.dashboard-active .dashboard-ecg-details{margin-top:6px}
+.dashboard-active .dashboard-ecg-details .ecg-explanation{margin:0;border:0;box-shadow:none}
+.dashboard-active .dashboard-inspector>.dashboard-disclosure{
+  width:100%
+}
+.dashboard-active .dashboard-inspector .dashboard-disclosure .phase-panel,
+.dashboard-active .dashboard-inspector .dashboard-disclosure .event-panel{
+  box-shadow:none;border:0;border-radius:0;margin:0
+}
+.dashboard-active .dashboard-inspector .dashboard-event-details .event-panel{
+  min-height:0;padding:8px 9px
+}
+.dashboard-active .dashboard-inspector .dashboard-phase-details .phase-panel{
+  min-height:0;padding:8px 9px
+}
+.dashboard-active .dashboard-statuses{
+  grid-template-columns:repeat(3,minmax(0,1fr))
+}
+.dashboard-active .dashboard-statuses>div{padding:7px}
+.dashboard-active .dashboard-statuses strong{font-size:13px;line-height:1.35}
+.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel{
+  padding:8px 12px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel #ecgCanvas{
+  height:clamp(150px,18vh,178px)
+}
+.dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"]>.ecg-panel #ecgCanvas{
+  height:145px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-info{
+  margin-top:4px;font-size:13px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-interpretation{
+  margin-top:4px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel .ecg-item{
+  min-height:30px;padding:5px 6px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel{
+  padding:6px 10px
+}
+.dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel h2{
+  margin-bottom:4px;padding-bottom:2px;
+  font-size:13px;line-height:1.3
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .measurement-list .measurement-item{
+  padding:5px 7px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .measurement-list small{
+  display:none
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .measurement-row{
+  font-size:12px;line-height:1.25
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-inspector{
+  gap:7px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-clinical{
+  padding:8px 10px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-clinical p{
+  margin-bottom:6px;font-size:13px;line-height:1.45
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-visual,
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-inspector{
+  padding:8px 10px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-stage>.heart-panel #heartSVG{
+  width:min(100%,300px);max-height:300px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-stage>.heart-panel #mechanicalSVG{
+  width:min(100%,345px);max-height:315px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-visual .heart-mode-switch{
+  margin-bottom:5px
+}
+.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-visual .heart-mode-switch button{
+  min-height:36px
+}
+@media(max-width:1199px){
+ .dashboard-active .dashboard-statuses{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:699px){
+ .dashboard-active .dashboard-presets .dashboard-density-button{
+   margin:3px 0 0;min-height:42px;width:100%
+ }
+ .dashboard-active .dashboard-statuses{
+   grid-template-columns:repeat(2,minmax(0,1fr))
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel #ecgCanvas{
+   height:175px /* keep ECG legibility on touch screens */
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"]>.ecg-panel #ecgCanvas{
+   height:175px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-stage>.heart-panel #heartSVG{
+   width:min(100%,350px);max-height:350px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-stage>.heart-panel #mechanicalSVG{
+   width:min(100%,365px);max-height:320px
+ }
+}
+
+
+/* Wide desktop only: place original ECG and original controls beside each other
+   in compact mode, keeping the waveform at a readable ~900px width on 1366px.
+   Expanded mode reverts to the comfortable full-width stacked layout. */
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111[data-density="compact"]{
+  display:grid;
+  grid-template-columns:minmax(350px,.37fr) minmax(0,1fr);
+  grid-template-areas:
+    "commands ecg"
+    "metrics metrics"
+    "workspace workspace";
+  align-items:stretch;gap:7px 9px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-commands{
+  grid-area:commands;justify-content:flex-start
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.ecg-panel{
+  grid-area:ecg
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.measurements-panel{
+  grid-area:metrics
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"]>.dashboard-workspace{
+  grid-area:workspace
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-commands .controller-layout{
+  grid-template-columns:minmax(0,1fr);gap:6px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-commands .controller-sliders{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets{
+  display:flex;flex-direction:column;align-items:stretch;
+  justify-content:flex-start;gap:5px;padding-top:5px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets .learning-preset-row{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-presets .learning-preset-row button{
+  white-space:normal;min-height:33px;padding:4px 3px;font-size:11px
+ }
+ .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-density-button{
+  margin:0;align-self:stretch;min-height:34px
+ }
+}
+
+
+/* v1.12 Patch 1: opt-in guided lesson replaces, never stacks with,
+   the existing clinical summary. No default first-screen height growth. */
+.dashboard-active .dashboard-inspector .guided-v112-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.dashboard-active .guided-v112-trigger{
+  flex:0 0 auto;white-space:nowrap;
+  background:#eef6fc;color:#244d6c;border:1px solid #aec5d7;
+  border-radius:7px;padding:6px 10px;min-height:34px;
+  font-size:12px;font-weight:700;cursor:pointer;
+}
+.dashboard-active .guided-v112-trigger:hover{background:#e0eff9}
+.dashboard-active .guided-v112-trigger:focus-visible,
+.dashboard-active .guided-v112-select:focus-visible{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+.dashboard-active .dashboard-inspector .dashboard-clinical[hidden],
+.dashboard-active .guided-v112[hidden]{display:none!important}
+.dashboard-active .guided-v112{
+  border:1px solid #d5e5f0;background:#f8fbff;
+  border-radius:9px;padding:10px;min-width:0;
+  display:flex;flex-direction:column;gap:8px
+}
+.dashboard-active .guided-v112-top{
+  display:flex;flex-wrap:wrap;justify-content:space-between;
+  align-items:center;gap:7px
+}
+.dashboard-active .guided-v112-counter{font-size:13px;color:#345d7a}
+.dashboard-active .guided-v112-select-label{
+  display:flex;gap:5px;align-items:center;
+  font-size:12px;color:#536b80;
+}
+.dashboard-active .guided-v112-select{
+  max-width:100%;min-height:38px;min-width:0;
+  background:#fff;border:1px solid #9eb6c8;border-radius:6px;
+  font-size:13px;padding:5px 6px;color:#233f56;
+}
+.dashboard-active .guided-v112-title{
+  margin:0;font-size:16px;color:#1e4665
+}
+.dashboard-active .guided-v112-current,
+.dashboard-active .guided-v112-note{
+  font-size:12px;line-height:1.45;margin:0;color:#546b7c
+}
+.dashboard-active .guided-v112-current{font-weight:650;color:#235f70}
+.dashboard-active .guided-v112-summary{margin:0;display:grid;gap:7px}
+.dashboard-active .guided-v112-summary dt{
+  margin:0;font-size:12px;font-weight:700;color:#274d65
+}
+.dashboard-active .guided-v112-summary dd{
+  margin:1px 0 0;font-size:13px;line-height:1.55;color:#294151;
+  overflow-wrap:anywhere
+}
+.dashboard-active .guided-v112-model{
+  margin:0;padding:6px 8px;background:#eaf3f9;border-radius:5px;
+  font-size:12px;color:#305777
+}
+.dashboard-active .guided-v112-limits{
+  margin:0;font-size:11px;line-height:1.5;color:#627483
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-top{align-items:stretch;flex-direction:column}
+ .dashboard-active .guided-v112-select-label{
+   align-items:stretch;flex-direction:column;width:100%
+ }
+ .dashboard-active .guided-v112-select{width:100%;min-height:44px}
+ .dashboard-active .guided-v112-trigger{min-height:42px}
+ .dashboard-active .guided-v112-summary dd{font-size:14px}
+ .dashboard-active .guided-v112-current,
+ .dashboard-active .guided-v112-note{font-size:13px}
+}
+
+
+/* v1.12 Patch 2 — explicit, separate lesson navigation and observation actions */
+.dashboard-active .guided-v112-navigation,
+.dashboard-active .guided-v112-observe{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;
+  min-width:0;
+}
+.dashboard-active .guided-v112-action{
+  min-width:0;min-height:40px;padding:8px 7px;
+  border:1px solid #a7c0d0;border-radius:7px;background:#fff;
+  font-size:12px;font-weight:650;line-height:1.4;
+  color:#264d66;cursor:pointer;white-space:normal;
+}
+.dashboard-active .guided-v112-action:hover:not(:disabled){
+  background:#e6f2fa;border-color:#719fbd;
+}
+.dashboard-active .guided-v112-action:focus-visible{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+.dashboard-active .guided-v112-action:disabled{
+  background:#edf2f6;color:#7e909b;cursor:not-allowed;
+}
+.dashboard-active .guided-v112-seek{
+  background:#eaf3fa;border-color:#97b6c9;
+}
+.dashboard-active .guided-v112-seek-notice{
+  margin:0;font-size:12px;line-height:1.45;color:#566e82;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-action{min-height:44px;font-size:13px}
+ .dashboard-active .guided-v112-seek-notice{font-size:13px}
+}
+
+
+/* v1.12 Patch 3: study-level and self-assessment are opt-in only.
+   Default compact dashboard height, original ECG and A/B are untouched. */
+.dashboard-active .guided-v112-advanced[hidden],
+.dashboard-active .guided-v112-question[hidden],
+.dashboard-active .guided-v112-feedback[hidden],
+.dashboard-active .guided-v112-question-actions button[hidden]{
+  display:none!important;
+}
+.dashboard-active .guided-v112-level-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  padding:5px 0;border-block:1px solid #e0e9f0;
+}
+.dashboard-active .guided-v112-level-label{
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:700;color:#305370;
+}
+.dashboard-active .guided-v112-level-select{
+  min-height:38px;padding:5px 10px;border-radius:7px;
+  border:1px solid #98b4c8;background:#fff;color:#244765;
+  font:inherit;font-size:13px;
+}
+.dashboard-active .guided-v112-level-hint{
+  flex:1 1 170px;margin:0;
+  font-size:12px;line-height:1.45;color:#5a7185;
+}
+.dashboard-active .guided-v112-advanced,
+.dashboard-active .guided-v112-quiz{
+  min-width:0;border:1px solid #ccdfea;background:#fff;
+  border-radius:8px;padding:0 10px;
+}
+.dashboard-active .guided-v112-advanced>summary,
+.dashboard-active .guided-v112-quiz>summary{
+  cursor:pointer;font-size:13px;font-weight:700;color:#225479;
+  line-height:1.45;padding:10px 2px;min-height:38px;
+}
+.dashboard-active .guided-v112-full-list{
+  margin:0;padding:0 0 10px;display:grid;gap:7px;
+}
+.dashboard-active .guided-v112-full-list dt{
+  font-weight:700;font-size:13px;color:#24506d;
+}
+.dashboard-active .guided-v112-full-list dd{
+  margin:0;font-size:13px;line-height:1.55;overflow-wrap:anywhere;
+}
+.dashboard-active .guided-v112-quiz-intro{
+  margin:0 0 9px;font-size:12px;line-height:1.5;color:#526c7e;
+}
+.dashboard-active .guided-v112-question{
+  border-top:1px solid #d8e5ed;padding:9px 0 12px;
+}
+.dashboard-active .guided-v112-question-heading{
+  margin:0 0 6px;font-size:13px;color:#2b506e;
+}
+.dashboard-active .guided-v112-choices{
+  border:0;min-width:0;padding:0;margin:0;
+}
+.dashboard-active .guided-v112-prompt{
+  font-size:13px;line-height:1.5;font-weight:700;
+  margin-bottom:7px;color:#233f55;
+}
+.dashboard-active .guided-v112-option{
+  display:flex;align-items:flex-start;gap:7px;
+  padding:6px 3px;border-radius:5px;font-size:13px;
+  line-height:1.5;color:#263f4e;cursor:pointer;
+}
+.dashboard-active .guided-v112-option input{
+  flex:0 0 auto;margin-top:3px;accent-color:#276e96;
+}
+.dashboard-active .guided-v112-question-actions{
+  margin-top:8px;display:flex;gap:7px;flex-wrap:wrap;
+}
+.dashboard-active .guided-v112-question-actions button{
+  flex:1 1 110px;
+}
+.dashboard-active .guided-v112-feedback{
+  margin:9px 0 0;padding:9px;border-radius:6px;
+  border:1px solid #d3dfe8;font-size:13px;line-height:1.55;
+  background:#f0f5fa;color:#2c4355;
+}
+.dashboard-active .guided-v112-feedback[data-result="correct"]{
+  border-color:#b6dbcf;background:#e9f7f0;color:#235743;
+}
+.dashboard-active .guided-v112-feedback[data-result="incorrect"]{
+  border-color:#ecd9a9;background:#fff6e4;color:#71531e;
+}
+.dashboard-active .guided-v112-level-select:focus-visible,
+.dashboard-active .guided-v112-quiz summary:focus-visible,
+.dashboard-active .guided-v112-advanced summary:focus-visible,
+.dashboard-active .guided-v112-option:focus-within{
+  outline:3px solid #3473a6;outline-offset:2px;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-level-select{
+  min-height:44px;
+ }
+ .dashboard-active .guided-v112-option{
+  min-height:42px;font-size:14px;padding:9px 3px;
+ }
+ .dashboard-active .guided-v112-prompt,
+ .dashboard-active .guided-v112-full-list dd{
+  font-size:14px;
+ }
+ .dashboard-active .guided-v112-quiz>summary,
+ .dashboard-active .guided-v112-advanced>summary{
+  min-height:44px;
+ }
+}
+
+
+/* v1.12 Patch 4 — novice-first progressive course within the existing inspector.
+   First viewport stays unchanged; additional sources reveal only by user choice. */
+.dashboard-active .guided-v112 .guided-v112-summary [hidden],
+.dashboard-active .guided-v112 .guided-v112-model[hidden],
+.dashboard-active .guided-v112 .guided-v112-promote[hidden]{
+ display:none!important;
+}
+.dashboard-active .guided-v112-gist{
+ margin:0;padding:9px 10px;border:1px solid #bad2df;
+ border-radius:8px;background:#eef7fa;font-size:13px;
+ line-height:1.5;color:#244d60;
+}
+.dashboard-active .guided-v112-gist strong{
+ color:#205674;font-weight:750;
+}
+.dashboard-active .guided-v112-promote{
+ flex:1 1 100%;background:#e9f4fc;border-color:#8db4d2;
+ color:#205171;
+}
+.dashboard-active .guided-v112-summary dt[hidden],
+.dashboard-active .guided-v112-summary dd[hidden]{
+ display:none!important;
+}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-gist{font-size:14px}
+ .dashboard-active .guided-v112-promote{width:100%;min-height:44px}
+}
+
+
+/* v1.12 Patch 5 — improve readability only inside opt-in study content.
+   No effect on the original compact dashboard or its first-screen height. */
+.dashboard-active .guided-v112-limits{font-size:12px;line-height:1.6}
+.dashboard-active .guided-v112-select-label{font-size:13px}
+.dashboard-active .guided-v112-level-hint{font-size:13px}
+@media(max-width:699px){
+ .dashboard-active .guided-v112-limits{font-size:13px}
+ .dashboard-active .guided-v112-summary dt{font-size:13px}
+ .dashboard-active .guided-v112-quiz-intro{font-size:13px}
+}
+
+/* v1.12 Patch 7: ECG and reading inspector share a desktop row; original SVG/Canvas are never cloned. */
+.dashboard-active .dashboard-v111>.dashboard-inspector{height:auto;align-self:start}
+.dashboard-active .dashboard-v111>.dashboard-workspace{grid-template-columns:minmax(0,1fr)}
+.dashboard-active .dashboard-v111 .dashboard-visual{height:auto}
+.dashboard-active .dashboard-v111 .dashboard-resources{min-width:0;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.dashboard-active .dashboard-resources-heading{margin:0;font-size:14px;border-bottom:1px solid #dce6ef;padding-bottom:6px}
+.dashboard-active .dashboard-resources>.dashboard-disclosure{margin:0}
+.dashboard-active .dashboard-stage[data-view="wiggers"]>.wiggers-shell{max-width:920px;margin:auto}
+.dashboard-active .dashboard-v111[data-wiggers-focus="true"] .dashboard-stage[data-view="wiggers"]>.wiggers-shell{max-width:none}
+@media(min-width:1200px){
+ .dashboard-active .dashboard-v111[data-density="compact"],
+ .dashboard-active .dashboard-v111[data-density="expanded"]{
+   display:grid;grid-template-columns:minmax(0,1.9fr) minmax(350px,1fr);
+   grid-template-areas:"commands commands" "ecg inspector" "metrics metrics" "workspace workspace" "resources resources";
+   gap:8px 10px;align-items:start
+ }
+ .dashboard-active .dashboard-v111>.dashboard-commands{
+   grid-area:commands;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(370px,.9fr);gap:16px;align-items:center
+ }
+ .dashboard-active .dashboard-v111>.dashboard-commands .controller-layout{grid-template-columns:minmax(175px,240px) minmax(0,1fr);gap:12px}
+ .dashboard-active .dashboard-v111>.dashboard-commands .dashboard-presets{border-top:0;padding-top:0;justify-content:flex-end;align-items:stretch}
+ .dashboard-active .dashboard-v111>.ecg-panel{grid-area:ecg}
+ .dashboard-active .dashboard-v111>.dashboard-inspector{grid-area:inspector}
+ .dashboard-active .dashboard-v111>.measurements-panel{grid-area:metrics}
+ .dashboard-active .dashboard-v111>.dashboard-workspace{grid-area:workspace}
+ .dashboard-active .dashboard-v111>.dashboard-resources{grid-area:resources}
+}
+
+/* Patch 7 correction: nested source disclosures are one opt-in group, not a long default footer. */
+.dashboard-active .dashboard-resources:not([open])>:not(summary){display:none!important}
+.dashboard-active .dashboard-resources>.dashboard-resources-heading{
+  display:list-item;cursor:pointer;font-weight:700;font-size:14px;padding:6px 7px;
+  border-bottom:0;line-height:1.6;min-height:38px
+}
+.dashboard-active .dashboard-resources[open]>.dashboard-resources-heading{
+  border-bottom:1px solid #dce6ef;margin-bottom:5px
+}

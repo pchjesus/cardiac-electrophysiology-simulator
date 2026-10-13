@@ -1560,3 +1560,24 @@ Compact Controller + ECG View
 .dashboard-active .dashboard-resources[open]>.dashboard-resources-heading{
   border-bottom:1px solid #dce6ef;margin-bottom:5px
 }
+
+/* v1.12 Patch 9 — categorized source index, no bulk expansion. */
+.dashboard-active .dashboard-resources-hint{
+  margin:0;color:#536a7a;font-size:13px;line-height:1.55;
+  padding:3px 7px 7px;
+}
+.dashboard-active .dashboard-resources>.dashboard-disclosure{
+  margin-top:3px;
+}
+.dashboard-active .dashboard-resources>.dashboard-disclosure summary{
+  font-size:14px;min-height:42px;
+}
+.dashboard-active .dashboard-resources>.learning-deep-dive summary{
+  min-height:42px;
+}
+@media(max-width:699px){
+  .dashboard-active .dashboard-resources-hint{font-size:14px}
+  .dashboard-active .dashboard-resources>.dashboard-disclosure summary{
+    min-height:44px;
+  }
+}

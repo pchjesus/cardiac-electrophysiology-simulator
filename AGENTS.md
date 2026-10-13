@@ -270,3 +270,7 @@ Begin with a single phase concept plus ECG, valve and flow essentials for novice
 
 ## v1.12 Patch 8 guided-only seek rule
 Previous A/A/A no-seek navigation assertions in historical tests are intentionally replaced by B-mode tests. Guided course must only change A/B and Pause on deliberate stage selection (dropdown or previous/next), through original Timeline input; learning level/quiz/source/closing remain non-seeking. A fixed chosen-stage explanation is distinct from rapidly updating live model status. Free Play/Pause/HR and A/B remain original.
+
+
+## v1.12 Patch 9 UX closeout rules
+P6-8 are already merged with validated CI. New changes only consolidate the source directory and user-facing documentation, not original PHASES/RATE source text, native A/B clock, ECG/Mechanical/Wiggers profiles, or ten question bank. Header source-index toggle and native details summary must synchronize. No bulk-open on '자료 목록 보기'. Full original long-form source text available through the user's selected disclosure. Run all 18 legacy/current stages + Patch 9 Chromium six-view tests, verify branch PR and merged main. Version remains Patch 9, **NOT FINAL** without PC/mobile user acceptance.

@@ -1,0 +1,111 @@
+name: Cardiac Simulator Regression
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Playwright and matching Chromium
+        run: |
+          python -m pip install 'playwright==1.56.0'
+          python -m playwright install --with-deps chromium
+          BROWSER=$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux*/chrome' -print -quit)
+          test -n "$BROWSER"
+          sudo ln -sf "$BROWSER" /usr/bin/chromium
+          /usr/bin/chromium --version
+      - name: Patch 6 ECG seek waveform reconstruction
+        run: python tests/test_v112_patch6.py
+      - name: Patch 7 ECG-first workbench responsiveness
+        run: python tests/test_v112_patch7.py
+      - name: Patch 8 guided automatic observation and readable explanations
+        run: python tests/test_v112_patch8.py
+      - name: Verify v1.8 functional regression
+        run: python tests/test_v18.py
+      - name: Verify v1.8 stress regression
+        run: python tests/stress_v18.py
+      - name: Verify v1.9 mechanical regression
+        run: python tests/test_v19.py
+      - name: Verify v1.10 Wiggers foundation and v1.9 equivalence
+        run: python tests/test_v110.py
+      - name: Verify v1.10 Patch 2 continuous pressure-volume profile
+        run: python tests/test_v110_patch2.py
+      - name: Verify v1.10 Patch 3 Wiggers SVG and UI integration
+        run: python tests/test_v110_patch3.py
+      - name: Verify v1.10 Patch 4 help and event interpretation
+        run: python tests/test_v110_patch4.py
+      - name: Verify v1.10 Patch 5 clinical learning and reference overlays
+        run: python tests/test_v110_patch5.py
+      - name: Verify v1.11 integrated learning dashboard and responsive layout
+        run: python tests/test_v111.py
+      - name: Verify v1.11.1 compact dashboard and complete clinical content
+        run: python tests/test_v1111.py
+      - name: Verify v1.12 Patch 1 five-stage guided learning and model alignment
+        run: python tests/test_v112_patch1.py
+      - name: Verify v1.12 Patch 2 explicit navigation and native Timeline seek
+        run: python tests/test_v112_patch2.py
+      - name: Verify v1.12 Patch 3 source-based learning and ten questions
+        run: python tests/test_v112_patch3.py
+      - name: Verify v1.12 Patch 4 novice-to-nursing progressive learning
+        run: python tests/test_v112_patch4.py
+      - name: Verify v1.12 Patch 5 clinical profile and final readability
+        run: python tests/test_v112_patch5.py
+      - name: Upload v1.12 Patch 5 actual desktop/mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch5-education-ui
+          path: preview-v112p5/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Upload v1.12 Patch 4 actual novice/mid/extra learning screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch4-progressive-learning-ui
+          path: preview-v112p4/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Upload v1.12 Patch 3 real educational UI screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch3-actual-learning-ui
+          path: preview-v112p3/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Upload v1.12 Patch 2 desktop/mobile guide previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch2-actual-ui
+          path: preview-v112p2/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Upload v1.11.1 actual-browser UI previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v1111-compact-full-UI-screenshots
+          path: preview-v1111/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Upload v1.12 Patch 1 actual guided-learning browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch1-desktop-mobile-previews
+          path: preview-v112p1/
+          retention-days: 30
+          if-no-files-found: warn

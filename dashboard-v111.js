@@ -41,12 +41,12 @@
   const presets=node('div','dashboard-presets');
   const presetLabel=node('span','dashboard-presets-label','학습 시나리오');
   presets.append(presetLabel,scenarios);
-  const densityButton=node('button','dashboard-density-button','전체 정보 보기');
+  const densityButton=node('button','dashboard-density-button','자료 목록 보기');
   densityButton.id='dashboardDensityBtn';
   densityButton.type='button';
   densityButton.setAttribute('aria-pressed','false');
-  densityButton.setAttribute('aria-controls','dashboardV111');
-  densityButton.setAttribute('aria-label','상세 ECG 및 전도 단계 정보 펼치기');
+  densityButton.setAttribute('aria-controls','dashboardResources');
+  densityButton.setAttribute('aria-label','선택형 전도·ECG 사건·간호 원문 자료 목록 열기');
   presets.appendChild(densityButton);
   commands.appendChild(presets);
 
@@ -105,8 +105,10 @@
   const resources=node('details','dashboard-resources card');
   resources.id='dashboardResources';
   resources.setAttribute('aria-label','Additional cardiac education and source notes');
-  resources.append(node('summary','dashboard-resources-heading','자세한 정보 · 전도 단계 · ECG 사건 · 간호 원문'),
-    phaseDetails,eventDetails,deepDive);
+  const resourceHint=node('p','dashboard-resources-hint',
+    '필요한 주제만 열어 읽으세요. ECG 파형(P·PR·QRS·ST·T) 설명은 ECG Monitor에서 직접 선택할 수 있습니다. 원문과 모델 한계는 아래 항목에 그대로 보존됩니다.');
+  resources.append(node('summary','dashboard-resources-heading','자료 찾아보기 · 전도 단계 / ECG 사건 / 간호 원문'),
+    resourceHint,phaseDetails,eventDetails,deepDive);
   workspace.append(left);
   dashboard.append(commands,ecg,inspector,measurements,workspace,resources);
   main.insertBefore(dashboard,oldVisual);
@@ -175,21 +177,37 @@
   ecg.querySelectorAll('[data-ecg-component]').forEach(button=>{
     button.addEventListener('click',()=>{ecgDetails.open=true;});
   });
-  densityButton.addEventListener('click',()=>{
-    const expanded=dashboard.dataset.density!=='expanded';
+  // The top control opens a categorized index, not every long passage.
+  // Native source disclosures keep their original content and independent state.
+  function reflectResourceDensity(expanded){
     dashboard.dataset.density=expanded?'expanded':'compact';
-    densityButton.textContent=expanded?'핵심 보기로 전환':'전체 정보 보기';
+    densityButton.textContent=expanded?'핵심 보기로 전환':'자료 목록 보기';
     densityButton.setAttribute('aria-pressed',String(expanded));
+    densityButton.setAttribute('aria-expanded',String(expanded));
     densityButton.setAttribute('aria-label',expanded?
-      '상세 ECG 및 전도 단계 정보를 접고 핵심 보기로 돌아가기':
-      '상세 ECG 및 전도 단계 정보 펼치기');
-    for(const disclosure of [ecgDetails,phaseDetails,eventDetails]){
-      disclosure.open=expanded;
+      '자료 목록을 접고 핵심 보기로 돌아가기':
+      '선택형 전도·ECG 사건·간호 원문 자료 목록 열기');
+  }
+  densityButton.setAttribute('aria-expanded','false');
+  densityButton.addEventListener('click',()=>{
+    const expanded=!resources.open;
+    resources.open=expanded;
+    if(!expanded){
+      // Compact means the long ECG/conduction/event explanations are folded.
+      // Do not erase the independent six-part clinical source disclosure state.
+      for(const disclosure of [ecgDetails,phaseDetails,eventDetails])
+        disclosure.open=false;
     }
-    if(expanded)resources.open=true;
-    else if(!deepDive.open)resources.open=false;
-    // Preserve the independent six-part clinical learning disclosure.
-    // Do not recalculate or reset A/B clock, selected view, or measurements.
+    reflectResourceDensity(expanded);
+  });
+  resources.addEventListener('toggle',()=>{
+    // Keyboard/native summary clicks must not leave the header toggle stale.
+    const expanded=resources.open;
+    if(!expanded){
+      for(const disclosure of [phaseDetails,eventDetails])
+        disclosure.open=false;
+    }
+    reflectResourceDensity(expanded);
   });
   focusButton.addEventListener('click',()=>{
     const expanded=dashboard.dataset.wiggersFocus!=='true';

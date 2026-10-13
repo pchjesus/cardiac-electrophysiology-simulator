@@ -66,17 +66,22 @@ with sync_playwright() as p:
  ck(page.evaluate('CardiacDashboard.density')=='expanded','expanded state missing')
  ck(density.get_attribute('aria-pressed')=='true','expanded aria state')
  ck('핵심 보기' in density.inner_text(),'restore label missing')
+ ck(page.locator('#dashboardResources').evaluate('(el)=>el.open'),
+    'expanded should expose the categorized source index')
  for selector in ('.dashboard-ecg-details','.dashboard-phase-details','.dashboard-event-details'):
-    ck(page.locator(selector).evaluate('(el)=>el.open'),f'expanded did not reveal {selector}')
+    ck(not page.locator(selector).evaluate('(el)=>el.open'),
+       f'expanded bulk-opened a source without user selection: {selector}')
  ck(page.locator('.dashboard-v111 .measurement-list small').first.is_visible(),
     'normal interval reference was lost in expanded mode')
  full_height=page.evaluate('document.documentElement.scrollHeight')
  page.screenshot(path=str(SCREENSHOTS/'02-full-desktop.png'),full_page=True,animations='disabled')
- ck(full_height>compact_height+100,
-    f'compact view not materially shorter: compact={compact_height},full={full_height}')
+ ck(full_height>=compact_height and full_height<compact_height+250,
+    f'categorized index caused excessive layout growth: compact={compact_height},full={full_height}')
  ck(snapshot()==original,'showing full clinical information mutated simulation')
  density.click()
  ck(page.evaluate('CardiacDashboard.density')=='compact','return compact failed')
+ ck(not page.locator('#dashboardResources').evaluate('(el)=>el.open'),
+    'returning compact did not close the source index')
  ck(page.evaluate('document.documentElement.scrollHeight')<=compact_height+8,
     'return compact did not recover initial height')
  ck(snapshot()==original,'returning compact mutated simulation')

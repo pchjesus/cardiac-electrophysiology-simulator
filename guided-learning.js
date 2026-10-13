@@ -2,8 +2,8 @@
  * v1.12 Patch 4 — novice-first progressive learning: essentials, nursing links,
  * optional full-source additional learning. Preserves question and A/B isolation.
  * Runs after dashboard-v111.js and preserves original DOM/event listeners.
- * Previous/next are study-only. Wiggers view and original Timeline seek
- * are invoked by separate, clearly labeled button clicks; no new clock.
+ * Learner-initiated stage navigation uses native Timeline Pause/Seek once.
+ * Reading stays fixed during live playback; no additional clock.
  */
 (function(root){
   'use strict';
@@ -402,6 +402,6 @@
     get submittedAnswerCount(){
       return Object.values(answers).filter(x=>x.submitted).length;
     },
-    get version(){return 'v1.12 Patch 8';}
+    get version(){return 'v1.12 Patch 9';}
   });
 })(window);

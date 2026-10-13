@@ -750,3 +750,12 @@ Patch 7 visual regression correction: moving three source disclosures below the 
 - UX B/B/B/B decision supersedes historical A/A/A only inside explicitly opened guided mode: previous/next and dropdown call the same original native Timeline input exactly once and pause simulation.
 - Opening/closing course, difficulty changes, source details, quizzes and free observation do not seek; view changes stay manual. Live phase labels update but selected education text is rendered only for selected stage/rate/level, not each moving live phase.
 - Updated historical test contracts to new approved guided-only navigation semantics, retaining full physiological/source/quiz assertions. Added ten HR × five-stage real-browser mode and reading tests. Not FINAL before real-device inspection.
+
+
+## v1.12 Patch 9 — consolidated UX B/B/B/B (2026-10-13)
+- Previous P6 (native Timeline ECG seek reconstruction), P7 (desktop ECG-first workbench) and P8 (guided-only auto Pause/Seek plus fixed reading text) are already merged into baseline main. This patch does NOT reimplement those.
+- The header's previous bulk-opening '전체 정보 보기' becomes '자료 목록 보기': opens the existing source index, not all long descriptions simultaneously. User opens only the desired nested source (electrical phase, ECG event, original six-part clinical notes). A manually opened source stays the canonical original DOM, not a text clone. ECG-specific P/PR/QRS/ST/T remains next to ECG Monitor.
+- Native resource summary and header button synchronize their expanded/compact state and aria-pressed/aria-expanded. Closing the index folds supplementary ECG, phase, event cards without erasing independent original six-part clinical source preference.
+- Updated in-app user guide to clearly state P8's guided-only automatic Pause/Seek, fixed read-only student narrative vs moving live status, no automatic Wiggers switch; preserved basic→nursing→advanced, original PHASES/RATE wording, original quiz bank 10 questions, all normalized measurements disclaimers.
+- New Patch 9 Playwright CI checks source index and no bulk expansion, keyboard interaction, model/quiz retention, guided-only A/B navigation, six viewport widths, screenshots and source text. Medical source/numerical curves are unchanged.
+- This is not 'v1.12 FINAL' absent user's hands-on PC/mobile visual review and optional external clinical verification.
