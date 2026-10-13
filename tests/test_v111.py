@@ -120,6 +120,8 @@ with sync_playwright() as p:
  ck(page.evaluate('heartRate')==93,'custom HR not authoritative')
  ck(page.evaluate('CardiacLearning.activePreset') is None,'manual HR did not reset scenario')
 
+ if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+     page.locator('#dashboardResources>summary').click()
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function("document.getElementById('wiggersDeepDive').open")
  # Native details.toggle is queued asynchronously after .open changes. Wait

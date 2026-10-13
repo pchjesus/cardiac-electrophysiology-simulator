@@ -95,6 +95,8 @@ with sync_playwright() as p:
  ck(snapshot()==original,'ECG component selection mutated simulation')
 
  # Existing native disclosure preferences are separate from new density.
+ if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+     page.locator('#dashboardResources>summary').click()
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function('document.getElementById("wiggersDeepDive").open')
  page.locator('#timeSlider').evaluate("""el=>{

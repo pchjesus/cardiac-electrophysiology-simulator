@@ -73,6 +73,8 @@ with sync_playwright() as p:
     ck(not page.evaluate("document.getElementById('wiggersDeepDive').open"),
        "Deep education should be opt-in")
     ck(page.locator("[data-learning-preset]").count()==3,"Expected 3 scenario buttons")
+    if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+        page.locator('#dashboardResources>summary').click()
     page.locator("#wiggersDeepDive summary").click()
     page.wait_for_function("document.getElementById('wiggersDeepDive').open")
     ck(page.locator("#learningPhaseTitle").text_content().startswith("Ready"),

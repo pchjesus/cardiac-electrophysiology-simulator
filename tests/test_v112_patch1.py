@@ -168,6 +168,8 @@ with sync_playwright() as playwright:
        'study/live distinction disappeared')
 
  # Original independent deep dive remains accessible while guide is active.
+ if not page.locator('#dashboardResources').evaluate('(e)=>e.open'):
+     page.locator('#dashboardResources>summary').click()
  page.locator('#wiggersDeepDive summary').click()
  page.wait_for_function("document.getElementById('wiggersDeepDive').open")
  page.wait_for_function("document.getElementById('learningNursing').textContent.trim().length>70")

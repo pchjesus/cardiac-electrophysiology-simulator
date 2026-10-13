@@ -1550,3 +1550,13 @@ Compact Controller + ECG View
  .dashboard-active .dashboard-v111>.dashboard-workspace{grid-area:workspace}
  .dashboard-active .dashboard-v111>.dashboard-resources{grid-area:resources}
 }
+
+/* Patch 7 correction: nested source disclosures are one opt-in group, not a long default footer. */
+.dashboard-active .dashboard-resources:not([open])>:not(summary){display:none!important}
+.dashboard-active .dashboard-resources>.dashboard-resources-heading{
+  display:list-item;cursor:pointer;font-weight:700;font-size:14px;padding:6px 7px;
+  border-bottom:0;line-height:1.6;min-height:38px
+}
+.dashboard-active .dashboard-resources[open]>.dashboard-resources-heading{
+  border-bottom:1px solid #dce6ef;margin-bottom:5px
+}
