@@ -1667,10 +1667,11 @@ Compact Controller + ECG View
    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;
    overflow-x:visible;overflow-y:visible
  }
- .dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-item,
- .dashboard-active .dashboard-v111[data-density="expanded"] .dashboard-primary>.ecg-panel .ecg-item{
-   flex:initial;min-width:0;min-height:44px!important;white-space:normal;
-   padding:7px 4px;font-size:12px;line-height:1.3
+ /* One uncomplicated selector for the original five buttons.
+    The compact selector used above keeps 30px controls on narrow screens. */
+ .dashboard-active .ecg-interpretation > button.ecg-item{
+   flex:initial;min-width:0;height:46px!important;min-height:46px!important;
+   white-space:normal;padding:7px 4px;font-size:12px;line-height:1.3
  }
  .dashboard-active .guided-v112-action{min-height:44px;font-size:14px}
  .dashboard-active .dashboard-clinical p{font-size:15px}
