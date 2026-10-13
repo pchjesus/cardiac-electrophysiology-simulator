@@ -31,6 +31,8 @@ jobs:
         run: python tests/test_v112_patch7.py
       - name: Patch 8 guided automatic observation and readable explanations
         run: python tests/test_v112_patch8.py
+      - name: Patch 9 categorized source content and UX closeout
+        run: python tests/test_v112_patch9.py
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression
@@ -107,5 +109,14 @@ jobs:
         with:
           name: v112-patch1-desktop-mobile-previews
           path: preview-v112p1/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload v1.12 Patch 9 final browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v112-patch9-ecg-guided-and-sources
+          path: preview-v112p9/
           retention-days: 30
           if-no-files-found: warn

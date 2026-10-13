@@ -26,7 +26,7 @@ with sync_playwright() as p:
  ck(page.locator('.dashboard-commands #timeSlider').count()==1,'old Timeline not moved')
  ck(page.locator('.dashboard-commands #heartRateSlider').count()==1,'old HR slider not moved')
  ck(page.locator('.dashboard-presets [data-learning-preset]').count()==3,'presets not moved as originals')
- ck(page.locator('.dashboard-v111>.ecg-panel #ecgCanvas').is_visible(),'ECG no longer always visible')
+ ck(page.locator('.dashboard-v111 .dashboard-primary>.ecg-panel #ecgCanvas').is_visible(),'ECG no longer always visible')
  ck(page.locator('.dashboard-v111>.measurements-panel #measurementQTc').count()==1,
     'measurements not preserved')
  ck(page.locator('#phaseTitle').count()==1 and page.locator('#ecgEventIndicator').count()==1,

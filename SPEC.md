@@ -852,3 +852,10 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - **Presentation**: default compact layout unchanged; optional guide still basic → intermediate nursing → advanced source/quiz; mobile caution text increased without shortening old education. Wiggers, source PHASES and ten questions remain accessible.
 - **QA gate**: 14 earlier suites plus `tests/test_v112_patch5.py` via `.github/workflows/regression.yml`; test HR list 30/50/59/60/72/80/100/101/120/180, all five stage midpoints and exact boundaries, two filling intervals, keyboard, 360/390/768/1024/1366/1440 widths and automatic screenshots. Browser automation is not user device acceptance.
 - **Release**: Patch 5 can be merged only on passing CI; **v1.12 FINAL** label remains deferred until requested real-device manual review and declared scope review. See [V1.12_PATCH5_REPORT.md](V1.12_PATCH5_REPORT.md).
+
+
+## v1.12 Patch 9 accepted UX contract
+- ECG + concise Inspector adjacent on desktop; visuals follow, categorized source index last. Mobile is vertically stacked.
+- Free mode retains original A/B, Timeline, controls and views. Guided mode uses native Timeline to pause/seek on explicit previous/next/stage selection; guided reading stays fixed through playback while live statuses keep updating.
+- '자료 목록 보기' reveals categories, not every narrative. Each source disclosure is optional. Preserve original clinical six-part source and ten quizzes. No new biomedical outputs.
+- Native source-index summary and header control reflect the same open/closed state. No P/PR/QRS/ST/T, Mechanical, Wiggers or ECG canvas duplication.

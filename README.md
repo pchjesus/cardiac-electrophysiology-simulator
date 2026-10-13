@@ -412,3 +412,7 @@ The original advanced nursing explanation, Electrical/Mechanical/Wiggers, ECG, A
 - OpenStax. (2013). *19.3 Cardiac cycle*. In *Anatomy and physiology*. https://openstax.org/books/anatomy-and-physiology/pages/19-3-cardiac-cycle
 - Pollock, J. D., & Makaryus, A. N. (2022, October 3). *Physiology, cardiac cycle*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK459327/
 - Dornbush, S., & Turnquest, A. E. (2023, July 17). *Physiology, heart sounds*. In *StatPearls*. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK541010/
+
+
+## v1.12 Patch 9 — learning-focused workbench
+At desktop widths the ECG sits beside concise live/guided explanations; the Electrical/Mechanical/Wiggers view is below. Use **5단계 학습** to select a cardiac stage; when already studying, previous/next or dropdown seeks once through the native Timeline and pauses. The selected reading remains fixed even when Play resumes; live stage indicators keep moving. An independent **자료 목록 보기** opens a directory of original conduction, ECG event and nursing sources without expanding everything at once. Click individual categories; ECG wave-specific P/PR/QRS/ST/T is accessible within the ECG Monitor. Three study levels and ten questions remain intact; nothing diagnoses or predicts patient physiology. Physical PC/mobile acceptance is still required before v1.12 FINAL.
