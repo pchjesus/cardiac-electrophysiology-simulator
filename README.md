@@ -5,15 +5,15 @@ An educational browser-based simulator that visualizes cardiac electrical conduc
 
 ## Current Version
 
-**v1.12 Patch 4 — novice-first progressive learning; device review deferred. Not v1.12 FINAL.**
+**v1.12 Patch 12 — ECG-time clarity, beginner-first guided study, readable responsive learning. PC/mobile user acceptance pending; NOT v1.12 FINAL.**
 
-Use the default **핵심 보기** for ECG, controls, six measurements, selected visualization and concise nursing/physiology interpretation. Select **전체 정보 보기** to reveal original detailed ECG, conduction phase and ECG Event text plus reference notes; select **핵심 보기로 전환** to restore compact mode. Clicking P / PR / QRS / ST / T opens the relevant original ECG explanation automatically. The independent six-part **심화 의학·간호 해설** stays available in either mode.
+Default view is compact: ECG + controls, live three-part status, physiological/nursing summary, six measurements and synchronized Electrical/Mechanical/Wiggers visualization. The '자료 목록 보기' button opens a **categorized source index only**, not every long description. All original detailed clinical content and ten concept questions remain available.
 
-At desktop widths 1200px+, compact mode puts the original HR/Timeline/control panel beside the ECG Monitor rather than stacking it. Mobile preserves one-column layout and local Wiggers plot scrolling. Neither density toggle nor graph focus changes physiological A time, visualization B time, HR, playback or mechanical model.
+Start from Reset/Ready and press **5단계 학습 시작**. The first deliberate entrance pauses and uses the original Timeline once to show modeled atrial systole. '이전/다음 단계' then auto-seeks once per selected stage; Play retains the chosen reading while ECG and live phase continue. Reopening later does not secretly pause/seek an active simulation. Optional level chooser, manual Wiggers shortcut and re-observe button are under **추가 도구**. Quizzes remain optional and answers are held only for the current browser session.
 
-See [v1.11.1 Release Notes](V1.11.1_RELEASE_NOTES.md) for measured height savings and actual-device QA, and [v1.12 Start Here](V1.12_START_HERE.md) for safeguarded next-version design. Older version sections below remain development history.
+Desktop >=1200px keeps ECG and heart visualization together to the left of the learning card. Narrow and mobile widths stack sections, and the five ECG concept buttons wrap without horizontal swiping. Displayed normalized pressures/volumes and five stage boundaries are simplified educational models, not patient data or validated cardiac-output/EF predictions. P is electrical atrial depolarization that precedes mechanical atrial contraction; QRS is electrical ventricular depolarization.
 
-Current entrypoint remains index.html using dashboard-v111.js; the v1.11 closeout document is historical context. The v1.11.1 release notes and v1.12 handoff above are now authoritative.
+See [V1.12_PATCH12_REPORT.md](V1.12_PATCH12_REPORT.md) for current implementation, remaining QA gates and checks. Older roadmap/version references in sections below are historical only. Run locally with `python -m http.server 8000` and open `http://localhost:8000`.
 
 ## Educational Flow
 

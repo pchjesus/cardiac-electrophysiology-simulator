@@ -13,7 +13,7 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 ## 2. Current Version
 
-**v1.7 FINAL**
+**Current development: v1.12 Patch 12 (NOT FINAL; user PC/mobile signoff pending).** v1.7 FINAL is an archived confirmed milestone, not the active build.
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
 
@@ -859,3 +859,10 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - Free mode retains original A/B, Timeline, controls and views. Guided mode uses native Timeline to pause/seek on explicit previous/next/stage selection; guided reading stays fixed through playback while live statuses keep updating.
 - '자료 목록 보기' reveals categories, not every narrative. Each source disclosure is optional. Preserve original clinical six-part source and ten quizzes. No new biomedical outputs.
 - Native source-index summary and header control reflect the same open/closed state. No P/PR/QRS/ST/T, Mechanical, Wiggers or ECG canvas duplication.
+
+
+## v1.12 Patch 10–12 — accepted B-plan education UX (current)
+- P10: P/QRS/T annotations show only waveform traversed by the sweep, and inactive highlighted conduction is not confused with pre-playback Ready; no new timing source.
+- P11: learner-first 5-stage guided entry from Ready auto-Pauses/Seeks once through native Timeline; step Previous/Next continues guided-only Pause/Seek. Core/gist/navigation precede optional manual tools. Re-entry during free playback never seeks.
+- P12: readable 15–16px guided body; mobile ECG component buttons all discoverable without internal side-scroll; clear focus affordance, updated user and developer docs.
+- Original A/B clocks, ECG waveform, Electrical/Mechanical/Wiggers, all six-source clinical narratives, ten qualitative quiz questions/feedback, and complete native controls are preserved. No disease/clinical prediction model introduced. v1.12 FINAL requires separate real-device user review.
