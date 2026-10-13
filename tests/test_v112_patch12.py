@@ -39,7 +39,12 @@ with sync_playwright() as p:
       let r=x.getBoundingClientRect();return {width:r.width,height:r.height,tag:x.tagName,cls:x.className,
       minHeight:getComputedStyle(x).minHeight,display:getComputedStyle(x).display,
       matches:x.matches('.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel .ecg-item'),
-      density:x.closest('.dashboard-v111')?.dataset.density}})}}""")
+      density:x.closest('.dashboard-v111')?.dataset.density,
+      rules:Array.from(document.styleSheets).flatMap(sh=>Array.from(sh.cssRules||[]))
+       .filter(ru=>ru.conditionText?.includes('699')).flatMap(ru=>Array.from(ru.cssRules||[]))
+       .filter(ru=>ru.selectorText?.includes('ecg-item')).map(ru=>({selector:ru.selectorText,
+          min:ru.style.getPropertyValue('min-height'),prio:ru.style.getPropertyPriority('min-height'),
+          matches:x.matches(ru.selectorText)})).slice(-5)}})}}""")
    ck(layout["scroll"]<=layout["outer"]+2,f"ECG still scrolls sideways {width}: {layout}")
    ck(all(item["height"]>=40 for item in layout["items"]),f"ECG tap target too small {width}: {layout}")
   if width in (390,1366):
