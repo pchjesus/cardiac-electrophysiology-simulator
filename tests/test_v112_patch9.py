@@ -65,8 +65,10 @@ with sync_playwright() as pw:
     ck(page.locator("#eventSyncStatus").is_visible(),"ECG event detail unavailable")
     page.locator("#wiggersDeepDive summary").click()
     ck(page.locator("#learningNursing").is_visible(),"six-part nursing unavailable")
-    ck(len(page.locator("#learningNursing").inner_text())>70,
-       "clinical source was shortened or deleted")
+    ck(len(page.locator("#learningNursing").inner_text())>20,
+       "Ready-state nursing explanation disappeared")
+    ck(len(page.evaluate("CardiacLearning.getStageNarrative('ejection').nursing"))>70,
+       "original longer nursing stage narrative lost")
     page.screenshot(path=str(SHOTS/"02-selected-source-desktop-1366.png"),
                     full_page=True,animations="disabled")
     ck(page.evaluate("""()=>({
