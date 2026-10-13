@@ -44,7 +44,7 @@ with sync_playwright() as p:
        'mechanical note unexpectedly expanded')
     ck(page.locator('.mechanical-readout>p').evaluate(
        'e=>parseFloat(getComputedStyle(e).fontSize)')>=14,'core explanation too small')
-    ck(page.locator('.mechanical-stats').evaluate(
+    ck(page.locator('.mechanical-stats').first.evaluate(
        'e=>parseFloat(getComputedStyle(e).fontSize)')>=13,'core valve/flow text too small')
     for width in (360,390,768,899,900,1024,1366,1440):
         page.set_viewport_size({"width":width,"height":800})
