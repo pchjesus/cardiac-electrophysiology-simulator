@@ -789,3 +789,10 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - Removed redundant *visible* mechanical SVG captions and lengthy default disclaimer; preserved their clinical-model meaning and original disclaimer in a keyboard-accessible `ⓘ 모형 안내` disclosure adjacent to phase title.
 - Kept all guided learning source paragraphs, including `#guidedV112Limits` original wording; relocated that recurring warning behind `ⓘ 모형 가정·수치 안내`, with full advanced six-part source and ten questions untouched.
 - No edits to `mechanics.js`, `script.js`, `wiggers-*.js`, HR/A-B model, valves/particle flow or learning source bank. Tests cover layout, disclosure, Play/Pause/Reset, HR/seek, Wiggers, six widths, keyboard and sources. NOT FINAL pending device acceptance.
+
+
+## v1.12 Patch 14 — Mechanical view adaptive usability and safe notes (2026-10-13)
+- Extended Patch 13's accepted side-by-side Mechanical SVG + readout layout: at >=900px an auto-fitting 320px minimum adapts to the **actual available section width**, safely stacking if the desktop workspace becomes narrower (e.g. browser zoom or sidebar constraints). Under 900px stays vertically stacked.
+- A native ⓘ information note now occupies its readout's normal document flow when open; no absolute-positioned overlay covering adjacent cards. Preserved original clinical/model wording and keyboard/touch operation.
+- Increased essential Mechanical explanation from 13px to 14px and valve/flow/relative-volume labels from 12px to 13px; 40/44px native information tap targets. Guided repeated caveats remain optional without deleting text.
+- No edits to Physiological A/Visualization B, ECG, mechanics.js, Wiggers domains, quiz sources, or learner state logic. Added geometry/keyboard/touch/source/regression browser test and screenshots. Release is NOT FINAL; human device signoff pending.
