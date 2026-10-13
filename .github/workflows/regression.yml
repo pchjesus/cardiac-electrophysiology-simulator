@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Patch 6 ECG seek waveform reconstruction
+        run: python tests/test_v112_patch6.py
       - name: Verify v1.8 functional regression
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression
@@ -55,8 +57,6 @@ jobs:
         run: python tests/test_v112_patch4.py
       - name: Verify v1.12 Patch 5 clinical profile and final readability
         run: python tests/test_v112_patch5.py
-      - name: Patch 6 ECG seek waveform and jitter
-        run: python tests/test_v112_patch6.py
       - name: Upload v1.12 Patch 5 actual desktop/mobile screenshots
         if: always()
         uses: actions/upload-artifact@v4

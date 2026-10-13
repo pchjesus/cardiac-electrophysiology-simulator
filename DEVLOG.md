@@ -734,3 +734,5 @@ Reorganized the existing optional inspector into 1. 기초 이해 → 2. 간호 
 - Corrected manual seek's ECG buffer history: samples now use current sweepPosition offset (B) converted once to physiological A. Previous right-edge formula incorrectly sampled negative time in early educational stages.
 - Stabilized compact dashboard live state height; source wording and details remain in the DOM. No ECG physiological timing, A/B drivers, valve profiles, or questions changed.
 - Added real Chromium HR 30–180 × five-stage seek waveform regression; baseline 15 suites remain. Staged B/B/B/B redesign continues through P7–P9; not FINAL.
+
+Patch 6 CI finding: attempting to stabilize live-height by reserving extra rows made the baseline compact page 47px taller; after a narrowed CSS adjustment it remained 27px above the old contract. Reverted that CSS entirely rather than weaken the baseline. ECG regression remains Patch 6; visual jitter will be resolved by decoupling inspector and visual grid in Patch 7 with new geometry tests.
