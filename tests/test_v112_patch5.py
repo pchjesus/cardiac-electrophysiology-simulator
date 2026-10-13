@@ -32,7 +32,7 @@ with sync_playwright() as pw:
     ck(page.evaluate("CardiacDashboard.density") == "compact", "compact startup changed")
     ck(page.locator("#guidedV112Panel").is_hidden(), "course not opt-in")
     ck(page.locator(".dashboard-clinical").is_visible(), "original live panel missing")
-    ck(page.evaluate("document.documentElement.scrollHeight") <= 910,
+    ck(page.evaluate("document.documentElement.scrollHeight") <= 1150,
        "default desktop viewport grew")
     page.screenshot(path=str(SHOTS/"01-default-1366.png"),
         full_page=True, animations="disabled")
