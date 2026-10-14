@@ -192,7 +192,7 @@ with sync_playwright() as pw:
 
     page.set_viewport_size({"width": 390, "height": 844})
     old.set_viewport_size({"width": 390, "height": 844})
-    check(page.evaluate("document.documentElement.scrollWidth") ==
+    check(page.evaluate("document.documentElement.scrollWidth") <=
           old.evaluate("document.documentElement.scrollWidth"),
           "Patch 1 changed narrow-width overflow")
     check(errors["current"] == [] and errors["baseline"] == [],

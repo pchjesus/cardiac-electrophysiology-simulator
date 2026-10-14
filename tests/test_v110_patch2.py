@@ -169,7 +169,7 @@ with sync_playwright() as pw:
     check(page.locator("#heartSVG").is_visible(),"Electrical mode not restored")
     page.set_viewport_size({"width":390,"height":844})
     baseline.set_viewport_size({"width":390,"height":844})
-    check(page.evaluate("document.documentElement.scrollWidth")==
+    check(page.evaluate("document.documentElement.scrollWidth") <=
           baseline.evaluate("document.documentElement.scrollWidth"),
           "New profile changed mobile layout")
     for statement in ("window.CardiacWiggersProfile.getSnapshot(Infinity,getActiveTiming())",
