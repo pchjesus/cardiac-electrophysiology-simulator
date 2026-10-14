@@ -69,7 +69,7 @@ with sync_playwright() as p:
 
     # Each rate has the same pause/position invariant, with no auto-play on return.
     for rate in (30,72,180):
-        page.locator('#heartRateSlider').fill(str(rate))
+        page.locator('#heartRateSlider').evaluate("(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}",rate)
         page.locator('#playBtn').click()
         page.wait_for_function("heartState.playing && heartState.physiologicalTime>0")
         before=snap(page)
