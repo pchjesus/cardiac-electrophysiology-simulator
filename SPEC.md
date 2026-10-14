@@ -17,6 +17,10 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
 
+## v1.13 Patch 2–6 implementation plan (design only)
+
+The approved three-tab contract is elaborated in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md): P2 single original Guided instance in Learning, P3 six-unit course, P4 clinically reviewed static case data, P5 independent clinical sessions, P6 accessibility/QA gates. **These follow-on features are not yet implemented and must not be reported as released.**
+
 ## v1.13 Patch 1 scope and acceptance contract
 
 - Original `main.main-container` remains the single Simulator DOM, moved nowhere and never cloned.
