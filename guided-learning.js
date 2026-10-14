@@ -316,11 +316,14 @@
     if(open===next)return;
     open=next;
     panel.hidden=!open;
-    clinical.hidden=open;
+    const movedToLearning=Boolean(panel.closest('#v113LearningScreen'));
+    if(!movedToLearning)clinical.hidden=open;
+    else clinical.hidden=false;
     if(open)lastRenderedSelection='';
     toggle.setAttribute('aria-expanded',String(open));
     toggle.textContent=open?'학습 닫기':(hasStarted?'5단계 학습 이어보기':'5단계 학습 시작');
-    originalHeading.textContent=open?'5단계 심장 주기 학습':'실시간 통합 해설';
+    originalHeading.textContent=movedToLearning?'실시간 통합 해설':
+      (open?'5단계 심장 주기 학습':'실시간 통합 해설');
     if(open){
       lastKey='';sync();
       // First explicit course entry from Ready gives a visible first stage.
@@ -391,6 +394,8 @@
     if(!open)return;
     // Separate explicit user action; no Timeline or playback side effects.
     dashboard.setView('wiggers');
+    if(panel.closest('#v113LearningScreen'))
+      root.CardiacMainTabs?.switchTo('simulator');
   });
   function observeSelected(){
     if(!open)return;
@@ -415,6 +420,7 @@
   root.CardiacGuidedLearning=Object.freeze({
     sync,
     get open(){return open;},
+    get hasStarted(){return hasStarted;},
     get selectedStageId(){return content.stages[selectedIndex].id;},
     get detailLevel(){return detailLevel;},
     get submittedAnswerCount(){

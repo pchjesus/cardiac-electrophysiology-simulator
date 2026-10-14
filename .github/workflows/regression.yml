@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: v1.13 P2–P6 integration, course, fictitious case, session and responsive UX
+        run: python tests/test_v113_integrated.py
       - name: v1.13 Patch 1 three-tab and canonical A/B Pause regression
         run: python tests/test_v113_patch1.py
       - name: Patch 14 adaptive mechanical UI and non-overlapping model notes
@@ -160,6 +162,14 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
+      - name: Upload v1.13 integrated learning and clinical QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v113-integrated-learning-clinical-qa
+          path: preview-v113-integrated/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.13 Patch 1 preview-only PC/mobile route screenshots
         if: always()
         uses: actions/upload-artifact@v4
