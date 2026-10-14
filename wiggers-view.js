@@ -145,11 +145,11 @@
         cursor.setAttribute('x1',x.toFixed(2));
         cursor.setAttribute('x2',x.toFixed(2));
         phaseLabel.textContent=STAGE_NAMES[current.mechanical.stage]||current.mechanical.stage;
-        timeLabel.textContent='Physiological phase '+
+        timeLabel.textContent='생리학적 주기 시점(A) '+
             Math.round(current.cycle.phaseMs)+' / '+Math.round(timing.rr)+' ms · '+
             Math.round(current.cycle.heartRateBpm)+' bpm';
-        valveLabel.textContent='Mitral: '+(current.valves.mitral?'Open':'Closed')+
-            ' · Aortic: '+(current.valves.aortic?'Open':'Closed');
+        valveLabel.textContent='승모판: '+(current.valves.mitral?'열림':'닫힘')+
+            ' · 대동맥판: '+(current.valves.aortic?'열림':'닫힘');
         updateLessons(current);
     }
 
@@ -158,8 +158,8 @@
         sync();
         // Match v1.9 reset semantics: controls return to Ready, not active phase.
         phaseLabel.textContent='Ready';
-        if(lessonStage)lessonStage.textContent='재생하거나 심장주기 시간축을 움직여 심장 단계의 변화를 살펴보세요.';
-        if(lessonEvent)lessonEvent.textContent='Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.';
+        if(lessonStage)lessonStage.textContent='Move the timeline or press Play to explore cardiac phases.';
+        if(lessonEvent)lessonEvent.textContent='판막과 심음(S1/S2) 설명은 그래프의 사건 표시와 같은 심장주기 시간축을 따릅니다.';
     }
 
     details.addEventListener('toggle',()=>{
