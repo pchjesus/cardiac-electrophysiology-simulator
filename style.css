@@ -2019,3 +2019,12 @@ Compact Controller + ECG View
 
 /* Keep short question-mark aids within the legacy desktop compact-height budget. */
 .v113-term-trigger{margin-block:0;vertical-align:middle}
+
+/* Korean reference labels must wrap inside mobile ECG measurement cards.
+   Preserve measurements (no clipping or hidden text) in original/modern dashboards. */
+@media(max-width:700px){
+ .measurement-list{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0}
+ .measurement-list .measurement-item{min-width:0;max-width:100%}
+ .measurement-list small{white-space:normal;overflow-wrap:anywhere}
+ .measurement-row{flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
+}
