@@ -3,6 +3,10 @@
 
 An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
 
+## v1.13 Patch 2–6 engineering blueprint (design only)
+
+The post-Patch-1 implementation gates, single-instance Guided migration, six-unit learning curriculum, first clinically reviewed static case, session preservation, and QA/release boundaries are documented in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md). **This is a design/documentation update only, not completion of Patch 2–6.** It supplements without superseding the [approved v1.13 contract](Cardiac_v1.13_Three_Tab_Development_Contract.md).
+
 ## v1.13 Patch 1 — top-level navigation foundation (NOT FINAL)
 
 The 3-button top-level router is implemented independently of the original simulator engine, with **Simulator** active. **Learning** and **Clinical Application** remain disabled in the ordinary interface until their content is safely integrated; this avoids exposing empty/incomplete teaching screens. The existing Guided 5-stage/3-level course and 10 questions remain available inside the original Simulator Inspector. A/B timing and approved Guided observation actions are unchanged.

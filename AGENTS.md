@@ -300,3 +300,8 @@ In compact study views, keep only the learner-relevant phase, valve, flow and re
 - `main-tabs-v113.js` owns only UI route/pressed/hidden state. Native `pause()` must run only for actual top-level transitions while playing; no new engine, timer, RAF, reset, seek, Guided opening, or clinical session mutations.
 - Do not move/clone the existing Inspector learning UI yet. The normal interface disables incomplete Learning/Clinical routes; `?v113Preview=1` is test-only, not a clinical-content release.
 - All future routes must preserve exact A/B clocks, phase, HR, sweep, native input and Guided answers. v1.12 Patch 14 remains NOT FINAL pending user PC/mobile QA.
+
+## v1.13 P2–P6 design handoff (2026-10-14)
+- Before Patch 2, read [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md) and the higher-priority approved 3-tab contract. Current implementation remains P1 only; this is a design update.
+- P2: original Guided DOM/questions/answers exactly one instance; never make mere tab navigation trigger first study or Timeline seek. Simulator Live Inspector survives. P4/P5: static reviewed case content and Clinical State remain isolated from the sinus simulation.
+- Preserve v1.12 Patch 14 NOT FINAL and separate app CI/automated screenshots from actual user device acceptance.

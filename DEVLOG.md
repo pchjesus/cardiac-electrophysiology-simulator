@@ -808,3 +808,7 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - **Preserved:** unmodified `script.js` A/B time and canonical `pause()`, original Dashboard Canvas/SVG nodes, Electrical/Mechanical/Wiggers, native Timeline/Reset/HR and existing Guided DOM/answer state; explicit Guided first-start and subsequent chosen-stage Timeline seek rules remain.
 - **Verification:** new Playwright Patch 1 route/A-B/visual focus test and existing regression workflow (CI status to be confirmed separately). Screenshots are browser automation, **not** human target-device acceptance.
 - **Known / deferred:** Guided relocation to Learning (P2), six-module curriculum/free exploration (P3), real verified clinical-case data (P4), session and scoring (P5), full manual UX pass (P6). v1.12 Patch 14 **NOT FINAL**.
+
+## v1.13 Patch 2–6 detailed blueprint (documentation only, 2026-10-14)
+- After P1 merged main d63b144061e49dab0cac57d7e6c14f18cf243a3a, defined P2 single-instance Guided migration, P3 six-unit guided/free course, P4 sourced first static case, P5 isolated case session/review, and P6 full QA in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md).
+- No post-P1 functionality, patient data, test run, or actual device approval is claimed by this docs commit. v1.12 Patch 14 remains NOT FINAL.
