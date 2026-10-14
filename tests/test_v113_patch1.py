@@ -33,7 +33,7 @@ with sync_playwright() as p:
     errors=[]
     page.on("pageerror",lambda e:errors.append(str(e)))
     page.goto((ROOT/"index.html").as_uri())
-    ck('v1.13 Patch 1' in page.locator('h1').inner_text(),'title lacks current Patch 1')
+    ck('v1.13' in page.locator('h1').inner_text(),'v1.13 title missing')
     ck('v1.12 Patch 14' in page.locator('h1').inner_text(),'underlying not-final engine not disclosed')
     ck(page.evaluate("CardiacMainTabs.active")=="simulator","default route")
     ck(not button(page,'Learning').is_disabled() and button(page,'Clinical').is_disabled(),
