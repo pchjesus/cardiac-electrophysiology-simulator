@@ -288,3 +288,10 @@ In compact study views, keep only the learner-relevant phase, valve, flow and re
 - Mechanical's original SVG/readout uses auto-fitting columns with >=320px minimum at viewport widths >=900px; if actual work area is too narrow it stacks. Mobile remains stacked. Do not base future width decisions solely on viewport width.
 - Keep model note inside the readout in normal layout flow when open, never covering adjacent cards. Retain all established note/source wording, and protect disclosure keyboard and touch access.
 - No new timers, DOM clones or changes to model, clinical text, ten questions or original A/B time. Before FINAL, confirm new Patch 14 automated browser checks and physical PC/mobile visual acceptance separately.
+
+## v1.13 approved development contract — document registered, implementation pending
+- Before any v1.13 code change, read **[Cardiac_v1.13_Three_Tab_Development_Contract.md](Cardiac_v1.13_Three_Tab_Development_Contract.md)** and check its rules against live `main` and current code. This approved new contract governs v1.13; historical v1.12 notes still apply as regression guardrails.
+- Approved three top-level areas: Simulator / Learning (existing 5 stages and ten questions) / Clinical Application (new, separate cases). Electrical/Mechanical/Wiggers remain the simulator's internal views.
+- **A안:** top-level tab changes use the current canonical Pause, preserve both A/B clocks, phase/ECG sweep/HR/current visualization and guided/clinical answers; returning never autoplays. Tab clicks must not invoke Timeline input, Reset or Guided first-start/step seek. Explicit Guided Learning start/step changes retain their existing native seek behavior.
+- RAAS v5.5.1 three-tab session isolation (retained in v5.5.2) is a reference; tab navigation must never delete a clinical session. Study/clinical progress is in-memory initially, with explicit scenario reset only.
+- **Documentation-only handoff:** no v1.13 UI implementation, medical model change or QA is claimed. v1.12 Patch 14 remains NOT FINAL pending real PC/mobile user signoff. Implement incrementally on separately reviewed PRs with regressions.
