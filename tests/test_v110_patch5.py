@@ -77,7 +77,7 @@ with sync_playwright() as p:
         page.locator('#dashboardResources>summary').click()
     page.locator("#wiggersDeepDive summary").click()
     page.wait_for_function("document.getElementById('wiggersDeepDive').open")
-    ck(page.locator("#learningPhaseTitle").text_content().startswith("Ready"),
+    ck(page.locator("#learningPhaseTitle").text_content().startswith("준비"),
        "Initial detail must remain Ready")
 
     for preset,hr,category in (
@@ -116,7 +116,7 @@ with sync_playwright() as p:
            f"Adult resting HR category wrong: {hr}")
         ck(page.evaluate("CardiacLearning.activePreset") is None,
            f"Manual slider lost Custom identity: {hr}")
-        ck("사용자 설정" in page.locator("#learningScenarioSummary").text_content(),
+        ck("Custom HR" in page.locator("#learningScenarioSummary").text_content(),
            f"Custom summary wrong HR {hr}")
 
     page.locator('[data-learning-preset="normal"]').click()
