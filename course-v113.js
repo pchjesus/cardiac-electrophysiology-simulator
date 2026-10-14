@@ -68,13 +68,24 @@ function mount(screen){
  const back=el('button','v113-action v113-return','임상 문제로 돌아가기');
  back.type='button';back.hidden=true;
  back.addEventListener('click',()=>{if(returnContext&&root.CardiacMainTabs?.switchTo('clinical'))returnContext=null;render();});
- const layout=el('div','v113-course-layout'),list=el('nav','v113-unit-list'),article=el('article','v113-unit-reading');
+ const layout=el('div','v113-course-layout');
+ const picker=el('details','v113-unit-picker'),pickerLabel=el('summary','v113-unit-picker-heading','학습 단원 목록');
+ const list=el('nav','v113-unit-list');
  list.setAttribute('aria-label','학습 주제 선택');
+ picker.append(pickerLabel,list);
+ const content=el('div','v113-course-content'),article=el('article','v113-unit-reading');
  const guideHost=el('section','v113-guide-host');guideHost.id='v113LearningGuideHost';
- layout.append(list,article);
- shell.append(heading,intro,modes,progress,back,layout,guideHost);
+ const sources=el('section','v113-unit-sources');
+ content.append(article,guideHost,sources);
+ layout.append(picker,content);
+ shell.append(heading,intro,modes,progress,back,layout);
  screen.append(shell);
- ui={screen,list,article,progress,guided,free,back,guideHost};
+ // Desktop always shows the chapter index. On small screens, students choose
+ // a chapter only when needed, and the selected reading appears immediately.
+ const wide=root.matchMedia('(min-width:901px)');
+ picker.open=wide.matches;
+ wide.addEventListener('change',event=>{picker.open=event.matches;});
+ ui={screen,list,picker,pickerLabel,article,sources,progress,guided,free,back,guideHost};
  render();
 }
 function render(){
@@ -85,6 +96,7 @@ function render(){
  ui.guided.classList.toggle('v113-chosen',mode==='guided');
  ui.free.classList.toggle('v113-chosen',mode==='free');
  ui.progress.textContent='내가 완료 표시한 주제 '+completed.size+'/6 · 기존 개념 10문항의 제출 기록과 별개';
+ ui.pickerLabel.textContent='학습 단원 선택 · '+current.title;
  ui.back.hidden=!returnContext;
  ui.list.replaceChildren();
  for(const item of units){
@@ -98,7 +110,13 @@ function render(){
  a.append(el('p','v113-eyebrow',mode==='guided'?'안내형 코스 · 단원을 순서대로 공부할 수 있어요':'자유 탐색 · 필요한 단원을 언제든 선택할 수 있어요'),
   el('h3','v113-unit-title',current.title));
  textBlock(a,'이 단원에서 배울 것',current.goal);
- textBlock(a,'핵심 기전',current.core);
+ // Show the original opening sentence as a clear takeaway, not a second copy.
+ const match=current.core.match(/^(.+?[.!?])(?:\s+|$)/);
+ if(match){
+  a.append(el('p','v113-key-idea',match[1]));
+  const remainder=current.core.slice(match[0].length).trim();
+  if(remainder)textBlock(a,'핵심 기전 · 조금 더 이해하기',remainder);
+ }else textBlock(a,'핵심 기전',current.core);
  textBlock(a,'간호학적 의미',current.nursing);
  const warning=el('p','v113-model-caution','모형·해석 주의: '+current.caution);a.append(warning);
  const actions=el('div','v113-course-actions');
@@ -140,18 +158,23 @@ function render(){
   });
   a.append(button);
  }
- a.append(details);
+ // D1: essential concept -> nursing meaning -> explicit observation ->
+ // original guided experience (Unit 1) -> optional references and details.
+ ui.sources.replaceChildren(details);
  // The ORIGINAL v1.12 Guide is mounted separately, never cloned.
  ui.guideHost.hidden=unit!=='unit-cardiac-cycle';
 }
 function selectUnit(id){if(!ids.has(id)||id===unit)return false;unit=id;render();
+ if(root.matchMedia('(max-width:900px)').matches&&ui?.picker)ui.picker.open=false;
  const heading=ui?.article.querySelector('.v113-unit-title');
  if(heading){heading.tabIndex=-1;heading.focus();}
  return true;}
 function openFromClinical(id,context){
  if(!ids.has(id))return false;
  unit=id;returnContext=context||{source:'clinical'};
- render();return !!root.CardiacMainTabs?.switchTo('learning');
+ render();
+ if(root.matchMedia('(max-width:900px)').matches&&ui?.picker)ui.picker.open=false;
+ return !!root.CardiacMainTabs?.switchTo('learning');
 }
 root.CardiacCourseV113=Object.freeze({
  get ready(){return true;},mount,selectUnit,openFromClinical,
