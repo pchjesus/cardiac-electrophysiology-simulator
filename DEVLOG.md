@@ -802,3 +802,9 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - Confirmed RAAS-inspired top-level Simulator / Learning / Clinical Application, existing 5 guided cardiac stages and ten questions in Learning, separate clinical-case questions and Lab in Clinical Application.
 - Approved **A안**: switching top-level tabs pauses via the existing canonical Pause while preserving physiological A/visualization B positions and all educational progress; return requires explicit Play. Tab change never implicitly starts Guided Learning or seeks; intentional native study navigation keeps prior behavior.
 - This commit changes documentation only. Simulation code, app's displayed version and tests remain v1.12 Patch 14; PC/mobile signoff and all v1.13 implementation remain outstanding.
+
+## v1.13 Patch 1 — isolated three-tab navigation + canonical Pause contract (2026-10-14)
+- **Added:** `main-tabs-v113.js` top-level UI adapter, three accessible pressed-state buttons, and a separately labeled internal `?v113Preview=1` route for switching QA. Normal users only enter the fully functional Simulator; the Learning and Clinical buttons are disabled until their content is complete.
+- **Preserved:** unmodified `script.js` A/B time and canonical `pause()`, original Dashboard Canvas/SVG nodes, Electrical/Mechanical/Wiggers, native Timeline/Reset/HR and existing Guided DOM/answer state; explicit Guided first-start and subsequent chosen-stage Timeline seek rules remain.
+- **Verification:** new Playwright Patch 1 route/A-B/visual focus test and existing regression workflow (CI status to be confirmed separately). Screenshots are browser automation, **not** human target-device acceptance.
+- **Known / deferred:** Guided relocation to Learning (P2), six-module curriculum/free exploration (P3), real verified clinical-case data (P4), session and scoring (P5), full manual UX pass (P6). v1.12 Patch 14 **NOT FINAL**.

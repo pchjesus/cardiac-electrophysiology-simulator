@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: v1.13 Patch 1 three-tab and canonical A/B Pause regression
+        run: python tests/test_v113_patch1.py
       - name: Patch 14 adaptive mechanical UI and non-overlapping model notes
         run: python tests/test_v112_patch14.py
       - name: Patch 13 mechanical side-by-side and model info disclosures
@@ -155,5 +157,14 @@ jobs:
         with:
           name: v112-patch14-mechanical-usability
           path: preview-v112p14/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload v1.13 Patch 1 preview-only PC/mobile route screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v113-patch1-main-tabs-preview
+          path: preview-v113p1/
           retention-days: 30
           if-no-files-found: warn

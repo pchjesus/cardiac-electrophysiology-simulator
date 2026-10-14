@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.12 Patch 14</title>
+<title>Cardiac Electrophysiology Simulator v1.13 Patch 1 · v1.12 Patch 14 engine</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.12 Patch 14</h1>
+    <h1>Cardiac Electrophysiology Simulator v1.13 Patch 1 <span class="v113-engine-label">(v1.12 Patch 14 engine · NOT FINAL)</span></h1>
     <p>Sinus Rhythm ECG Engine</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -444,6 +444,7 @@
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
     <section class="patch-group">
         <h3>기능 추가 · Features</h3>
+        <p><strong>v1.13 Patch 1</strong> — 최상위 3탭 라우터와 정식 Pause/A·B 시간 보호 기반을 추가했습니다. 학습·임상 화면은 완성 전까지 비활성화되며, 기존 5단계 학습과 10문항은 현재 시뮬레이터에서 그대로 사용합니다. 사용자 PC/모바일 검수 및 v1.12 FINAL 승격은 별개입니다.</p>
         <p><strong>v1.12 Patch 8</strong> — 단계 학습에서 이전/다음·단계 선택 시 기존 Timeline으로 자동 일시정지·관찰하고, 학습 설명은 재생 중에도 고정합니다. 자유 관찰의 시간과 시각화 전환은 그대로 유지합니다.</p>
         <p><strong>v1.12 Patch 4</strong> — 학습 수준을 <strong>1. 기초 이해 → 2. 간호 연결 → 3. 추가학습</strong>으로 재구성하고, 현재 수준에서 다음 수준으로 이동하는 버튼을 추가했습니다. ECG·심장주기 주요 흐름부터 배우고 필요할 때 간호 관찰·원문 설명으로 확장합니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 5단계 학습에서 초급·심화 난이도를 선택하고, 기존 교육 원문을 펼치며, 단계별 초급 1개와 심화 1개씩 총 10개 개념 확인 문제를 풀 수 있습니다. 정답과 근거는 제출 뒤 표시되고 각 문항은 다시 풀 수 있습니다.</p>
@@ -502,6 +503,7 @@
         <button type="button" data-close-info aria-label="Close user guide">×</button>
     </div>
     <section class="guide-section"><h3>1. 처음 시작 · 자유 관찰과 단계 학습</h3>
+        <p><strong>v1.13 Patch 1 상위 탭:</strong> 시뮬레이터는 기존 기능을 모두 제공합니다. 학습과 임상 적용 탭은 아직 준비 중이며, 빈 화면이나 미검증 환자 사례를 공개하지 않습니다. 후속 패치 공개 전에는 기존 5단계 학습과 총 10문항을 시뮬레이터 안에서 계속 이용하세요.</p>
         <p><strong>자유 관찰</strong>에서는 Play / Pause / Reset, HR(30–180 bpm), Timeline을 그대로 조작합니다. ECG·현재 전기/기계 단계·간호 요약은 실시간으로 갱신됩니다. 타임라인 직접 조작은 일시정지와 위치 이동을 수행하며 모든 시각화 탭이 같은 모델 시계를 사용합니다.</p>
         <p><strong>5단계 학습</strong>을 열면 먼저 1. 기초 이해로 시작합니다. 심방 수축 → 등용적 수축 → 심실 박출 → 등용적 이완 → <strong>모델 RR 후반</strong> 심실 충만을 탐색합니다. <strong>이전/다음 또는 단계 선택</strong>은 사용자 명시적인 학습 행동으로서 <strong>자동 Pause + 해당 단계 대표 관찰 시점 Seek</strong>를 기존 Timeline으로 정확히 한 번 수행합니다. 단, 학습 창을 여는 것만으로 재생 시각은 이동하지 않습니다.</p>
         <p><strong>읽는 설명과 실제 재생 상태는 다릅니다.</strong> Play를 눌러 심장이 움직여도 선택한 학습 카드 문장은 사용자가 단계나 수준을 바꾸기 전까지 유지됩니다. 실시간 전기·기계·ECG 상태는 계속 갱신됩니다. <strong>이 단계 다시 관찰</strong>은 같은 단계의 대표 시점으로 돌아가며 일시정지합니다. Wiggers 전환은 사용자가 직접 탭 또는 Wiggers 보기 버튼을 누를 때만 이루어집니다.</p>
@@ -538,5 +540,6 @@
 <script src="guided-content.js"></script>
 <script src="guided-questions.js"></script>
 <script src="guided-learning.js"></script>
+<script src="main-tabs-v113.js"></script>
 </body>
 </html>

@@ -13,9 +13,19 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 ## 2. Current Version
 
-**Current development: v1.12 Patch 14 (NOT FINAL; user PC/mobile signoff pending).** v1.7 FINAL is an archived confirmed milestone, not the active build.
+**Current development: v1.13 Patch 1 (top-level navigation scaffold; NOT FINAL). The underlying v1.12 Patch 14 simulator also remains NOT FINAL pending user PC/mobile signoff.** v1.7 FINAL is an archived confirmed milestone, not the active build.
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
+
+## v1.13 Patch 1 scope and acceptance contract
+
+- Original `main.main-container` remains the single Simulator DOM, moved nowhere and never cloned.
+- `main-tabs-v113.js` owns only a selected top-level screen (simulator/learning/clinical), hidden and pressed state, and optional display synchronization. It owns **no A/B time**, quiz answers, cases, RAF or timer.
+- Normal interface exposes Simulator as usable; Learning and Clinical buttons are **disabled** until real content lands. Internal automated preview is enabled with `?v113Preview=1`; preview panels are explicitly marked nonfunctional.
+- On an actual top-level change from playback, call canonical `pause()` once before hiding the Simulator. A/B time, cycle anchor, ECG sweep, HR, current step, native Timeline value and Guided learner state must remain unchanged. Return never autoplays.
+- Selecting Learning must never call `setOpen`, `observeSelected` or native Timeline input. Existing explicit Guided start and step selection retain original timeline-seek behavior.
+- A simulator Reset remains a simulator action, not an educational session clear. Clinical engine, data and public learning relocation are future patches, not Patch 1.
+- Regression includes internal 3-way route testing, Ready A/B=0, HR 30/72/180, repeated switches, Guided answered state, no hidden progression, keyboard focus, 360/390/768/900/1024/1366 desktop/mobile viewport screenshot checks. All preexisting test suites remain mandatory.
 
 ## 3. Current Features
 

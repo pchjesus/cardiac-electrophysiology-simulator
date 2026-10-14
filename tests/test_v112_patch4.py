@@ -29,7 +29,13 @@ with sync_playwright() as pw:
  ck(page.locator('.dashboard-clinical').is_visible(),'old clinical summary not shown')
  ck(page.locator('#ecgCanvas').is_visible(),'ECG missing')
  ck(page.locator('#wiggersDeepDive').count()==1,'source six-part nursing detail missing')
- ck(page.evaluate('document.documentElement.scrollHeight')<=1150,
+ ck(page.evaluate("""() => {
+   const nav=document.querySelector('.v113-main-nav');
+   const style=nav&&getComputedStyle(nav);
+   const navigationFootprint=nav ? nav.getBoundingClientRect().height+
+     parseFloat(style.marginTop)+parseFloat(style.marginBottom) : 0;
+   return document.documentElement.scrollHeight-navigationFootprint;
+ }""")<=1150,
     'first-viewport height regression >16px above 892px baseline')
  ck(page.evaluate('CardiacGuidedLearning.detailLevel')=='basic','not novice by default')
  page.screenshot(path=str(SHOTS/'01-compact-default-1366.png'),

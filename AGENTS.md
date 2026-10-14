@@ -295,3 +295,8 @@ In compact study views, keep only the learner-relevant phase, valve, flow and re
 - **A안:** top-level tab changes use the current canonical Pause, preserve both A/B clocks, phase/ECG sweep/HR/current visualization and guided/clinical answers; returning never autoplays. Tab clicks must not invoke Timeline input, Reset or Guided first-start/step seek. Explicit Guided Learning start/step changes retain their existing native seek behavior.
 - RAAS v5.5.1 three-tab session isolation (retained in v5.5.2) is a reference; tab navigation must never delete a clinical session. Study/clinical progress is in-memory initially, with explicit scenario reset only.
 - **Documentation-only handoff:** no v1.13 UI implementation, medical model change or QA is claimed. v1.12 Patch 14 remains NOT FINAL pending real PC/mobile user signoff. Implement incrementally on separately reviewed PRs with regressions.
+
+## v1.13 Patch 1 route adapter guardrails (2026-10-14)
+- `main-tabs-v113.js` owns only UI route/pressed/hidden state. Native `pause()` must run only for actual top-level transitions while playing; no new engine, timer, RAF, reset, seek, Guided opening, or clinical session mutations.
+- Do not move/clone the existing Inspector learning UI yet. The normal interface disables incomplete Learning/Clinical routes; `?v113Preview=1` is test-only, not a clinical-content release.
+- All future routes must preserve exact A/B clocks, phase, HR, sweep, native input and Guided answers. v1.12 Patch 14 remains NOT FINAL pending user PC/mobile QA.

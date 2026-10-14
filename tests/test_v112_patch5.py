@@ -32,7 +32,13 @@ with sync_playwright() as pw:
     ck(page.evaluate("CardiacDashboard.density") == "compact", "compact startup changed")
     ck(page.locator("#guidedV112Panel").is_hidden(), "course not opt-in")
     ck(page.locator(".dashboard-clinical").is_visible(), "original live panel missing")
-    ck(page.evaluate("document.documentElement.scrollHeight") <= 1150,
+    ck(page.evaluate("""() => {
+   const nav=document.querySelector('.v113-main-nav');
+   const style=nav&&getComputedStyle(nav);
+   const navigationFootprint=nav ? nav.getBoundingClientRect().height+
+     parseFloat(style.marginTop)+parseFloat(style.marginBottom) : 0;
+   return document.documentElement.scrollHeight-navigationFootprint;
+ }""") <= 1150,
        "default desktop viewport grew")
     page.screenshot(path=str(SHOTS/"01-default-1366.png"),
         full_page=True, animations="disabled")
