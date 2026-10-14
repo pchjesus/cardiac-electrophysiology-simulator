@@ -109,6 +109,18 @@ function render(){
  const a=ui.article;a.replaceChildren();
  a.append(el('p','v113-eyebrow',mode==='guided'?'안내형 코스 · 단원을 순서대로 공부할 수 있어요':'자유 탐색 · 필요한 단원을 언제든 선택할 수 있어요'),
   el('h3','v113-unit-title',current.title));
+ const concepts={
+  'unit-cardiac-cycle':'mechanical',
+  'unit-conduction':'electrical',
+  'unit-ecg-timing':'ecg',
+  'unit-mechanics':'mechanical',
+  'unit-wiggers':'wiggers',
+  'unit-nursing':'nursing'
+ };
+ const help=el('button','v113-action v113-term-course','? 이 개념은 무엇이고 왜 중요한가요?');
+ help.type='button';
+ help.setAttribute('data-term-help',concepts[unit]);
+ a.append(help);
  textBlock(a,'이 단원에서 배울 것',current.goal);
  // Show the original opening sentence as a clear takeaway, not a second copy.
  const match=current.core.match(/^(.+?[.!?])(?:\s+|$)/);
