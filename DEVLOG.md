@@ -822,3 +822,7 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - Added the original single-instance Guided rehost in Learning, six-unit lesson course/free browsing, a schema-validated **unreviewed fictitious** clinical case, independent Clinical judgement/action/reassessment session, and Playwright integration tests. See [V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md](V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md).
 - Clinical public tab remains **disabled** until expert case-content review; QA-only `?v113Preview=1` allows running the unfinished clinical educational scenario for testing, not patient care. Simulator and Learning are usable.
 - Still NOT FINAL pending full CI, clinical reviewer, and physical PC/Android acceptance; v1.12 Patch 14 also remains NOT FINAL. No original physiological model or ten-question bank was edited.
+
+
+## v1.13 Student UX audit / choices (design approval pending; NOT FINAL)
+See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md) for current code inspection, minimally scoped accessibility and quiz/confirmation focus repairs, unreviewed clinical content boundary, and six explicit visual UX decision groups (A–F). No overall layout/palette/reading-order choice has been silently made. Preserve original A/B, ECG, Mechanical, Wiggers, original 10-question Guided and clinical release gate.

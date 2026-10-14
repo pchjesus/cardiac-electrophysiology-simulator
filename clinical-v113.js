@@ -11,6 +11,14 @@ const caseData=bank.first;
 let screen=null,session=null,confirmAction=null;
 const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;};
 const button=(txt,handler,cls='v113-action')=>{const b=el('button',cls,txt);b.type='button';b.addEventListener('click',handler);return b;};
+function focusCurrent(){
+ const target=screen?.querySelector('.v113-question-prompt')||
+              screen?.querySelector('.v113-review-card h3')||
+              screen?.querySelector('.v113-case-card h3');
+ if(target){target.tabIndex=-1;target.focus();}
+}
+function focusConfirm(){screen?.querySelector('.v113-confirm button')?.focus();}
+
 function t(iso){return iso?iso.slice(11,16):'미확인';}
 function referenceLinks(parent,ids){
  const wrap=el('div','v113-clinical-refs');
@@ -71,38 +79,38 @@ function visibleObservations(){
 }
 function start(){
  session={caseId:caseData.id,questionIndex:0,answers:Object.create(null),status:'active'};
- confirmAction=null;render();
+ confirmAction=null;render();focusCurrent();
 }
 function restart(){
  if(!session)return;
- confirmAction='restart';render();
+ confirmAction='restart';render();focusConfirm();
 }
 function finish(){
  if(!session)return;
- confirmAction='exit';render();
+ confirmAction='exit';render();focusConfirm();
 }
 function confirm(){
  if(confirmAction==='restart')start();
- else if(confirmAction==='exit'){session=null;confirmAction=null;render();}
+ else if(confirmAction==='exit'){session=null;confirmAction=null;render();focusCurrent();}
 }
 function selectAnswer(q,id){
- if(!session||session.answers[q.id]?.submitted)return;
+ if(!session||confirmAction||session.answers[q.id]?.submitted)return;
  session.answers[q.id]={choiceId:id,submitted:false};
 }
 function submit(){
- if(!session)return;
+ if(!session||confirmAction)return;
  const q=caseData.questions[session.questionIndex],ans=session.answers[q.id];
  if(!ans||ans.submitted)return;
  ans.submitted=true;render();
  screen.querySelector('#v113ClinicalFeedback')?.focus();
 }
 function advance(){
- if(!session)return;
+ if(!session||confirmAction)return;
  const q=caseData.questions[session.questionIndex];
  if(!session.answers[q.id]?.submitted)return;
  if(session.questionIndex===caseData.questions.length-1)session.status='completed';
  else session.questionIndex+=1;
- render();
+ render();focusCurrent();
 }
 function openStudy(unitId){
  root.CardiacCourseV113?.openFromClinical(unitId,{source:'clinical',caseId:caseData.id,
@@ -145,12 +153,22 @@ function render(){
  wrap.append(nav);
  if(confirmAction){
   const warning=el('div','v113-confirm');
+  warning.setAttribute('role','group');
+  warning.setAttribute('aria-label','사례 기록 초기화 확인');
   warning.append(el('p','',confirmAction==='restart'?
     '이 사례의 답안과 진도를 초기화할까요? 시뮬레이터와 기존 10문항은 보존됩니다.':
     '현재 사례의 답안과 진도를 삭제하고 목록으로 돌아갈까요?'),
     button('확인 · 기록 초기화',confirm,'v113-action v113-primary'),
-    button('취소',()=>{confirmAction=null;render();}));
+    button('취소',()=>{
+     const action=confirmAction;confirmAction=null;render();
+     const buttons=[...screen.querySelectorAll('.v113-course-actions button')];
+     buttons[action==='restart'?0:1]?.focus();
+    }));
   wrap.append(warning);
+  screen.append(wrap);
+  // Confirmation owns this step until Cancel/Confirm; don't expose an
+  // interactive quiz or review beneath the destructive-action question.
+  return;
  }
  if(session.status==='completed'){
   const summary=el('section','v113-case-card');
@@ -180,13 +198,18 @@ function render(){
  }
  article.append(group);
  if(!answered?.submitted){
-  article.append(button('선택한 답안 제출',()=>{
+  const submitButton=button('선택한 답안 제출',()=>{
    // Capture selected radio immediately, even if a screenreader/browser
    // suppresses the expected change event.
    const chosen=group.querySelector('input:checked');
    if(chosen)selectAnswer(q,chosen.value);
    submit();
-  },'v113-action v113-primary'));
+  },'v113-action v113-primary');
+  submitButton.disabled=!answered?.choiceId;
+  group.addEventListener('change',()=>{
+   submitButton.disabled=!group.querySelector('input:checked');
+  });
+  article.append(submitButton);
  }else{
   const ch=q.choices.find(c=>c.id===answered.choiceId);
   const feedback=el('section','v113-feedback');

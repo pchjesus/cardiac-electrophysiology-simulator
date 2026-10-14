@@ -47,7 +47,7 @@ let unit=units[0].id,mode='guided';
 const completed=new Set();let returnContext=null,ui=null;
 const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
 function textBlock(parent,title,value){
- const wrap=el('section','v113-reading-block'),h=el('h3','',title),p=el('p','',value);
+ const wrap=el('section','v113-reading-block'),h=el('h4','',title),p=el('p','',value);
  wrap.append(h,p);parent.append(wrap);
 }
 function mount(screen){
@@ -96,7 +96,7 @@ function render(){
  }
  const a=ui.article;a.replaceChildren();
  a.append(el('p','v113-eyebrow',mode==='guided'?'안내형 코스 · 단원을 순서대로 공부할 수 있어요':'자유 탐색 · 필요한 단원을 언제든 선택할 수 있어요'),
-  el('h2','v113-unit-title',current.title));
+  el('h3','v113-unit-title',current.title));
  textBlock(a,'이 단원에서 배울 것',current.goal);
  textBlock(a,'핵심 기전',current.core);
  textBlock(a,'간호학적 의미',current.nursing);
@@ -129,8 +129,15 @@ function render(){
  if(unit==='unit-cardiac-cycle'){
   const stages=el('p','','기존 심장주기 5단계: '+(root.CardiacGuidedContent?.stages||[]).map(s=>s.label).join(' → '));
   details.append(stages);
-  const button=el('button','v113-action','기존 5단계 학습 시작 또는 이어보기');
-  button.type='button';button.addEventListener('click',()=>document.getElementById('guidedV112Toggle')?.click());
+  const button=el('button','v113-action','5단계 심장주기 학습 시작 · 내용으로 이동');
+  button.type='button';button.setAttribute('aria-controls','guidedV112Panel');
+  button.addEventListener('click',()=>{
+   // A second visit to the Guide is navigation, NOT a close/open toggle.
+   if(!root.CardiacGuidedLearning?.open)
+     document.getElementById('guidedV112Toggle')?.click();
+   const title=document.getElementById('guidedV112Title');
+   if(title){title.tabIndex=-1;title.focus();}
+  });
   a.append(button);
  }
  a.append(details);

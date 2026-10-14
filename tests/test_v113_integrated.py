@@ -45,6 +45,17 @@ with sync_playwright() as p:
     ck(page.locator('#guidedV112Panel').is_hidden(),"Guide started from unit switch")
     page.locator('#guidedV112Toggle').click()
     ck(page.evaluate("CardiacGuidedLearning.open"),"explicit Guided entry failed")
+    ck(page.locator('.v113-unit-title').evaluate("e=>e.tagName==='H3'"),
+       "unit heading hierarchy should be h3")
+    ck(page.locator('.v113-reading-block h4').count()>=1,
+       "nested course sections should be h4")
+    beforeCTA=page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")
+    page.get_by_role("button",name="5단계 심장주기 학습 시작 · 내용으로 이동").click()
+    ck(page.evaluate("CardiacGuidedLearning.open"),"reopening CTA closed original Guided")
+    ck(page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")==beforeCTA,
+       "already-open course CTA unexpectedly seeks")
+    ck(page.evaluate("document.activeElement?.id==='guidedV112Title'"),
+       "explicit course CTA should focus the study title")
     ck(page.evaluate("heartState.physiologicalTime>0"),"existing first Ready native seek broken")
     page.locator('#guidedV112Quiz summary').click()
     page.locator('#guidedV112BasicQuestion input[type=radio]').first.check()
@@ -85,11 +96,25 @@ with sync_playwright() as p:
     page.locator('#v113TabClinical').click()
     page.get_by_role("button",name="가상 사례 시작").click()
     ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.index===0"),"case did not start")
+    ck(page.get_by_role("button",name="선택한 답안 제출").is_disabled(),
+       "unanswered clinical quiz must not allow submit")
+    page.get_by_role("button",name="같은 사례 다시 풀기").click()
+    ck(page.locator('.v113-choices').count()==0,
+       "destructive confirmation should temporarily isolate the quiz")
+    ck(page.evaluate("document.activeElement?.closest('.v113-confirm')!==null"),
+       "confirmation lost focus")
+    page.get_by_role("button",name="취소").click()
+    ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.index===0"),
+       "cancelling confirmation changed session")
+    ck(page.get_by_role("button",name="선택한 답안 제출").is_disabled(),
+       "cancel left submit enabled with no answer")
     ck(page.get_by_text("결과 대기 중",exact=True).count()>=1,"pending lab not shown")
     ck(page.get_by_text("결과 확인 전",exact=False).count()>=1,"future lab not hidden")
     for idx in range(4):
         ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.index")==idx,"wrong clinical phase")
         page.locator('.v113-choices input[type=radio]').nth(0 if idx==0 else 1 if idx in (1,3) else 2).check()
+        ck(page.get_by_role("button",name="선택한 답안 제출").is_enabled(),
+           "submit failed to become enabled after choosing an answer")
         page.get_by_role("button",name="선택한 답안 제출").click()
         ck(page.locator('#v113ClinicalFeedback').is_visible(),"feedback unavailable")
         if idx==1:
@@ -102,6 +127,8 @@ with sync_playwright() as p:
             ck(page.evaluate("CardiacMainTabs.active==='clinical'"),"return to clinical failed")
             ck(page.evaluate("CardiacClinicalV113.sessionSnapshot")==beforeSession,"clinical result changed after return")
         page.get_by_role("button",name=("결과·복습 보기" if idx==3 else "다음 단계")).click()
+        ck(page.evaluate("document.activeElement?.classList.contains('v113-question-prompt') || !!document.activeElement?.closest('.v113-review-card')"),
+           "next question/result should receive focus after view recreation")
     ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.status==='completed'"),"case did not complete")
     ck(page.locator('.v113-review-card').count()==4,"not all questions in review")
     ck(page.evaluate("heartState.physiologicalTime===0&&heartState.visualizationTime===0"),
