@@ -12,7 +12,7 @@
 
 <header class="header">
     <h1>Cardiac Electrophysiology Simulator v1.13 UX Patch 2 <span class="v113-engine-label">(v1.12 Patch 14 engine · NOT FINAL)</span></h1>
-    <p>Sinus Rhythm ECG Engine</p>
+    <p>동율동 심전도(ECG) 학습 엔진</p>
     <nav class="header-tools" aria-label="Simulator reference information">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
                 aria-haspopup="dialog" aria-controls="patchNotesPanel" aria-expanded="false">▤ 변경 내역</button>
@@ -35,11 +35,11 @@
             </div>
 
             <div class="ecg-info">
-                <span id="heartRateDisplay">Heart Rate : 80 bpm</span>
-                <span id="rhythmStatus">Normal Sinus Rhythm</span>
+                <span id="heartRateDisplay">심박수(HR): 80 bpm</span>
+                <span id="rhythmStatus">정상 동율동(Normal sinus rhythm)</span>
             </div>
 
-            <div class="ecg-interpretation" aria-label="Interactive ECG components">
+            <div class="ecg-interpretation" aria-label="선택 가능한 심전도 파형">
                 <button type="button" class="ecg-item" data-ecg-component="P">
                     <span class="ecg-label">P</span><span>심방 탈분극</span>
                 </button>
@@ -83,8 +83,8 @@
                     <p class="control-title">심장주기 시간축(Timeline)</p>
                     <input id="timeSlider" type="range" min="0" max="100" value="0" step="0.1">
                     <div class="timeline-labels">
-                        <span>Start</span>
-                        <span>One Cardiac Cycle</span>
+                        <span>시작</span>
+                        <span>심장주기 한 번(RR)</span>
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
                         <span class="scale-180">180 bpm</span>
                     </div>
 
-                    <div class="normal-range-label">Normal Range: 60–100 bpm</div>
+                    <div class="normal-range-label">일반적인 성인 안정 시 범위: 분당 60~100회</div>
                     <strong id="heartRateValue">80 bpm</strong>
                 </div>
                     </div>
@@ -116,8 +116,8 @@
 
         <!-- CARDIAC CONDUCTION -->
         <section class="card heart-panel">
-            <h2 id="heartVisualTitle">Cardiac Conduction</h2>
-            <div class="heart-mode-switch" role="group" aria-label="Heart visualization mode">
+            <h2 id="heartVisualTitle">심장 전기 전도</h2>
+            <div class="heart-mode-switch" role="group" aria-label="심장 시각화 방식">
                 <button id="electricalModeBtn" type="button" class="mode-active" aria-pressed="true">전기 전도</button>
                 <button id="mechanicalModeBtn" type="button" aria-pressed="false">심장 수축·판막</button>
             </div>
@@ -144,14 +144,14 @@
                 <circle id="conductionPulseR" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
                 <circle id="conductionPulseL" cx="250" cy="280" r="6" class="conduction-branch-pulse"/>
 
-                <text x="280" y="165">SA Node</text>
-                <text x="280" y="225">AV Node</text>
-                <text x="280" y="285">His Bundle</text>
-                <text x="350" y="365">RBB</text>
-                <text x="90" y="365">LBB</text>
-                <text x="280" y="370">Purkinje</text>
-                <text id="atriaLabel" x="180" y="195">Atria</text>
-                <text id="ventricleLabel" x="175" y="335">Ventricles</text>
+                <text x="280" y="165">동방결절(SA)</text>
+                <text x="280" y="225">방실결절(AV)</text>
+                <text x="280" y="285">히스다발(His)</text>
+                <text x="350" y="365">우각(RBB)</text>
+                <text x="90" y="365">좌각(LBB)</text>
+                <text x="280" y="370">푸르키녜</text>
+                <text id="atriaLabel" x="180" y="195">심방</text>
+                <text id="ventricleLabel" x="175" y="335">심실</text>
             </svg>
             <div id="mechanicalView" class="mechanical-view" hidden>
                 <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="Educational diagram of heart chambers, four valves, and blood-flow direction">
@@ -159,7 +159,7 @@
                         <marker id="blueArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#328bbd"/></marker>
                         <marker id="redArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#bd5252"/></marker>
                     </defs>
-                    <text class="model-caption" x="250" y="22" text-anchor="middle">Simplified four-chamber circulation model</text>
+                    <text class="model-caption" x="250" y="22" text-anchor="middle">4개 심장 방의 혈액 흐름을 단순화한 모형</text>
                     <g class="flow-tract flow-deoxygenated">
                         <path id="flowRightAV" d="M132 134 L132 212"/>
                         <path id="flowPulmonary" d="M132 290 L132 319 L67 319 L67 44"/>
@@ -194,9 +194,9 @@
                         <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
                         <circle class="flow-dot red-dot" data-flow="flowAortic" r="7"/>
                     </g>
-                    <text class="flow-target blue-text" x="55" y="50">Pulmonary a.</text>
-                    <text class="flow-target red-text" x="395" y="50">Aorta</text>
-                    <text class="model-caption" x="250" y="405" text-anchor="middle">Schematic — not an anatomical scale drawing</text>
+                    <text class="flow-target blue-text" x="55" y="50">폐동맥</text>
+                    <text class="flow-target red-text" x="395" y="50">대동맥</text>
+                    <text class="model-caption" x="250" y="405" text-anchor="middle">구조 이해용 그림 · 실제 해부학적 비율이 아닙니다</text>
                 </svg>
                 <div class="mechanical-readout" aria-live="off">
                     <div class="mechanical-readout-header">
@@ -207,13 +207,13 @@
                                 <p>심장 그림은 실제 해부학적 크기와 비례하지 않는 교육용 도식입니다.</p>
                                 <p>판막·압력 관계와 심실 용적은 교육용 상대 지표입니다. 실제 환자의 혈압·심실 용적 또는 박출률(EF)을 나타내지 않습니다.</p>
                                 <p>이 모델은 RR 앞 충만 구간을 상대 용적 0.88로 평탄하게, 뒤 충만 구간은 증가하도록 단순화했습니다.</p>
-                                <p>Educational pressure relationships; not patient-specific hemodynamic measurements.</p>
+                                <p>압력 변화의 원리를 보여주는 교육용 모형이며 실제 환자의 혈역학적 측정값이 아닙니다.</p>
                             </div>
                         </details>
                     </div>
                     <p id="mechanicalExplanation">재생하거나 심장주기 시간축을 움직여 수축과 판막 변화를 살펴보세요.</p>
-                    <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
-                    <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
+                    <div class="mechanical-stats"><span id="avValveState">방실판막: —</span><span id="outflowValveState">반월판막: —</span></div>
+                    <div class="mechanical-stats"><span id="flowState">혈류: —</span><span id="volumeState">심실 상대 용적: —</span></div>
                 </div>
             </div>
         </section>
@@ -229,42 +229,42 @@
             <div class="measurement-list">
                 <div class="measurement-item">
                     <div class="measurement-row">
-                        <span>Heart Rate</span>
+                        <span>심박수(HR)</span>
                         <strong id="measurementHeartRate">—</strong>
                     </div>
-                    <small>(normal range: 60–100 bpm)</small>
+                    <small>(성인 안정 시 일반 범위: 분당 60~100회)</small>
                 </div>
 
                 <div class="measurement-item">
                     <div class="measurement-row">
-                        <span>RR Interval</span>
+                        <span>RR 간격</span>
                         <strong id="measurementRR">—</strong>
                     </div>
-                    <small>(normal range: 600–1000 ms)</small>
+                    <small>(참고 범위: 600~1000 ms)</small>
                 </div>
 
                 <div class="measurement-item">
                     <div class="measurement-row">
-                        <span>PR Interval</span>
+                        <span>PR 간격</span>
                         <strong id="measurementPR">—</strong>
                     </div>
-                    <small>(normal range: 120–200 ms)</small>
+                    <small>(참고 범위: 120~200 ms)</small>
                 </div>
 
                 <div class="measurement-item">
                     <div class="measurement-row">
-                        <span>QRS Duration</span>
+                        <span>QRS 지속시간</span>
                         <strong id="measurementQRS">—</strong>
                     </div>
-                    <small>(normal range: 70–100 ms)</small>
+                    <small>(참고 범위: 70~100 ms)</small>
                 </div>
 
                 <div class="measurement-item">
                     <div class="measurement-row">
-                        <span>QT Interval</span>
+                        <span>QT 간격</span>
                         <strong id="measurementQT">—</strong>
                     </div>
-                    <small>(normal range: HR-dependent)</small>
+                    <small>(심박수에 따라 달라짐)</small>
                 </div>
 
                 <div class="measurement-item">
@@ -272,7 +272,7 @@
                         <span>QTc</span>
                         <strong id="measurementQTc">—</strong>
                     </div>
-                    <small>(normal range: ≤450 ms (male) / ≤460 ms (female))</small>
+                    <small>(참고 범위: 남성 ≤450 ms / 여성 ≤460 ms)</small>
                 </div>
             </div>
         </section>
@@ -282,17 +282,17 @@
             <h2>심전도 사건·단계 안내</h2>
 
             <div class="event-flow" aria-label="Current conduction phase">
-                <div class="event-item" data-conduction="SA">SA Node</div>
+                <div class="event-item" data-conduction="SA">동방결절(SA)</div>
                 <span>→</span>
-                <div class="event-item" data-conduction="AV">AV Node</div>
+                <div class="event-item" data-conduction="AV">방실결절(AV)</div>
                 <span>→</span>
-                <div class="event-item" data-conduction="His">His Bundle</div>
+                <div class="event-item" data-conduction="His">히스다발(His)</div>
                 <span>→</span>
-                <div class="event-item" data-conduction="Purkinje">Purkinje</div>
+                <div class="event-item" data-conduction="Purkinje">푸르키녜 섬유</div>
             </div>
 
             <div class="event-ecg-row">
-                <span>ECG Event</span>
+                <span>심전도(ECG) 사건</span>
                 <strong id="ecgEventIndicator">Ready</strong>
             </div>
 
@@ -309,7 +309,7 @@
         <p id="phaseDescription">재생하면 심장 전도 과정이 시작됩니다.</p>
 
         <div class="phase-ecg-link">
-            <span>ECG Component</span>
+            <span>심전도(ECG) 파형</span>
             <strong id="phaseECG">Ready</strong>
         </div>
     </section>
@@ -323,7 +323,7 @@
         </summary>
         <div class="wiggers-body">
 <p class="v113-inline-learn">위거스 도표는 심장의 전기 신호와 실제 수축·판막·혈류의 시간 관계를 함께 읽는 학습 도구예요. <button type="button" class="v113-term-trigger" data-term-help="wiggers">위거스 도표란? · 왜 중요한가요?</button></p>
-            <p class="wiggers-disclaimer">One physiological heart cycle (RR), synchronized to the existing simulator. Pressure and volume traces are <strong>illustrative relative indexes</strong>, not mmHg, mL, ejection fraction, patient data or diagnostic measurements. S1/S2 are event markers, not audio.</p>
+            <p class="wiggers-disclaimer">기존 시뮬레이터와 동기화된 심장주기 한 번(RR)을 보여줍니다. 압력·용적 곡선은 <strong>변화 방향을 배우기 위한 상대 지표</strong>이지 실제 혈압(mmHg), 용적(mL), 박출률(EF), 환자 검사값 또는 진단 수치가 아닙니다. 제1·2심음(S1/S2)은 소리가 아니라 사건 위치 표시입니다.</p>
 
             <section class="learning-scenario-panel" aria-label="Rate-based learning scenarios">
                 <h3>심박수별 학습 · 정상 / 느린 맥박 / 빠른 맥박</h3>
@@ -332,19 +332,19 @@
                     <button type="button" data-learning-preset="bradycardia" aria-pressed="false">느린 맥박 · 분당 50회</button>
                     <button type="button" data-learning-preset="tachycardia" aria-pressed="false">빠른 맥박 · 분당 120회</button>
                 </div>
-                <strong id="learningScenarioSummary">Normal-range teaching cycle · 80 bpm · Custom HR</strong>
+                <strong id="learningScenarioSummary">정상 범위 교육용 심장주기 · 분당 80회 · 사용자 설정</strong>
                 <p id="learningScenarioIntro">세 시나리오 또는 기존 HR 슬라이더로 심장 주기의 관계를 살펴보세요.</p>
                 <p id="learningDuration">심장주기 구간의 상대적 시간이 표시됩니다. 실제 환자의 측정값은 아닙니다.</p>
                 <p class="learning-boundary">성인 안정 시 HR 범위에 따른 교육용 분류입니다. 동성 빈맥/서맥의 원인이나 환자의 혈역학적 안정성을 판단하지 않습니다.</p>
             </section>
-            <div class="wiggers-legend" aria-label="Wiggers trace key">
+            <div class="wiggers-legend" aria-label="위거스 곡선 색상 설명">
                 <span class="wiggers-key"><i class="wiggers-key-line wig-ecg"></i>ECG</span>
                 <span class="wiggers-key"><i class="wiggers-key-line wig-la"></i>좌심방</span>
                 <span class="wiggers-key"><i class="wiggers-key-line wig-lv"></i>좌심실</span>
                 <span class="wiggers-key"><i class="wiggers-key-line wig-ao"></i>대동맥</span>
                 <span class="wiggers-key"><i class="wiggers-key-line wig-vol"></i>좌심실 용적(상대값)</span>
             </div>
-            <div class="wiggers-chart-scroll" tabindex="0" role="region" aria-label="Scrollable Wiggers diagram; scroll horizontally on narrow screens">
+            <div class="wiggers-chart-scroll" tabindex="0" role="region" aria-label="위거스 도표. 화면이 좁으면 이 그래프 영역 안에서 좌우로 스크롤하세요">
                 <svg id="wiggersChart" viewBox="0 0 1000 470" role="img"
                      aria-label="Educational single-beat diagram: relative left atrial, left ventricular and aortic pressure, ECG, normalized ventricular volume, valve event ticks and synchronized phase cursor">
                     <rect x="52" y="29" width="912" height="181" rx="7" class="wiggers-band"/>
@@ -359,9 +359,9 @@
                         <line x1="64" y1="400" x2="955" y2="400"/>
                     </g>
                     <g class="wiggers-plot-labels">
-                        <text x="66" y="23">PRESSURE — RELATIVE INDEX</text>
-                        <text x="66" y="221">ECG — SAME MODEL AS ECG MONITOR</text>
-                        <text x="66" y="318">LV VOLUME — NORMALIZED, NOT EF</text>
+                        <text x="66" y="23">압력 — 상대값</text>
+                        <text x="66" y="221">심전도(ECG) — 같은 모형</text>
+                        <text x="66" y="318">좌심실 용적 — 상대값, EF 아님</text>
                         <text x="64" y="456">0%</text>
                         <text x="287" y="456" text-anchor="middle">25%</text>
                         <text x="510" y="456" text-anchor="middle">50%</text>
@@ -375,24 +375,24 @@
                         <path id="wiggersPathECG" class="wiggers-trace wig-ecg"/>
                         <path id="wiggersPathVolume" class="wiggers-trace wig-vol"/>
                     </g>
-                    <g id="wiggersMarkers" aria-label="Valve events"></g>
+                    <g id="wiggersMarkers" aria-label="판막 개폐 사건"></g>
                     <line id="wiggersCursor" x1="64" x2="64" y1="29" y2="421" class="wiggers-cursor"/>
                 </svg>
             </div>
-            <div class="wiggers-event-key" aria-label="Valve and heart sound event markers">
+            <div class="wiggers-event-key" aria-label="판막 및 심음 사건 표시">
                 <span>승모판 닫힘 = 제1심음(S1)</span><span>대동맥판 열림</span>
                 <span>대동맥판 닫힘 = 제2심음(S2)</span><span>승모판 열림</span>
             </div>
             <div class="wiggers-status" aria-live="off">
                 <strong id="wiggersCurrentStage">Ready</strong>
-                <span id="wiggersCurrentTime">Physiological phase 0 ms</span>
-                <span id="wiggersCurrentValves">Mitral: — · Aortic: —</span>
+                <span id="wiggersCurrentTime">생리학적 주기 시점(A) 0 ms</span>
+                <span id="wiggersCurrentValves">승모판: — · 대동맥판: —</span>
             </div>
-            <section class="wiggers-learning" aria-label="Valve and heart sound education">
+            <section class="wiggers-learning" aria-label="판막과 심음 학습 설명">
                 <h3>심전도 → 압력 → 판막 → 심실 용적</h3>
-                <p id="wiggersLearningStage">Move the timeline or press Play to explore cardiac phases.</p>
-                <p id="wiggersLearningEvent">Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.</p>
-                <p class="wiggers-learning-limit">Profiles are educational relative values, not clinical measurements. S1 and S2 are simplified left-sided event markers, not recorded sounds. Mechanical mode uses a separate model whose exact-boundary rounding may differ.</p>
+                <p id="wiggersLearningStage">재생하거나 심장주기 시간축을 움직여 심장 단계의 변화를 살펴보세요.</p>
+                <p id="wiggersLearningEvent">판막 개폐와 심음(S1/S2) 설명은 그래프의 사건 표시와 같은 심장주기 시간축을 따릅니다.</p>
+                <p class="wiggers-learning-limit">압력·용적은 교육용 상대값으로 실제 임상 측정치가 아닙니다. S1·S2 표시는 좌측 심장의 판막 사건을 단순화한 것으로 실제 녹음이 아니며, 기계적 모형은 판막 경계에서 반올림 규칙이 조금 다를 수 있습니다.</p>
             </section>
 
             <details id="wiggersDeepDive" class="learning-deep-dive">
@@ -400,7 +400,7 @@
                 <div class="learning-detail" aria-live="off">
                     <h3 id="learningPhaseTitle">준비 · 시작 전</h3>
                     <h4>① 전기적 활동과 수축의 시간 차</h4>
-                    <p id="learningElectrical">재생하거나 Timeline을 이동해보세요.</p>
+                    <p id="learningElectrical">재생하거나 심장주기 시간축을 이동해 보세요.</p>
                     <h4>② 압력 변화 및 판막 개폐</h4>
                     <p id="learningHemodynamics">현재 주기에 따른 판막 관계가 표시됩니다.</p>
                     <h4>③ 심실 용적과 혈류 방향</h4>
@@ -413,7 +413,7 @@
                     <p id="learningCaution">교육용 모형은 실제 환자의 혈역학을 예측하지 않습니다.</p>
                 </div>
             </details>
-            <p class="wiggers-footnote">The animated cursor uses physiological time (A). Your existing animation speed, ECG monitor sweep and Electrical/Mechanical displays remain unchanged. The teaching pressure curve and existing mechanical diagram have separate event-boundary rounding conventions.</p>
+            <p class="wiggers-footnote">움직이는 세로선은 생리학적 시간(A)을 따릅니다. 기존 심전도 화면의 이동 효과와 전기·기계적 보기의 속도는 그대로 유지됩니다. 교육용 압력 곡선과 기계적 모형은 경계 시점의 반올림 규칙이 조금 다를 수 있습니다.</p>
         </div>
     </details>
     <button id="wiggersHelpButton" class="wiggers-help-button" type="button"
@@ -439,7 +439,7 @@
 <section id="patchNotesPanel" class="info-panel" role="dialog" aria-modal="false"
          aria-labelledby="patchNotesHeading" data-info-panel hidden>
     <div class="info-panel-head">
-        <h2 id="patchNotesHeading">▤ Version &amp; patch history</h2>
+        <h2 id="patchNotesHeading">▤ 버전·변경 내역</h2>
         <button type="button" data-close-info aria-label="Close patch notes">×</button>
     </div>
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>

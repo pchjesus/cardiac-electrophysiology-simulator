@@ -58,8 +58,8 @@ with sync_playwright() as pw:
        "SVG event titles missing")
     ck(page.locator("#wiggersCurrentTime").text_content().startswith(
        "생리학적 주기 시점(A)"),"A-clock status missing")
-    ck("not mmHg" in page.locator(".wiggers-disclaimer").text_content() or
-       "not mmHg" in page.locator(".wiggers-disclaimer").text_content().lower(),
+    ck("실제 혈압(mmHg)" in page.locator(".wiggers-disclaimer").text_content() and
+       "상대 지표" in page.locator(".wiggers-disclaimer").text_content(),
        "Nonclinical unit disclaimer missing")
     ck("S1" in page.locator(".wiggers-event-key").text_content() and
        "S2" in page.locator(".wiggers-event-key").text_content(),
