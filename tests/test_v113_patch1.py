@@ -36,8 +36,8 @@ with sync_playwright() as p:
     ck('v1.13 Patch 1' in page.locator('h1').inner_text(),'title lacks current Patch 1')
     ck('v1.12 Patch 14' in page.locator('h1').inner_text(),'underlying not-final engine not disclosed')
     ck(page.evaluate("CardiacMainTabs.active")=="simulator","default route")
-    ck(button(page,'Learning').is_disabled() and button(page,'Clinical').is_disabled(),
-       'incomplete education unexpectedly enabled')
+    ck(not button(page,'Learning').is_disabled() and button(page,'Clinical').is_disabled(),
+       'Learning should be released; unreviewed Clinical stays gated')
     ck(page.locator('#dashboardV111').is_visible(),'original simulator hidden on default route')
     for selector in ('#ecgCanvas','#heartSVG','#mechanicalSVG','#wiggersChart',
                      '#guidedV112Assumptions','#timeSlider','#playBtn'):
@@ -110,6 +110,8 @@ with sync_playwright() as p:
     button(page,"Learning").click()
     button(page,"Simulator").click()
     ck(snap(page)==original,"Ready roundtrip changed state")
+    button(page,"Learning").click()
+    ck(snap(page)==original,"Learning screen automatically moved time")
     page.locator('#guidedV112Toggle').click()
     ck(page.evaluate("CardiacGuidedLearning.open"),"explicit Guided start failed")
     ck(page.evaluate("heartState.physiologicalTime>0"),"native Guided Ready observation lost")
