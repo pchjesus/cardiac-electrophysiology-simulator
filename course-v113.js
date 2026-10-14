@@ -11,7 +11,7 @@ core:'심장주기는 전기적 활성화에 뒤따르는 기계적 수축과 �
 nursing:'P파와 실제 심방 수축, QRS와 심실 압력 변화는 동일 시점의 사건이 아닙니다. 전기적 관찰과 맥박·혈압·관류는 따로 확인해야 합니다.',
 caution:'학습 주제는 총 6개이지만 심장주기의 대표 기계적 단계는 5개입니다. 이 모델의 RR 초반과 후반 filling은 상대 용적 표현이 다릅니다.',
 view:'mechanical'},
-{id:'unit-conduction',title:'2. 전기전도 경로',
+{id:'unit-conduction',title:'2. 심장 전기 전도 경로',
 goal:'SA 결절부터 심실 전도계까지의 활성화 순서를 구분한다.',
 core:'동방결절(SA)에서 시작된 흥분은 심방으로 퍼지고, 방실결절(AV)의 전달 이후 His–Purkinje 전도계를 통해 심실로 전달됩니다. 실제 파형과 전도 사건은 전기적 표시입니다.',
 nursing:'P–QRS의 순서와 규칙성을 관찰하되 ECG만으로 수축력이나 관류의 적절성을 확정하지 않습니다.',
@@ -29,13 +29,13 @@ core:'등용적 수축·이완에서는 승모판과 대동맥판이 닫혀 상�
 nursing:'S1/S2는 기계적 판막 사건에 대응하는 심음 학습 단서이지만, 모델에서는 실제 청진 소리를 녹음해 들려주지 않습니다.',
 caution:'전기적 사건과 판막 개폐 시점은 다릅니다. 두 판막 사건을 ECG의 한 점과 자동으로 같게 해석하지 않습니다.',
 view:'mechanical'},
-{id:'unit-wiggers',title:'5. Wiggers 통합 이해',
+{id:'unit-wiggers',title:'5. 위거스 도표(Wiggers) 통합 이해',
 goal:'ECG·판막·상대 압력·상대 용적·심음 표지를 함께 읽는다.',
-core:'Wiggers 도식은 같은 심장주기에 전기적 사건과 기계적 사건을 나란히 비교합니다. 곡선의 방향과 사건의 전후 관계부터 읽는 것이 핵심입니다.',
+core:'위거스 도표는 같은 심장주기에 전기적 사건과 기계적 사건을 나란히 비교합니다. 곡선의 방향과 사건의 전후 관계부터 읽는 것이 핵심입니다.',
 nursing:'압력·용적의 절대 수치보다 변화 양상과 실제 환자 관찰 결과를 종합하는 사고를 연습합니다.',
 caution:'모델의 압력·용적은 상대 지표로 mmHg·mL·일회박출량·EF가 아닙니다. S1/S2는 사건 마커이며 실제 심음 자료가 아닙니다.',
 view:'wiggers'},
-{id:'unit-nursing',title:'6. 간호 사정과 연결',
+{id:'unit-nursing',title:'6. 환자 상태·간호 사정',
 goal:'HR 수치와 증상·의식·혈압·말초관류·호흡을 통합한다.',
 core:'서맥·정상·빈맥 범위는 학습의 시작점일 뿐입니다. 같은 HR에서도 증상과 관류, 약물·기저질환, 측정 조건에 따라 임상적 의미가 달라집니다.',
 nursing:'환자 상태를 먼저 사정하고 ECG와 활력징후를 비교하여 필요한 보고와 재평가를 결정합니다. 숫자만으로 치료 필요성을 단정하지 않습니다.',
@@ -142,7 +142,7 @@ function render(){
  a.append(actions);
  const details=el('details','v113-unit-details');
  details.append(el('summary','','관련 원문·도구·출처 확인'));
- const p=el('p','','기존 ECG, Mechanical, Wiggers와 학습 설명은 시뮬레이터 원본에서 확인합니다. 새 교육 문장은 원래 5단계 질문·정답을 복사하거나 변형하지 않습니다.');
+ const p=el('p','','기존 심전도(ECG), 심장 수축·판막, 위거스 도표는 시뮬레이터에서 확인하세요. 5단계 학습·10문항은 그대로 유지됩니다.');
  details.append(p);
  if(unit==='unit-cardiac-cycle'){
   const stages=el('p','','기존 심장주기 5단계: '+(root.CardiacGuidedContent?.stages||[]).map(s=>s.label).join(' → '));

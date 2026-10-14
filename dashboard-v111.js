@@ -55,7 +55,7 @@
   const left=node('section','dashboard-visual card');
   left.setAttribute('aria-label','Selected cardiac visualization');
   const stage=node('div','dashboard-stage');
-  const wiggersButton=node('button','dashboard-wiggers-button','Wiggers');
+  const wiggersButton=node('button','dashboard-wiggers-button','위거스 도표');
   wiggersButton.type='button';
   wiggersButton.id='dashboardWiggersBtn';
   wiggersButton.setAttribute('aria-pressed','false');
@@ -65,7 +65,7 @@
   tabs.setAttribute('aria-label','Visualization view: Electrical, Mechanical, or Wiggers');
   tabs.appendChild(wiggersButton);
   stage.append(heart,wiggers);
-  const focusButton=node('button','dashboard-focus-button','⤢ Wiggers 확대 보기');
+  const focusButton=node('button','dashboard-focus-button','⤢ 위거스 도표 확대');
   focusButton.type='button';focusButton.id='dashboardFocusBtn';
   focusButton.setAttribute('aria-pressed','false');
   focusButton.setAttribute('aria-label','Wiggers 그래프 확대 보기 전환');
@@ -80,7 +80,7 @@
     '<div><span>기계적 단계</span><strong id="dashboardMechanical">Ready</strong></div>';
   const clinical=node('section','dashboard-clinical');
   clinical.innerHTML=
-    '<h3>생리학적 변화</h3><p id="dashboardPhysiology">Play 또는 Timeline을 움직이면 현재 심장 주기를 설명합니다.</p>'+
+    '<h3>생리학적 변화</h3><p id="dashboardPhysiology">재생하거나 심장주기 시간축을 움직이면 현재 심장 주기를 설명합니다.</p>'+
     '<h3>간호학적 관찰</h3><p id="dashboardNursing">맥박·혈압·증상·관류를 함께 사정하는 관점으로 이해합니다.</p>'+
     '<p class="dashboard-caution">교육용 상대 지표 · 실제 혈압·박출량·EF·심박출량 예측 불가</p>';
   // Keep the original dynamic nodes intact; native disclosures only govern
@@ -96,7 +96,7 @@
   const ecgDetails=wrapDetails('dashboard-ecg-details','ECG 구성요소 · 상세 설명',ecgExplanation);
   ecg.querySelector('.ecg-interpretation').after(ecgDetails);
   const phaseDetails=wrapDetails('dashboard-phase-details','전도 단계 · 전체 설명',phasePanel);
-  const eventDetails=wrapDetails('dashboard-event-details','ECG Event · 세부 전도 정보',eventPanel);
+  const eventDetails=wrapDetails('dashboard-event-details','심전도 사건 · 자세한 전도 정보',eventPanel);
   statuses.insertAdjacentHTML('beforeend',
     '<div><span>ECG 사건</span><strong id="dashboardEvent">Ready</strong></div>');
   // Relocate the SAME native long-form disclosures below the visual workspace.
@@ -106,7 +106,7 @@
   resources.id='dashboardResources';
   resources.setAttribute('aria-label','Additional cardiac education and source notes');
   const resourceHint=node('p','dashboard-resources-hint',
-    '필요한 주제만 열어 읽으세요. ECG 파형(P·PR·QRS·ST·T) 설명은 ECG Monitor에서 직접 선택할 수 있습니다. 원문과 모델 한계는 아래 항목에 그대로 보존됩니다.');
+    '필요한 주제만 열어 읽으세요. ECG 파형(P·PR·QRS·ST·T) 설명은 심전도 모니터에서 직접 선택할 수 있습니다. 원문과 모델 한계는 아래 항목에 그대로 보존됩니다.');
   resources.append(node('summary','dashboard-resources-heading','자료 찾아보기 · 전도 단계 / ECG 사건 / 간호 원문'),
     resourceHint,phaseDetails,eventDetails,deepDive);
   workspace.append(left);
@@ -219,7 +219,7 @@
     const expanded=dashboard.dataset.wiggersFocus!=='true';
     dashboard.dataset.wiggersFocus=String(expanded);
     focusButton.setAttribute('aria-pressed',String(expanded));
-    focusButton.textContent=expanded?'⤢ 분할 보기':'⤢ Wiggers 확대 보기';
+    focusButton.textContent=expanded?'⤢ 분할 보기':'⤢ 위거스 도표 확대';
   });
   electrical.addEventListener('click',()=>setView('electrical'));
   mechanical.addEventListener('click',()=>setView('mechanical'));

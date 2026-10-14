@@ -1996,3 +1996,23 @@ Compact Controller + ECG View
 @media (prefers-reduced-motion: reduce){
  .v113-learning *, .v113-clinical *{scroll-behavior:auto!important;transition:none!important}
 }
+
+/* Korean-first student concept labels and read-only help dialogue. */
+.v113-term-trigger{font:inherit;font-size:13px;font-weight:700;min-height:34px;min-width:34px;
+ margin:4px 6px;padding:6px 9px;border:1px solid #246A92;border-radius:8px;
+ background:#E6F1F7;color:#183B56;cursor:pointer}
+.v113-term-trigger:focus-visible,.v113-term-close:focus-visible{outline:3px solid #246A92;outline-offset:2px}
+.v113-inline-learn{font-size:15px;line-height:1.6;color:#183B56;margin:12px 0}
+.v113-term-dialog[hidden]{display:none!important}
+.v113-term-dialog{position:fixed;z-index:1001;left:50%;top:50%;transform:translate(-50%,-50%);
+ box-sizing:border-box;width:min(92vw,660px);max-height:82dvh;overflow:auto;
+ border:2px solid #246A92;border-radius:15px;background:#fff;color:#24394A;
+ box-shadow:0 12px 40px #101e3050;padding:18px 20px}
+.v113-term-heading{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
+ border-bottom:1px solid #CEDBE4;padding-bottom:10px}
+.v113-term-heading h2{font-size:21px;line-height:1.4;margin:0;color:#183B56}
+.v113-term-close{font:inherit;font-size:14px;min-width:66px;min-height:44px;
+ border:1px solid #627F92;border-radius:9px;background:#F7F9FB;color:#183B56;cursor:pointer}
+.v113-term-dialog h3{font-size:17px;color:#176F65;margin:13px 0 6px}
+.v113-term-dialog p{font-size:16px;line-height:1.64;margin:0;overflow-wrap:anywhere}
+@media(max-width:540px){.v113-term-dialog{padding:14px;max-height:86dvh}.v113-term-heading h2{font-size:19px}}

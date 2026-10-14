@@ -158,7 +158,7 @@
         sync();
         // Match v1.9 reset semantics: controls return to Ready, not active phase.
         phaseLabel.textContent='Ready';
-        if(lessonStage)lessonStage.textContent='Move the timeline or press Play to explore cardiac phases.';
+        if(lessonStage)lessonStage.textContent='재생하거나 심장주기 시간축을 움직여 심장 단계의 변화를 살펴보세요.';
         if(lessonEvent)lessonEvent.textContent='Valve/S1/S2 event explanations use the same timeline boundaries as the graph markers.';
     }
 
