@@ -50,6 +50,7 @@ with sync_playwright() as pw:
     page.keyboard.press("Enter")
     page.wait_for_function("document.getElementById('wiggersDetails').open")
     ck(page.locator("#wiggersChart").is_visible(),"Keyboard disclosure does not show chart")
+    page.wait_for_function(f"{view}.buildCount >= 1")
     ck(page.evaluate(f"{view}.buildCount")==1,"Chart failed to build on first open")
     ck(page.locator("#wiggersMarkers [data-event]").count()==4,
        "Expected four separate valve event markers")
