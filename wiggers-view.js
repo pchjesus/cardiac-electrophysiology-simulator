@@ -36,19 +36,19 @@
     const EVENT_LESSONS=Object.freeze({
         'mitral-close':{
             title:'승모판 닫힘(Mitral closes / S1)',
-            detail:'Mitral closure accompanies rising ventricular pressure. Physiological S1 is mainly associated with closure of the mitral and tricuspid valves; only this representative left-sided event is marked.'
+            detail:'심실 압력이 높아지면서 승모판이 닫힙니다. 첫 번째 심음(S1)은 주로 승모판과 삼첨판 닫힘에 관련되며, 이 도표에서는 왼쪽 심장의 대표적인 사건만 표시합니다.'
         },
         'aortic-open':{
             title:'대동맥판 열림(Aortic opens)',
-            detail:'Ventricular pressure reaches the aortic opening threshold; ejection starts and relative LV volume begins to fall. At the exact marker the illustrative pressures may be equal, with the event rule assigning the open state.'
+            detail:'심실 압력이 대동맥판 열림 조건에 도달하면 박출이 시작되고 상대 좌심실 용적이 감소합니다. 사건 표시 시점에는 모형의 두 압력이 같을 수 있으며, 판막 사건 규칙에 따라 열림 상태를 정합니다.'
         },
         'aortic-close':{
             title:'대동맥판 닫힘(Aortic closes / S2)',
-            detail:'Aortic valve closure ends ejection and starts isovolumetric relaxation. Physiological S2 includes aortic and pulmonary valve closure; this simplified diagram marks only the left-sided event.'
+            detail:'대동맥판이 닫히면 박출이 끝나고 등용적 이완이 시작됩니다. 두 번째 심음(S2)은 대동맥판과 폐동맥판 닫힘에 관련되지만, 이 단순화된 도표에서는 왼쪽 심장의 사건만 표시합니다.'
         },
         'mitral-open':{
             title:'승모판 열림(Mitral opens)',
-            detail:'As the left ventricle relaxes below left atrial pressure, the mitral valve opens and ventricular filling resumes.'
+            detail:'좌심실이 이완하여 그 압력이 좌심방보다 낮아지면 승모판이 열리고 심실 충만이 다시 시작됩니다.'
         }
     });
     const lessonStage=document.getElementById('wiggersLearningStage');

@@ -59,12 +59,12 @@
 
             <div class="ecg-explanation" id="ecgExplanation" aria-live="polite">
                 <div class="ecg-explanation-header">
-                    <span>ECG Component Explanation</span>
-                    <strong id="ecgExplanationTitle">Select an ECG component</strong>
+                    <span>심전도 파형 설명</span>
+                    <strong id="ecgExplanationTitle">설명할 심전도 파형을 선택하세요</strong>
                 </div>
-                <p id="ecgExplanationText">Click P, PR, QRS, ST, or T above to see how the ECG component relates to cardiac electrical activity.</p>
+                <p id="ecgExplanationText">위의 P파, PR간격, QRS파, ST분절, T파를 눌러 심장의 전기적 활동과 어떤 관계가 있는지 살펴보세요.</p>
                 <div class="ecg-explanation-link">
-                    <span>Conduction / activity</span>
+                    <span>전도와 전기적 활동</span>
                     <strong id="ecgExplanationLink">—</strong>
                 </div>
             </div>
@@ -211,7 +211,7 @@
                             </div>
                         </details>
                     </div>
-                    <p id="mechanicalExplanation">Play or move the timeline to explore the mechanical cycle.</p>
+                    <p id="mechanicalExplanation">재생하거나 심장주기 시간축을 움직여 수축과 판막 변화를 살펴보세요.</p>
                     <div class="mechanical-stats"><span id="avValveState">AV valves: —</span><span id="outflowValveState">Semilunar valves: —</span></div>
                     <div class="mechanical-stats"><span id="flowState">Flow: —</span><span id="volumeState">Ventricular volume: —</span></div>
                 </div>
@@ -296,7 +296,7 @@
                 <strong id="ecgEventIndicator">Ready</strong>
             </div>
 
-            <p class="event-sync-status" id="eventSyncStatus">Press Play to begin synchronization.</p>
+            <p class="event-sync-status" id="eventSyncStatus">재생하면 심장 전도와 파형이 함께 표시됩니다.</p>
         </section>
 
     </section>
@@ -306,7 +306,7 @@
     <section class="card phase-panel">
         <h2>현재 심장 단계</h2>
         <div id="phaseTitle">Ready</div>
-        <p id="phaseDescription">Press Play to begin the cardiac conduction cycle.</p>
+        <p id="phaseDescription">재생하면 심장 전도 과정이 시작됩니다.</p>
 
         <div class="phase-ecg-link">
             <span>ECG Component</span>
@@ -334,7 +334,7 @@
                 </div>
                 <strong id="learningScenarioSummary">Normal-range teaching cycle · 80 bpm · Custom HR</strong>
                 <p id="learningScenarioIntro">세 시나리오 또는 기존 HR 슬라이더로 심장 주기의 관계를 살펴보세요.</p>
-                <p id="learningDuration">Relative cycle timing appears here; not a patient measurement.</p>
+                <p id="learningDuration">심장주기 구간의 상대적 시간이 표시됩니다. 실제 환자의 측정값은 아닙니다.</p>
                 <p class="learning-boundary">성인 안정 시 HR 범위에 따른 교육용 분류입니다. 동성 빈맥/서맥의 원인이나 환자의 혈역학적 안정성을 판단하지 않습니다.</p>
             </section>
             <div class="wiggers-legend" aria-label="Wiggers trace key">
@@ -380,8 +380,8 @@
                 </svg>
             </div>
             <div class="wiggers-event-key" aria-label="Valve and heart sound event markers">
-                <span>Mitral close = S1</span><span>Aortic open</span>
-                <span>Aortic close = S2</span><span>Mitral open</span>
+                <span>승모판 닫힘 = 제1심음(S1)</span><span>대동맥판 열림</span>
+                <span>대동맥판 닫힘 = 제2심음(S2)</span><span>승모판 열림</span>
             </div>
             <div class="wiggers-status" aria-live="off">
                 <strong id="wiggersCurrentStage">Ready</strong>
