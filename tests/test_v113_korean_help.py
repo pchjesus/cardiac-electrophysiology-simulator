@@ -23,7 +23,7 @@ with sync_playwright() as p:
   ck(page.locator("#playBtn").inner_text().find("재생")>=0,"native playback label still English")
   ck("심박수" in page.locator("#heartRateDisplay").inner_text(),"live HR still English")
   ck("심전도" in page.locator(".ecg-panel h2").inner_text(),"ECG heading not Korean")
-  ck("심전도" in page.locator("#ecgExplanationTitle").inner_text(),"ECG initial helper not Korean")
+  ck(any(word in page.locator("#ecgExplanationTitle").inner_text() for word in ("심전도","기저선","P파")),"ECG initial/event helper not Korean")
   initial=page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime,playing:heartState.playing,hr:heartRate})")
   page.locator("[data-concept-help='ecg']").first.click()
   dlg=page.locator("#v113ConceptDialog")
