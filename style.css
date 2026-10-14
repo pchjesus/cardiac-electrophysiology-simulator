@@ -2028,3 +2028,11 @@ Compact Controller + ECG View
  .measurement-list small{white-space:normal;overflow-wrap:anywhere}
  .measurement-row{flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
 }
+
+/* Responsive guard for the legacy pre-dashboard educational view as well as
+   the modern dashboard. Bare 1fr inherits min-content width from Korean data. */
+@media(max-width:700px){
+ .info-grid{grid-template-columns:minmax(0,1fr);min-width:0;max-width:100%}
+ .info-grid>.card,.info-grid>.placeholder-panel{min-width:0;max-width:100%;box-sizing:border-box}
+ .measurement-list,.measurement-list .measurement-item,.measurement-list .measurement-row{min-width:0;max-width:100%;box-sizing:border-box}
+}
