@@ -95,7 +95,7 @@
         mechanicalBtn.classList.toggle('mode-active',showing);
         electricBtn.setAttribute('aria-pressed',String(!showing));
         mechanicalBtn.setAttribute('aria-pressed',String(showing));
-        currentTitle.textContent=showing?'Cardiac Mechanics & Flow':'Cardiac Conduction';
+        currentTitle.textContent=showing?'심장 수축·혈류':'심장 전기 전도';
         sync();
         if(showing && heartState.physiologicalTime===0 && !heartState.playing && heartState.currentStep===-1){
             reset();
@@ -112,11 +112,11 @@
         const [title,explanation]=labels[stage];
         BY_ID('mechanicalPhase').textContent=title;
         BY_ID('mechanicalExplanation').textContent=explanation;
-        BY_ID('avValveState').textContent=`AV valves: ${valves.mitral?'Open':'Closed'}`;
-        BY_ID('outflowValveState').textContent=`Semilunar valves: ${valves.aortic?'Open':'Closed'}`;
-        BY_ID('flowState').textContent=`Flow: ${flow==='ejection'?'Ventricles → arteries':flow==='filling'?'Atria → ventricles':'No valve flow'}`;
+        BY_ID('avValveState').textContent=`방실판막: ${valves.mitral?'열림':'닫힘'}`;
+        BY_ID('outflowValveState').textContent=`반월판막: ${valves.aortic?'열림':'닫힘'}`;
+        BY_ID('flowState').textContent=`혈류: ${flow==='ejection'?'심실 → 동맥':flow==='filling'?'심방 → 심실':'판막을 지나는 혈류 없음'}`;
         const vol=state.ventricularVolume;
-        BY_ID('volumeState').textContent=`Ventricular filling: ${Math.round(vol*100)}% (relative)`;
+        BY_ID('volumeState').textContent=`심실 충만: 상대값 ${Math.round(vol*100)}%`;
         for(const [id,opened] of Object.entries(valves))setValve(`${id}Valve`,opened);
         const ry=44+12*vol;
         for(const id of ['leftVentricleShape','rightVentricleShape'])BY_ID(id).setAttribute('ry',ry.toFixed(3));
@@ -151,11 +151,11 @@
         if(mode==='mechanical'){
             renderState(lastState);
             BY_ID('mechanicalPhase').textContent='Ready';
-            BY_ID('mechanicalExplanation').textContent='Play or move the timeline to explore the mechanical cycle.';
-            BY_ID('avValveState').textContent='AV valves: —';
-            BY_ID('outflowValveState').textContent='Semilunar valves: —';
-            BY_ID('flowState').textContent='Flow: —';
-            BY_ID('volumeState').textContent='Ventricular volume: —';
+            BY_ID('mechanicalExplanation').textContent='재생하거나 심장주기 시간축을 움직여 심장 수축과 판막 변화를 살펴보세요.';
+            BY_ID('avValveState').textContent='방실판막: —';
+            BY_ID('outflowValveState').textContent='반월판막: —';
+            BY_ID('flowState').textContent='혈류: —';
+            BY_ID('volumeState').textContent='심실 상대 용적: —';
             particleNodes.forEach(dot=>dot.style.opacity='0');
         }
     }

@@ -85,22 +85,22 @@
   const observe=el('div','guided-v112-observe');
   observe.setAttribute('role','group');
   observe.setAttribute('aria-label','사용자가 직접 실행하는 관찰 동작');
-  const view=el('button','guided-v112-action','Wiggers에서 보기');
+  const view=el('button','guided-v112-action','위거스 도표에서 보기');
   view.id='guidedV112ViewWiggers';
   view.type='button';
-  view.setAttribute('aria-label','Wiggers 시각화로 전환 · 현재 시간 유지');
+  view.setAttribute('aria-label','위거스 도표로 전환 · 현재 시간 유지');
   const seek=el('button','guided-v112-action guided-v112-seek','이 단계 다시 관찰');
   seek.id='guidedV112Seek';
   seek.type='button';
   seek.setAttribute('aria-describedby','guidedV112SeekNotice');
   observe.append(view,seek);
   const seekNotice=el('p','guided-v112-seek-notice',
-    '재관찰 버튼을 누르면 재생이 일시 정지되고, 기존 Timeline이 현재 학습 단계의 관찰점으로 이동합니다.');
+    '재관찰 버튼을 누르면 재생이 일시 정지되고, 기존 심장주기 시간축이 현재 학습 단계의 관찰점으로 이동합니다.');
   seekNotice.id='guidedV112SeekNotice';
   // Optional controls remain original nodes; prioritize the reading path.
   const tools=el('details','guided-v112-tools');
   tools.id='guidedV112Tools';
-  tools.append(el('summary','guided-v112-tools-heading','추가 도구 · 학습 수준 / Wiggers / 재관찰'),
+  tools.append(el('summary','guided-v112-tools-heading','추가 도구 · 학습 수준 / 위거스 도표 / 다시 관찰'),
     levelLine,observe,seekNotice,note);
   const gist=el('p','guided-v112-gist');
   gist.id='guidedV112Gist';

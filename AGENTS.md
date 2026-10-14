@@ -325,3 +325,7 @@ See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.m
 - The project owner selected the student-first responsive chapter reader, calm medical blue/teal palette, single-depth cards, goal→mechanism→nursing→observation→original Guided→references order, phase-focused fictitious patient snapshot/decision, and balanced 16px reading density.
 - Implemented design and regression boundaries are documented in [V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md](V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md). Simulator heart clocks, original ECG/Mechanical/Wiggers and original 5-stage/10-question Guided remain canonical.
 - Clinical still requires independent educational/medical review and is QA-only until approved. v1.13 and v1.12 Patch14 remain NOT FINAL until user PC/mobile testing.
+
+## v1.13 UX Patch 2 — 학생 중심 한글 용어·개념 팝업
+- 학생에게 노출되는 핵심 기능을 한글 우선으로 표기하며 영어 약어는 한글 뒤 괄호로 병기합니다. 위거스 도표(Wiggers), 심전도(ECG), 전기 전도, 기계적 심장주기 등의 **개념·중요성·관찰 방법·모델 한계**를 설명하는 읽기 전용 팝업을 제공합니다.
+- 전체 변경사항과 QA 기준: [V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md](V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md). A/B, 원본 5단계·10문항, 임상 자료는 변경하지 않으며 전문가 검토/실기기 검수 전 **NOT FINAL**입니다.

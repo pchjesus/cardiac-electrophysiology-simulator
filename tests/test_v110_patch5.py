@@ -77,7 +77,7 @@ with sync_playwright() as p:
         page.locator('#dashboardResources>summary').click()
     page.locator("#wiggersDeepDive summary").click()
     page.wait_for_function("document.getElementById('wiggersDeepDive').open")
-    ck(page.locator("#learningPhaseTitle").text_content().startswith("Ready"),
+    ck(page.locator("#learningPhaseTitle").text_content().startswith("준비"),
        "Initial detail must remain Ready")
 
     for preset,hr,category in (
@@ -116,7 +116,7 @@ with sync_playwright() as p:
            f"Adult resting HR category wrong: {hr}")
         ck(page.evaluate("CardiacLearning.activePreset") is None,
            f"Manual slider lost Custom identity: {hr}")
-        ck("Custom HR" in page.locator("#learningScenarioSummary").text_content(),
+        ck("사용자 설정" in page.locator("#learningScenarioSummary").text_content(),
            f"Custom summary wrong HR {hr}")
 
     page.locator('[data-learning-preset="normal"]').click()
@@ -149,7 +149,7 @@ with sync_playwright() as p:
            f"Nursing explanation too short {stage}")
         ck(len(page.locator("#learningCaution").text_content())>=35,
            f"Clinical limitation missing {stage}")
-        ck(page.locator("#learningPhaseTitle").text_content()!="Ready · 시작 전",
+        ck(page.locator("#learningPhaseTitle").text_content()!="준비 · 시작 전",
            f"Phase not derived from Wiggers {stage}")
 
     before=page.evaluate("CardiacLearning.renderCount")
@@ -158,7 +158,7 @@ with sync_playwright() as p:
        "Excessive detailed text updates on unchanged phase")
 
     page.locator("#resetBtn").click()
-    ck(page.locator("#learningPhaseTitle").text_content().startswith("Ready"),
+    ck(page.locator("#learningPhaseTitle").text_content().startswith("준비"),
        "Reset did not restore education Ready state")
     ck(page.evaluate("document.getElementById('wiggersDetails').open"),
        "Reset collapsed original Wiggers panel")
@@ -167,7 +167,7 @@ with sync_playwright() as p:
     page.locator("#timeSlider").evaluate("""(el)=>{
        el.value=45;el.dispatchEvent(new Event('input',{bubbles:true}));
     }""")
-    ck(not page.locator("#learningPhaseTitle").text_content().startswith("Ready"),
+    ck(not page.locator("#learningPhaseTitle").text_content().startswith("준비"),
        "Timeline did not update learning after seek")
     page.locator("#mechanicalModeBtn").click()
     ck(page.locator("#mechanicalView").is_visible(),"Mechanical mode regression")

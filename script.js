@@ -952,7 +952,7 @@ function updateHeartRateUI(){
 
     heartRateDisplay.textContent =
 
-        "Heart Rate : " +
+        "심박수(HR): " +
 
         heartRate +
 
@@ -979,7 +979,7 @@ function updateHeartRateUI(){
     ){
 
         rhythmStatus.textContent =
-        "Sinus Bradycardia";
+        "동성 서맥(Sinus bradycardia)";
 
     }
 
@@ -991,7 +991,7 @@ function updateHeartRateUI(){
     ){
 
         rhythmStatus.textContent =
-        "Normal Sinus Rhythm";
+        "정상 동율동(Normal sinus rhythm)";
 
     }
 
@@ -999,7 +999,7 @@ function updateHeartRateUI(){
     else{
 
         rhythmStatus.textContent =
-        "Sinus Tachycardia";
+        "동성 빈맥(Sinus tachycardia)";
 
     }
 

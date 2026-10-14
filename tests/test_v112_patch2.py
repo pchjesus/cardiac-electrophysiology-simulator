@@ -76,7 +76,7 @@ with sync_playwright() as playwright:
     'seek warning association missing')
  ck('일시 정지' in page.locator('#guidedV112SeekNotice').inner_text(),
     'seek effects must be announced before click')
- ck('Timeline' in page.locator('#guidedV112SeekNotice').inner_text(),
+ ck('심장주기 시간축' in page.locator('#guidedV112SeekNotice').inner_text(),
     'seek notice should identify original Timeline')
  ck(not clock()['playing'] and clock()['inputCount']==before['inputCount']+1,'course start must use one Timeline seek')
  before=clock()

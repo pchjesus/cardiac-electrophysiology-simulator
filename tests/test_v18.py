@@ -71,7 +71,13 @@ with sync_playwright() as pw:
  pages['p3'].set_viewport_size({'width':390,'height':844})
  base_width=pages['p3'].evaluate('''() => {document.body.style.width='390px'; return document.documentElement.scrollWidth;}''')
  # Both builds carry the same pre-existing 47px overflow in narrow layouts.
- check(js('document.documentElement.scrollWidth') <= base_width + 2, 'mobile overflow regressed vs baseline')
+ current_width=js('document.documentElement.scrollWidth')
+ overflow=pages['v18'].evaluate("""() => [...document.querySelectorAll('body *')]
+   .filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.right>innerWidth+2;})
+   .slice(0,15).map(el=>({tag:el.tagName,id:el.id,cls:typeof el.className==='string'?el.className:'',
+     text:(el.textContent||'').trim().slice(0,35),right:Math.round(el.getBoundingClientRect().right)}))""") if current_width>base_width+2 else []
+ check(current_width <= base_width + 2,
+       f'mobile overflow regressed vs baseline: actual {current_width}px, baseline {base_width}px; offenders {overflow}')
  pages['v18'].screenshot(path=str(p/'v18_mobile_test.png'),full_page=True)
  pages['v18'].set_viewport_size({'width':1366,'height':900})
  pages['v18'].screenshot(path=str(p/'v18_desktop_test.png'))
