@@ -3,6 +3,10 @@
 
 An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
 
+## v1.13 P3/P4 student-first detailed design (documentation only)
+
+See [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) for six-unit curriculum/readability/state/QA specification and the strict separate fictional symptomatic bradycardia-case authoring/validation pipeline. **No P3/P4 code or clinically approved case data has been released.**
+
 ## v1.13 Patch 2–6 engineering blueprint (design only)
 
 The post-Patch-1 implementation gates, single-instance Guided migration, six-unit learning curriculum, first clinically reviewed static case, session preservation, and QA/release boundaries are documented in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md). **This is a design/documentation update only, not completion of Patch 2–6.** It supplements without superseding the [approved v1.13 contract](Cardiac_v1.13_Three_Tab_Development_Contract.md).

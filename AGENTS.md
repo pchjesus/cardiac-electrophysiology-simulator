@@ -305,3 +305,8 @@ In compact study views, keep only the learner-relevant phase, valve, flow and re
 - Before Patch 2, read [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md) and the higher-priority approved 3-tab contract. Current implementation remains P1 only; this is a design update.
 - P2: original Guided DOM/questions/answers exactly one instance; never make mere tab navigation trigger first study or Timeline seek. Simulator Live Inspector survives. P4/P5: static reviewed case content and Clinical State remain isolated from the sinus simulation.
 - Preserve v1.12 Patch 14 NOT FINAL and separate app CI/automated screenshots from actual user device acceptance.
+
+## 2026-10-14 — Detailed P3/P4 student-first design (design only)
+- [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) specifies six-unit/5-stage mental model, guided/free unit/course state, no unit-navigation Seek, mobile/accessibility/readability, and strict fictitious bradycardia case content/validator/review policy.
+- Clinical sample vital signs are **unreviewed design illustrations**, not approved data, and Clinical stays disabled until P5. Original ten questions, Guide instance, A/B heart engine and v1.12 Patch 14 NOT FINAL status are preserved.
+- User intends later coordinated P2–P6 implementation on an integration branch with per-patch commits/tests before one final merged stable result; this commit changes documentation only.

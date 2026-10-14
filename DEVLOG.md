@@ -812,3 +812,8 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 ## v1.13 Patch 2–6 detailed blueprint (documentation only, 2026-10-14)
 - After P1 merged main d63b144061e49dab0cac57d7e6c14f18cf243a3a, defined P2 single-instance Guided migration, P3 six-unit guided/free course, P4 sourced first static case, P5 isolated case session/review, and P6 full QA in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md).
 - No post-P1 functionality, patient data, test run, or actual device approval is claimed by this docs commit. v1.12 Patch 14 remains NOT FINAL.
+
+## 2026-10-14 — Detailed P3/P4 student-first design (design only)
+- [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) specifies six-unit/5-stage mental model, guided/free unit/course state, no unit-navigation Seek, mobile/accessibility/readability, and strict fictitious bradycardia case content/validator/review policy.
+- Clinical sample vital signs are **unreviewed design illustrations**, not approved data, and Clinical stays disabled until P5. Original ten questions, Guide instance, A/B heart engine and v1.12 Patch 14 NOT FINAL status are preserved.
+- User intends later coordinated P2–P6 implementation on an integration branch with per-patch commits/tests before one final merged stable result; this commit changes documentation only.
