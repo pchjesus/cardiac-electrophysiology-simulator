@@ -87,7 +87,9 @@ for(const [selector,key,label] of [
  if(!host)continue;
  const b=document.createElement('button');b.type='button';b.className='v113-term-trigger';
  b.dataset.termHelp=key;b.textContent='?';b.setAttribute('aria-label',label);
- host.insertAdjacentElement('afterend',b);
+ // Inline title help avoids adding an entire row to the legacy compact layout.
+ if(host.tagName==='BUTTON')host.insertAdjacentElement('afterend',b);
+ else host.appendChild(b);
 }
 document.addEventListener('click',event=>{
  const trigger=event.target.closest('[data-term-help]');
