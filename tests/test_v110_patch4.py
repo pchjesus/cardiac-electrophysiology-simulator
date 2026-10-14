@@ -65,10 +65,10 @@ with sync_playwright() as pw:
     check(page.locator("#wiggersMarkers [data-event]").count()==4,"Marker count changed")
 
     event_map=[
-      ("mitral-close","Mitral closes / S1","isovolumetric_contraction",False,False),
-      ("aortic-open","Aortic opens","ejection",False,True),
-      ("aortic-close","Aortic closes / S2","isovolumetric_relaxation",False,False),
-      ("mitral-open","Mitral opens","filling",True,False)
+      ("mitral-close","승모판 닫힘(Mitral closes / S1)","isovolumetric_contraction",False,False),
+      ("aortic-open","대동맥판 열림(Aortic opens)","ejection",False,True),
+      ("aortic-close","대동맥판 닫힘(Aortic closes / S2)","isovolumetric_relaxation",False,False),
+      ("mitral-open","승모판 열림(Mitral opens)","filling",True,False)
     ]
     stage_words={
       "filling":"Ventricular filling",
@@ -100,7 +100,7 @@ with sync_playwright() as pw:
             check(actual["mitral"]==mitral and actual["aortic"]==aortic,
                   f"Valve tie HR={hr} {eid}")
             check(abs(actual["x"]-actual["expected"])<.02,f"Cursor HR={hr} {eid}")
-            check(page.locator("#wiggersLearningEvent").text_content().startswith("At valve marker: "+title),
+            check(page.locator("#wiggersLearningEvent").text_content().startswith("현재 판막 사건: "+title),
                   f"Event interpretation HR={hr} {eid}")
             check(stage_words[stage] in page.locator("#wiggersLearningStage").text_content(),
                   f"Phase explanation HR={hr} {eid}")
