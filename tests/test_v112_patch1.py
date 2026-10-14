@@ -41,9 +41,21 @@ with sync_playwright() as playwright:
  check(page.evaluate('CardiacGuidedLearning.open') is False,'guide unexpectedly open')
  check(page.evaluate('CardiacGuidedLearning.selectedStageId')=='atrial_systole','default lesson')
  initial_height=page.evaluate('document.documentElement.scrollHeight')
+ # v1.13 places its new top-level navigation OUTSIDE the original simulator
+ # dashboard. Keep the v1.12 compact-height budget for the original content,
+ # while separately constraining the deliberate new navigation footprint.
+ main_nav_height=page.evaluate("""() => {
+   const el=document.querySelector('.v113-main-nav');
+   if(!el)return 0;
+   const style=getComputedStyle(el);
+   return el.getBoundingClientRect().height+
+     parseFloat(style.marginTop)+parseFloat(style.marginBottom);
+ }""")
+ check(main_nav_height<=90,
+       f'v1.13 navigation consumes excessive vertical space: {main_nav_height}px')
  page.screenshot(path=str(CAPTURES/'01-default-compact-desktop.png'),full_page=True,animations='disabled')
- check(initial_height<=1150,
-       f'default layout regressed beyond 16px budget: {initial_height}px')
+ check(initial_height-main_nav_height<=1150,
+       f'original compact layout beyond 16px budget: {initial_height-main_nav_height}px (new nav {main_nav_height}px)')
 
  def state():
     return page.evaluate("""() => ({
