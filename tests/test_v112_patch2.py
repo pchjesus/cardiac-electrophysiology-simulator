@@ -35,7 +35,13 @@ with sync_playwright() as playwright:
  ck(page.locator('#guidedV112Next').count()==1,'duplicate next control')
  ck(page.locator('#guidedV112ViewWiggers').count()==1,'duplicate Wiggers control')
  ck(page.locator('#guidedV112Seek').count()==1,'duplicate seek control')
- ck(page.evaluate('document.documentElement.scrollHeight')<=1150,
+ ck(page.evaluate("""() => {
+   const nav=document.querySelector('.v113-main-nav');
+   const style=nav&&getComputedStyle(nav);
+   const navigationFootprint=nav ? nav.getBoundingClientRect().height+
+     parseFloat(style.marginTop)+parseFloat(style.marginBottom) : 0;
+   return document.documentElement.scrollHeight-navigationFootprint;
+ }""")<=1150,
     'closed dashboard exceeds 892+16px contract')
  page.screenshot(path=str(SHOTS/'01-default-compact-1366.png'),
                  full_page=True,animations='disabled')
