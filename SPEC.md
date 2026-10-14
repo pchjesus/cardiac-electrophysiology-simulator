@@ -894,3 +894,8 @@ See [V1.12_DESIGN_REFINEMENT.md](V1.12_DESIGN_REFINEMENT.md). The default dashbo
 - Native model note expands inside the readout rather than overlaying adjacent education cards. Both contextual ⓘ notes keep keyboard/touch focus and original caution text.
 - Improve live mechanical explanation to 14px and valve/flow/volume readouts to 13px. At small mobile widths, disclosure touch targets are at least 44px high.
 - This is a display-only change. Real-device PC/mobile acceptance and v1.12 FINAL remain pending.
+
+## v1.13 integrated Patch 2–6 (implementation branch; NOT FINAL)
+- Added the original single-instance Guided rehost in Learning, six-unit lesson course/free browsing, a schema-validated **unreviewed fictitious** clinical case, independent Clinical judgement/action/reassessment session, and Playwright integration tests. See [V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md](V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md).
+- Clinical public tab remains **disabled** until expert case-content review; QA-only `?v113Preview=1` allows running the unfinished clinical educational scenario for testing, not patient care. Simulator and Learning are usable.
+- Still NOT FINAL pending full CI, clinical reviewer, and physical PC/Android acceptance; v1.12 Patch 14 also remains NOT FINAL. No original physiological model or ten-question bank was edited.

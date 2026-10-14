@@ -207,7 +207,9 @@ function mount(target){
  render();
 }
 root.CardiacClinicalV113=Object.freeze({
- mount,get publicReady(){return caseData.status==='clinical-reviewed';},
+ mount,get publicReady(){return caseData.status==='clinical-reviewed'&&
+   caseData.review?.releaseApproved===true&&Boolean(caseData.review.reviewedBy)&&
+   Boolean(caseData.review.reviewedAt);},
  get sessionSnapshot(){if(!session)return null;
   return {caseId:session.caseId,index:session.questionIndex,status:session.status,
    answers:Object.fromEntries(Object.entries(session.answers).map(([k,v])=>[k,{...v}]))};},

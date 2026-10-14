@@ -113,6 +113,8 @@
       buttons[id].classList.toggle('v113-active',selected);
     }
     activeMainTab=next;
+    // Never leave keyboard focus in a newly hidden screen.
+    buttons[next]?.focus({preventScroll:true});
     if(next==='simulator'){
       // Reuse existing read-only presentation sync. No Reset, Play or Seek.
       root.CardiacDashboard?.sync();

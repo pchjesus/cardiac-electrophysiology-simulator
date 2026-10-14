@@ -434,3 +434,8 @@ The original advanced nursing explanation, Electrical/Mechanical/Wiggers, ECG, A
 
 ## v1.12 Patch 9 — learning-focused workbench
 At desktop widths the ECG sits beside concise live/guided explanations; the Electrical/Mechanical/Wiggers view is below. Use **5단계 학습** to select a cardiac stage; when already studying, previous/next or dropdown seeks once through the native Timeline and pauses. The selected reading remains fixed even when Play resumes; live stage indicators keep moving. An independent **자료 목록 보기** opens a directory of original conduction, ECG event and nursing sources without expanding everything at once. Click individual categories; ECG wave-specific P/PR/QRS/ST/T is accessible within the ECG Monitor. Three study levels and ten questions remain intact; nothing diagnoses or predicts patient physiology. Physical PC/mobile acceptance is still required before v1.12 FINAL.
+
+## v1.13 integrated Patch 2–6 (implementation branch; NOT FINAL)
+- Added the original single-instance Guided rehost in Learning, six-unit lesson course/free browsing, a schema-validated **unreviewed fictitious** clinical case, independent Clinical judgement/action/reassessment session, and Playwright integration tests. See [V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md](V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md).
+- Clinical public tab remains **disabled** until expert case-content review; QA-only `?v113Preview=1` allows running the unfinished clinical educational scenario for testing, not patient care. Simulator and Learning are usable.
+- Still NOT FINAL pending full CI, clinical reviewer, and physical PC/Android acceptance; v1.12 Patch 14 also remains NOT FINAL. No original physiological model or ten-question bank was edited.

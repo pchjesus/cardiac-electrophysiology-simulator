@@ -817,3 +817,8 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) specifies six-unit/5-stage mental model, guided/free unit/course state, no unit-navigation Seek, mobile/accessibility/readability, and strict fictitious bradycardia case content/validator/review policy.
 - Clinical sample vital signs are **unreviewed design illustrations**, not approved data, and Clinical stays disabled until P5. Original ten questions, Guide instance, A/B heart engine and v1.12 Patch 14 NOT FINAL status are preserved.
 - User intends later coordinated P2–P6 implementation on an integration branch with per-patch commits/tests before one final merged stable result; this commit changes documentation only.
+
+## v1.13 integrated Patch 2–6 (implementation branch; NOT FINAL)
+- Added the original single-instance Guided rehost in Learning, six-unit lesson course/free browsing, a schema-validated **unreviewed fictitious** clinical case, independent Clinical judgement/action/reassessment session, and Playwright integration tests. See [V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md](V1.13_INTEGRATED_PATCH2_TO_6_REPORT.md).
+- Clinical public tab remains **disabled** until expert case-content review; QA-only `?v113Preview=1` allows running the unfinished clinical educational scenario for testing, not patient care. Simulator and Learning are usable.
+- Still NOT FINAL pending full CI, clinical reviewer, and physical PC/Android acceptance; v1.12 Patch 14 also remains NOT FINAL. No original physiological model or ten-question bank was edited.

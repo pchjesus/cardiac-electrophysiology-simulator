@@ -11,6 +11,9 @@ const refA='aha-2025-brady',refM='medline-labs';
 const caseOne={
  schemaVersion:1,id:'symptomatic-slow-pulse',revision:1,language:'ko',
  status:'draft-human-review-pending',fictional:true,
+ review:{reviewedBy:null,reviewedAt:null,releaseApproved:false},
+ phaseTimes:['2026-09-01T10:10:00+09:00','2026-09-01T10:10:00+09:00',
+             '2026-09-01T10:10:00+09:00','2026-09-01T10:15:00+09:00'],
  title:'증상이 동반된 느린 맥박 · 환자 상태와 관류 사정',
  summary:'환자가 어지럼과 무력감을 호소하고 느린 맥박·낮은 혈압이 확인되었습니다. 심박수만으로 판단하지 않고 환자 상태를 함께 평가하세요.',
  objectives:['증상·활력징후·의식·관류 징후 함께 확인','시급한 보고 및 재평가 우선순위 구분','가상 검사 결과의 시각과 불확실성 확인'],
@@ -85,6 +88,14 @@ function validateCase(c){
  const unique=(arr,key,label)=>{check(new Set(arr.map(o=>o[key])).size===arr.length,'duplicate '+label);};
  check(c.schemaVersion===1,'schema version');check(c.fictional===true,'fictional missing');
  check(c.status==='draft-human-review-pending'||c.status==='clinical-reviewed','review status');
+ check(c.status!=='clinical-reviewed'||(c.review?.releaseApproved===true&&
+   Boolean(c.review.reviewedBy)&&isTime(c.review.reviewedAt)),'unapproved clinical content');
+ check(Array.isArray(c.phaseTimes)&&c.phaseTimes.length===phaseIds.length&&
+   c.phaseTimes.every(isTime),'missing phase time');
+ if(Array.isArray(c.phaseTimes)){
+  for(let i=1;i<c.phaseTimes.length;i++)
+   check(Date.parse(c.phaseTimes[i])>=Date.parse(c.phaseTimes[i-1]),'phase time order');
+ }
  check(Array.isArray(c.questions)&&c.questions.length>=1,'missing questions');
  const obs=[...c.baseline.measurements,...c.reassessment.measurements];
  unique(obs,'id','vitals');unique(c.labs,'id','labs');unique(c.questions,'id','questions');
@@ -100,6 +111,10 @@ function validateCase(c){
    check(Date.parse(lab.availableAt)>=Date.parse(lab.collectedAt),'lab available before collection '+lab.id);
   }else check(lab.value===null&&lab.availableAt===null,'pending lab leaks value '+lab.id);
   check(Number.isInteger(lab.availableFromPhase)&&lab.availableFromPhase>=0&&lab.availableFromPhase<phaseIds.length,'lab visibility phase '+lab.id);
+  if(lab.status==='known'&&isTime(lab.availableAt)&&c.phaseTimes?.[lab.availableFromPhase])
+   check(Date.parse(lab.availableAt)<=Date.parse(c.phaseTimes[lab.availableFromPhase]),'future result revealed early '+lab.id);
+  check(lab.referenceIds.length>0&&lab.referenceIds.every(id=>c.references.some(r=>r.id===id)),
+    'missing lab evidence '+lab.id);
  }
  const refs=new Set(c.references.map(x=>x.id));unique(c.references,'id','reference');
  for(const [i,q] of c.questions.entries()){

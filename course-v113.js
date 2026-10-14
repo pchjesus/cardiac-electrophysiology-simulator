@@ -110,7 +110,9 @@ function render(){
  });
  const check=el('button','v113-action',completed.has(unit)?'✓ 완료 표시 취소':'이 단원 학습 완료 표시');
  check.type='button';check.addEventListener('click',()=>{
-  if(completed.has(unit))completed.delete(unit);else completed.add(unit);render();
+  if(completed.has(unit))completed.delete(unit);else completed.add(unit);
+  render();
+  ui.article.querySelector('.v113-course-actions button:nth-child(2)')?.focus();
  });
  actions.append(see,check);
  if(mode==='guided'){
@@ -135,7 +137,10 @@ function render(){
  // The ORIGINAL v1.12 Guide is mounted separately, never cloned.
  ui.guideHost.hidden=unit!=='unit-cardiac-cycle';
 }
-function selectUnit(id){if(!ids.has(id)||id===unit)return false;unit=id;render();ui?.article.querySelector('h2')?.focus?.();return true;}
+function selectUnit(id){if(!ids.has(id)||id===unit)return false;unit=id;render();
+ const heading=ui?.article.querySelector('.v113-unit-title');
+ if(heading){heading.tabIndex=-1;heading.focus();}
+ return true;}
 function openFromClinical(id,context){
  if(!ids.has(id))return false;
  unit=id;returnContext=context||{source:'clinical'};

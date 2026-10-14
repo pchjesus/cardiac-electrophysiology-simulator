@@ -77,6 +77,10 @@ with sync_playwright() as p:
     ck(page.locator('#v113TabClinical').is_enabled(),"Clinical preview gate missing")
     ck(page.evaluate("CardiacClinicalCasesV113.validateCase({...CardiacClinicalCasesV113.first,labs:[{...CardiacClinicalCasesV113.first.labs[0],status:'pending',value:0}]}).length>0"),
        "invalid lab zero/pending accepted")
+    ck(page.evaluate("CardiacClinicalCasesV113.validateCase({...CardiacClinicalCasesV113.first,labs:[{...CardiacClinicalCasesV113.first.labs[0],availableFromPhase:0},CardiacClinicalCasesV113.first.labs[1]]}).length>0"),
+       "future lab result visible before availableAt was accepted")
+    ck(page.evaluate("CardiacClinicalCasesV113.validateCase({...CardiacClinicalCasesV113.first,status:'clinical-reviewed'}).length>0"),
+       "unapproved case accepted as clinically reviewed")
     clk=page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime,hr:heartRate})")
     page.locator('#v113TabClinical').click()
     page.get_by_role("button",name="가상 사례 시작").click()
