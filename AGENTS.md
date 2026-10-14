@@ -325,3 +325,8 @@ See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.m
 - The project owner selected the student-first responsive chapter reader, calm medical blue/teal palette, single-depth cards, goal→mechanism→nursing→observation→original Guided→references order, phase-focused fictitious patient snapshot/decision, and balanced 16px reading density.
 - Implemented design and regression boundaries are documented in [V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md](V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md). Simulator heart clocks, original ECG/Mechanical/Wiggers and original 5-stage/10-question Guided remain canonical.
 - Clinical still requires independent educational/medical review and is QA-only until approved. v1.13 and v1.12 Patch14 remain NOT FINAL until user PC/mobile testing.
+
+## v1.13 UX Patch 2 — Korean-first terms and concept explanations
+- The approved Korean-first terminology glossary is in [V1.13_UX_PATCH2_KOREAN_TERMS_REPORT.md](V1.13_UX_PATCH2_KOREAN_TERMS_REPORT.md). Keep internal IDs, original physiological/visual A/B clock, waveform, Mechanical/Wiggers calculations, native Timeline and 10 Guided questions untouched. Only student-visible captions, explanatory strings and read-only help UIs are localized.
+- Existing Wiggers ? help and new 8-topic accessible modal explain concept, importance, observation, and model limits; no auto-Seek/Play/Reset. Translate user-visible strings **at their source** (not a recurring DOM rewrite). New Playwright validates interaction/focus/state with 320–1366px and screenshot artifacts.
+- Clinical remains QA-only pending independent education/medical review and PC/Android human acceptance; status NOT FINAL.

@@ -34,9 +34,9 @@
   const dashboard=node('div','dashboard-v111');
   dashboard.id='dashboardV111';
   dashboard.dataset.density='compact';
-  dashboard.setAttribute('aria-label','Integrated cardiac simulation learning dashboard');
+  dashboard.setAttribute('aria-label','심장 전기생리 학습 대시보드');
   const commands=node('section','dashboard-commands card');
-  commands.setAttribute('aria-label','Shared simulation controls');
+  commands.setAttribute('aria-label','공통 심장 시뮬레이션 조작');
   commands.appendChild(control);
   const presets=node('div','dashboard-presets');
   const presetLabel=node('span','dashboard-presets-label','학습 시나리오');
@@ -46,33 +46,33 @@
   densityButton.type='button';
   densityButton.setAttribute('aria-pressed','false');
   densityButton.setAttribute('aria-controls','dashboardResources');
-  densityButton.setAttribute('aria-label','선택형 전도·ECG 사건·간호 원문 자료 목록 열기');
+  densityButton.setAttribute('aria-label','전도·심전도 사건·간호학 원문 자료 목록 열기');
   presets.appendChild(densityButton);
   commands.appendChild(presets);
 
   const workspace=node('section','dashboard-workspace');
-  workspace.setAttribute('aria-label','Synchronized cardiac visualization and study');
+  workspace.setAttribute('aria-label','심장 활동 관찰 및 학습');
   const left=node('section','dashboard-visual card');
-  left.setAttribute('aria-label','Selected cardiac visualization');
+  left.setAttribute('aria-label','현재 선택한 심장 그림');
   const stage=node('div','dashboard-stage');
-  const wiggersButton=node('button','dashboard-wiggers-button','Wiggers');
+  const wiggersButton=node('button','dashboard-wiggers-button','위거스(Wiggers)');
   wiggersButton.type='button';
   wiggersButton.id='dashboardWiggersBtn';
   wiggersButton.setAttribute('aria-pressed','false');
   wiggersButton.setAttribute('aria-controls','wiggersDetails');
   const electrical=$('electricalModeBtn'),mechanical=$('mechanicalModeBtn');
   tabs.setAttribute('role','group');
-  tabs.setAttribute('aria-label','Visualization view: Electrical, Mechanical, or Wiggers');
+  tabs.setAttribute('aria-label','보기 전환: 전기전도, 수축·판막, 위거스 도표');
   tabs.appendChild(wiggersButton);
   stage.append(heart,wiggers);
-  const focusButton=node('button','dashboard-focus-button','⤢ Wiggers 확대 보기');
+  const focusButton=node('button','dashboard-focus-button','⤢ 위거스 도표 확대 보기');
   focusButton.type='button';focusButton.id='dashboardFocusBtn';
   focusButton.setAttribute('aria-pressed','false');
   focusButton.setAttribute('aria-label','Wiggers 그래프 확대 보기 전환');
   left.append(tabs,focusButton,stage);
 
   const inspector=node('aside','dashboard-inspector card');
-  inspector.setAttribute('aria-label','Live physiological and nursing explanation');
+  inspector.setAttribute('aria-label','현재 심장 단계와 간호학적 의미 해설');
   const insHeading=node('h2','dashboard-inspector-heading','실시간 통합 해설');
   const statuses=node('div','dashboard-statuses');
   statuses.innerHTML=
@@ -93,21 +93,21 @@
     return disclosure;
   };
   const ecgExplanation=$('ecgExplanation');
-  const ecgDetails=wrapDetails('dashboard-ecg-details','ECG 구성요소 · 상세 설명',ecgExplanation);
+  const ecgDetails=wrapDetails('dashboard-ecg-details','심전도(ECG) 구성요소 · 자세한 설명',ecgExplanation);
   ecg.querySelector('.ecg-interpretation').after(ecgDetails);
   const phaseDetails=wrapDetails('dashboard-phase-details','전도 단계 · 전체 설명',phasePanel);
-  const eventDetails=wrapDetails('dashboard-event-details','ECG Event · 세부 전도 정보',eventPanel);
+  const eventDetails=wrapDetails('dashboard-event-details','심전도 사건 · 자세한 전도 정보',eventPanel);
   statuses.insertAdjacentHTML('beforeend',
-    '<div><span>ECG 사건</span><strong id="dashboardEvent">Ready</strong></div>');
+    '<div><span>심전도 사건</span><strong id="dashboardEvent">Ready</strong></div>');
   // Relocate the SAME native long-form disclosures below the visual workspace.
   // Do not clone their original nodes, IDs, handlers, or source narratives.
   inspector.append(insHeading,statuses,clinical);
   const resources=node('details','dashboard-resources card');
   resources.id='dashboardResources';
-  resources.setAttribute('aria-label','Additional cardiac education and source notes');
+  resources.setAttribute('aria-label','추가 심장학 학습 자료 및 근거');
   const resourceHint=node('p','dashboard-resources-hint',
-    '필요한 주제만 열어 읽으세요. ECG 파형(P·PR·QRS·ST·T) 설명은 ECG Monitor에서 직접 선택할 수 있습니다. 원문과 모델 한계는 아래 항목에 그대로 보존됩니다.');
-  resources.append(node('summary','dashboard-resources-heading','자료 찾아보기 · 전도 단계 / ECG 사건 / 간호 원문'),
+    '필요한 설명만 선택해 읽으세요. 심전도(ECG) P·PR·QRS·ST·T의 뜻은 상단 심전도 모니터에서 누르면 확인할 수 있습니다. 원문과 교육용 모형의 한계는 그대로 보존됩니다.');
+  resources.append(node('summary','dashboard-resources-heading','더 알아보기 · 전도 단계 / 심전도 사건 / 간호 원문'),
     resourceHint,phaseDetails,eventDetails,deepDive);
   workspace.append(left);
   // Left observation column shares one layout parent; a long right Inspector
@@ -147,7 +147,7 @@
     $('dashboardMechanical').textContent=ready?'Ready':narrative.title;
     $('dashboardEvent').textContent=ready?'Ready':($('ecgEventIndicator').textContent||'—');
     $('dashboardPhysiology').textContent=ready ?
-      '재생하거나 Timeline을 이동하면 ECG·압력·판막·용적의 관계가 표시됩니다.' :
+      '재생하거나 시간 막대를 움직이면 심전도·압력·판막·용적의 관계가 표시됩니다.' :
       brief(narrative.hemodynamics);
     $('dashboardNursing').textContent=ready ?
       '심박수만으로 환자의 혈역학적 안정성을 판단하지 않습니다.' :
@@ -192,7 +192,7 @@
     densityButton.setAttribute('aria-expanded',String(expanded));
     densityButton.setAttribute('aria-label',expanded?
       '자료 목록을 접고 핵심 보기로 돌아가기':
-      '선택형 전도·ECG 사건·간호 원문 자료 목록 열기');
+      '전도·심전도 사건·간호학 원문 자료 목록 열기');
   }
   densityButton.setAttribute('aria-expanded','false');
   densityButton.addEventListener('click',()=>{
@@ -219,7 +219,7 @@
     const expanded=dashboard.dataset.wiggersFocus!=='true';
     dashboard.dataset.wiggersFocus=String(expanded);
     focusButton.setAttribute('aria-pressed',String(expanded));
-    focusButton.textContent=expanded?'⤢ 분할 보기':'⤢ Wiggers 확대 보기';
+    focusButton.textContent=expanded?'⤢ 분할 보기':'⤢ 위거스 도표 확대 보기';
   });
   electrical.addEventListener('click',()=>setView('electrical'));
   mechanical.addEventListener('click',()=>setView('mechanical'));

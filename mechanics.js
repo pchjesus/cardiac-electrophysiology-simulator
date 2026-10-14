@@ -9,11 +9,11 @@
     const BY_ID = id => document.getElementById(id);
     const clamp = (n,lo,hi)=>Math.max(lo,Math.min(hi,n));
     const labels = {
-        filling: ['Ventricular filling','AV valves are open. The relaxed ventricles fill from the atria.'],
-        atrial_systole: ['Atrial systole','Atrial contraction adds the final portion of ventricular filling.'],
-        isovolumetric_contraction: ['Isovolumetric contraction','Ventricular pressure rises with all four valves closed; volume is unchanged.'],
-        ejection: ['Ventricular ejection','Ventricular pressure exceeds arterial pressure. Semilunar valves open and blood is ejected.'],
-        isovolumetric_relaxation: ['Isovolumetric relaxation','Ventricles relax with all four valves closed; volume is unchanged.']
+        filling: ['심실 충만','방실판막이 열린 상태에서 심방의 혈액이 이완된 심실로 흘러 들어옵니다.'],
+        atrial_systole: ['심방 수축','심방이 수축하여 심실의 마지막 충만을 돕습니다.'],
+        isovolumetric_contraction: ['등용적 수축','판막이 닫힌 상태에서 심실 압력은 증가하지만 심실 용적은 일정합니다.'],
+        ejection: ['심실 박출','심실 압력이 동맥 쪽 압력을 넘으면 반월판막이 열리고 혈액이 박출됩니다.'],
+        isovolumetric_relaxation: ['등용적 이완','판막이 닫힌 상태에서 심실이 이완하며 압력은 떨어지고 심실 용적은 일정합니다.']
     };
 
     function getMechanicalTiming(electrical = getActiveTiming()) {
@@ -95,7 +95,7 @@
         mechanicalBtn.classList.toggle('mode-active',showing);
         electricBtn.setAttribute('aria-pressed',String(!showing));
         mechanicalBtn.setAttribute('aria-pressed',String(showing));
-        currentTitle.textContent=showing?'Cardiac Mechanics & Flow':'Cardiac Conduction';
+        currentTitle.textContent=showing?'심장 수축·판막·혈류':'심장 전기전도';
         sync();
         if(showing && heartState.physiologicalTime===0 && !heartState.playing && heartState.currentStep===-1){
             reset();
@@ -112,11 +112,11 @@
         const [title,explanation]=labels[stage];
         BY_ID('mechanicalPhase').textContent=title;
         BY_ID('mechanicalExplanation').textContent=explanation;
-        BY_ID('avValveState').textContent=`AV valves: ${valves.mitral?'Open':'Closed'}`;
-        BY_ID('outflowValveState').textContent=`Semilunar valves: ${valves.aortic?'Open':'Closed'}`;
-        BY_ID('flowState').textContent=`Flow: ${flow==='ejection'?'Ventricles → arteries':flow==='filling'?'Atria → ventricles':'No valve flow'}`;
+        BY_ID('avValveState').textContent=`방실판막: ${valves.mitral?'열림':'닫힘'}`;
+        BY_ID('outflowValveState').textContent=`반월판막: ${valves.aortic?'열림':'닫힘'}`;
+        BY_ID('flowState').textContent=`혈류: ${flow==='ejection'?'심실 → 동맥':flow==='filling'?'심방 → 심실':'뚜렷한 판막 통과 혈류 없음'}`;
         const vol=state.ventricularVolume;
-        BY_ID('volumeState').textContent=`Ventricular filling: ${Math.round(vol*100)}% (relative)`;
+        BY_ID('volumeState').textContent=`심실 상대 용적: ${Math.round(vol*100)}% (학습용)`;
         for(const [id,opened] of Object.entries(valves))setValve(`${id}Valve`,opened);
         const ry=44+12*vol;
         for(const id of ['leftVentricleShape','rightVentricleShape'])BY_ID(id).setAttribute('ry',ry.toFixed(3));
@@ -151,11 +151,11 @@
         if(mode==='mechanical'){
             renderState(lastState);
             BY_ID('mechanicalPhase').textContent='Ready';
-            BY_ID('mechanicalExplanation').textContent='Play or move the timeline to explore the mechanical cycle.';
-            BY_ID('avValveState').textContent='AV valves: —';
-            BY_ID('outflowValveState').textContent='Semilunar valves: —';
-            BY_ID('flowState').textContent='Flow: —';
-            BY_ID('volumeState').textContent='Ventricular volume: —';
+            BY_ID('mechanicalExplanation').textContent='재생하거나 시간 막대를 움직여 심장 수축·판막·혈류 변화를 관찰하세요.';
+            BY_ID('avValveState').textContent='방실판막: —';
+            BY_ID('outflowValveState').textContent='반월판막: —';
+            BY_ID('flowState').textContent='혈류: —';
+            BY_ID('volumeState').textContent='심실 상대 용적: —';
             particleNodes.forEach(dot=>dot.style.opacity='0');
         }
     }

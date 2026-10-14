@@ -17,7 +17,7 @@ core:'동방결절(SA)에서 시작된 흥분은 심방으로 퍼지고, 방실�
 nursing:'P–QRS의 순서와 규칙성을 관찰하되 ECG만으로 수축력이나 관류의 적절성을 확정하지 않습니다.',
 caution:'이 시뮬레이터는 동율동 학습용이며 방실차단이나 모든 부정맥을 생성하지 않습니다.',
 view:'electrical'},
-{id:'unit-ecg-timing',title:'3. ECG 파형과 시간 간격',
+{id:'unit-ecg-timing',title:'3. 심전도(ECG) 파형과 시간 간격',
 goal:'P·PR·QRS·ST·T 및 RR·QT·QTc의 개념과 한계를 구별한다.',
 core:'P파는 심방 탈분극, QRS는 심실 탈분극, T파는 심실 재분극과 관련됩니다. PR·QRS·QT 등 표시값은 모델의 시간적 관계를 읽기 위한 교육용 지표입니다.',
 nursing:'파형과 환자의 맥박·증상을 함께 해석해야 하며 QTc 모델값을 독립적인 환자 진단값으로 사용하면 안 됩니다.',
@@ -29,9 +29,9 @@ core:'등용적 수축·이완에서는 승모판과 대동맥판이 닫혀 상�
 nursing:'S1/S2는 기계적 판막 사건에 대응하는 심음 학습 단서이지만, 모델에서는 실제 청진 소리를 녹음해 들려주지 않습니다.',
 caution:'전기적 사건과 판막 개폐 시점은 다릅니다. 두 판막 사건을 ECG의 한 점과 자동으로 같게 해석하지 않습니다.',
 view:'mechanical'},
-{id:'unit-wiggers',title:'5. Wiggers 통합 이해',
+{id:'unit-wiggers',title:'5. 위거스 도표(Wiggers) 통합 이해',
 goal:'ECG·판막·상대 압력·상대 용적·심음 표지를 함께 읽는다.',
-core:'Wiggers 도식은 같은 심장주기에 전기적 사건과 기계적 사건을 나란히 비교합니다. 곡선의 방향과 사건의 전후 관계부터 읽는 것이 핵심입니다.',
+core:'위거스 도표(Wiggers diagram)는 한 번의 박동에서 심전도·압력·심실 용적·판막 사건을 같은 시간축으로 비교하는 그림입니다. 전기 신호가 먼저 나타나고 판막·혈류 변화가 뒤따르는 순서를 이해하는 것이 핵심입니다.',
 nursing:'압력·용적의 절대 수치보다 변화 양상과 실제 환자 관찰 결과를 종합하는 사고를 연습합니다.',
 caution:'모델의 압력·용적은 상대 지표로 mmHg·mL·일회박출량·EF가 아닙니다. S1/S2는 사건 마커이며 실제 심음 자료가 아닙니다.',
 view:'wiggers'},
@@ -56,6 +56,14 @@ function mount(screen){
  screen.replaceChildren();
  const shell=el('div','v113-course-shell');
  const heading=el('h2','','심장 전기생리학 학습 · 6개 주제');
+ const glossary=el('details','v113-glossary-shortcuts');
+ glossary.append(el('summary','','낯선 심장 용어 바로 알아보기 · 개념 팝업'));
+ const glossaryLinks=el('div','v113-glossary-links');
+ for(const [id,label] of [['wiggers','위거스 도표'],['ecg','심전도(ECG)'],['conduction','전도계'],['mechanical','심장 수축·판막'],['intervals','PR·QTc 간격'],['heartsound','심음(S1·S2)'],['timing','심장주기 시간']]){
+  const b=el('button','v113-concept-trigger',label+' 알아보기');b.type='button';b.dataset.conceptHelp=id;
+  glossaryLinks.append(b);
+ }
+ glossary.append(glossaryLinks);
  const intro=el('p','v113-course-intro','6개 학습 주제와 기존 심장주기 5단계·개념 10문항은 서로 다릅니다. 단원을 둘러보는 것만으로 시뮬레이터 시간은 이동하지 않습니다.');
  const modes=el('div','v113-course-modes');
  modes.setAttribute('role','group');modes.setAttribute('aria-label','학습 방법');
@@ -78,7 +86,7 @@ function mount(screen){
  const sources=el('section','v113-unit-sources');
  content.append(article,guideHost,sources);
  layout.append(picker,content);
- shell.append(heading,intro,modes,progress,back,layout);
+ shell.append(heading,intro,modes,progress,glossary,back,layout);
  screen.append(shell);
  // Desktop always shows the chapter index. On small screens, students choose
  // a chapter only when needed, and the selected reading appears immediately.
@@ -109,6 +117,10 @@ function render(){
  const a=ui.article;a.replaceChildren();
  a.append(el('p','v113-eyebrow',mode==='guided'?'안내형 코스 · 단원을 순서대로 공부할 수 있어요':'자유 탐색 · 필요한 단원을 언제든 선택할 수 있어요'),
   el('h3','v113-unit-title',current.title));
+ const conceptId={'unit-cardiac-cycle':'timing','unit-conduction':'conduction','unit-ecg-timing':'intervals','unit-mechanics':'mechanical','unit-wiggers':'wiggers','unit-nursing':'clinical'}[unit];
+ const explain=el('button','v113-concept-trigger v113-concept-unit','이 개념이 중요한 이유 알아보기');
+ explain.type='button';explain.dataset.conceptHelp=conceptId;
+ a.append(explain);
  textBlock(a,'이 단원에서 배울 것',current.goal);
  // Show the original opening sentence as a clear takeaway, not a second copy.
  const match=current.core.match(/^(.+?[.!?])(?:\s+|$)/);
@@ -142,7 +154,7 @@ function render(){
  a.append(actions);
  const details=el('details','v113-unit-details');
  details.append(el('summary','','관련 원문·도구·출처 확인'));
- const p=el('p','','기존 ECG, Mechanical, Wiggers와 학습 설명은 시뮬레이터 원본에서 확인합니다. 새 교육 문장은 원래 5단계 질문·정답을 복사하거나 변형하지 않습니다.');
+ const p=el('p','','기존 심전도(ECG), 심장 수축·판막(Mechanical), 위거스 도표(Wiggers)의 원본 학습 자료는 시뮬레이터에서 확인할 수 있습니다. 원본 5단계 학습과 10문항은 그대로 유지됩니다.');
  details.append(p);
  if(unit==='unit-cardiac-cycle'){
   const stages=el('p','','기존 심장주기 5단계: '+(root.CardiacGuidedContent?.stages||[]).map(s=>s.label).join(' → '));
@@ -180,6 +192,6 @@ root.CardiacCourseV113=Object.freeze({
  get ready(){return true;},mount,selectUnit,openFromClinical,
  get activeUnitId(){return unit;},get mode(){return mode;},
  get completedUnitIds(){return [...completed];},get returnContext(){return returnContext;},
- get guideHost(){return ui?.guideHost;},get unitIds(){return [...ids];}
+ get guideHost(){return ui?.guideHost;},get unitIds(){return [...ids];},getUnitTitle(id){return units.find(x=>x.id===id)?.title||id;}
 });
 })(window);
