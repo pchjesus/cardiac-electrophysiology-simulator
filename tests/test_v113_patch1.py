@@ -113,6 +113,15 @@ with sync_playwright() as p:
     page.locator('#guidedV112Toggle').click()
     ck(page.evaluate("CardiacGuidedLearning.open"),"explicit Guided start failed")
     ck(page.evaluate("heartState.physiologicalTime>0"),"native Guided Ready observation lost")
+    # Submitted concept answer remains owned by the ONE original Guided instance.
+    pre_answer=snap(page)
+    page.locator('#guidedV112Quiz summary').click()
+    page.locator('#guidedV112BasicQuestion input[type=radio]').first.check()
+    page.locator('#guidedV112SubmitBasic').click()
+    ck(page.evaluate("CardiacGuidedLearning.submittedAnswerCount")==1,
+       "Guided submission was not stored")
+    ck(snap(page)['a']==pre_answer['a'] and snap(page)['b']==pre_answer['b'],
+       "answer submission touched A/B")
     after_start=snap(page)
     button(page,'Clinical').click()
     button(page,'Learning').click()
