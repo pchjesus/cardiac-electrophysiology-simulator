@@ -24,11 +24,11 @@
     !buttons.length)return;
  const PRESETS=Object.freeze({normal:72,bradycardia:50,tachycardia:120});
  const LABELS=Object.freeze({
-   filling:'Ventricular filling · 심실 충만',
-   atrial_systole:'Atrial systole · 심방 수축',
-   isovolumetric_contraction:'Isovolumetric contraction · 등용적 수축',
-   ejection:'Ventricular ejection · 심실 박출',
-   isovolumetric_relaxation:'Isovolumetric relaxation · 등용적 이완'
+   filling:'심실 충만(Ventricular filling)',
+   atrial_systole:'심방 수축(Atrial systole)',
+   isovolumetric_contraction:'등용적 수축(Isovolumetric contraction)',
+   ejection:'심실 박출(Ventricular ejection)',
+   isovolumetric_relaxation:'등용적 이완(Isovolumetric relaxation)'
  });
  const PHASES=Object.freeze({
   filling:{
@@ -107,7 +107,7 @@
   if(!Number.isFinite(hr))return;
   const type=heartRateCategory(hr);
   const tag=RATE[type];
-  const chosen=activePreset ? (' · Preset: '+activePreset) : ' · Custom HR';
+  const chosen=activePreset ? (' · 미리 설정: '+({normal:'정상',bradycardia:'느린 맥박',tachycardia:'빠른 맥박'}[activePreset]||activePreset)) : ' · 사용자 설정';
   set(summary,tag.title+' · '+hr+' bpm'+chosen);
   set(intro,tag.intro);
   const bounds=root.CardiacMechanical.getMechanicalTiming(t);
@@ -119,8 +119,8 @@
   const ready=!heartState.playing&&heartState.currentStep===-1&&
      heartState.physiologicalTime===0&&heartState.visualizationTime===0;
   if(ready){
-   set(stageTitle,'Ready · 시작 전');
-   set(electrical,'재생하거나 Timeline을 이동하면 현재 단계의 전기적 활동과 기계적 사건을 설명한다.');
+   set(stageTitle,'준비 · 시작 전');
+   set(electrical,'재생하거나 심장주기 시간축을 이동하면 현재 단계의 전기적 활동과 기계적 사건을 설명한다.');
    set(hemo,'압력 및 판막 관계는 실제 환자 수치가 아닌 모형의 사건 경계에 기반한다.');
    set(volume,'좌심실 용적은 상대값이며 mL 또는 EF로 해석하지 않는다.');
    set(nursing,tag.nursing);
