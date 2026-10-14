@@ -35,7 +35,7 @@ with sync_playwright() as p:
     page.goto((ROOT/"index.html").as_uri())
     ck('v1.13 Patch 1' in page.locator('h1').inner_text(),'title lacks current Patch 1')
     ck('v1.12 Patch 14' in page.locator('h1').inner_text(),'underlying not-final engine not disclosed')
-    ck(page.evaluate("CardiacMainTabs.active")==="simulator","default route")
+    ck(page.evaluate("CardiacMainTabs.active")=="simulator","default route")
     ck(button(page,'Learning').is_disabled() and button(page,'Clinical').is_disabled(),
        'incomplete education unexpectedly enabled')
     ck(page.locator('#dashboardV111').is_visible(),'original simulator hidden on default route')
@@ -45,7 +45,7 @@ with sync_playwright() as p:
     ck(page.evaluate("heartState.physiologicalTime===0 && heartState.visualizationTime===0"),
        "Ready clock changed")
     ck(not page.evaluate("CardiacMainTabs.switchTo('clinical')"),"public route bypass")
-    ck(page.evaluate("CardiacMainTabs.active")==="simulator","invalid route navigation")
+    ck(page.evaluate("CardiacMainTabs.active")=="simulator","invalid route navigation")
     page.close()
 
     page=browser.new_page(viewport={"width":1366,"height":800})
