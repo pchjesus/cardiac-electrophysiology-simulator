@@ -2016,3 +2016,6 @@ Compact Controller + ECG View
 .v113-term-dialog h3{font-size:17px;color:#176F65;margin:13px 0 6px}
 .v113-term-dialog p{font-size:16px;line-height:1.64;margin:0;overflow-wrap:anywhere}
 @media(max-width:540px){.v113-term-dialog{padding:14px;max-height:86dvh}.v113-term-heading h2{font-size:19px}}
+
+/* Keep short question-mark aids within the legacy desktop compact-height budget. */
+.v113-term-trigger{margin-block:0;vertical-align:middle}
