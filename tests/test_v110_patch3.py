@@ -56,7 +56,7 @@ with sync_playwright() as pw:
     ck(page.locator("#wiggersMarkers title").count()==4,
        "SVG event titles missing")
     ck(page.locator("#wiggersCurrentTime").text_content().startswith(
-       "Physiological phase"),"A-clock status missing")
+       "생리학적 주기 시점(A)"),"A-clock status missing")
     ck("not mmHg" in page.locator(".wiggers-disclaimer").text_content() or
        "not mmHg" in page.locator(".wiggers-disclaimer").text_content().lower(),
        "Nonclinical unit disclaimer missing")
