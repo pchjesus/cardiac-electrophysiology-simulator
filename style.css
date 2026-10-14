@@ -1794,3 +1794,31 @@ Compact Controller + ECG View
   .dashboard-active .mechanical-model-info>summary,
   .dashboard-active .guided-v112-assumptions>summary{min-height:44px}
 }
+
+
+/* v1.13 Patch 1: independent top-level router. Preserve old dashboard layout. */
+.v113-main-nav{margin:8px 0 12px;min-width:0}
+.v113-main-nav-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.v113-main-tab{
+  min-width:0;min-height:46px;padding:10px 8px;border:1px solid #bed0df;
+  border-radius:9px;background:#f8fbfd;color:#274760;font:inherit;
+  font-size:14px;font-weight:700;cursor:pointer;line-height:1.35;
+}
+.v113-main-tab.v113-active{background:#e5f2fb;color:#143d59;border-color:#5987ad;
+  box-shadow:inset 0 -3px 0 #326d9a}
+.v113-main-tab:focus-visible{outline:3px solid #266dba;outline-offset:2px}
+.v113-main-tab:disabled{cursor:not-allowed;opacity:.7;background:#f1f3f6;color:#6a7580}
+.v113-main-tab small{display:block;font-size:11px;font-weight:400}
+.v113-engine-label{font-size:clamp(12px,1.15vw,16px);font-weight:400;color:#647381}
+#v113SimulatorScreen[hidden],.v113-preview-screen[hidden]{display:none!important}
+.v113-preview-screen{min-width:0;max-width:100%}
+.v113-preview-card{max-width:920px;margin:0 auto;line-height:1.65}
+.v113-preview-card p{margin:9px 0;font-size:14px}
+.v113-preview-card .v113-preview-status{font-size:12px;color:#516678}
+@media(max-width:600px){
+  .v113-main-nav{margin:7px 0 9px}
+  .v113-main-nav-buttons{gap:5px}
+  .v113-main-tab{font-size:12px;min-height:48px;padding:7px 3px}
+  .v113-main-tab small{font-size:10px}
+  .v113-preview-card{padding:12px}
+}

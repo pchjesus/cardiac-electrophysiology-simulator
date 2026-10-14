@@ -3,7 +3,13 @@
 
 An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
 
-## v1.13 next-development contract (design only)
+## v1.13 Patch 1 — top-level navigation foundation (NOT FINAL)
+
+The 3-button top-level router is implemented independently of the original simulator engine, with **Simulator** active. **Learning** and **Clinical Application** remain disabled in the ordinary interface until their content is safely integrated; this avoids exposing empty/incomplete teaching screens. The existing Guided 5-stage/3-level course and 10 questions remain available inside the original Simulator Inspector. A/B timing and approved Guided observation actions are unchanged.
+
+For automated internal navigation regression only, `index.html?v113Preview=1` enables the two **clearly labeled nonclinical preview panels** to test tab switching. This flag is **not** a release of educational/clinical features or an access-control feature. Switching active tabs invokes the original `pause()` only when playing, never seeks, resets, or resumes automatically. Refresh starts in Simulator and discards session-only UI state. See [development contract](Cardiac_v1.13_Three_Tab_Development_Contract.md). v1.12 Patch 14 remains **NOT FINAL**, awaiting actual PC/mobile user signoff.
+
+## v1.13 next-development contract (historical design handoff)
 
 The approved **three-tab educational platform** (① 시뮬레이터 / ② 학습 / ③ 임상 적용) and tab-navigation policy are documented in [Cardiac v1.13 Three-Tab Development Contract](Cardiac_v1.13_Three_Tab_Development_Contract.md). **A안 is confirmed:** on top-level tab transitions, pause via the existing `script.js` mechanism while preserving physiological A/visualization B times and the current display position; never auto-play on return. Guided Learning's explicitly initiated first study/stage-seek behavior remains unchanged. Preserve independent clinical answers and guided study state across tabs. This is a **future implementation contract only**, not a v1.13 release; v1.12 Patch 14 remains NOT FINAL pending user PC/mobile signoff.
 
