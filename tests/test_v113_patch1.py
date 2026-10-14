@@ -72,8 +72,22 @@ with sync_playwright() as p:
         page.locator('#heartRateSlider').evaluate("(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}",rate)
         page.locator('#playBtn').click()
         page.wait_for_function("heartState.playing && heartState.physiologicalTime>0")
-        before=snap(page)
-        button(page,'Clinical').click()
+        # Take the reference and trigger the DOM click in ONE JS turn:
+        # RAF is allowed to advance between separate Playwright calls.
+        before=page.evaluate("""() => {
+          const value={
+            a:heartState.physiologicalTime,b:heartState.visualizationTime,
+            start:heartState.cycleStartTime,length:heartState.cycleLength,
+            mirror:heartState.ecgTime,sweep:heartState.sweepPosition,
+            step:heartState.currentStep,hr:heartRate,speed:animationSpeed,
+            timeline:document.querySelector('#timeSlider').value,
+            mode:CardiacDashboard.view,stage:CardiacGuidedLearning.selectedStageId,
+            level:CardiacGuidedLearning.detailLevel,
+            answers:CardiacGuidedLearning.submittedAnswerCount
+          };
+          document.getElementById('v113TabClinical').click();
+          return value;
+        }""")
         ck(not page.evaluate("heartState.playing"),f"pause failure HR={rate}")
         ck(snap(page)==before,f"route changed model state HR={rate}")
         page.wait_for_timeout(200)
