@@ -53,7 +53,7 @@ with sync_playwright() as p:
         page.locator("#heartRateSlider").evaluate("""(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}""",hr)
         page.locator("#timeSlider").evaluate("""e=>{e.value=55;e.dispatchEvent(new Event('input',{bubbles:true}))}""")
         ck("Ready" not in page.locator("#mechanicalPhase").inner_text(),f"Seek mechanical failed HR {hr}")
-        ck("Flow:" in page.locator("#flowState").inner_text(),f"Flow label missing HR {hr}")
+        ck("혈류:" in page.locator("#flowState").inner_text(),f"Flow label missing HR {hr}")
     page.locator("#playBtn").click()
     page.wait_for_timeout(200)
     ck(page.evaluate("heartState.playing"),"Play failed")
