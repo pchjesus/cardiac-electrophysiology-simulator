@@ -42,7 +42,7 @@
    electrical:'P파는 심방 탈분극을 나타내며, 심방의 실제 수축은 전기적 활성화 이후에 일어난다. PR 구간은 방실 전도와 심방-심실 활성화의 시간 차를 이해하는 데 도움이 된다.',
    hemo:'승모판이 열린 동안 심방 수축은 심실로의 마지막 충만을 보조한다. 심실 수축이 시작되기 전이며, 심방 수축이 반드시 모든 박동에서 일정한 비율의 충만을 담당하는 것은 아니다.',
    volume:'심실 이완기 말기에 상대 용적이 증가하는 구간이다. '+
-     '이 시뮬레이터에서의 증가폭은 교육용 곡선의 선택값이지 임상에서 측정된 atrial kick의 기여량이 아니다.',
+     '이 시뮬레이터의 증가폭은 교육용 곡선의 값이며 실제 심방 수축(atrial kick)이 심실 충만에 기여한 양을 측정한 값이 아닙니다.',
    nursing:'P-QRS 순서와 규칙성을 확인하되, P파가 있다고 기계적 심방 수축이나 적절한 심실 충만이 완전히 보장된다고 단정하지 않는다. 환자의 맥박과 혈압·증상을 함께 본다.',
    caution:'전기적-기계적 지연은 단순화되어 있다. 실제 방실 동기, 심방기능 및 승모판 질환의 영향은 모델에 포함되지 않는다.'
   },
@@ -107,7 +107,7 @@
   if(!Number.isFinite(hr))return;
   const type=heartRateCategory(hr);
   const tag=RATE[type];
-  const chosen=activePreset ? (' · Preset: '+activePreset) : ' · Custom HR';
+  const chosen=activePreset ? (' · 선택한 시나리오: '+(activePreset==='normal'?'정상 범위':activePreset==='bradycardia'?'서맥 범위':'빈맥 범위')) : ' · 직접 선택한 심박수';
   set(summary,tag.title+' · '+hr+' bpm'+chosen);
   set(intro,tag.intro);
   const bounds=root.CardiacMechanical.getMechanicalTiming(t);

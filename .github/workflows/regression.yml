@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: v1.13 UX Patch 2 Korean terminology and concept explanation popups
+        run: python tests/test_v113_korean_help.py
       - name: v1.13 P2–P6 integration, course, fictitious case, session and responsive UX
         run: python tests/test_v113_integrated.py
       - name: v1.13 Patch 1 three-tab and canonical A/B Pause regression
@@ -162,6 +164,14 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
+      - name: Upload v1.13 Korean terminology help screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v113-korean-student-concepts-qa
+          path: preview-v113-korean-help/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Upload v1.13 integrated learning and clinical QA screenshots
         if: always()
         uses: actions/upload-artifact@v4

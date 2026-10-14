@@ -51,7 +51,7 @@ function visibleObservations(){
    caseData.baseline.measurements[1].value+' mmHg · '+t(caseData.baseline.at)));
  const details=el('details','v113-case-evidence');
  details.open=evidenceExpanded;
- details.append(el('summary','v113-evidence-summary','ECG · 검사 결과 · 전체 초기 활력징후 확인'),
+ details.append(el('summary','v113-evidence-summary','심전도·검사 결과·추가 활력징후 확인'),
    el('p','v113-clinical-hint','판단 전에 제공된 자료를 확인하세요. 결과 대기·미시행은 정상 결과가 아닙니다.'));
  const extras=caseData.baseline.measurements.filter(v=>v.label!=='심박수'&&v.label!=='혈압');
  if(extras.length){
@@ -63,12 +63,12 @@ function visibleObservations(){
   details.append(div);
  }
  const ecg=el('section','v113-evidence-block');
- ecg.append(el('h4','','별도 ECG 관찰 · '+t(caseData.ecg.recordedAt)),
+ ecg.append(el('h4','','별도 심전도(ECG) 관찰 · '+t(caseData.ecg.recordedAt)),
   el('p','',caseData.ecg.text),
   el('p','v113-model-caution',caseData.ecg.limitation));
  details.append(ecg);
  const lab=el('section','v113-evidence-block');
- lab.append(el('h4','','Lab 검사 · 결과 확인 상태'));
+ lab.append(el('h4','','혈액검사(Lab) · 결과 확인 상태'));
  for(const v of caseData.labs){
   const line=el('div','v113-lab');
   if(session.questionIndex<v.availableFromPhase){
@@ -141,7 +141,7 @@ function reviewCard(q,index){
    el('p','','해설: '+(chosen?.feedback||'미응답')+' '+q.rationale));
  referenceLinks(c,q.referenceIds);
  const actions=el('div','v113-course-actions');
- for(const id of q.relatedUnitIds)actions.append(button('관련 학습 · '+id.replace('unit-',''),()=>openStudy(id)));
+ for(const id of q.relatedUnitIds)actions.append(button('관련 학습: '+(root.CardiacCourseV113?.getUnitTitle(id)||id),()=>openStudy(id)));
  c.append(actions);
  return c;
 }
@@ -150,8 +150,11 @@ function render(){
  screen.replaceChildren();
  const wrap=el('div','v113-clinical-shell');
  wrap.append(el('h2','','③ 임상 적용 · 가상 환자 사례'));
+ const concept=button('간호 사정 개념 알아보기',()=>{},'v113-concept-trigger');
+ concept.dataset.conceptHelp='clinical';
+ wrap.append(concept);
  wrap.append(el('p','v113-model-caution',
-  '개발 검증용: 의료·간호 전문가의 독립 콘텐츠 검토 전인 교육용 가상 사례입니다. 실제 환자 진단·치료 지침으로 사용하지 마세요. 현재 심장 시뮬레이터의 실시간 ECG/혈역학과 연동하지 않습니다.'));
+  '개발 검증용: 의료·간호 전문가의 독립 콘텐츠 검토 전인 교육용 가상 사례입니다. 실제 환자 진단·치료 지침으로 사용하지 마세요. 현재 심장 시뮬레이터의 실시간 심전도(ECG)나 혈역학과 연동하지 않습니다.'));
  if(!session){
   const cat=el('div','v113-case-card');
   cat.append(el('h3','',caseData.title),el('p','',caseData.summary),
@@ -233,7 +236,7 @@ function render(){
    el('p','',ch?.feedback||'답안을 확인하세요'),el('p','',q.rationale));
   referenceLinks(feedback,q.referenceIds);
   const actions=el('div','v113-course-actions');
-  for(const id of q.relatedUnitIds)actions.append(button('관련 학습 · '+id.replace('unit-',''),()=>openStudy(id)));
+  for(const id of q.relatedUnitIds)actions.append(button('관련 학습: '+(root.CardiacCourseV113?.getUnitTitle(id)||id),()=>openStudy(id)));
   actions.append(button(session.questionIndex===3?'결과·복습 보기':'다음 단계',advance,'v113-action v113-primary'));
   feedback.append(actions);article.append(feedback);
  }

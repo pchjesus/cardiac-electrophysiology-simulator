@@ -117,7 +117,7 @@ with sync_playwright() as p:
           """e=>{e.value=54;e.dispatchEvent(new Event('input',{bubbles:true}))}""")
         ck('Ready' not in page.locator('#mechanicalPhase').inner_text(),
            f'mechanical phase no longer updates at HR {hr}')
-        ck('Flow:' in page.locator('#flowState').inner_text(),
+        ck('혈류:' in page.locator('#flowState').inner_text(),
            f'flow feedback missing HR {hr}')
     page.locator('#playBtn').click()
     page.wait_for_function('heartState.playing===true')
