@@ -796,3 +796,9 @@ Patch 9 grid root-cause correction: repeated CSS intrinsic row sizing could not 
 - A native ⓘ information note now occupies its readout's normal document flow when open; no absolute-positioned overlay covering adjacent cards. Preserved original clinical/model wording and keyboard/touch operation.
 - Increased essential Mechanical explanation from 13px to 14px and valve/flow/relative-volume labels from 12px to 13px; 40/44px native information tap targets. Guided repeated caveats remain optional without deleting text.
 - No edits to Physiological A/Visualization B, ECG, mechanics.js, Wiggers domains, quiz sources, or learner state logic. Added geometry/keyboard/touch/source/regression browser test and screenshots. Release is NOT FINAL; human device signoff pending.
+
+## v1.13 — approved three-tab / A-B time policy handoff (documentation only, 2026-10-14)
+- Registered [Cardiac_v1.13_Three_Tab_Development_Contract.md](Cardiac_v1.13_Three_Tab_Development_Contract.md) as the authoritative contract for **future** v1.13 development.
+- Confirmed RAAS-inspired top-level Simulator / Learning / Clinical Application, existing 5 guided cardiac stages and ten questions in Learning, separate clinical-case questions and Lab in Clinical Application.
+- Approved **A안**: switching top-level tabs pauses via the existing canonical Pause while preserving physiological A/visualization B positions and all educational progress; return requires explicit Play. Tab change never implicitly starts Guided Learning or seeks; intentional native study navigation keeps prior behavior.
+- This commit changes documentation only. Simulation code, app's displayed version and tests remain v1.12 Patch 14; PC/mobile signoff and all v1.13 implementation remain outstanding.
