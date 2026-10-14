@@ -26,6 +26,12 @@ with sync_playwright() as p:
     page.locator('#v113TabLearning').click()
     ck(page.locator('#v113LearningScreen').is_visible(),"Learning missing")
     ck(page.locator('.v113-unit-button').count()==6,"six course units missing")
+    ck(page.locator('.v113-course-layout>.v113-unit-picker').count()==1,
+       "A1 desktop course outline missing")
+    ck(page.locator('.v113-unit-picker').evaluate("e=>e.open"),
+       "A1 desktop outline should be expanded")
+    ck(page.locator('.v113-guide-host').evaluate("e=>e.parentElement.classList.contains('v113-course-content')"),
+       "original Guide must share the chapter reading column")
     ck(page.evaluate("CardiacCourseV113.activeUnitId==='unit-cardiac-cycle'"),"default unit wrong")
     ck(not page.evaluate("CardiacGuidedLearning.open"),"navigation auto-started guide")
     ck(page.evaluate("heartState.physiologicalTime===0&&heartState.visualizationTime===0"),"Learning auto-seeked Ready")
@@ -79,6 +85,22 @@ with sync_playwright() as p:
     ck(page.evaluate("heartState.physiologicalTime===0&&heartState.visualizationTime===0"),
        "return to Guided re-seeked after Reset")
     ck(page.evaluate("document.querySelectorAll('#guidedV112Panel').length===1"),"Guide duplicated")
+    # A1 responsive chapter index is compact until the student opens it.
+    page.set_viewport_size({"width":390,"height":850})
+    page.wait_for_function("!document.querySelector('.v113-unit-picker').open")
+    ck(page.locator('.v113-unit-title').is_visible(),
+       "A1 mobile selected reading hidden behind index")
+    page.locator('.v113-unit-picker>summary').click()
+    ck(page.locator('.v113-unit-picker').evaluate("e=>e.open"),
+       "mobile chapter index did not expand on request")
+    previous=page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")
+    page.locator('.v113-unit-button').nth(2).click()
+    ck(not page.locator('.v113-unit-picker').evaluate("e=>e.open"),
+       "mobile selected chapter should return to compact index")
+    ck(page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")==previous,
+       "mobile chapter navigation touched A/B")
+    ck(page.evaluate("CardiacGuidedLearning.submittedAnswerCount===1"),
+       "reflow and mobile chapter change cleared original quiz")
     page.close()
 
     # A preview-only fully functional Clinical session, isolated from simulator.
@@ -96,6 +118,16 @@ with sync_playwright() as p:
     page.locator('#v113TabClinical').click()
     page.get_by_role("button",name="가상 사례 시작").click()
     ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.index===0"),"case did not start")
+    ck(page.locator('.v113-case-stage-layout>.v113-case-observations').count()==1,
+       "E1 patient snapshot is not beside the current decision")
+    ck(page.locator('.v113-case-stage-layout>.v113-case-card').count()==1,
+       "E1 current decision is not in the study layout")
+    ck(page.locator('.v113-case-observations .v113-vital').count()==2,
+       "E1 snapshot must prioritize HR and BP")
+    ck(page.locator('.v113-case-evidence').count()==1,
+       "ECG/Lab disclosure is missing")
+    ck(page.locator('.v113-case-complaint').is_visible(),
+       "patient symptoms must remain visible before choosing an answer")
     ck(page.get_by_role("button",name="선택한 답안 제출").is_disabled(),
        "unanswered clinical quiz must not allow submit")
     page.get_by_role("button",name="같은 사례 다시 풀기").click()
@@ -112,6 +144,11 @@ with sync_playwright() as p:
     ck(page.get_by_text("결과 확인 전",exact=False).count()>=1,"future lab not hidden")
     for idx in range(4):
         ck(page.evaluate("CardiacClinicalV113.sessionSnapshot.index")==idx,"wrong clinical phase")
+        if idx==3:
+            ck(page.locator('.v113-case-observations').get_by_text("46 /min").count()==1,
+               "E1 reassessment HR not visible in essential snapshot")
+            ck(page.locator('.v113-case-observations').get_by_text("90/58 mmHg").count()==1,
+               "E1 follow-up BP not visible in essential snapshot")
         page.locator('.v113-choices input[type=radio]').nth(0 if idx==0 else 1 if idx in (1,3) else 2).check()
         ck(page.get_by_role("button",name="선택한 답안 제출").is_enabled(),
            "submit failed to become enabled after choosing an answer")
@@ -152,16 +189,29 @@ with sync_playwright() as p:
     ck(page.evaluate("heartState.physiologicalTime===0&&heartState.visualizationTime===0"),
        "exit mutated A/B")
 
+    page.get_by_role("button",name="가상 사례 시작").click()
     for width in (320,360,390,768,900,1024,1366):
         page.set_viewport_size({"width":width,"height":900})
         page.locator('#v113TabLearning').click()
         ck(page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),
            f"Learning overflow at {width}px")
         ck(page.locator('.v113-unit-button').count()==6,"unit links disappear on mobile")
+        ck(page.locator('.v113-unit-title').is_visible(),
+           f"{width} active course reading missing")
+        if width<=900:
+            ck(not page.locator('.v113-unit-picker').evaluate("e=>e.open"),
+               f"{width} mobile chapter index should initially be compact")
         page.screenshot(path=str(SHOTS/f"learning-{width}.png"),full_page=True)
         page.locator('#v113TabClinical').click()
         ck(page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),
            f"Clinical overflow at {width}px")
+        ck(page.locator('.v113-case-complaint').is_visible(),
+           f"{width} critical patient information hidden")
+        ck(page.locator('.v113-question-prompt').is_visible(),
+           f"{width} current decision missing")
+        if width<1000:
+            ck(not page.locator('.v113-case-evidence').evaluate("e=>e.open"),
+               f"{width} evidence should begin compact on mobile")
         page.screenshot(path=str(SHOTS/f"clinical-{width}.png"),full_page=True)
     ck(not errors,"JavaScript runtime errors: "+str(errors))
     browser.close()

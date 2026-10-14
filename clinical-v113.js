@@ -8,7 +8,7 @@
 const bank=root.CardiacClinicalCasesV113;
 if(!bank)return;
 const caseData=bank.first;
-let screen=null,session=null,confirmAction=null;
+let screen=null,session=null,confirmAction=null,evidenceExpanded=false;
 const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;};
 const button=(txt,handler,cls='v113-action')=>{const b=el('button',cls,txt);b.type='button';b.addEventListener('click',handler);return b;};
 function focusCurrent(){
@@ -29,57 +29,70 @@ function referenceLinks(parent,ids){
  parent.append(wrap);
 }
 function visibleObservations(){
+ const latest=session.questionIndex>=3;
  const o=el('section','v113-case-observations');
- o.append(el('h3','','환자 기본 자료'),el('p','',caseData.baseline.context),
-   el('p','v113-clinical-time','초기 사정 '+t(caseData.baseline.at)+' · 가상 환자'));
+ o.setAttribute('aria-label','가상 환자 필수 관찰 및 참고 자료');
+ o.append(el('h3','','환자 핵심 정보'),
+   el('p','v113-case-complaint',caseData.baseline.context));
+ if(latest)o.append(el('p','v113-case-followup',caseData.reassessment.context));
+ o.append(el('p','v113-clinical-time',
+   (latest?'재평가 ':'초기 사정 ')+t(latest?caseData.reassessment.at:caseData.baseline.at)+' · 가상 환자'));
+ const vitals=latest?caseData.reassessment.measurements:caseData.baseline.measurements;
  const grid=el('div','v113-clinical-vitals');
- for(const v of caseData.baseline.measurements){
+ for(const v of vitals.filter(v=>v.label==='심박수'||v.label==='혈압')){
   const card=el('div','v113-vital');
-  card.append(el('span','',v.label),el('strong','',String(v.value)+' '+v.unit),el('small','','측정 '+t(v.observedAt)));
+  card.append(el('span','',v.label),el('strong','',String(v.value)+' '+v.unit),
+    el('small','','측정 '+t(v.observedAt)));
   grid.append(card);
  }
  o.append(grid);
- const ecg=el('section','v113-reading-block');
- ecg.append(el('h3','','별도 ECG 관찰 자료 · '+t(caseData.ecg.recordedAt)),
+ if(latest)o.append(el('p','v113-clinical-hint',
+   '초기 심박수 '+caseData.baseline.measurements[0].value+' /min · 초기 혈압 '+
+   caseData.baseline.measurements[1].value+' mmHg · '+t(caseData.baseline.at)));
+ const details=el('details','v113-case-evidence');
+ details.open=evidenceExpanded;
+ details.append(el('summary','v113-evidence-summary','ECG · 검사 결과 · 전체 초기 활력징후 확인'),
+   el('p','v113-clinical-hint','판단 전에 제공된 자료를 확인하세요. 결과 대기·미시행은 정상 결과가 아닙니다.'));
+ const extras=caseData.baseline.measurements.filter(v=>v.label!=='심박수'&&v.label!=='혈압');
+ if(extras.length){
+  const div=el('div','v113-extra-vitals');
+  for(const v of extras){
+   const p=el('p','',v.label+' '+v.value+' '+v.unit+' · '+t(v.observedAt));
+   div.append(p);
+  }
+  details.append(div);
+ }
+ const ecg=el('section','v113-evidence-block');
+ ecg.append(el('h4','','별도 ECG 관찰 · '+t(caseData.ecg.recordedAt)),
   el('p','',caseData.ecg.text),
   el('p','v113-model-caution',caseData.ecg.limitation));
- o.append(ecg);
- const lab=el('section','v113-reading-block');
- lab.append(el('h3','','Lab 검사 · 결과 확인 상태'),
-  el('p','v113-clinical-hint','결과 대기·미시행은 정상 결과가 아닙니다. 검사값은 실제 환자의 생리 모델 출력이 아닙니다.'));
+ details.append(ecg);
+ const lab=el('section','v113-evidence-block');
+ lab.append(el('h4','','Lab 검사 · 결과 확인 상태'));
  for(const v of caseData.labs){
   const line=el('div','v113-lab');
   if(session.questionIndex<v.availableFromPhase){
-   line.append(el('strong','',v.name),
-      el('span','','결과 확인 전 · 채혈 '+t(v.collectedAt)),
-      el('small','','현재 단계에서는 결과가 제공되지 않습니다.'));
+   line.append(el('strong','',v.name),el('span','','결과 확인 전 · 채혈 '+t(v.collectedAt)),
+    el('small','','현재 단계에서는 결과가 제공되지 않습니다.'));
   }else{
    const value=v.status==='known'?v.value+' '+v.unit:
      v.status==='pending'?'결과 대기 중':'미시행';
    line.append(el('strong','',v.name),el('span','',value),
-     el('small','','검체 '+t(v.collectedAt)+' · 결과 '+(v.availableAt?t(v.availableAt):'미확인')),
-     el('small','','해당 검사실 참고: '+v.range),el('p','',v.note));
+    el('small','','검체 '+t(v.collectedAt)+' · 결과 '+(v.availableAt?t(v.availableAt):'미확인')),
+    el('small','','해당 검사실 참고: '+v.range),el('p','',v.note));
   }
   lab.append(line);
  }
- o.append(lab);
- if(session.questionIndex>=3){
-  const re=el('section','v113-reading-block');
-  re.append(el('h3','','10:15 재평가 · 사전 작성된 가상 경과'),
-    el('p','',caseData.reassessment.context));
-  const regrid=el('div','v113-clinical-vitals');
-  for(const v of caseData.reassessment.measurements){
-   const card=el('div','v113-vital');
-   card.append(el('span','',v.label),el('strong','',String(v.value)+' '+v.unit),el('small','','측정 '+t(v.observedAt)));
-   regrid.append(card);
-  }
-  re.append(regrid);o.append(re);
- }
+ details.append(lab);
+ details.addEventListener('toggle',()=>{if(details.isConnected)evidenceExpanded=details.open;});
+ o.append(details);
  return o;
 }
 function start(){
  session={caseId:caseData.id,questionIndex:0,answers:Object.create(null),status:'active'};
- confirmAction=null;render();focusCurrent();
+ confirmAction=null;
+ evidenceExpanded=root.matchMedia('(min-width:1000px)').matches;
+ render();focusCurrent();
 }
 function restart(){
  if(!session)return;
@@ -182,7 +195,8 @@ function render(){
   for(const {q,i} of [...wrong,...right])wrap.append(reviewCard(q,i));
   screen.append(wrap);return;
  }
- wrap.append(visibleObservations());
+ const stageLayout=el('div','v113-case-stage-layout');
+ stageLayout.append(visibleObservations());
  const q=caseData.questions[session.questionIndex];
  const article=el('section','v113-case-card'),answered=session.answers[q.id];
  article.append(el('h3','','학습 판단 · '+(session.questionIndex+1)+'단계'),
@@ -223,10 +237,17 @@ function render(){
   actions.append(button(session.questionIndex===3?'결과·복습 보기':'다음 단계',advance,'v113-action v113-primary'));
   feedback.append(actions);article.append(feedback);
  }
- wrap.append(article);screen.append(wrap);
+ stageLayout.append(article);wrap.append(stageLayout);screen.append(wrap);
 }
 function mount(target){
  screen=target;screen.classList.add('v113-clinical');screen.setAttribute('aria-label','가상 환자 간호 판단 교육');
+ // Read-only disclosure follows responsive space, not simulation time.
+ const desktop=root.matchMedia('(min-width:1000px)');
+ desktop.addEventListener('change',event=>{
+  evidenceExpanded=event.matches;
+  const current=screen.querySelector('.v113-case-evidence');
+  if(current)current.open=evidenceExpanded;
+ });
  render();
 }
 root.CardiacClinicalV113=Object.freeze({

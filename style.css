@@ -1823,78 +1823,176 @@ Compact Controller + ECG View
   .v113-preview-card{padding:12px}
 }
 
-/* v1.13 education surfaces. The old Dashboard Canvas/SVG is never cloned. */
-.v113-learning,.v113-clinical{width:100%;min-width:0;max-width:100%;padding:0 0 18px}
-.v113-course-shell,.v113-clinical-shell{max-width:1160px;min-width:0;margin:0 auto}
-.v113-course-shell h2,.v113-clinical-shell h2{font-size:clamp(21px,2vw,28px);line-height:1.3}
-.v113-course-intro,.v113-clinical-hint{font-size:15px;line-height:1.65;color:#405e70}
-.v113-course-modes,.v113-course-actions{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0}
-.v113-action,.v113-unit-button{font:inherit;font-size:14px;line-height:1.45;text-align:left;
- color:#193c53;background:#f5fafc;border:1px solid #70899b;border-radius:9px;
- padding:10px 12px;min-height:44px;cursor:pointer}
-.v113-action:focus-visible,.v113-unit-button:focus-visible,.v113-choice:focus-within{
- outline:3px solid #236dad;outline-offset:2px}
-.v113-primary,.v113-chosen{background:#d8edf9!important;border-color:#4b88ad!important}
-.v113-action:disabled{opacity:.55;cursor:not-allowed}
-.v113-progress{color:#2c5872;font-size:14px;font-weight:600;line-height:1.5}
-.v113-course-layout{display:grid;grid-template-columns:minmax(200px,246px) minmax(0,1fr);gap:18px;align-items:start}
-.v113-unit-list{display:flex;flex-direction:column;gap:8px;min-width:0}
-.v113-unit-button{width:100%;overflow-wrap:anywhere}
-.v113-unit-reading,.v113-case-card,.v113-case-observations,.v113-review-card,.v113-reading-block{
- min-width:0;background:#fff;border:1px solid #d4e2ec;border-radius:12px;
- padding:16px;margin-bottom:13px;overflow-wrap:anywhere}
-.v113-unit-reading .v113-unit-title{font-size:clamp(19px,2vw,24px);margin:5px 0 14px}
-.v113-reading-block h4,.v113-clinical-shell h3{font-size:17px;line-height:1.4;margin:0 0 9px}
-.v113-reading-block{padding:13px;background:#fafcfe}
-.v113-reading-block p,.v113-unit-reading p,.v113-case-card p,.v113-review-card p,
-.v113-case-observations p{font-size:16px;line-height:1.62;overflow-wrap:anywhere}
-.v113-model-caution{padding:10px 12px;border-left:3px solid #8d7a40;background:#fcf7ea;
- font-size:14px!important;line-height:1.6;overflow-wrap:anywhere}
-.v113-eyebrow{font-size:13px!important;color:#526d80}
-.v113-unit-details summary{min-height:44px;padding:10px 0;cursor:pointer}
-.v113-guide-host{max-width:850px;margin-top:15px;min-width:0}
-.v113-guide-host .guided-v112-trigger{margin:8px 0;min-height:44px}
-.v113-guide-host .guided-v112{background:#fff;border:1px solid #d6e2ea;padding:14px;border-radius:12px}
-.v113-case-card{max-width:970px}
-.v113-clinical-vitals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.v113-vital{display:flex;flex-direction:column;gap:4px;border:1px solid #d5e3ed;
- padding:11px;border-radius:9px;background:#f6fbff;min-width:0}
-.v113-vital span,.v113-vital small{font-size:13px;color:#526b7c}
-.v113-vital strong{font-size:21px;overflow-wrap:anywhere;line-height:1.35}
-.v113-lab{display:flex;flex-direction:column;gap:5px;border-top:1px solid #dbe6ed;
- padding:11px 0;min-width:0;font-size:15px}
-.v113-lab small{color:#4b6273;font-size:13px;line-height:1.5}
-.v113-clinical-time{font-size:13px!important;color:#456477}
-.v113-choices{padding:5px 0;border:0;min-width:0}
-.v113-choices legend{font-size:14px;font-weight:700;margin-bottom:8px}
-.v113-choice{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #dae3e9;
- border-radius:9px;margin:8px 0;cursor:pointer;min-height:48px;line-height:1.55}
-.v113-choice{border-color:#70899b}
-.v113-choice span{font-size:15px}
-.v113-choice input{flex:0 0 auto;margin-top:4px;accent-color:#256798;width:18px;height:18px}
-.v113-question-prompt{font-weight:700}
-.v113-feedback{border-top:2px solid #b4c9d9;margin-top:15px;padding-top:12px}
-.v113-feedback h4{font-size:16px}
-.v113-feedback:focus{outline:0}
-.v113-confirm{background:#fbf3df;border:1px solid #c9ac68;border-radius:10px;padding:12px}
+/* v1.13 Student UX approved A1+B1+C1+D1+E1+F1.
+   Simulator engine, original SVG and original Guided design are untouched.
+   Semantic navy/blue/teal/amber meet intended text/interactive contrast. */
+.v113-main-nav{margin:8px 0 12px}
+.v113-main-tab{background:#F7F9FB;color:#183B56;border-color:#667F90}
+.v113-main-tab.v113-active{background:#E6F1F7;color:#183B56;border-color:#246A92;
+ box-shadow:inset 0 -3px 0 #246A92}
+.v113-main-tab:focus-visible{outline-color:#246A92}
+.v113-learning,.v113-clinical{
+ --ux-ink:#183B56;--ux-body:#273E4E;--ux-subtle:#426376;
+ --ux-blue:#246A92;--ux-teal:#176F65;--ux-border:#C9D5DD;
+ --ux-surface:#F7F9FB;--ux-warm:#FFF7E8;
+ box-sizing:border-box;width:100%;max-width:100%;min-width:0;
+ padding:18px clamp(10px,2vw,22px) 24px;background:var(--ux-surface);
+ border-radius:14px;color:var(--ux-body);
+}
+.v113-course-shell,.v113-clinical-shell{width:100%;max-width:1120px;min-width:0;margin:0 auto}
+.v113-course-shell>h2,.v113-clinical-shell>h2{font-size:clamp(24px,2.3vw,28px);
+ color:var(--ux-ink);line-height:1.33;margin:0 0 10px}
+.v113-course-intro,.v113-clinical-hint{font-size:14px;line-height:1.6;
+ color:var(--ux-subtle);margin:7px 0 12px}
+.v113-course-modes{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.v113-course-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 8px}
+.v113-action,.v113-unit-button{
+ box-sizing:border-box;min-width:0;max-width:100%;min-height:44px;
+ border:1px solid #667F90;border-radius:9px;background:#FFFFFF;
+ color:var(--ux-ink);font:inherit;font-size:14px;font-weight:600;
+ line-height:1.5;text-align:left;padding:10px 14px;cursor:pointer;
+ overflow-wrap:anywhere;
+}
+.v113-action:hover:not(:disabled),.v113-unit-button:hover:not(:disabled){
+ background:#E6F1F7;border-color:var(--ux-blue)}
+.v113-action:focus-visible,.v113-unit-button:focus-visible,
+.v113-choice:focus-within,.v113-unit-picker>summary:focus-visible{
+ outline:3px solid var(--ux-blue);outline-offset:3px;
+}
+.v113-action:disabled{opacity:.6;cursor:not-allowed}
+.v113-primary{background:var(--ux-blue)!important;border-color:var(--ux-blue)!important;
+ color:#FFFFFF!important}
+.v113-primary:hover:not(:disabled){background:#174E72!important}
+.v113-chosen,.v113-course-modes [aria-pressed="true"]{
+ background:#E4F3F0!important;color:#154E47!important;border-color:var(--ux-teal)!important;
+}
+.v113-progress{font-size:14px;font-weight:700;color:var(--ux-teal);
+ line-height:1.55;margin:10px 0 16px}
+.v113-return{margin-bottom:12px}
+.v113-course-layout{
+ display:grid;grid-template-columns:minmax(210px,240px) minmax(0,1fr);
+ gap:20px;align-items:start;min-width:0;
+}
+.v113-unit-picker{min-width:0;background:#FFFFFF;border:1px solid var(--ux-border);
+ border-radius:12px;padding:10px;margin:0}
+.v113-unit-picker>summary{cursor:pointer;min-height:44px;display:flex;
+ align-items:center;padding:8px 10px;color:var(--ux-ink);
+ font-size:15px;font-weight:700}
+.v113-unit-list{display:flex;flex-direction:column;gap:7px;min-width:0}
+.v113-unit-button{width:100%;font-size:14px;font-weight:600}
+.v113-unit-button[aria-pressed="true"]{
+ background:#E4F3F0!important;border-color:var(--ux-teal)!important;
+ color:#154E47!important;border-left:4px solid var(--ux-teal)!important;
+}
+.v113-course-content{min-width:0;max-width:810px}
+.v113-unit-reading,.v113-case-card,.v113-case-observations,.v113-review-card{
+ box-sizing:border-box;min-width:0;background:#FFFFFF;
+ border:1px solid var(--ux-border);border-radius:12px;
+ padding:clamp(14px,2vw,22px);overflow-wrap:anywhere;
+}
+.v113-unit-reading{margin-bottom:12px}
+.v113-unit-title{font-size:clamp(20px,2vw,24px);color:var(--ux-ink);
+ line-height:1.4;margin:4px 0 16px}
+.v113-eyebrow{font-size:14px;color:var(--ux-teal);font-weight:700;margin:0 0 4px}
+.v113-reading-block{margin:16px 0;padding:0;background:transparent;border:0}
+.v113-reading-block:not(:first-of-type){border-top:1px solid #DCE5EB;padding-top:14px}
+.v113-reading-block h4,.v113-evidence-block h4{font-size:17px;color:var(--ux-ink);
+ margin:0 0 8px;line-height:1.45}
+.v113-reading-block p,.v113-unit-reading>p,.v113-case-card p,
+.v113-case-observations p,.v113-review-card p,.v113-evidence-block p{
+ font-size:16px;line-height:1.62;overflow-wrap:anywhere;
+}
+.v113-reading-block p{margin:0}
+.v113-key-idea{font-size:17px!important;line-height:1.6!important;
+ font-weight:650;color:var(--ux-ink);padding:10px 14px;
+ border-left:3px solid var(--ux-teal);background:#F0F7F5;margin:12px 0 15px}
+.v113-model-caution{font-size:14px!important;line-height:1.65!important;
+ color:#664900;background:var(--ux-warm);
+ border-left:3px solid #916500;padding:10px 13px;margin:12px 0;
+ overflow-wrap:anywhere}
+.v113-unit-details{border-top:1px solid #DCE5EB;padding-top:8px;margin:18px 0 2px}
+.v113-unit-details summary{min-height:44px;padding:10px 0;cursor:pointer;
+ font-size:14px;font-weight:700;color:var(--ux-blue)}
+.v113-guide-host{min-width:0;max-width:810px;margin:10px 0 0}
+.v113-guide-host .guided-v112-trigger{min-height:44px;margin:5px 0 10px}
+.v113-guide-host .guided-v112{box-sizing:border-box;max-width:100%;
+ border:1px solid var(--ux-border);border-radius:12px;
+ background:#FFFFFF;padding:clamp(12px,2vw,20px)}
+.v113-clinical-shell{max-width:1120px}
+.v113-case-card{margin:0 0 14px}
+.v113-case-stage-layout{
+ display:grid;grid-template-columns:minmax(275px,.86fr) minmax(0,1.6fr);
+ gap:16px;align-items:start;min-width:0;margin-top:14px;
+}
+.v113-case-stage-layout>.v113-case-card{margin:0}
+.v113-case-stage-layout h3,.v113-clinical-shell h3{
+ font-size:18px;color:var(--ux-ink);line-height:1.4;margin:0 0 12px}
+.v113-case-complaint{font-weight:550}
+.v113-case-followup{color:#154E47;border-left:3px solid var(--ux-teal);
+ padding:8px 10px;background:#F0F7F5}
+.v113-clinical-time{font-size:14px!important;color:var(--ux-subtle);
+ font-weight:700;margin:7px 0 10px}
+.v113-clinical-vitals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;margin:14px 0}
+.v113-vital{display:flex;flex-direction:column;gap:5px;min-width:0;
+ border:0;border-radius:9px;background:#E9F2F7;padding:12px}
+.v113-vital span,.v113-vital small{color:var(--ux-subtle);font-size:14px;line-height:1.4}
+.v113-vital strong{color:var(--ux-ink);font-size:clamp(17px,2vw,21px);
+ line-height:1.36;overflow-wrap:anywhere}
+.v113-case-evidence{margin:14px 0 0;border-top:1px solid #DCE5EB;padding-top:5px}
+.v113-evidence-summary{font-size:14px;min-height:48px;
+ display:flex;align-items:center;cursor:pointer;font-weight:700;color:var(--ux-blue)}
+.v113-extra-vitals{display:flex;flex-wrap:wrap;gap:8px}
+.v113-extra-vitals p{font-size:14px!important;background:#EEF3F6;
+ border-radius:7px;padding:5px 8px;margin:0}
+.v113-evidence-block{margin:12px 0 0;padding:12px 0 0;
+ border-top:1px solid #DCE5EB}
+.v113-lab{display:flex;flex-direction:column;gap:4px;
+ border-top:1px solid #DFE8EF;padding:10px 0;font-size:15px}
+.v113-lab>strong{color:var(--ux-ink)}
+.v113-lab small{font-size:14px;line-height:1.5;color:var(--ux-subtle)}
+.v113-question-prompt{font-size:17px!important;font-weight:700;
+ color:var(--ux-ink);line-height:1.5}
+.v113-choices{border:0;padding:6px 0;min-width:0}
+.v113-choices legend{font-size:14px;font-weight:700;margin-bottom:9px;color:var(--ux-subtle)}
+.v113-choice{display:flex;align-items:flex-start;min-height:48px;gap:10px;
+ border:1px solid #667F90;border-radius:9px;background:#FFFFFF;
+ padding:12px;margin:9px 0;cursor:pointer;line-height:1.6}
+.v113-choice:has(input:checked){border-color:var(--ux-blue);
+ background:#E8F3F9;box-shadow:inset 3px 0 0 var(--ux-blue)}
+.v113-choice span{font-size:16px;overflow-wrap:anywhere}
+.v113-choice input{flex:0 0 auto;margin:4px 0 0;accent-color:var(--ux-blue);
+ width:18px;height:18px}
+.v113-feedback{margin-top:16px;border-top:2px solid #ADC4D4;padding-top:14px}
+.v113-feedback h4{font-size:17px;color:var(--ux-ink)}
+.v113-feedback:focus{outline:none}
+.v113-confirm{padding:16px;border:1px solid #916500;background:var(--ux-warm);
+ border-radius:12px}
 .v113-clinical-refs{display:flex;flex-direction:column;gap:8px;margin:12px 0}
-.v113-clinical-refs a{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-.v113-review-status{font-weight:700;color:#28495f}
-.v113-return{margin-bottom:10px}
+.v113-clinical-refs a{font-size:14px;line-height:1.5;color:var(--ux-blue);
+ overflow-wrap:anywhere}
+.v113-review-card{margin:0 0 12px}
+.v113-review-status{font-size:14px!important;font-weight:700;color:var(--ux-teal)}
 .v113-learning [hidden],.v113-clinical [hidden]{display:none!important}
+@media(min-width:901px){
+ .v113-unit-picker>summary{display:none}
+ .v113-unit-picker{position:sticky;top:12px}
+}
 @media(max-width:900px){
- .v113-course-layout{grid-template-columns:minmax(0,1fr);gap:12px}
- .v113-unit-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .v113-course-layout,.v113-case-stage-layout{grid-template-columns:minmax(0,1fr);gap:12px}
+ .v113-course-content{max-width:100%}
+ .v113-unit-picker{padding:4px 9px}
+ .v113-unit-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:8px 0}
 }
 @media(max-width:540px){
+ .v113-learning,.v113-clinical{padding:12px 9px 20px}
  .v113-unit-list{grid-template-columns:minmax(0,1fr)}
- .v113-course-shell h2,.v113-clinical-shell h2{font-size:21px}
- .v113-learning,.v113-clinical{padding:0 2px 16px}
  .v113-unit-reading,.v113-case-card,.v113-case-observations,
- .v113-review-card,.v113-reading-block{padding:12px}
+ .v113-review-card{padding:14px}
  .v113-clinical-vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
- .v113-reading-block p,.v113-unit-reading p,.v113-case-card p,
- .v113-review-card p,.v113-case-observations p{font-size:16px}
- .v113-action,.v113-unit-button{min-height:44px;max-width:100%}
- .v113-choice span{font-size:16px}
+ .v113-action,.v113-unit-button{min-height:44px}
+ .v113-case-stage-layout{gap:10px}
+}
+@media (prefers-reduced-motion: reduce){
+ .v113-learning *, .v113-clinical *{scroll-behavior:auto!important;transition:none!important}
 }

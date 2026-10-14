@@ -319,3 +319,9 @@ In compact study views, keep only the learner-relevant phase, valve, flow and re
 
 ## v1.13 Student UX audit / choices (design approval pending; NOT FINAL)
 See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md) for current code inspection, minimally scoped accessibility and quiz/confirmation focus repairs, unreviewed clinical content boundary, and six explicit visual UX decision groups (A–F). No overall layout/palette/reading-order choice has been silently made. Preserve original A/B, ECG, Mechanical, Wiggers, original 10-question Guided and clinical release gate.
+
+
+## v1.13 UX Patch 1 — Student-first A1+B1+C1+D1+E1+F1 (approved)
+- The project owner selected the student-first responsive chapter reader, calm medical blue/teal palette, single-depth cards, goal→mechanism→nursing→observation→original Guided→references order, phase-focused fictitious patient snapshot/decision, and balanced 16px reading density.
+- Implemented design and regression boundaries are documented in [V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md](V1.13_UX_PATCH1_IMPLEMENTATION_REPORT.md). Simulator heart clocks, original ECG/Mechanical/Wiggers and original 5-stage/10-question Guided remain canonical.
+- Clinical still requires independent educational/medical review and is QA-only until approved. v1.13 and v1.12 Patch14 remain NOT FINAL until user PC/mobile testing.
