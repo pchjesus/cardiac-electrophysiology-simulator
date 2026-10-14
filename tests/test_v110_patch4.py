@@ -131,7 +131,7 @@ with sync_playwright() as pw:
     check(popup.is_hidden(),"Outside Reset click did not close nonmodal help")
     check(details.evaluate("(e)=>e.open"),"Reset collapsed Wiggers")
     check(page.locator("#wiggersCurrentStage").text_content()=="Ready","Reset stage")
-    check("Move the timeline" in page.locator("#wiggersLearningStage").text_content(),
+    check("심장주기 시간축" in page.locator("#wiggersLearningStage").text_content(),
           "Reset lesson stale")
     page.locator("#playBtn").click()
     page.wait_for_timeout(120)
