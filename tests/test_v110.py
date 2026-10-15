@@ -180,8 +180,9 @@ with sync_playwright() as pw:
           "Reset changed Mechanical mode")
     check(page.locator("#mechanicalPhase").text_content() == "준비",
           "Mechanical Ready not preserved")
-    check(page.locator("#mechanicalPhase").text_content() ==
-          old.locator("#mechanicalPhase").text_content(), "Reset feedback differs")
+    check(old.locator("#mechanicalPhase").text_content() == "Ready",
+          "Archived v1.9 baseline Ready feedback changed")
+    # Only the translated display differs; both old and current engines must reset.
     page.locator("#playBtn").click()
     page.wait_for_timeout(150)
     page.locator("#pauseBtn").click()
