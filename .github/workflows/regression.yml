@@ -25,6 +25,8 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: v1.13 UX Patch 3 Korean terms, accessible labels and state regression
+        run: python tests/test_v113_ux_patch3.py
       - name: v1.13 P2–P6 integration, course, fictitious case, session and responsive UX
         run: python tests/test_v113_integrated.py
       - name: v1.13 Patch 1 three-tab and canonical A/B Pause regression
