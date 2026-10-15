@@ -178,7 +178,7 @@ with sync_playwright() as pw:
         tab.locator("#resetBtn").click()
     check(page.locator("#mechanicalModeBtn").get_attribute("aria-pressed") == "true",
           "Reset changed Mechanical mode")
-    check(page.locator("#mechanicalPhase").text_content() == "Ready",
+    check(page.locator("#mechanicalPhase").text_content() == "준비",
           "Mechanical Ready not preserved")
     check(page.locator("#mechanicalPhase").text_content() ==
           old.locator("#mechanicalPhase").text_content(), "Reset feedback differs")
