@@ -39,8 +39,8 @@ with sync_playwright() as p:
  ck(not page.locator('#wiggersChart').is_visible(),'Wiggers is not hidden initially')
  ck(page.evaluate('CardiacDashboard.view')=='electrical','default dashboard tab')
  ck(page.evaluate('CardiacDashboard.isReady'),'initial Ready status')
- ck('Ready' in page.locator('#dashboardElectrical').inner_text(),'initial electrical Ready')
- ck('Ready' in page.locator('#dashboardMechanical').inner_text(),'initial mechanical Ready')
+ ck('준비' in page.locator('#dashboardElectrical').inner_text(),'initial electrical Ready')
+ ck('준비' in page.locator('#dashboardMechanical').inner_text(),'initial mechanical Ready')
 
  # The three views are only presentations; the canonical A/B and manual
  # controls must never reset when clicking between them.
@@ -133,7 +133,7 @@ with sync_playwright() as p:
    'Summary panel physiology empty')
  ck(page.locator('#dashboardNursing').inner_text().strip()!='',
    'Summary panel nursing empty')
- ck(page.locator('#dashboardMechanical').inner_text()!='Ready','Mechanical phase not synchronized')
+ ck(page.locator('#dashboardMechanical').inner_text()!='준비','Mechanical phase not synchronized')
  ck(page.locator('#wiggersDeepDive').is_visible(),'Deep learning must be independent of Wiggers tab')
 
  page.locator('#playBtn').click()
@@ -152,9 +152,9 @@ with sync_playwright() as p:
  page.locator('#resetBtn').click()
  ck(page.evaluate('CardiacDashboard.view')=='wiggers','Reset changed chosen tab')
  ck(page.evaluate('CardiacDashboard.isReady'),'Reset did not restore Ready')
- ck(page.locator('#dashboardElectrical').inner_text()=='Ready','Reset Electrical inspector stale')
- ck(page.locator('#dashboardMechanical').inner_text()=='Ready','Reset Mechanical inspector stale')
- ck(page.locator('#wiggersCurrentStage').inner_text()=='Ready','Wiggers Ready regression')
+ ck(page.locator('#dashboardElectrical').inner_text()=='준비','Reset Electrical inspector stale')
+ ck(page.locator('#dashboardMechanical').inner_text()=='준비','Reset Mechanical inspector stale')
+ ck(page.locator('#wiggersCurrentStage').inner_text()=='준비','Wiggers Ready regression')
  ck(page.evaluate("document.getElementById('wiggersDeepDive').open"),
     'Reset discarded learner disclosure preference')
 
