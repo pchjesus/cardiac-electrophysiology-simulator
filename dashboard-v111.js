@@ -34,9 +34,9 @@
   const dashboard=node('div','dashboard-v111');
   dashboard.id='dashboardV111';
   dashboard.dataset.density='compact';
-  dashboard.setAttribute('aria-label','Integrated cardiac simulation learning dashboard');
+  dashboard.setAttribute('aria-label','심장 생리 시뮬레이터와 학습 현황');
   const commands=node('section','dashboard-commands card');
-  commands.setAttribute('aria-label','Shared simulation controls');
+  commands.setAttribute('aria-label','심장 시뮬레이터 공통 조작');
   commands.appendChild(control);
   const presets=node('div','dashboard-presets');
   const presetLabel=node('span','dashboard-presets-label','학습 시나리오');
@@ -51,9 +51,9 @@
   commands.appendChild(presets);
 
   const workspace=node('section','dashboard-workspace');
-  workspace.setAttribute('aria-label','Synchronized cardiac visualization and study');
+  workspace.setAttribute('aria-label','동기화된 심장 시각화와 학습');
   const left=node('section','dashboard-visual card');
-  left.setAttribute('aria-label','Selected cardiac visualization');
+  left.setAttribute('aria-label','현재 선택한 심장 시각화');
   const stage=node('div','dashboard-stage');
   const wiggersButton=node('button','dashboard-wiggers-button','위거스 도표');
   wiggersButton.type='button';
@@ -62,7 +62,7 @@
   wiggersButton.setAttribute('aria-controls','wiggersDetails');
   const electrical=$('electricalModeBtn'),mechanical=$('mechanicalModeBtn');
   tabs.setAttribute('role','group');
-  tabs.setAttribute('aria-label','Visualization view: Electrical, Mechanical, or Wiggers');
+  tabs.setAttribute('aria-label','전기 전도, 심장 수축·판막, 위거스 도표 보기 선택');
   tabs.appendChild(wiggersButton);
   stage.append(heart,wiggers);
   const focusButton=node('button','dashboard-focus-button','⤢ 위거스 도표 확대');
@@ -72,12 +72,12 @@
   left.append(tabs,focusButton,stage);
 
   const inspector=node('aside','dashboard-inspector card');
-  inspector.setAttribute('aria-label','Live physiological and nursing explanation');
+  inspector.setAttribute('aria-label','실시간 심장 생리·간호 해설');
   const insHeading=node('h2','dashboard-inspector-heading','실시간 통합 해설');
   const statuses=node('div','dashboard-statuses');
   statuses.innerHTML=
-    '<div><span>전기적 단계</span><strong id="dashboardElectrical">Ready</strong></div>'+
-    '<div><span>기계적 단계</span><strong id="dashboardMechanical">Ready</strong></div>';
+    '<div><span>전기적 단계</span><strong id="dashboardElectrical">준비</strong></div>'+
+    '<div><span>기계적 단계</span><strong id="dashboardMechanical">준비</strong></div>';
   const clinical=node('section','dashboard-clinical');
   clinical.innerHTML=
     '<h3>생리학적 변화</h3><p id="dashboardPhysiology">재생하거나 심장주기 시간축을 움직이면 현재 심장 주기를 설명합니다.</p>'+
@@ -98,13 +98,13 @@
   const phaseDetails=wrapDetails('dashboard-phase-details','전도 단계 · 전체 설명',phasePanel);
   const eventDetails=wrapDetails('dashboard-event-details','심전도 사건 · 자세한 전도 정보',eventPanel);
   statuses.insertAdjacentHTML('beforeend',
-    '<div><span>ECG 사건</span><strong id="dashboardEvent">Ready</strong></div>');
+    '<div><span>ECG 사건</span><strong id="dashboardEvent">준비</strong></div>');
   // Relocate the SAME native long-form disclosures below the visual workspace.
   // Do not clone their original nodes, IDs, handlers, or source narratives.
   inspector.append(insHeading,statuses,clinical);
   const resources=node('details','dashboard-resources card');
   resources.id='dashboardResources';
-  resources.setAttribute('aria-label','Additional cardiac education and source notes');
+  resources.setAttribute('aria-label','추가 심장 생리·간호 학습자료와 출처');
   const resourceHint=node('p','dashboard-resources-hint',
     '필요한 주제만 열어 읽으세요. ECG 파형(P·PR·QRS·ST·T) 설명은 심전도 모니터에서 직접 선택할 수 있습니다. 원문과 모델 한계는 아래 항목에 그대로 보존됩니다.');
   resources.append(node('summary','dashboard-resources-heading','자료 찾아보기 · 전도 단계 / ECG 사건 / 간호 원문'),
@@ -114,7 +114,7 @@
   // cannot redistribute row height between ECG and the original heart SVG.
   // Move original nodes rather than cloning Canvas/SVG/handlers.
   const primary=node('section','dashboard-primary');
-  primary.setAttribute('aria-label','ECG and synchronized cardiac visualization');
+  primary.setAttribute('aria-label','심전도와 동기화된 심장 시각화');
   primary.append(ecg,workspace);
   dashboard.append(commands,primary,inspector,measurements,resources);
   main.insertBefore(dashboard,oldVisual);
@@ -143,11 +143,11 @@
     root.CardiacGuidedLearning?.sync(narrative,ready);
     if(key===latestKey)return;
     latestKey=key;
-    $('dashboardElectrical').textContent=ready?'Ready':($('phaseTitle').textContent||'—');
-    $('dashboardMechanical').textContent=ready?'Ready':narrative.title;
-    $('dashboardEvent').textContent=ready?'Ready':($('ecgEventIndicator').textContent||'—');
+    $('dashboardElectrical').textContent=ready?'준비':($('phaseTitle').textContent||'—');
+    $('dashboardMechanical').textContent=ready?'준비':narrative.title;
+    $('dashboardEvent').textContent=ready?'준비':($('ecgEventIndicator').textContent||'—');
     $('dashboardPhysiology').textContent=ready ?
-      '재생하거나 Timeline을 이동하면 ECG·압력·판막·용적의 관계가 표시됩니다.' :
+      '재생하거나 심장주기 시간축(Timeline)을 이동하면 심전도(ECG)·압력·판막·용적의 관계가 표시됩니다.' :
       brief(narrative.hemodynamics);
     $('dashboardNursing').textContent=ready ?
       '심박수만으로 환자의 혈역학적 안정성을 판단하지 않습니다.' :
