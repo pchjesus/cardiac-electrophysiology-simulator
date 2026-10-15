@@ -86,9 +86,9 @@ with sync_playwright() as p:
     # Only a deliberate Timeline seek may alter A/B; display-only labels must not.
     page.locator("#timeSlider").evaluate("e=>{e.value='42';e.dispatchEvent(new Event('input',{bubbles:true}))}")
     ck(not page.evaluate("heartState.playing"), "timeline did not pause")
-    ck(page.locator("#phaseTitle").inner_text() != "준비", "time seek never activated")
+    ck(page.locator("#phaseTitle").text_content() != "준비", "time seek never activated")
     page.locator("#resetBtn").click()
-    ck(page.locator("#phaseTitle").inner_text() == "준비", "reset display not translated")
+    ck(page.locator("#phaseTitle").text_content() == "준비", "reset display not translated")
     ck(page.locator("#ecgExplanationTitle").inner_text() == "설명할 심전도 파형을 선택하세요",
        "reset ECG prompt reverted to English")
 
