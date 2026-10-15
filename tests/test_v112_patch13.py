@@ -52,7 +52,7 @@ with sync_playwright() as p:
     for hr in (30,80,180):
         page.locator("#heartRateSlider").evaluate("""(e,v)=>{e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}""",hr)
         page.locator("#timeSlider").evaluate("""e=>{e.value=55;e.dispatchEvent(new Event('input',{bubbles:true}))}""")
-        ck("Ready" not in page.locator("#mechanicalPhase").inner_text(),f"Seek mechanical failed HR {hr}")
+        ck("준비" not in page.locator("#mechanicalPhase").inner_text(),f"Seek mechanical failed HR {hr}")
         ck("혈류:" in page.locator("#flowState").inner_text(),f"Flow label missing HR {hr}")
     page.locator("#playBtn").click()
     page.wait_for_timeout(200)
@@ -60,7 +60,7 @@ with sync_playwright() as p:
     page.locator("#pauseBtn").click()
     ck(not page.evaluate("heartState.playing"),"Pause failed")
     page.locator("#resetBtn").click()
-    ck(page.locator("#mechanicalPhase").inner_text()=="Ready","Mechanical Reset failed")
+    ck(page.locator("#mechanicalPhase").inner_text()=="준비","Mechanical Reset failed")
     page.locator("#dashboardWiggersBtn").click()
     ck(page.locator("#wiggersChart").is_visible(),"Wiggers tab regressed")
     page.locator("#guidedV112Toggle").click()
