@@ -1,3 +1,5 @@
+> **Future UI/UX design baseline (2026-10-15):** [Educational UI Design Standard v1.0](docs/EDUCATIONAL_UI_DESIGN_STANDARD_v1.0.md) guides subsequent learner-first layouts and accessibility. Preserve the active v1.13 three-area design, A/B simulation clocks, original Guided state and clinical review gate. **Documentation only; no runtime redesign is implied.**
+
 # README.md
 # Cardiac Electrophysiology Simulator
 
