@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiac Electrophysiology Simulator v1.13 UX Patch 2 · v1.12 Patch 14 engine</title>
+<title>Cardiac Electrophysiology Simulator v1.13 UX Patch 3 · v1.12 Patch 14 engine</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,9 +11,9 @@
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.13 UX Patch 2 <span class="v113-engine-label">(v1.12 Patch 14 engine · NOT FINAL)</span></h1>
+    <h1>Cardiac Electrophysiology Simulator v1.13 UX Patch 2 <span class="v113-engine-label">(v1.12 Patch 14 생리 엔진 · 최종 검수 전(NOT FINAL))</span></h1>
     <p>동율동 심전도(ECG) 학습 엔진</p>
-    <nav class="header-tools" aria-label="Simulator reference information">
+    <nav class="header-tools" aria-label="시뮬레이터 변경 내역 및 사용 설명서">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
                 aria-haspopup="dialog" aria-controls="patchNotesPanel" aria-expanded="false">▤ 변경 내역</button>
         <button type="button" id="userGuideBtn" data-open-info="userGuidePanel"
@@ -62,7 +62,7 @@
                     <span>심전도 파형 설명</span>
                     <strong id="ecgExplanationTitle">설명할 심전도 파형을 선택하세요</strong>
                 </div>
-                <p id="ecgExplanationText">위의 P파, PR간격, QRS파, ST분절, T파를 눌러 심장의 전기적 활동과 어떤 관계가 있는지 살펴보세요.</p>
+                <p id="ecgExplanationText">위의 P파, PR 간격, QRS파, ST 분절, T파를 눌러 심장의 전기적 활동과 어떤 관계가 있는지 살펴보세요.</p>
                 <div class="ecg-explanation-link">
                     <span>전도와 전기적 활동</span>
                     <strong id="ecgExplanationLink">—</strong>
@@ -154,7 +154,7 @@
                 <text id="ventricleLabel" x="175" y="335">심실</text>
             </svg>
             <div id="mechanicalView" class="mechanical-view" hidden>
-                <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="Educational diagram of heart chambers, four valves, and blood-flow direction">
+                <svg id="mechanicalSVG" viewBox="0 0 500 420" role="img" aria-label="심장의 네 개 방과 네 판막, 혈류 방향을 나타낸 교육용 심장 모형">
                     <defs>
                         <marker id="blueArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#328bbd"/></marker>
                         <marker id="redArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#bd5252"/></marker>
@@ -200,7 +200,7 @@
                 </svg>
                 <div class="mechanical-readout" aria-live="off">
                     <div class="mechanical-readout-header">
-                        <strong id="mechanicalPhase">Ready</strong>
+                        <strong id="mechanicalPhase">준비</strong>
                         <details id="mechanicalModelInfo" class="mechanical-model-info">
                             <summary aria-label="모형 가정과 수치 주의사항 보기">ⓘ 모형 안내</summary>
                             <div class="mechanical-model-info-body">
@@ -281,7 +281,7 @@
         <section class="card placeholder-panel event-panel">
             <h2>심전도 사건·단계 안내</h2>
 
-            <div class="event-flow" aria-label="Current conduction phase">
+            <div class="event-flow" aria-label="현재 심장 전기 전도 단계">
                 <div class="event-item" data-conduction="SA">동방결절(SA)</div>
                 <span>→</span>
                 <div class="event-item" data-conduction="AV">방실결절(AV)</div>
@@ -293,7 +293,7 @@
 
             <div class="event-ecg-row">
                 <span>심전도(ECG) 사건</span>
-                <strong id="ecgEventIndicator">Ready</strong>
+                <strong id="ecgEventIndicator">준비</strong>
             </div>
 
             <p class="event-sync-status" id="eventSyncStatus">재생하면 심장 전도와 파형이 함께 표시됩니다.</p>
@@ -305,12 +305,12 @@
     <!-- CURRENT PHASE -->
     <section class="card phase-panel">
         <h2>현재 심장 단계</h2>
-        <div id="phaseTitle">Ready</div>
+        <div id="phaseTitle">준비</div>
         <p id="phaseDescription">재생하면 심장 전도 과정이 시작됩니다.</p>
 
         <div class="phase-ecg-link">
             <span>심전도(ECG) 파형</span>
-            <strong id="phaseECG">Ready</strong>
+            <strong id="phaseECG">준비</strong>
         </div>
     </section>
 
@@ -325,9 +325,9 @@
 <p class="v113-inline-learn">위거스 도표는 심장의 전기 신호와 실제 수축·판막·혈류의 시간 관계를 함께 읽는 학습 도구예요. <button type="button" class="v113-term-trigger" data-term-help="wiggers">위거스 도표란? · 왜 중요한가요?</button></p>
             <p class="wiggers-disclaimer">기존 시뮬레이터와 동기화된 심장주기 한 번(RR)을 보여줍니다. 압력·용적 곡선은 <strong>변화 방향을 배우기 위한 상대 지표</strong>이지 실제 혈압(mmHg), 용적(mL), 박출률(EF), 환자 검사값 또는 진단 수치가 아닙니다. 제1·2심음(S1/S2)은 소리가 아니라 사건 위치 표시입니다.</p>
 
-            <section class="learning-scenario-panel" aria-label="Rate-based learning scenarios">
+            <section class="learning-scenario-panel" aria-label="심박수별 학습 시나리오">
                 <h3>심박수별 학습 · 정상 / 느린 맥박 / 빠른 맥박</h3>
-                <div class="learning-preset-row" role="group" aria-label="Set simulated heart-rate scenario">
+                <div class="learning-preset-row" role="group" aria-label="시뮬레이터 심박수 시나리오 선택">
                     <button type="button" data-learning-preset="normal" aria-pressed="false">정상 · 분당 72회</button>
                     <button type="button" data-learning-preset="bradycardia" aria-pressed="false">느린 맥박 · 분당 50회</button>
                     <button type="button" data-learning-preset="tachycardia" aria-pressed="false">빠른 맥박 · 분당 120회</button>
@@ -346,7 +346,7 @@
             </div>
             <div class="wiggers-chart-scroll" tabindex="0" role="region" aria-label="위거스 도표. 화면이 좁으면 이 그래프 영역 안에서 좌우로 스크롤하세요">
                 <svg id="wiggersChart" viewBox="0 0 1000 470" role="img"
-                     aria-label="Educational single-beat diagram: relative left atrial, left ventricular and aortic pressure, ECG, normalized ventricular volume, valve event ticks and synchronized phase cursor">
+                     aria-label="한 번의 심장주기에서 좌심방·좌심실·대동맥의 상대 압력, 심전도, 상대 심실 용적, 판막 사건과 현재 시점을 비교하는 위거스 도표">
                     <rect x="52" y="29" width="912" height="181" rx="7" class="wiggers-band"/>
                     <rect x="52" y="224" width="912" height="85" rx="7" class="wiggers-band"/>
                     <rect x="52" y="322" width="912" height="99" rx="7" class="wiggers-band"/>
@@ -384,7 +384,7 @@
                 <span>대동맥판 닫힘 = 제2심음(S2)</span><span>승모판 열림</span>
             </div>
             <div class="wiggers-status" aria-live="off">
-                <strong id="wiggersCurrentStage">Ready</strong>
+                <strong id="wiggersCurrentStage">준비</strong>
                 <span id="wiggersCurrentTime">생리학적 주기 시점(A) 0 ms</span>
                 <span id="wiggersCurrentValves">승모판: — · 대동맥판: —</span>
             </div>
@@ -440,12 +440,13 @@
          aria-labelledby="patchNotesHeading" data-info-panel hidden>
     <div class="info-panel-head">
         <h2 id="patchNotesHeading">▤ 버전·변경 내역</h2>
-        <button type="button" data-close-info aria-label="Close patch notes">×</button>
+        <button type="button" data-close-info aria-label="변경 내역 닫기">×</button>
     </div>
     <p class="info-panel-intro">이력은 실제 적용된 변경을 성격별로 구분한 요약입니다. 임상 검증이나 실제 기기 시각 검수를 의미하지 않습니다.</p>
     <section class="patch-group">
+        <p><strong>v1.13 UX Patch 3</strong> — 공식 한국어 심장·심전도·간호 용어를 기본으로 메뉴·상태·전도·파형 설명·도움말·접근성 이름을 정비했습니다. ECG·PR·QRS·QTc·Wiggers 등의 국제 약어와 고유명사는 필요한 범위에서 유지합니다. 내부 식별자·A/B 시계·임상 공개 제한·기존 10문항은 변경하지 않았습니다.</p>
         <p><strong>v1.13 UX Patch 2</strong> — 학생이 자주 만나는 조작·상태·단계 표현을 한글 우선으로 정리하고, 위거스 도표(Wiggers), 심전도(ECG), 전기 전도, 수축·판막, 시간축, 측정값 및 간호 사정의 의미와 중요성을 설명하는 선택형 팝업을 추가했습니다. 기존 A/B·5단계 학습·10문항의 동작은 유지합니다.</p>
-        <h3>기능 추가 · Features</h3>
+        <h3>기능 추가</h3>
         <p><strong>v1.13 UX Patch 1 (A1·B1·C1·D1·E1·F1)</strong> — 학습은 PC의 단원 목록/본문 2열, 모바일의 접이식 단원 목록과 집중 독서 흐름으로 개선했습니다. 임상 QA 화면은 환자 주요 증상·HR·혈압과 현재 문제를 우선 배치하고 ECG/Lab은 필요할 때 확인합니다. 블루·틸 강조와 단순한 테두리, 16px 수준의 본문 가독성을 적용했으며 기존 A/B·Guided·10문항과 답안을 보존합니다.</p>
         <p><strong>v1.13 Integrated Patch 2–6</strong> — 기존 단일 ECG 엔진과 원본 Guided 5단계·10문항을 유지하면서, 정식 학습 탭에 6단원 안내형/자유 탐색을 연결했습니다. 임상 풀이·복습 엔진은 구현됐지만 사례 내용이 임상 전문가의 독립 검토 전이므로 일반 사용자에게는 비활성화되며 QA 미리보기에서만 확인할 수 있습니다.</p>
         <p><strong>v1.12 Patch 8</strong> — 단계 학습에서 이전/다음·단계 선택 시 기존 Timeline으로 자동 일시정지·관찰하고, 학습 설명은 재생 중에도 고정합니다. 자유 관찰의 시간과 시각화 전환은 그대로 유지합니다.</p>
@@ -460,7 +461,7 @@
         <p><strong>v1.8</strong> — Physiological A / Visualization B 시간 분리 및 HR 관련 ECG 교육 모델.</p>
     </section>
     <section class="patch-group">
-        <h3>의학·간호 교육 · Clinical learning</h3>
+        <h3>의학·간호 교육</h3>
         <p><strong>v1.12 Patch 5</strong> — 심실 충만의 RR 초반 상대 용적 0.88 평탄 구간과 RR 후반 0.48→0.88 증가 구간을 기존 Wiggers/원문 학습 설명에 모두 구분해 표시합니다. 확립된 생리 원리와 모형상의 값은 별도로 안내합니다.</p>
         <p><strong>v1.12 Patch 4</strong> — 시작 수준에는 한 문장 핵심과 ECG·판막·용적의 기초 관계를 표시합니다. 간호 관찰은 두 번째 수준에서 연결하며, 원본 의학·간호 서술, 모형 시간 경계, 고급 이해도 문항과 상대 수치 한계는 선택형 추가학습에서 제공합니다. 기존 원문·10문항은 삭제하지 않았습니다.</p>
         <p><strong>v1.12 Patch 3</strong> — 기존 PHASES 및 HR별 RATE 학습 설명 원문을 읽기 전용으로 사용하며, 전기적 사건·판막·상대 용적·S1/S2 및 간호 관찰과 모델 한계에 관한 질적 이해도 문항 10개를 추가했습니다. 실제 환자 진단·치료 판단이나 EF·박출량 계산 문제는 없습니다.</p>
@@ -470,7 +471,7 @@
         <p><strong>v1.10 P4</strong> — 승모판/대동맥판 사건 및 S1/S2 단계별 해설.</p>
     </section>
     <section class="patch-group">
-        <h3>화면과 사용성 · UI/UX</h3>
+        <h3>화면과 사용성(UI/UX)</h3>
         <p><strong>v1.12 Patch 14</strong> — 기존 Mechanical 모형과 판막·혈류 설명을 실제 사용 가능한 폭에 따라 자동 2열/1열 배치합니다. 모형 안내는 주변 카드를 가리지 않고 카드 내부에서 펼치며, 핵심 글자와 터치 영역을 키웠습니다. 생리 모델과 원문·문항은 변경하지 않았습니다.</p>
         <p><strong>v1.12 Patch 12</strong> — 전체 설명 일괄 펼침을 선택형 자료 목록으로 바꾸고, 전도·ECG 사건·간호 원문을 필요할 때만 여는 정보 구조로 정리했습니다. 최신 사용 설명서를 실제 자동 관찰 동작에 맞게 갱신했습니다.</p>
         <p><strong>v1.12 Patch 7</strong> — PC에서 ECG와 핵심 해설을 상단에 나란히 배치하고, 원래 심장 그림과 Wiggers를 독립된 전체 너비 영역으로 이동했습니다. 원본 상세자료는 아래 자료 목록에 보존했습니다.</p>
@@ -485,7 +486,7 @@
         <p><strong>v1.10 P3</strong> — 접이식 Wiggers SVG, 모바일 그래프 영역 내 가로 스크롤.</p>
     </section>
     <section class="patch-group">
-        <h3>안정성·검증·문서 · Safety / QA / Docs</h3>
+        <h3>안정성·검증·문서</h3>
         <p><strong>v1.12 Patch 12</strong> — 기존 18개 회귀 단계에 자료 목록·임상 원문 보존·10문항·키보드·6개 화면 너비의 실브라우저 검사를 추가합니다. 실제 PC·모바일 사용자 검수와 별도 전문가 검토는 여전히 미완료입니다.</p>
         <p><strong>v1.12 Patch 6</strong> — Timeline Seek로 과거 파형을 복원할 때 잘못된 시각 보간을 수정하고, 10개 HR × 5단계에서 파형 가시성·시계 정합성을 검증했습니다.</p>
         <p><strong>v1.12 Patch 5</strong> — 교육 원문과 실제 상대 용적 프로필의 구간 차이를 검사하며, 기존 A/B 시간 및 사용자 명시적 이동 원칙을 회귀 검증합니다. 실제 PC·모바일 사용자의 수동 검수는 별도로 진행합니다.</p>
@@ -502,27 +503,27 @@
 <section id="userGuidePanel" class="info-panel" role="dialog" aria-modal="false"
          aria-labelledby="userGuideHeading" data-info-panel hidden>
     <div class="info-panel-head">
-        <h2 id="userGuideHeading">? 사용 설명서 · 사용 설명서</h2>
-        <button type="button" data-close-info aria-label="Close user guide">×</button>
+        <h2 id="userGuideHeading">? 사용 설명서</h2>
+        <button type="button" data-close-info aria-label="사용 설명서 닫기">×</button>
     </div>
     <section class="guide-section"><h3>1. 처음 시작 · 자유 관찰과 단계 학습</h3>
-        <p><strong>v1.13 UX Patch 1:</strong> ① 시뮬레이터는 기존 ECG·Electrical·Mechanical·Wiggers와 원래 Play/Pause/Reset/Timeline을 유지합니다. ② 학습은 6단원 안내형·자유 탐색을 제공하며, 1단원에서 기존 심장주기 5단계·10문항을 그대로 사용합니다. PC에서는 단원 목록이 왼쪽에 보이고, 모바일에서는 '학습 단원 선택'을 열어 이동하세요. 단원 이동만으로 시뮬레이션 시간은 바뀌지 않습니다. ③ 임상 적용은 가상 사례 전문가 검토 전까지 일반 사용자에게 비활성화되어 있으며 <code>?v113Preview=1</code>은 개발 검증 전용입니다.</p>
-        <p><strong>자유 관찰</strong>에서는 Play / Pause / Reset, HR(30–180 bpm), Timeline을 그대로 조작합니다. ECG·현재 전기/기계 단계·간호 요약은 실시간으로 갱신됩니다. 타임라인 직접 조작은 일시정지와 위치 이동을 수행하며 모든 시각화 탭이 같은 모델 시계를 사용합니다.</p>
-        <p><strong>5단계 학습</strong>을 열면 먼저 1. 기초 이해로 시작합니다. 심방 수축 → 등용적 수축 → 심실 박출 → 등용적 이완 → <strong>모델 RR 후반</strong> 심실 충만을 탐색합니다. <strong>이전/다음 또는 단계 선택</strong>은 사용자 명시적인 학습 행동으로서 <strong>자동 Pause + 해당 단계 대표 관찰 시점 Seek</strong>를 기존 Timeline으로 정확히 한 번 수행합니다. 상위 학습 탭 진입과 6단원 이동은 시간에 영향을 주지 않습니다. 단, <strong>Ready에서 '5단계 학습 시작'을 최초로 명시적으로 누르면 기존 Timeline으로 첫 대표 관찰점에 한 번 이동</strong>합니다.</p>
-        <p><strong>읽는 설명과 실제 재생 상태는 다릅니다.</strong> Play를 눌러 심장이 움직여도 선택한 학습 카드 문장은 사용자가 단계나 수준을 바꾸기 전까지 유지됩니다. 실시간 전기·기계·ECG 상태는 계속 갱신됩니다. <strong>이 단계 다시 관찰</strong>은 같은 단계의 대표 시점으로 돌아가며 일시정지합니다. Wiggers 전환은 사용자가 직접 탭 또는 Wiggers 보기 버튼을 누를 때만 이루어집니다.</p>
+        <p><strong>v1.13 UX Patch 3 기준:</strong> ① 시뮬레이터는 기존 ECG·Electrical·Mechanical·Wiggers와 원래 Play/Pause/Reset/Timeline을 유지합니다. ② 학습은 6단원 안내형·자유 탐색을 제공하며, 1단원에서 기존 심장주기 5단계·10문항을 그대로 사용합니다. PC에서는 단원 목록이 왼쪽에 보이고, 모바일에서는 '학습 단원 선택'을 열어 이동하세요. 단원 이동만으로 시뮬레이션 시간은 바뀌지 않습니다. ③ 임상 적용은 가상 사례 전문가 검토 전까지 일반 사용자에게 비활성화되어 있으며 <code>?v113Preview=1</code>은 개발 검증 전용입니다.</p>
+        <p><strong>자유 관찰</strong>에서는 재생·일시정지·초기화, 심박수(HR, 30–180 bpm), 심장주기 시간축(Timeline)을 그대로 조작합니다. ECG·현재 전기/기계 단계·간호 요약은 실시간으로 갱신됩니다. 타임라인 직접 조작은 일시정지와 위치 이동을 수행하며 모든 시각화 탭이 같은 모델 시계를 사용합니다.</p>
+        <p><strong>5단계 학습</strong>을 열면 먼저 1. 기초 이해로 시작합니다. 심방 수축 → 등용적 수축 → 심실 박출 → 등용적 이완 → <strong>모델 RR 후반</strong> 심실 충만을 탐색합니다. <strong>이전/다음 또는 단계 선택</strong>은 사용자 명시적인 학습 행동으로서 <strong>자동 일시정지 후 해당 단계 대표 관찰 시점으로 이동</strong>를 기존 Timeline으로 정확히 한 번 수행합니다. 상위 학습 탭 진입과 6단원 이동은 시간에 영향을 주지 않습니다. 단, <strong>준비 상태에서 '5단계 학습 시작'을 최초로 명시적으로 누르면 기존 시간축으로 첫 대표 관찰점에 한 번 이동</strong>합니다.</p>
+        <p><strong>읽는 설명과 실제 재생 상태는 다릅니다.</strong> 재생을 눌러 심장이 움직여도 선택한 학습 카드 문장은 사용자가 단계나 수준을 바꾸기 전까지 유지됩니다. 실시간 전기·기계·ECG 상태는 계속 갱신됩니다. <strong>이 단계 다시 관찰</strong>은 같은 단계의 대표 시점으로 돌아가며 일시정지합니다. Wiggers 전환은 사용자가 직접 탭 또는 Wiggers 보기 버튼을 누를 때만 이루어집니다.</p>
         <p><strong>읽는 깊이</strong>는 1. 기초 이해 → 2. 간호 연결 → 3. 추가학습 순으로 높일 수 있습니다. 단계나 학습 수준을 바꿔도 기존 문제의 답안은 유지됩니다. <strong>이해도 확인</strong>을 펼쳐 기본·심화 총 10개 문항에 접근하고, 정답 확인 후 해설을 읽거나 해당 문제만 다시 풀 수 있습니다. 답안은 새로고침 시 초기화되며 환자 진단이나 자격 평가가 아닙니다.</p>
-        <p><strong>자료 목록 보기</strong>를 누르면 긴 해설을 전부 펼치지 않고 전도 단계·ECG 사건·간호 원문의 <strong>주제 목록</strong>만 보여줍니다. 읽고 싶은 주제만 펼치고, <strong>핵심 보기로 전환</strong>하면 다시 접습니다. ECG Monitor의 P/PR/QRS/ST/T는 해당 ECG 구성요소 설명을 직접 열어줍니다. 자료 원문과 상대 지표 한계는 보존됩니다.</p>
+        <p><strong>자료 목록 보기</strong>를 누르면 긴 해설을 전부 펼치지 않고 전도 단계·ECG 사건·간호 원문의 <strong>주제 목록</strong>만 보여줍니다. 읽고 싶은 주제만 펼치고, <strong>핵심 보기로 전환</strong>하면 다시 접습니다. 심전도(ECG) 모니터의 P/PR/QRS/ST/T는 해당 ECG 구성요소 설명을 직접 열어줍니다. 자료 원문과 상대 지표 한계는 보존됩니다.</p>
     </section>
-    <section class="guide-section"><h3>2. Electrical / Mechanical / Wiggers 탭</h3>
-        <p>ECG Monitor는 항상 표시됩니다. 주 시각화 영역에서 <strong>Electrical</strong>은 전기 전도 애니메이션, <strong>Mechanical</strong>은 판막과 혈류, <strong>Wiggers</strong>는 압력·ECG·용적 곡선을 보여줍니다. 탭 전환은 HR, 재생 상태와 A/B 시간 자체를 바꾸지 않습니다. 키보드 방향키·Home·End로도 시각화를 전환할 수 있습니다.</p>
+    <section class="guide-section"><h3>2. 전기 전도 · 기계적 심장주기 · 위거스 도표</h3>
+        <p>심전도(ECG) 모니터는 항상 표시됩니다. 주 시각화 영역에서 <strong>전기 전도</strong>는 자극 전도 과정, <strong>심장 수축·판막</strong>은 기계적 수축과 판막·혈류 변화, <strong>위거스 도표(Wiggers diagram)</strong>는 압력·심전도·용적의 시간적 관계를 보여줍니다. 탭 전환은 HR, 재생 상태와 A/B 시간 자체를 바꾸지 않습니다. 키보드 방향키·Home·End로도 시각화를 전환할 수 있습니다.</p>
     </section>
-    <section class="guide-section"><h3>3. Wiggers Diagram</h3>
-        <p>중앙 시각화의 Wiggers 탭을 선택해 ECG, 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
-        <p><strong>세로 커서는 physiological A 시간의 한 RR 주기</strong>를 나타냅니다. 위 ECG Monitor의 스크롤은 별도의 visualization B 표시이므로 두 화면의 가로좌표가 같지 않습니다.</p>
+    <section class="guide-section"><h3>3. 위거스 도표(Wiggers diagram)</h3>
+        <p>중앙 시각화의 위거스 도표 보기를 선택해 심전도(ECG), 좌심방·좌심실·대동맥의 <strong>상대 압력</strong>, 좌심실의 <strong>상대 용적</strong>, 판막 사건 마커 및 S1/S2 표시를 비교합니다. 패널 제목 옆 <strong>?</strong>는 간단한 전용 도움말입니다.</p>
+        <p><strong>세로 커서는 생리학적 시간(A)의 한 RR 주기</strong>를 나타냅니다. 위 심전도 모니터의 파형 이동은 별도 화면 표시 시간(B)에 따른 표현이므로 두 화면의 가로좌표가 같지 않습니다.</p>
     </section>
     <section class="guide-section"><h3>4. 정상·서맥·빈맥 학습</h3>
-        <p>상단 시나리오에서 <strong>Normal 72 / Bradycardia 50 / Tachycardia 120</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 자유 HR 슬라이더를 움직이면 사용자 선택 Custom으로 돌아옵니다.</p>
-        <p>하단 <strong>자료 찾아보기 → 간호 원문</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다. PC에서는 Wiggers 탭의 <strong>확대 보기</strong>로 그래프를 전체 너비로 볼 수 있고, 다시 분할 보기로 돌아올 수 있습니다.</p>
+        <p>상단 시나리오에서 <strong>정상 72회/분 / 느린 맥박 50회/분 / 빠른 맥박 120회/분</strong>을 고른 후, 같은 Timeline 위치와 판막 사건을 비교합니다. 심박수(HR) 조절 막대를 움직이면 사용자 설정으로 전환됩니다.</p>
+        <p>하단 <strong>자료 찾아보기 → 간호 원문</strong>을 열면 각 단계의 ECG→압력·판막→상대 용적→환자 사정 포인트를 읽을 수 있습니다. 실제 환자의 혈압, 박출량, 전부하 또는 병적 상태를 예측하지 않습니다. PC에서는 위거스 도표의 <strong>확대 보기</strong>로 그래프를 전체 너비로 볼 수 있고, 다시 분할 보기로 돌아올 수 있습니다.</p>
     </section>
     <section class="guide-section"><h3>5. 간호학적 활용과 주의사항</h3>
         <p>ECG 소견을 환자의 혈압, 맥박, 산소화, 의식, 증상, 관류 평가 및 심음 청진과 연결해서 학습하세요. P파/ QRS/ T파는 전기적 사건으로 기계적 수축과 정확히 같은 시각이 아닙니다.</p>
