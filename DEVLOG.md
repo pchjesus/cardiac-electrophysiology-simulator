@@ -1,3 +1,10 @@
+## Documentation policy — Educational UI/UX Design Standard v1.1 (2026-10-15)
+
+- **Scope: documentation only; risk L.** User conditionally requested adoption after compatibility evaluation across Ventilator, RAAS and Cardiac. [v1.1](docs/EDUCATIONAL_UI_DESIGN_STANDARD_v1.1.md) becomes the active future-design standard; [v1.0](docs/EDUCATIONAL_UI_DESIGN_STANDARD_v1.0.md) remains intact as approved history.
+- Updated AGENTS.md and README.md active references. Adds Braun product design references, MUST/SHOULD/MAY, state ownership, resize/reflow accessibility, risk-weighted validation, migration/rollback and evidence-level reporting.
+- **Precedence:** current v1.13 three-area contract, canonical single ECG/conduction engine, A/B physiological/visualization timing, Guided 5-stage/10-question learning, Korean terms and clinical QA gate govern. This change does not approve automatic UI, clinical, model, clock, storage or release changes.
+- **Validation:** compared current main and original v1.0; Markdown-only scope checked. Runtime browser/CI, devices, learners and clinical experts: NOT RUN for this policy-only change.
+
 # DEVLOG.md
 # Cardiac Electrophysiology Simulator Development Log
 
