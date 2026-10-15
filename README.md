@@ -3,19 +3,19 @@
 
 An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
 
-> **Current (2026-10-15): v1.13 UX Patch 2, NOT FINAL.** Simulator and six-unit Learning are available; the unreviewed fictional Clinical case remains disabled for ordinary users (QA preview only). The seven-topic Korean-first explanations are implemented. [Current handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md). Sections below that describe P1/P2–P6 as future work are historical development records, not today's implementation status.
+> **Current (2026-10-15): v1.13 UX Patch 3, NOT FINAL.** Simulator and six-unit Learning are available; the unreviewed fictional Clinical case remains disabled for ordinary users (QA preview only). The seven-topic Korean-first explanations are retained; UX Patch 3 also aligns visible ECG/conduction descriptions, Ready-state displays, user-guide and accessible names with official Korean terminology while allowing necessary medical abbreviations and proper names. [Current handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md). Sections below that describe P1/P2–P6 as future work are historical development records, not today's implementation status.
 
-## v1.13 P3/P4 student-first detailed design (documentation only)
+## v1.13 P3/P4 student-first detailed design (historical specification)
 
-See [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) for six-unit curriculum/readability/state/QA specification and the strict separate fictional symptomatic bradycardia-case authoring/validation pipeline. **No P3/P4 code or clinically approved case data has been released.**
+See [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) for six-unit curriculum/readability/state/QA specification and the strict separate fictional symptomatic bradycardia-case authoring/validation pipeline. This was **design-only when written**. Current P3/P4 code exists, but **clinical approval/public release does not**.
 
-## v1.13 Patch 2–6 engineering blueprint (design only)
+## v1.13 Patch 2–6 engineering blueprint (historical specification)
 
-The post-Patch-1 implementation gates, single-instance Guided migration, six-unit learning curriculum, first clinically reviewed static case, session preservation, and QA/release boundaries are documented in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md). **This is a design/documentation update only, not completion of Patch 2–6.** It supplements without superseding the [approved v1.13 contract](Cardiac_v1.13_Three_Tab_Development_Contract.md).
+The post-Patch-1 implementation gates, single-instance Guided migration, six-unit learning curriculum, first clinically reviewed static case, session preservation, and QA/release boundaries are documented in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md). This was **a plan at the time it was written**, before P2–P6 integration; current code and release gate are described in the current-version section above. It supplements without superseding the [approved v1.13 contract](Cardiac_v1.13_Three_Tab_Development_Contract.md).
 
-## v1.13 Patch 1 — top-level navigation foundation (NOT FINAL)
+## v1.13 Patch 1 — historical initial navigation foundation
 
-The 3-button top-level router is implemented independently of the original simulator engine, with **Simulator** active. **Learning** and **Clinical Application** remain disabled in the ordinary interface until their content is safely integrated; this avoids exposing empty/incomplete teaching screens. The existing Guided 5-stage/3-level course and 10 questions remain available inside the original Simulator Inspector. A/B timing and approved Guided observation actions are unchanged.
+At the **Patch 1 milestone**, only Simulator was active and Learning/Clinical were both disabled. **Current v1.13** enables Learning but keeps unreviewed Clinical disabled for ordinary users. The existing Guided 5-stage/3-level course and 10 questions remain available inside the original Simulator Inspector. A/B timing and approved Guided observation actions are unchanged.
 
 For automated internal navigation regression only, `index.html?v113Preview=1` enables the two **clearly labeled nonclinical preview panels** to test tab switching. This flag is **not** a release of educational/clinical features or an access-control feature. Switching active tabs invokes the original `pause()` only when playing, never seeks, resets, or resumes automatically. Refresh starts in Simulator and discards session-only UI state. See [development contract](Cardiac_v1.13_Three_Tab_Development_Contract.md). v1.12 Patch 14 remains **NOT FINAL**, awaiting actual PC/mobile user signoff.
 
@@ -25,7 +25,7 @@ The approved **three-tab educational platform** (① 시뮬레이터 / ② 학�
 
 ## Current Version
 
-**Current implementation: v1.13 UX Patch 2 (2026-10-15), NOT FINAL.** P2–P6 integration, approved A1+B1+C1+D1+E1+F1 layout and Korean-first concept popup have been merged through PR #34. The unreviewed Clinical case is preview-only. User PC/mobile signoff and independent clinical review are pending.
+**Current implementation: v1.13 UX Patch 3 (2026-10-15), NOT FINAL.** P2–P6 integration, approved A1+B1+C1+D1+E1+F1 layout and Korean-first concept popup have been merged through PR #34. The unreviewed Clinical case is preview-only. User PC/mobile signoff and independent clinical review are pending.
 
 **Historical baseline, v1.12 Patch 14 — NOT FINAL:** responsive mechanical readability and safe model disclosures; the v1.12 instructions below describe the preserved legacy engine/Guided behavior, not the current top-level navigation.
 

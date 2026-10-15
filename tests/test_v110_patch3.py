@@ -163,9 +163,9 @@ with sync_playwright() as pw:
     page.locator("#resetBtn").click()
     ck(page.evaluate("document.getElementById('wiggersDetails').open"),
        "Reset unexpectedly collapsed optional panel")
-    ck(page.locator("#wiggersCurrentStage").text_content()=="Ready",
+    ck(page.locator("#wiggersCurrentStage").text_content()=="준비",
        "Ready status not restored")
-    ck(page.locator("#mechanicalPhase").text_content()=="Ready",
+    ck(page.locator("#mechanicalPhase").text_content()=="준비",
        "Mechanical reset regression")
     ck(abs(float(page.locator("#wiggersCursor").get_attribute("x1"))-64)<.01,
        "Reset should put cursor at cycle start")

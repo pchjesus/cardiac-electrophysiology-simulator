@@ -31,7 +31,7 @@ with sync_playwright() as p:
    if moment>t["qrs"]+1:ck(any(q["word"]=="QRS" for q in state["labels"]),f"Missing QRS at {hr}")
   page.locator("#timeSlider").evaluate("""e=>{e.value=99.9;e.dispatchEvent(new Event('input',{bubbles:true}))}""")
   s=page.evaluate("""()=>({ready:CardiacDashboard.isReady,phase:phaseTitle.textContent})""")
-  ck(not s["ready"] and s["phase"]!="Ready",f"Late-cycle Ready confusion {hr}: {s}")
+  ck(not s["ready"] and s["phase"]!="준비",f"Late-cycle Ready confusion {hr}: {s}")
  page.locator("#resetBtn").click()
  ck(page.evaluate("CardiacDashboard.isReady"),"Reset Ready broken")
  page.evaluate("()=>{window.__labels=[];drawECGSweep()}")

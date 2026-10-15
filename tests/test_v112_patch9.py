@@ -25,7 +25,7 @@ with sync_playwright() as pw:
         "header controls wrong section")
     ck(not page.locator("#dashboardResources").evaluate("e=>e.open"),"resources unexpectedly open")
     ck(page.locator("#dashboardDensityBtn").inner_text()=="자료 목록 보기","bulk-info label retained")
-    ck(page.locator("#userGuidePanel").inner_text().find("자동 Pause")>=0,
+    ck(page.locator("#userGuidePanel").inner_text().find("자동 일시정지 후 해당 단계 대표 관찰 시점")>=0,
         "current guided automatic seek missing from help")
 
     pos=page.evaluate("""()=>{

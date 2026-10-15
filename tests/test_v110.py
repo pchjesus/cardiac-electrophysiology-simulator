@@ -40,8 +40,9 @@ with sync_playwright() as pw:
           "Backup does not represent the v1.9 baseline")
     check(page.locator("#heartSVG").is_visible(), "Electrical mode changed on load")
     check(not page.locator("#mechanicalView").is_visible(), "Mechanical mode changed on load")
-    check(page.locator("#phaseTitle").text_content() == old.locator("#phaseTitle").text_content(),
-          "Initial Ready feedback changed")
+    check(page.locator("#phaseTitle").text_content() == "준비" and
+          old.locator("#phaseTitle").text_content() == "Ready",
+          "Initial Ready state lost in current/localized or archived UI")
 
     for hr in range(30, 181):
         for tab in (page, old):
@@ -178,10 +179,11 @@ with sync_playwright() as pw:
         tab.locator("#resetBtn").click()
     check(page.locator("#mechanicalModeBtn").get_attribute("aria-pressed") == "true",
           "Reset changed Mechanical mode")
-    check(page.locator("#mechanicalPhase").text_content() == "Ready",
+    check(page.locator("#mechanicalPhase").text_content() == "준비",
           "Mechanical Ready not preserved")
-    check(page.locator("#mechanicalPhase").text_content() ==
-          old.locator("#mechanicalPhase").text_content(), "Reset feedback differs")
+    check(old.locator("#mechanicalPhase").text_content() == "Ready",
+          "Archived v1.9 baseline Ready feedback changed")
+    # Only the translated display differs; both old and current engines must reset.
     page.locator("#playBtn").click()
     page.wait_for_timeout(150)
     page.locator("#pauseBtn").click()

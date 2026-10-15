@@ -68,7 +68,7 @@ function visibleObservations(){
   el('p','v113-model-caution',caseData.ecg.limitation));
  details.append(ecg);
  const lab=el('section','v113-evidence-block');
- lab.append(el('h4','','Lab 검사 · 결과 확인 상태'));
+ lab.append(el('h4','','검사실 검사 결과 · 확인 상태'));
  for(const v of caseData.labs){
   const line=el('div','v113-lab');
   if(session.questionIndex<v.availableFromPhase){

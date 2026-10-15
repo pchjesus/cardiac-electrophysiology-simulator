@@ -150,7 +150,7 @@
         lastState=getMechanicalState(0);
         if(mode==='mechanical'){
             renderState(lastState);
-            BY_ID('mechanicalPhase').textContent='Ready';
+            BY_ID('mechanicalPhase').textContent='준비';
             BY_ID('mechanicalExplanation').textContent='재생하거나 심장주기 시간축을 움직여 심장 수축과 판막 변화를 살펴보세요.';
             BY_ID('avValveState').textContent='방실판막: —';
             BY_ID('outflowValveState').textContent='반월판막: —';

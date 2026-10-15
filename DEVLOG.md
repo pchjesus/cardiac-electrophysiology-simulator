@@ -836,3 +836,9 @@ See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.m
 ## v1.13 UX Patch 2 — 학생 중심 한글 용어·개념 팝업
 - 학생에게 노출되는 핵심 기능을 한글 우선으로 표기하며 영어 약어는 한글 뒤 괄호로 병기합니다. 위거스 도표(Wiggers), 심전도(ECG), 전기 전도, 기계적 심장주기 등의 **개념·중요성·관찰 방법·모델 한계**를 설명하는 읽기 전용 팝업을 제공합니다.
 - 전체 변경사항과 QA 기준: [V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md](V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md). A/B, 원본 5단계·10문항, 임상 자료는 변경하지 않으며 전문가 검토/실기기 검수 전 **NOT FINAL**입니다.
+
+## v1.13 UX Patch 3 — Korean official terminology and documentation alignment (2026-10-15)
+- **Added/changed:** Korean-first user-visible ECG event labels, conduction stage descriptions, P/PR/QRS/ST/T teaching explanations, preparation/Reset labels, simulator dashboard ARIA, long-form user guide and Clinical QA evidence label. International clinical abbreviations and proper names retained when pedagogically helpful.
+- **Protected:** original A/B physiological/visualization clocks, ECG waveform/timing, playback, Mechanical/Wiggers mechanics, one Guided five-stage/ten-question source, six-unit Course and isolated Clinical answers/public gate. Clinical case values/keys unmodified and expert signoff pending.
+- **Testing:** added `tests/test_v113_ux_patch3.py` to `regression.yml`, updated historical assertions of displayed Ready to expect 준비 and the Guide's former ‘자동 Pause’ wording to require the Korean automatic-pause-and-seek description. Full PR and post-merge main CI plus physical-device/user validation must be recorded separately; passing CI is not clinical approval.
+- **Documentation:** brought README/SPEC current-version sections into line with actual integrated implementation. See [UX Patch 3 report](V1.13_UX_PATCH3_KOREAN_TERMINOLOGY_REPORT.md). **NOT FINAL.**

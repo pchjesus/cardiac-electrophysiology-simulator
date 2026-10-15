@@ -156,7 +156,7 @@ with sync_playwright() as pw:
     for tab in (page,baseline):
         tab.locator("#mechanicalModeBtn").click()
         tab.locator("#resetBtn").click()
-    check(page.locator("#mechanicalPhase").text_content()=="Ready",
+    check(page.locator("#mechanicalPhase").text_content()=="준비",
           "Mechanical reset Ready lost")
     check(page.locator("#mechanicalModeBtn").get_attribute("aria-pressed")=="true",
           "Reset changed selected view")

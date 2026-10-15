@@ -114,7 +114,7 @@ with sync_playwright() as p:
  ck(snapshot()==before,'density change rewound the sought A/B clocks')
  ck(page.locator('#wiggersDeepDive').evaluate('(el)=>el.open'),
     'long nursing details preference lost when switching density')
- ck(page.locator('#dashboardMechanical').inner_text()!='Ready',
+ ck(page.locator('#dashboardMechanical').inner_text()!='준비',
     'mechanical stage not updated after seeking')
  ck(page.locator('#dashboardEvent').inner_text()!='',
     'ECG event became blank')
@@ -160,8 +160,8 @@ with sync_playwright() as p:
  page.locator('#resetBtn').click()
  ck(page.evaluate('CardiacDashboard.isReady'),'Reset did not reach Ready')
  ck(page.evaluate('CardiacDashboard.density')==savedDensity,'Reset changed learner view density')
- ck(page.locator('#dashboardEvent').inner_text()=='Ready','Reset ECG event summary stale')
- ck(page.locator('#dashboardMechanical').inner_text()=='Ready',
+ ck(page.locator('#dashboardEvent').inner_text()=='준비','Reset ECG event summary stale')
+ ck(page.locator('#dashboardMechanical').inner_text()=='준비',
     'Reset mechanical status stale')
  ck(page.locator('#wiggersDeepDive').evaluate('(el)=>el.open'),
     'Reset discarded manually opened full nursing text')

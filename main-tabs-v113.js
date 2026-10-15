@@ -52,7 +52,7 @@
     heading.textContent=title;
     const status=document.createElement('p');
     status.className='v113-preview-status';
-    status.textContent='v1.13 Patch 1 · 내부 화면 전환 검증용 · 교육 기능 미출시';
+    status.textContent='v1.13 개발 검증용 미리보기 · 정식 임상 콘텐츠 승인 전';
     card.append(heading,status);
     for(const sentence of descriptions[name]){
       const p=document.createElement('p');p.textContent=sentence;card.append(p);
@@ -134,7 +134,7 @@
       (id==='clinical'&&!root.CardiacClinicalV113?.publicReady))){
       button.disabled=true;
       button.setAttribute('aria-disabled','true');
-      button.title='해당 교육 화면은 후속 패치에서 공개됩니다';
+      button.title=id==='clinical'?'임상 전문가의 콘텐츠 검토 전이므로 현재 공개되지 않습니다':'학습 화면 준비 중';
       const suffix=document.createElement('small');
       suffix.textContent=' 준비 중';
       button.append(suffix);
