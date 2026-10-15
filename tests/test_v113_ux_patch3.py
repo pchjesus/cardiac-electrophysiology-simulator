@@ -31,9 +31,16 @@ with sync_playwright() as p:
     ck("v1.13 UX Patch 3" in page.locator("h1").inner_text(), "visible version not updated")
     ck(page.locator("#v113TabClinical").is_disabled(), "unreviewed Clinical released")
     ck(page.locator("#v113TabLearning").is_enabled(), "public Learning unavailable")
-    for selector in ("#phaseTitle", "#phaseECG", "#ecgEventIndicator",
-                     "#dashboardElectrical", "#dashboardMechanical", "#dashboardEvent"):
-        ck(page.locator(selector).text_content() == "준비", "ready translation " + selector)
+    # At first load, the original event observer labels the initial ECG as baseline.
+    # That is distinct from Ready-state simulation, and is intentional.
+    for selector, expected in (("#phaseTitle", "준비"),
+                               ("#phaseECG", "기준선"),
+                               ("#ecgEventIndicator", "기준선"),
+                               ("#dashboardElectrical", "준비"),
+                               ("#dashboardMechanical", "준비"),
+                               ("#dashboardEvent", "준비")):
+        ck(page.locator(selector).text_content() == expected,
+           "initial status translation " + selector)
     ck(page.locator("#mechanicalPhase").text_content() == "준비", "mechanical initial Ready")
     ck(page.locator("#wiggersCurrentStage").text_content() == "준비", "Wiggers initial Ready")
 
