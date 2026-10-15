@@ -84,7 +84,7 @@ with sync_playwright() as p:
     ck(clocks(page) == before, "help changed model state")
 
     # Only a deliberate Timeline seek may alter A/B; display-only labels must not.
-    page.locator("#timeSlider").fill("42")
+    page.locator("#timeSlider").evaluate("e=>{e.value='42';e.dispatchEvent(new Event('input',{bubbles:true}))}")
     ck(not page.evaluate("heartState.playing"), "timeline did not pause")
     ck(page.locator("#phaseTitle").inner_text() != "준비", "time seek never activated")
     page.locator("#resetBtn").click()
