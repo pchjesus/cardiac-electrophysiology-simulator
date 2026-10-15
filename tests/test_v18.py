@@ -53,7 +53,7 @@ with sync_playwright() as pw:
   terminal=js('''() => ({p:getPhysiologicalCyclePhase(),rr:getActiveCycleLength(),event:heartState.currentECGEvent})''')
   check(terminal['p']<terminal['rr'],f'terminal seek issue {hr} {terminal}')
   js('reset()')
-  check(js('''heartState.currentECGEvent===null && heartState.physiologicalTime===0 && heartState.visualizationTime===0 && document.getElementById('ecgEventIndicator').textContent==='Ready' '''),f'reset mismatch {hr}')
+  check(js('''heartState.currentECGEvent===null && heartState.physiologicalTime===0 && heartState.visualizationTime===0 && document.getElementById('ecgEventIndicator').textContent==='준비' '''),f'reset mismatch {hr}')
   print('HR',hr,'PR',round(t['prInterval']),'QRS',round(t['qrsDuration']),'QT',round(t['qtInterval']),'QTc',round(t['qtc']),'checks+',checks)
  # Test rapid pause/play generation: fake RAF captures callbacks, then execute stale manually
  js('''() => { window.__savedRAF=requestAnimationFrame; window.__callbacks=[]; window.requestAnimationFrame=(cb)=>{__callbacks.push(cb);return __callbacks.length;}; }''')
