@@ -13,15 +13,15 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 ## 2. Current Version
 
-**Current development: v1.13 Patch 1 (top-level navigation scaffold; NOT FINAL). The underlying v1.12 Patch 14 simulator also remains NOT FINAL pending user PC/mobile signoff.** v1.7 FINAL is an archived confirmed milestone, not the active build.
+**Current implementation: v1.13 UX Patch 2 (merged PR #34; `main` verified 2026-10-15), NOT FINAL.** The original v1.12 Patch 14 engine, A/B clocks, ECG/Mechanical/Wiggers and original 5-stage/10-question Guided are retained. Six-unit Learning is public, while the unreviewed Clinical case remains internal QA preview only. Human device usability acceptance and independent medical/nursing content approval are pending. See [handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md). Earlier version status paragraphs remain historical records.
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
 
-## v1.13 Patch 2–6 implementation plan (design only)
+## v1.13 Patch 2–6 implementation plan (historical design record; subsequently implemented)
 
-The approved three-tab contract is elaborated in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md): P2 single original Guided instance in Learning, P3 six-unit course, P4 clinically reviewed static case data, P5 independent clinical sessions, P6 accessibility/QA gates. **These follow-on features are not yet implemented and must not be reported as released.**
+The approved three-tab contract is elaborated in [V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md](V1.13_PATCH2_TO_PATCH6_IMPLEMENTATION_PLAN.md): P2 single original Guided instance in Learning, P3 six-unit course, P4 clinically reviewed static case data, P5 independent clinical sessions, P6 accessibility/QA gates. **Historical note:** At the time this plan was authored these features had not been implemented. On current `main`, P2–P6 code has been integrated and automatically tested. However, the Clinical case is *not* clinically approved or publicly released, and physical-device acceptance is pending.
 
-## v1.13 Patch 1 scope and acceptance contract
+## v1.13 Patch 1 scope and acceptance contract (historical)
 
 - Original `main.main-container` remains the single Simulator DOM, moved nowhere and never cloned.
 - `main-tabs-v113.js` owns only a selected top-level screen (simulator/learning/clinical), hidden and pressed state, and optional display synchronization. It owns **no A/B time**, quiz answers, cases, RAF or timer.
