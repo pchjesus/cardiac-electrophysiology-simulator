@@ -224,7 +224,7 @@ with sync_playwright() as playwright:
  check(page.evaluate('CardiacDashboard.isReady'),'Reset Ready failed')
  check(page.evaluate('CardiacGuidedLearning.open'),
        'Reset unexpectedly dismissed guide')
- check('Ready' in page.locator('#guidedV112Live').inner_text(),
+ check('준비' in page.locator('#guidedV112Live').inner_text(),
        'guide Ready state stale after Reset')
  check(page.evaluate('CardiacDashboard.view')=='electrical',
        'Reset changed visualization tab')
