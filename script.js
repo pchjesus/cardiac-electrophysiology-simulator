@@ -753,13 +753,13 @@ function syncECGExplanationToEvent(eventId){
     );
 
     ecgExplanationTitle.textContent =
-    "Baseline";
+    "기준선";
 
     ecgExplanationText.textContent =
-    "No major ECG deflection is represented in this portion of the cycle. The simulator treats it as the resting baseline between ECG events.";
+    "이 구간에서는 뚜렷한 심전도 파형 변화가 나타나지 않습니다. 시뮬레이터는 심전도 사건 사이의 기준선으로 단순화하여 표현합니다.";
 
     ecgExplanationLink.textContent =
-    "Resting baseline";
+    "심전도 기준선";
 
 }
 
@@ -1917,8 +1917,8 @@ function updateECGEventIndicator(
 
         eventSyncStatus.textContent =
         heartState.playing
-            ? "Synchronized with the current ECG cycle."
-            : "Paused at the current ECG event.";
+            ? "현재 심전도 주기와 동기화되어 있습니다."
+            : "현재 심전도 사건에서 일시정지했습니다.";
 
     }
 
