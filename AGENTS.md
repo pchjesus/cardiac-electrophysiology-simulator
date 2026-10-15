@@ -1,3 +1,7 @@
+## Shared Educational UI/UX Design Standard (2026-10-15; future design work)
+
+**Before subsequent UI/UX design or redesign, read [Educational UI Design Standard v1.0](docs/EDUCATIONAL_UI_DESIGN_STANDARD_v1.0.md).** Use Boyacto's learner-first steps and restrained Dieter Rams/ChatGPT-inspired information hierarchy as design references, **without replacing** the currently approved v1.13 three-tab contract, single ECG/conduction engine, A/B clocks, original Guided questions, canonical pause/seek rules, clinical QA gating or student-visible Korean terminology. A more focused surface must not split synchronized scientific information or reset current sessions. This is **guidance only**, not permission to redesign existing screens without a specific change request. Personal moodboard activity is out of scope.
+
 # AGENTS.md
 # Development Rules — Cardiac Electrophysiology Simulator
 
