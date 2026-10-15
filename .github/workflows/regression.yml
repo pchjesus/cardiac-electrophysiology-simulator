@@ -21,10 +21,21 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: B+ self-test and change scope
+        id: scope
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          bash scripts/ci-scope.sh --self-test
+          bash scripts/ci-scope.sh
       - uses: actions/setup-python@v5
+        if: steps.scope.outputs.tier != 'docs'
         with:
           python-version: '3.11'
       - name: Install Playwright and matching Chromium
+        if: steps.scope.outputs.tier != 'docs'
         run: |
           python -m pip install 'playwright==1.56.0'
           python -m playwright install --with-deps chromium
@@ -33,61 +44,88 @@ jobs:
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
       - name: v1.13 UX Patch 3 Korean terms, accessible labels and state regression
+        if: steps.scope.outputs.tier != 'docs'
         run: python tests/test_v113_ux_patch3.py
       - name: v1.13 P2–P6 integration, course, fictitious case, session and responsive UX
+        if: steps.scope.outputs.tier != 'docs'
         run: python tests/test_v113_integrated.py
       - name: v1.13 Patch 1 three-tab and canonical A/B Pause regression
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v113_patch1.py
       - name: Patch 14 adaptive mechanical UI and non-overlapping model notes
+        if: steps.scope.outputs.tier != 'docs'
         run: python tests/test_v112_patch14.py
       - name: Patch 13 mechanical side-by-side and model info disclosures
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch13.py
       - name: Patch 12 readable mobile study and documentation
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch12.py
       - name: Patch 11 guided student first-step and optional tools
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch11.py
       - name: Patch 10 ECG past-only labels and Ready states
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch10.py
       - name: Patch 6 ECG seek waveform reconstruction
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch6.py
       - name: Patch 7 ECG-first workbench responsiveness
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch7.py
       - name: Patch 8 guided automatic observation and readable explanations
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch8.py
       - name: Patch 9 categorized source content and UX closeout
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch9.py
       - name: Verify v1.8 functional regression
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v18.py
       - name: Verify v1.8 stress regression
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/stress_v18.py
       - name: Verify v1.9 mechanical regression
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v19.py
       - name: Verify v1.10 Wiggers foundation and v1.9 equivalence
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v110.py
       - name: Verify v1.10 Patch 2 continuous pressure-volume profile
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v110_patch2.py
       - name: Verify v1.10 Patch 3 Wiggers SVG and UI integration
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v110_patch3.py
       - name: Verify v1.10 Patch 4 help and event interpretation
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v110_patch4.py
       - name: Verify v1.10 Patch 5 clinical learning and reference overlays
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v110_patch5.py
       - name: Verify v1.11 integrated learning dashboard and responsive layout
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v111.py
       - name: Verify v1.11.1 compact dashboard and complete clinical content
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v1111.py
       - name: Verify v1.12 Patch 1 five-stage guided learning and model alignment
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch1.py
       - name: Verify v1.12 Patch 2 explicit navigation and native Timeline seek
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch2.py
       - name: Verify v1.12 Patch 3 source-based learning and ten questions
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch3.py
       - name: Verify v1.12 Patch 4 novice-to-nursing progressive learning
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch4.py
       - name: Verify v1.12 Patch 5 clinical profile and final readability
+        if: steps.scope.outputs.tier == 'full'
         run: python tests/test_v112_patch5.py
       - name: Upload v1.12 Patch 5 actual desktop/mobile screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch5-education-ui
@@ -95,7 +133,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       - name: Upload v1.12 Patch 4 actual novice/mid/extra learning screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch4-progressive-learning-ui
@@ -103,7 +141,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       - name: Upload v1.12 Patch 3 real educational UI screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch3-actual-learning-ui
@@ -111,7 +149,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       - name: Upload v1.12 Patch 2 desktop/mobile guide previews
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch2-actual-ui
@@ -119,7 +157,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       - name: Upload v1.11.1 actual-browser UI previews
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v1111-compact-full-UI-screenshots
@@ -127,7 +165,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - name: Upload v1.12 Patch 1 actual guided-learning browser screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch1-desktop-mobile-previews
@@ -136,7 +174,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload v1.12 Patch 9 final browser screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch9-ecg-guided-and-sources
@@ -145,7 +183,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload Patch 12 student-readable desktop/mobile previews
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch12-student-readability
@@ -154,7 +192,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload Patch 13 mechanics side-by-side screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch13-mechanics-ux
@@ -163,7 +201,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload Patch 14 adaptive Mechanical PC/mobile screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v112-patch14-mechanical-usability
@@ -172,7 +210,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload v1.13 integrated learning and clinical QA screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v113-integrated-learning-clinical-qa
@@ -180,7 +218,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       - name: Upload v1.13 Patch 1 preview-only PC/mobile route screenshots
-        if: always()
+        if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
         with:
           name: v113-patch1-main-tabs-preview
