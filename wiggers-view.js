@@ -157,7 +157,7 @@
         if(!details.open) return;
         sync();
         // Match v1.9 reset semantics: controls return to Ready, not active phase.
-        phaseLabel.textContent='Ready';
+        phaseLabel.textContent='준비';
         if(lessonStage)lessonStage.textContent='재생하거나 심장주기 시간축을 움직여 심장 단계의 변화를 살펴보세요.';
         if(lessonEvent)lessonEvent.textContent='판막과 심음(S1/S2) 설명은 그래프의 사건 표시와 같은 심장주기 시간축을 따릅니다.';
     }
