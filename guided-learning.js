@@ -285,7 +285,7 @@
     for(const level of questions.levels)renderQuestion(level);
     const filling=stage.id==='filling';
     model.textContent='모델 대표 관찰점 '+Math.round(obs.midpointMs)+' / '+
-       Math.round(obs.rrMs)+' ms · 학습 단계 이동 시 기존 Timeline으로 자동 관찰';
+       Math.round(obs.rrMs)+' ms · 학습 단계 이동 시 기존 시간축으로 자동 관찰';
     limits.textContent=(filling?
        (detailLevel==='basic'?
          '이 앱에서는 RR 주기의 앞부분과 뒷부분에 충만 단계가 나타나며, 용적의 변화가 서로 다릅니다. ':
@@ -302,7 +302,7 @@
     const key=[isReady,live.phase,live.heartRate].join('|');
     if(lastKey===key)return;
     lastKey=key;
-    current.textContent=isReady?'현재 시뮬레이션: Ready · 재생 전':
+    current.textContent=isReady?'현재 시뮬레이션: 준비 · 재생 전':
       '현재 시뮬레이션: '+live.title+
       (live.phase===content.stages[selectedIndex].id?
        ' · 학습 단계와 일치':' · 학습 중인 단계와 다름');
