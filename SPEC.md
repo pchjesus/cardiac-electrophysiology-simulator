@@ -13,7 +13,7 @@ The project prioritizes visual clarity, synchronization between the conduction m
 
 ## 2. Current Version
 
-**Current implementation: v1.13 UX Patch 2 (merged PR #34; `main` verified 2026-10-15), NOT FINAL.** The original v1.12 Patch 14 engine, A/B clocks, ECG/Mechanical/Wiggers and original 5-stage/10-question Guided are retained. Six-unit Learning is public, while the unreviewed Clinical case remains internal QA preview only. Human device usability acceptance and independent medical/nursing content approval are pending. See [handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md). Earlier version status paragraphs remain historical records.
+**Current implementation: v1.13 UX Patch 3 (2026-10-15; staged implementation and regression), NOT FINAL.** The original v1.12 Patch 14 engine, A/B clocks, ECG/Mechanical/Wiggers and original 5-stage/10-question Guided are retained. Six-unit Learning is public, while the unreviewed Clinical case remains internal QA preview only. Human device usability acceptance and independent medical/nursing content approval are pending. See [handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md) and [UX Patch 3 implementation report](V1.13_UX_PATCH3_KOREAN_TERMINOLOGY_REPORT.md). Earlier version status paragraphs remain historical records.
 
 v1.6 was the UI stabilization milestone. v1.7 patch2 was the confirmed measurement baseline. v1.7 is now complete through patch7.
 
@@ -25,7 +25,7 @@ The approved three-tab contract is elaborated in [V1.13_PATCH2_TO_PATCH6_IMPLEME
 
 - Original `main.main-container` remains the single Simulator DOM, moved nowhere and never cloned.
 - `main-tabs-v113.js` owns only a selected top-level screen (simulator/learning/clinical), hidden and pressed state, and optional display synchronization. It owns **no A/B time**, quiz answers, cases, RAF or timer.
-- Normal interface exposes Simulator as usable; Learning and Clinical buttons are **disabled** until real content lands. Internal automated preview is enabled with `?v113Preview=1`; preview panels are explicitly marked nonfunctional.
+- **Historical P1 behavior:** at that early stage only Simulator was usable and Learning/Clinical were disabled. **Current UX Patch 3:** Learning is enabled; only unreviewed Clinical remains disabled for ordinary users. `?v113Preview=1` is internal QA only.
 - On an actual top-level change from playback, call canonical `pause()` once before hiding the Simulator. A/B time, cycle anchor, ECG sweep, HR, current step, native Timeline value and Guided learner state must remain unchanged. Return never autoplays.
 - Selecting Learning must never call `setOpen`, `observeSelected` or native Timeline input. Existing explicit Guided start and step selection retain original timeline-seek behavior.
 - A simulator Reset remains a simulator action, not an educational session clear. Clinical engine, data and public learning relocation are future patches, not Patch 1.
