@@ -3,6 +3,8 @@
 
 An educational browser-based simulator that visualizes cardiac electrical conduction and its relationship to ECG waveform changes.
 
+> **Current (2026-10-15): v1.13 UX Patch 2, NOT FINAL.** Simulator and six-unit Learning are available; the unreviewed fictional Clinical case remains disabled for ordinary users (QA preview only). The seven-topic Korean-first explanations are implemented. [Current handoff verification](V1.13_HANDOFF_VERIFICATION_2026-10-15.md). Sections below that describe P1/P2–P6 as future work are historical development records, not today's implementation status.
+
 ## v1.13 P3/P4 student-first detailed design (documentation only)
 
 See [V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md](V1.13_PATCH3_PATCH4_STUDENT_DESIGN.md) for six-unit curriculum/readability/state/QA specification and the strict separate fictional symptomatic bradycardia-case authoring/validation pipeline. **No P3/P4 code or clinically approved case data has been released.**
@@ -23,7 +25,9 @@ The approved **three-tab educational platform** (① 시뮬레이터 / ② 학�
 
 ## Current Version
 
-**v1.12 Patch 14 — responsive mechanical readability and safe model disclosures; PC/mobile user acceptance pending. NOT v1.12 FINAL.**
+**Current implementation: v1.13 UX Patch 2 (2026-10-15), NOT FINAL.** P2–P6 integration, approved A1+B1+C1+D1+E1+F1 layout and Korean-first concept popup have been merged through PR #34. The unreviewed Clinical case is preview-only. User PC/mobile signoff and independent clinical review are pending.
+
+**Historical baseline, v1.12 Patch 14 — NOT FINAL:** responsive mechanical readability and safe model disclosures; the v1.12 instructions below describe the preserved legacy engine/Guided behavior, not the current top-level navigation.
 
 Default view is compact: ECG + controls, live three-part status, physiological/nursing summary, six measurements and synchronized Electrical/Mechanical/Wiggers visualization. The '자료 목록 보기' button opens a **categorized source index only**, not every long description. All original detailed clinical content and ten concept questions remain available.
 
