@@ -46,8 +46,9 @@ with sync_playwright() as p:
     ck(notes.is_hidden() and guide.is_visible(),"Switch between overlays failed")
     ck(notesBtn.get_attribute("aria-expanded")=="false","Old trigger state not cleared")
     ck(guide.locator(".guide-section").count()==5,"Guide lacks required steps")
-    ck("Physiological" in guide.text_content() or "physiological" in guide.text_content(),
-       "A/B clocks guide missing")
+    ck("생리학적 시간(A)" in guide.text_content() and
+       "화면 표시 시간(B)" in guide.text_content(),
+       "A/B clock distinction missing from localized guide")
     page.keyboard.press("Escape")
     ck(guide.is_hidden(),"Escape did not dismiss guide")
     ck(guideBtn.evaluate("(e)=>document.activeElement===e"),"Escape focus not restored")
