@@ -329,3 +329,9 @@ See [V1.13_STUDENT_UX_AUDIT_AND_CHOICES.md](V1.13_STUDENT_UX_AUDIT_AND_CHOICES.m
 ## v1.13 UX Patch 2 — 학생 중심 한글 용어·개념 팝업
 - 학생에게 노출되는 핵심 기능을 한글 우선으로 표기하며 영어 약어는 한글 뒤 괄호로 병기합니다. 위거스 도표(Wiggers), 심전도(ECG), 전기 전도, 기계적 심장주기 등의 **개념·중요성·관찰 방법·모델 한계**를 설명하는 읽기 전용 팝업을 제공합니다.
 - 전체 변경사항과 QA 기준: [V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md](V1.13_UX_PATCH2_KOREAN_EDUCATION_REPORT.md). A/B, 원본 5단계·10문항, 임상 자료는 변경하지 않으며 전문가 검토/실기기 검수 전 **NOT FINAL**입니다.
+
+## v1.13 UX Patch 3 — Korean-first official terminology (2026-10-15)
+- User-approved terminology policy: established **official Korean medical/nursing terms first**; international ECG/HR/RR/PR/QRS/ST/QT/QTc/S1/S2 abbreviations, established proper names (e.g., Wiggers), and disease-name English when useful may remain. Do **not** translate machine IDs, DOM selectors, physiological states or other programmatic identifiers.
+- Display state `Ready` is localized to **준비** in current rendered text, not in source-model state IDs. Reset/Guided/Mechanical/Wiggers regression assertions must still check the same behavior. ECG conduction and wave explanations have Korean-first visible descriptions; preserve medically meaningful qualifiers and educational boundaries.
+- Visual layout/colors and 5-stage/10-question Guided remain unchanged. Clinical case is still draft-human-review-pending and disabled for public users. No new clocks or simulated clinical readings. See [UX Patch 3 report](V1.13_UX_PATCH3_KOREAN_TERMINOLOGY_REPORT.md).
+- This is the active current guidance; older P1/P2 ‘not yet implemented’ paragraphs are historical. v1.13 **NOT FINAL** until actual devices/clinical review and explicit user signoff.
