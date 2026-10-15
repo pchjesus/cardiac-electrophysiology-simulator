@@ -1,3 +1,7 @@
+## Development B+ / CI operating policy (approved 2026-10-15)
+
+Before planning a release-size change, read [docs/AI_ASSISTED_DEVELOPMENT_BPLUS_v1.0.md](docs/AI_ASSISTED_DEVELOPMENT_BPLUS_v1.0.md). Prefer one coherent version-level design and PR over repeated user-facing micro-releases; keep small reversible internal commits and repeated targeted verification. Use FAST + risk-selected FOCUSED PR validation and FULL on high-impact changes/release; retain all project-specific safety, simulation, persistence, clinical and historical regression contracts. No user-visible feature or CI PASS is implied by policy-only changes. This section is subordinate to previously user-approved project-specific technical protections.
+
 ## Shared Educational UI/UX Design Standard (2026-10-15; future design work)
 
 **Before subsequent UI/UX design or redesign, read [Educational UI Design Standard v1.0](docs/EDUCATIONAL_UI_DESIGN_STANDARD_v1.0.md).** Use Boyacto's learner-first steps and restrained Dieter Rams/ChatGPT-inspired information hierarchy as design references, **without replacing** the currently approved v1.13 three-tab contract, single ECG/conduction engine, A/B clocks, original Guided questions, canonical pause/seek rules, clinical QA gating or student-visible Korean terminology. A more focused surface must not split synchronized scientific information or reset current sessions. This is **guidance only**, not permission to redesign existing screens without a specific change request. Personal moodboard activity is out of scope.
