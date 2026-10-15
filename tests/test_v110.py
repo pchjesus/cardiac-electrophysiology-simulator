@@ -40,8 +40,9 @@ with sync_playwright() as pw:
           "Backup does not represent the v1.9 baseline")
     check(page.locator("#heartSVG").is_visible(), "Electrical mode changed on load")
     check(not page.locator("#mechanicalView").is_visible(), "Mechanical mode changed on load")
-    check(page.locator("#phaseTitle").text_content() == old.locator("#phaseTitle").text_content(),
-          "Initial Ready feedback changed")
+    check(page.locator("#phaseTitle").text_content() == "준비" and
+          old.locator("#phaseTitle").text_content() == "Ready",
+          "Initial Ready state lost in current/localized or archived UI")
 
     for hr in range(30, 181):
         for tab in (page, old):
