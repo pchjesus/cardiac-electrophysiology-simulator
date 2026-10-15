@@ -115,7 +115,7 @@ with sync_playwright() as p:
           """(e,hr)=>{e.value=hr;e.dispatchEvent(new Event('input',{bubbles:true}))}""",hr)
         page.locator('#timeSlider').evaluate(
           """e=>{e.value=54;e.dispatchEvent(new Event('input',{bubbles:true}))}""")
-        ck('Ready' not in page.locator('#mechanicalPhase').inner_text(),
+        ck('준비' not in page.locator('#mechanicalPhase').inner_text(),
            f'mechanical phase no longer updates at HR {hr}')
         ck('혈류:' in page.locator('#flowState').inner_text(),
            f'flow feedback missing HR {hr}')
@@ -124,7 +124,7 @@ with sync_playwright() as p:
     page.locator('#pauseBtn').click()
     ck(not page.evaluate('heartState.playing'),'Pause regression')
     page.locator('#resetBtn').click()
-    ck(page.locator('#mechanicalPhase').inner_text()=='Ready',
+    ck(page.locator('#mechanicalPhase').inner_text()=='준비',
        'mechanical Reset regression')
     page.locator('#dashboardWiggersBtn').click()
     ck(page.locator('#wiggersChart').is_visible(),'Wiggers view missing')
