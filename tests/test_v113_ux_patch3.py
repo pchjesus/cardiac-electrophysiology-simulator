@@ -33,9 +33,9 @@ with sync_playwright() as p:
     ck(page.locator("#v113TabLearning").is_enabled(), "public Learning unavailable")
     for selector in ("#phaseTitle", "#phaseECG", "#ecgEventIndicator",
                      "#dashboardElectrical", "#dashboardMechanical", "#dashboardEvent"):
-        ck(page.locator(selector).inner_text() == "준비", "ready translation " + selector)
-    ck(page.locator("#mechanicalPhase").inner_text() == "준비", "mechanical initial Ready")
-    ck(page.locator("#wiggersCurrentStage").inner_text() == "준비", "Wiggers initial Ready")
+        ck(page.locator(selector).text_content() == "준비", "ready translation " + selector)
+    ck(page.locator("#mechanicalPhase").text_content() == "준비", "mechanical initial Ready")
+    ck(page.locator("#wiggersCurrentStage").text_content() == "준비", "Wiggers initial Ready")
 
     ck("심장" in page.locator(".header-tools").get_attribute("aria-label") or
        "시뮬레이터" in page.locator(".header-tools").get_attribute("aria-label"),
