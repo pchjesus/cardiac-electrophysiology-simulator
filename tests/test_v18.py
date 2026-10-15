@@ -40,7 +40,7 @@ with sync_playwright() as pw:
   times=[(t['pStart']+t['pEnd'])/2,(t['qrsStart']+t['qrsEnd'])/2,(t['stEnd']+t['tEnd'])/2,t['tEnd']+2]
   for phase in times:
    snapshot=js(f'''() => {{reset(); heartState.physiologicalTime={phase}; heartState.visualizationTime={phase}*baseCycleLength/getActiveCycleLength(); heartState.ecgTime=heartState.physiologicalTime; updateConduction(true);updateTimeline();return {{event:heartState.currentECGEvent,ecgText:document.getElementById('phaseECG').textContent,slider:Number(document.getElementById('timeSlider').value),phase:getPhysiologicalCyclePhase(),wave:ecgValue({phase}),pulseR:conductionPulseR.style.opacity,pulseL:conductionPulseL.style.opacity}}}}''')
-   check(snapshot['event']==snapshot['ecgText'] or snapshot['ecgText'] in {'P Wave','QRS Complex','T Wave','Baseline','ST Segment','PR Interval'},f'phase mismatch {snapshot}')
+   check(snapshot['event']==snapshot['ecgText'] or snapshot['ecgText'] in {'P파','QRS파','T파','기준선','ST 분절','PR 간격'},f'phase mismatch {snapshot}')
    check(isclose(snapshot['phase'],phase,1e-4),f'cycle phase mismatch {hr} {snapshot}')
    check(isclose(snapshot['slider'],100*phase/rr,.2),f'timeline mismatch {hr} {snapshot}')
   # B playback speed & sweep position must match Patch3 for the same input frame and slider.
