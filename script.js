@@ -536,13 +536,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.SA.end,
 
         title:
-        "SA Node Activation",
+        "동방결절(SA) 활성화",
 
         description:
-        "The sinoatrial (SA) node initiates the electrical impulse. Atrial depolarization produces the P wave.",
+        "동방결절(SA)에서 전기적 자극이 시작됩니다. 자극이 심방으로 퍼지며 심방 탈분극에 해당하는 P파가 나타납니다.",
 
         ecg:
-        "P Wave"
+        "P파"
 
     },
 
@@ -556,13 +556,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.AV.end,
 
         title:
-        "AV Node Delay",
+        "방실결절(AV) 전도 지연",
 
         description:
-        "The impulse reaches the atrioventricular (AV) node. Conduction slows briefly, contributing to the PR interval.",
+        "자극이 방실결절(AV)에 도달하면 전도가 잠시 느려집니다. 이는 PR 간격을 구성하는 전도 시간에 기여합니다.",
 
         ecg:
-        "PR Interval"
+        "PR 간격"
 
     },
 
@@ -576,13 +576,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.His.end,
 
         title:
-        "His Bundle Conduction",
+        "히스다발(His) 전도",
 
         description:
-        "The electrical impulse travels through the His bundle toward the ventricular conduction system.",
+        "전기적 자극이 히스다발(His)을 지나 심실 전도계로 전달됩니다.",
 
         ecg:
-        "PR Interval"
+        "PR 간격"
 
     },
 
@@ -596,13 +596,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.Branches.end,
 
         title:
-        "Bundle Branch Activation",
+        "좌·우각 활성화",
 
         description:
-        "The impulse rapidly travels through the right and left bundle branches toward the Purkinje fibers.",
+        "자극이 좌각과 우각을 통해 푸르키녜 섬유로 빠르게 전달됩니다.",
 
         ecg:
-        "QRS Complex"
+        "QRS파"
 
     },
 
@@ -616,13 +616,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.Purkinje.end,
 
         title:
-        "Purkinje Activation",
+        "푸르키녜 섬유 활성화",
 
         description:
-        "Purkinje fibers rapidly distribute the impulse throughout the ventricles, producing ventricular depolarization and the QRS complex.",
+        "푸르키녜 섬유가 심실 전반으로 전기적 자극을 빠르게 전달하여 심실 탈분극이 일어납니다. 이 과정은 QRS파와 연관됩니다.",
 
         ecg:
-        "QRS Complex"
+        "QRS파"
 
     },
 
@@ -636,13 +636,13 @@ const conductionSteps = [
         end:getCardiacTimingModel().conduction.Recovery.end,
 
         title:
-        "Ventricular Recovery",
+        "심실 재분극",
 
         description:
-        "The ventricles recover electrically. The ST segment precedes ventricular repolarization represented by the T wave.",
+        "심실의 전기적 회복 과정에서 ST 분절에 이어 심실 재분극을 나타내는 T파가 관찰됩니다.",
 
         ecg:
-        "ST / T Wave"
+        "ST 분절 / T파"
 
     }
 
@@ -664,33 +664,33 @@ function syncConductionStepsToTiming(){
 const ecgComponentExplanations = {
 
     P: {
-        title: "P Wave",
-        text: "Represents atrial depolarization. In this simulator, it follows SA node activation and corresponds to electrical activation spreading through the atria.",
-        link: "SA Node → Atria"
+        title: "P파",
+        text: "P파는 심방 탈분극을 나타냅니다. 이 모형에서는 동방결절(SA) 활성화 이후 자극이 심방으로 전파되는 과정을 반영합니다.",
+        link: "동방결절(SA) → 심방"
     },
 
     PR: {
-        title: "PR Interval",
-        text: "Represents the time from the start of atrial depolarization to the start of ventricular depolarization. The AV node contributes to the conduction delay before the impulse continues through the His-Purkinje system.",
-        link: "AV Node → His Bundle"
+        title: "PR 간격",
+        text: "PR 간격은 심방 탈분극 시작부터 심실 탈분극 시작까지의 시간입니다. 방실결절(AV) 전도 지연과 히스–푸르키녜 전도 시간이 포함됩니다.",
+        link: "방실결절(AV) → 히스다발(His)"
     },
 
     QRS: {
-        title: "QRS Complex",
-        text: "Represents ventricular depolarization. The impulse travels through the His bundle, right and left bundle branches, and Purkinje fibers to activate the ventricles.",
-        link: "His → RBB/LBB → Purkinje"
+        title: "QRS파",
+        text: "QRS파는 심실 탈분극을 나타냅니다. 자극은 히스다발, 좌·우각, 푸르키녜 섬유를 거쳐 심실에 전달됩니다.",
+        link: "히스다발(His) → 좌·우각 → 푸르키녜 섬유"
     },
 
     ST: {
-        title: "ST Segment",
-        text: "Follows ventricular depolarization in the simulator's simplified ECG model. It represents the early ventricular recovery portion before the T wave.",
-        link: "Ventricular recovery"
+        title: "ST 분절",
+        text: "ST 분절은 QRS파 뒤, T파 앞에 있는 구간입니다. 이 시뮬레이터에서는 심실 탈분극 이후 전기적 회복 과정의 일부를 단순화하여 나타냅니다.",
+        link: "심실 전기적 회복"
     },
 
     T: {
-        title: "T Wave",
-        text: "Represents ventricular repolarization, the electrical recovery of the ventricles after depolarization.",
-        link: "Ventricular repolarization"
+        title: "T파",
+        text: "T파는 심실 탈분극 이후 전기적 회복에 해당하는 심실 재분극을 나타냅니다.",
+        link: "심실 재분극"
     }
 
 };
@@ -788,49 +788,49 @@ const ecgEvents = [
         id:"Baseline",
         start:0,
         end:80,
-        label:"Baseline"
+        label:"기준선"
     },
 
     {
         id:"P",
         start:getCardiacTimingModel().pStart,
         end:getCardiacTimingModel().pEnd,
-        label:"P Wave"
+        label:"P파"
     },
 
     {
         id:"PR",
         start:getCardiacTimingModel().pEnd,
         end:getCardiacTimingModel().prEnd,
-        label:"PR Interval"
+        label:"PR 간격"
     },
 
     {
         id:"QRS",
         start:getCardiacTimingModel().qrsStart,
         end:getCardiacTimingModel().qrsEnd,
-        label:"QRS Complex"
+        label:"QRS파"
     },
 
     {
         id:"ST",
         start:getCardiacTimingModel().qrsEnd,
         end:getCardiacTimingModel().stEnd,
-        label:"ST Segment"
+        label:"ST 분절"
     },
 
     {
         id:"T",
         start:getCardiacTimingModel().stEnd,
         end:getCardiacTimingModel().tEnd,
-        label:"T Wave"
+        label:"T파"
     },
 
     {
         id:"Baseline",
         start:getCardiacTimingModel().tEnd,
         end:getCardiacTimingModel().cycleLength,
-        label:"Baseline"
+        label:"기준선"
     }
 
 ];
@@ -1910,7 +1910,7 @@ function updateECGEventIndicator(
         event.label;
 
         // Current Phase shows the event derived from physiologicalTime.
-        // This prevents stale values such as "ST / T Wave" from remaining
+        // This prevents stale values such as "ST 분절 / T파" from remaining
         // after the timeline enters the T-wave portion of the same phase.
         phaseECG.textContent =
         event.label;
@@ -2141,11 +2141,11 @@ function renderStep(){
 
         const ready = heartState.physiologicalTime===0 &&
             heartState.visualizationTime===0 && !heartState.playing;
-        phaseTitle.textContent = ready ? "Ready" : "전도 점등 구간 외";
+        phaseTitle.textContent = ready ? "준비" : "전도 점등 구간 외";
         phaseDescription.textContent = ready ?
-            "Press Play to begin the cardiac conduction cycle." :
+            "재생을 누르면 심장 전기 전도 과정이 시작됩니다." :
             "현재 전도 경로에 점등된 구간이 없습니다. ECG와 기계적 심장 활동은 계속됩니다.";
-        phaseECG.textContent = ready ? "Ready" :
+        phaseECG.textContent = ready ? "준비" :
             getCurrentECGEvent(getPhysiologicalCyclePhase()).label;
 
         updateConductionFlowIndicator();
@@ -2759,15 +2759,15 @@ function reset(){
     // The timeline remains at 0, but no active simulation phase is shown
     // until playback or an explicit timeline seek starts the state machine.
     heartState.currentECGEvent = null;
-    ecgEventIndicator.textContent = "Ready";
+    ecgEventIndicator.textContent = "준비";
     eventSyncStatus.textContent =
-    "Press Play to begin synchronization.";
-    phaseECG.textContent = "Ready";
+    "재생을 누르면 심전도와 심장 전도 상태가 함께 표시됩니다.";
+    phaseECG.textContent = "준비";
 
     ecgExplanationTitle.textContent =
-    "Select an ECG component";
+    "설명할 심전도 파형을 선택하세요";
     ecgExplanationText.textContent =
-    "Click P, PR, QRS, ST, or T above to see how the ECG component relates to cardiac electrical activity.";
+    "위의 P파, PR 간격, QRS파, ST 분절, T파를 선택하여 심장의 전기적 활동과의 관계를 살펴보세요.";
     ecgExplanationLink.textContent = "—";
 
     drawECGSweep();
