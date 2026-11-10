@@ -319,3 +319,43 @@ body{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic"
   position:static;
   top:auto;
 }
+
+/* Explicit outer and inner desktop grid placement: legacy compact mode's
+   named areas otherwise create implicit tracks and collapse the observation
+   stage to a few pixels. These are actual layout constraints, not a test shim. */
+@media(min-width:1251px){
+ .app.dashboard-active .dashboard-v111[data-density]{
+   display:grid!important;
+   width:100%;grid-template-columns:minmax(0,1.75fr) minmax(330px,.8fr)!important;
+   grid-template-areas:none!important;
+   gap:16px;align-items:start
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-commands{
+   grid-area:1 / 1 / 2 / 3!important;
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-primary{
+   grid-area:2 / 1 / 3 / 2!important;
+   display:grid!important;
+   grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)!important;
+   grid-template-areas:none!important;
+   min-width:0;width:100%;align-items:start;gap:14px
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-inspector{
+   grid-area:2 / 2 / 3 / 3!important;
+   position:static!important;min-width:0;width:100%;
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.measurements-panel{
+   grid-area:3 / 1 / 4 / 3!important;
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-resources{
+   grid-area:4 / 1 / 5 / 3!important;
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-primary>.ecg-panel{
+   grid-area:1 / 1 / 2 / 2!important;
+   min-width:0;width:100%;
+ }
+ .app.dashboard-active .dashboard-v111[data-density]>.dashboard-primary>.dashboard-workspace{
+   grid-area:1 / 2 / 2 / 3!important;
+   min-width:0;width:100%;
+ }
+}
