@@ -269,3 +269,35 @@ body{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic"
    width:26px;min-width:26px;padding:2px;font-size:11px
  }
 }
+
+/* Desktop concept review: ECG, anatomical response and nursing interpretation
+   must be observable together without a vertical scroll. */
+.app.dashboard-active .dashboard-v111{grid-template-areas:none}
+@media(min-width:1251px){
+ .app.dashboard-active .dashboard-primary{
+   display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+   gap:14px;align-items:stretch
+ }
+ .app.dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel,
+ .app.dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace{
+   grid-area:auto;min-width:0;align-self:stretch;height:100%
+ }
+ .app.dashboard-active .dashboard-primary>.dashboard-workspace>.dashboard-visual{
+   height:100%
+ }
+ .app.dashboard-active .dashboard-primary>.ecg-panel #ecgCanvas,
+ .app.dashboard-active .dashboard-v111[data-density="compact"] .dashboard-primary>.ecg-panel #ecgCanvas,
+ .app.dashboard-active .dashboard-v111[data-density="compact"][data-view="wiggers"] .dashboard-primary>.ecg-panel #ecgCanvas{
+   height:clamp(170px,20vh,220px)
+ }
+ .app.dashboard-active .dashboard-stage>.heart-panel #heartSVG{
+   width:min(100%,330px);max-height:300px
+ }
+ .app.dashboard-active .dashboard-stage>.heart-panel #mechanicalSVG{
+   width:min(100%,350px);max-height:310px
+ }
+ .app.dashboard-active .dashboard-v111 .dashboard-primary>.ecg-panel,
+ .app.dashboard-active .dashboard-v111 .dashboard-primary>.dashboard-workspace>.dashboard-visual{
+   padding:18px 15px
+ }
+}
