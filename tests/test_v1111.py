@@ -46,8 +46,12 @@ with sync_playwright() as p:
                  '#measurementHeartRate','#measurementRR','#measurementPR',
                  '#measurementQRS','#measurementQT','#measurementQTc'):
     ck(page.locator(element).count()==1,f'dynamic DOM node missing: {element}')
- ck(page.locator('.dashboard-v111 .measurement-list small').first.is_hidden(),
-    'compact references should be hidden, not deleted')
+ # v2 prioritizes readable reference ranges even in compact mode;
+ # legacy v1.11.1 hid them, but the original nodes remain present either way.
+ v2=page.locator("link[href='cardiac-lab-v2.css']").count()==1
+ ck(page.locator('.dashboard-v111 .measurement-list small').first.is_visible() if v2
+    else page.locator('.dashboard-v111 .measurement-list small').first.is_hidden(),
+    'measurement reference visibility disagrees with approved layout')
 
  def snapshot():
     return page.evaluate("""() => ({
