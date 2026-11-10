@@ -105,6 +105,15 @@
   const trace=section('cx-trace','01  /  ELECTRICAL SIGNAL','심전도 파형',
     '전기적 변화와 심장주기 시간을 함께 관찰하세요. 아래 파형 버튼은 원래의 상세 설명을 엽니다.');
   trace.append(primary);
+  // The original concept-popup buttons were inside legacy headings. Move those
+  // exact nodes beside new visible section titles instead of hiding their aids.
+  const ecgTerm=primary.querySelector('.ecg-panel h2 [data-term-help="ecg"]');
+  if(ecgTerm)trace.querySelector('.cx-section-heading').append(ecgTerm);
+  const metricsTerm=measurements.querySelector('h2 [data-term-help="measurements"]');
+  if(metricsTerm){
+    // metrics is declared below; defer the move until its new host exists.
+    metricsTerm.dataset.cxRehome='measurements';
+  }
   const control=section('cx-control','02  /  CONTROL THE CYCLE','시간과 심박수',
     '재생·일시정지·초기화는 기존 생리 시계를 제어합니다. 관찰 지점을 직접 이동할 수 있어요.');
   control.append(commands);
@@ -116,6 +125,7 @@
   const metrics=section('cx-metrics','04  /  READ THE NUMBERS','심전도 측정값',
     '교육용 동율동 모델의 간격입니다. 환자 측정값이나 진단 결과가 아닙니다.');
   metrics.append(measurements);
+  if(metricsTerm)metrics.querySelector('.cx-section-heading').append(metricsTerm);
   const more=section('cx-more','05  /  DEEPER STUDY','더 알아보기',
     '전도 경로와 심장 단계의 상세 근거, 위거스 학습 자료를 원본 그대로 확인할 수 있어요.');
   more.append(resources);
