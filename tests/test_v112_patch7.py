@@ -21,7 +21,14 @@ with sync_playwright() as pw:
     }""")
     ck(abs(geo["ecg"]["y"]-geo["guide"]["y"])<10,f"ECG+guide not aligned {geo}")
     ck(geo["ecg"]["x"]+geo["ecg"]["w"]<=geo["guide"]["x"]+12,f"Not side-by-side {geo}")
-    ck(geo["visual"]["y"]>geo["ecg"]["y"],"Visualization not below ECG")
+    # v2 deliberately puts synchronized ECG and cardiac visualization side by
+    # side on desktop. Historical v1.12 stacked layout remains tested in backups.
+    if page.locator("link[href='cardiac-lab-v2.css']").count():
+        ck(abs(geo["visual"]["y"]-geo["ecg"]["y"])<12 and
+           geo["visual"]["x"]>=geo["ecg"]["x"]+geo["ecg"]["w"]-3,
+           f"ECG/heart not synchronized in one visible row: {geo}")
+    else:
+        ck(geo["visual"]["y"]>geo["ecg"]["y"],"Visualization not below ECG")
     ck(geo["detail"]["y"]>=geo["visual"]["y"],"Resources not below visual")
     ck(page.locator("#wiggersDeepDive").count()==1,"Original source duplicated")
     ck(page.locator(".phase-panel").count()==1,"Original phases duplicated")
