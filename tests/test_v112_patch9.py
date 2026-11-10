@@ -134,10 +134,12 @@ with sync_playwright() as pw:
     guidedPos=page.evaluate("""()=>{
       const a=document.querySelector('.dashboard-v111 .dashboard-primary>.ecg-panel').getBoundingClientRect();
       const b=document.querySelector('.dashboard-v111 .dashboard-primary>.dashboard-workspace').getBoundingClientRect();
-      return {gap:b.top-a.bottom,alignment:b.x-a.x}
+      return {gap:b.top-a.bottom,topDelta:b.top-a.top,alignment:b.x-a.x}
     }""")
     if v2:
-        ck(abs(guidedPos["gap"])<12 and guidedPos["alignment"]>0,
+        # Expanding QRS explanation grows ECG height but must not move its
+        # anatomical sibling; measure aligned TOPS, not the changing bottoms.
+        ck(abs(guidedPos["topDelta"])<12 and guidedPos["alignment"]>0,
            f"Guided learning disrupted side-by-side ECG/heart: {guidedPos}")
     else:
         ck(guidedPos["gap"]<35 and abs(guidedPos["alignment"])<10,
