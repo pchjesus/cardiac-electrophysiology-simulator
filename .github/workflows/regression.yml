@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   browser-regression:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
         if: always() && steps.scope.outputs.tier != 'docs'
         run: |
           printf '%s\n' 'Cardiac Experience v2 — USER REVIEW ONLY' 'Open experience.html after extracting all files to the same folder.' 'The original index.html is included as an unchanged functional comparison.' 'Clinical QA may be viewed only by opening experience.html?v113Preview=1.' 'NOT FINAL. No Github Pages deployment. Do not use for patient care.' > REVIEW-INSTRUCTIONS.txt
-          zip -q preview-cardiac-v2-offline.zip experience.html index.html style.css cardiac-experience-v2.css cardiac-experience-v2.js REVIEW-INSTRUCTIONS.txt ./*.js
+          zip -q preview-cardiac-v2-offline.zip experience.html index.html style.css cardiac-experience-v2.css REVIEW-INSTRUCTIONS.txt ./*.js
       - name: Upload Cardiac v2 desktop/mobile browser screenshots
         if: always() && steps.scope.outputs.tier != 'docs'
         uses: actions/upload-artifact@v4
