@@ -93,8 +93,8 @@ with sync_playwright() as p:
     page.locator("#resetBtn").click()
     ck(page.evaluate("heartState.physiologicalTime===0&&heartState.visualizationTime===0&&!heartState.playing"),
        "canonical Reset no longer restores A/B")
-    ck(page.locator("#heartRateSlider").input_value()=="80",
-       "Reset unexpectedly left native HR at nondefault value")
+    ck(page.locator("#heartRateSlider").input_value()=="180",
+       "Reset must preserve the user-selected HR, not silently set a default")
 
     # Visual selections must not seek either clock or change HR.
     before=checkpoint(page)
