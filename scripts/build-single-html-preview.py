@@ -21,7 +21,7 @@ def embed_css(match):
         raise ValueError(f"Unexpected stylesheet reference: {rel}")
     css_count += 1
     content = source.read_text(encoding="utf-8").replace("</style", "<\\/style")
-    return f'<style data-bundled-from="{rel}">\\n{content}\\n</style>'
+    return f'<style data-bundled-from="{rel}">\n{content}\n</style>'
 
 def embed_js(match):
     global js_count
@@ -32,7 +32,7 @@ def embed_js(match):
     js_count += 1
     # Avoid HTML parser interpreting a JavaScript literal as script closure.
     content = source.read_text(encoding="utf-8").replace("</script", "<\\/script")
-    return f'<script data-bundled-from="{rel}">\\n{content}\\n</script>'
+    return f'<script data-bundled-from="{rel}">\n{content}\n</script>'
 
 page = re.sub(
     r'<link rel="stylesheet" href="([^"]+\.css)">',
