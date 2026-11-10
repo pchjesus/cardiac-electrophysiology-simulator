@@ -138,19 +138,30 @@
   const learning=$('v113LearningScreen');
   const clinical=$('v113ClinicalScreen');
   function screenLead(screen,kicker,title,subtitle){
-    if(!screen)return;
+    if(!screen)return null;
     screen.classList.add('cx-designed-screen');
     const lead=make('div','cx-screen-lead');
     lead.append(make('span','cx-overline',kicker),
       make('h2','',title),make('p','',subtitle));
     screen.prepend(lead);
+    return lead;
   }
   screenLead(learning,'LEARNING STUDIO  /  6 TOPICS',
     '개념을 읽고, 직접 관찰하고, 설명해 보세요.',
     '원본 6개 학습 주제와 심장주기 5단계·10문항을 그대로 사용합니다. 단원 탐색만으로 시뮬레이터 시간은 변경되지 않습니다.');
-  screenLead(clinical,'CLINICAL REASONING  /  QA PREVIEW',
+  const clinicalLead=screenLead(clinical,'CLINICAL REASONING  /  QA PREVIEW',
     '관찰에서 판단까지, 환자를 중심으로.',
     '개발 검증용 가상 사례입니다. 임상 전문가의 독립 검토와 공개 승인 전까지 일반 사용자에게는 비활성화되어 있습니다.');
+
+  // Clinical's authoritative render() deliberately replaces its own children after
+  // each decision. Preserve only the presentation heading across those renders.
+  // This observer does not read answers, write session state, or run a clock.
+  if(clinical&&clinicalLead){
+    new MutationObserver(()=>{
+      if(clinical.isConnected&&clinicalLead.parentElement!==clinical)
+        clinical.prepend(clinicalLead);
+    }).observe(clinical,{childList:true});
+  }
 
   // Semantic original sliders; these labels do not change native value/step handlers.
   $('timeSlider')?.setAttribute('aria-label','심장주기 관찰 시점 0–100퍼센트');
