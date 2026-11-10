@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cardiac Electrophysiology Simulator v1.13 UX Patch 3 · v1.12 Patch 14 engine</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="cardiac-lab-v2.css">
 </head>
 
 <body>
 <div class="app">
 
 <header class="header">
-    <h1>Cardiac Electrophysiology Simulator v1.13 UX Patch 3 <span class="v113-engine-label">(v1.12 Patch 14 생리 엔진 · 최종 검수 전(NOT FINAL))</span></h1>
+    <h1>Cardiac Lab <span class="v113-engine-label">심장 생리학 학습 시뮬레이터 · v1.13 UX Patch 3 · v1.12 Patch 14 엔진 · 최종 검수 전(NOT FINAL)</span></h1>
     <p>동율동 심전도(ECG) 학습 엔진</p>
     <nav class="header-tools" aria-label="시뮬레이터 변경 내역 및 사용 설명서">
         <button type="button" id="patchNotesBtn" data-open-info="patchNotesPanel"
@@ -21,6 +22,18 @@
     </nav>
 </header>
 
+<section class="ux-reset-intro" aria-labelledby="uxResetTitle">
+  <div class="ux-reset-copy">
+    <p class="ux-reset-eyebrow">Cardiac Lab / Interactive Physiology</p>
+    <h2 id="uxResetTitle">한 번의 심장 박동, 연결해서 이해하기</h2>
+    <p class="ux-reset-description">심전도에서 시작해 전기 전도, 심장 수축과 판막, 위거스 도표의 변화를 같은 시간축에서 관찰하세요.</p>
+  </div>
+  <div class="ux-reset-steps" aria-label="시뮬레이터 학습 흐름">
+    <span><b>01</b> 심박수를 조절하고</span>
+    <span><b>02</b> 변화하는 심장을 관찰하고</span>
+    <span><b>03</b> 생리학적 의미를 해석하세요</span>
+  </div>
+</section>
 <main class="main-container">
 
     <!-- TOP AREA -->

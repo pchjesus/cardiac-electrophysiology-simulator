@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   browser-regression:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +43,17 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Cardiac Lab UX reset responsive and model-preservation check
+        if: steps.scope.outputs.tier != 'docs'
+        run: python tests/test_cardiac_lab_v2.py
+      - name: Upload Cardiac Lab UX v2 desktop/mobile screenshots
+        if: always() && steps.scope.outputs.tier != 'docs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardiac-lab-v2-preview
+          path: preview-cardiac-lab-v2/
+          retention-days: 30
+          if-no-files-found: warn
       - name: v1.13 UX Patch 3 Korean terms, accessible labels and state regression
         if: steps.scope.outputs.tier != 'docs'
         run: python tests/test_v113_ux_patch3.py

@@ -51,14 +51,23 @@ with sync_playwright() as p:
         ck(page.evaluate('document.documentElement.scrollWidth<=innerWidth+2'),
            f'horizontal page overflow at {width}')
         g=geometry(page)
-        if width<900:
+        # The v2 workbench uses a narrow anatomical column beside the live
+        # ECG and interpretation; in that column Mechanical legitimately falls
+        # back to its existing stacked readout. Do not force an obsolete
+        # two-column mechanical *internal* arrangement into a narrow panel.
+        v2=page.locator("link[href='cardiac-lab-v2.css']").count()==1
+        stacked=width<900 or (v2 and width>=1251)
+        if stacked:
             ck(g['ry']>=g['sy']+g['sh']-8,
-               f'stacked mobile layout failed: {width} {g}')
+               f'stacked available-width layout failed: {width} {g}')
         else:
             ck(g['rx']>=g['sx']+g['sw']-12,
                f'parallel desktop layout failed: {width} {g}')
             ck(g['sw']>=280 and g['rw']>=280,
                f'mechanical column became too small: {width} {g}')
+        if v2 and width>=1251:
+            ck(g['sw']>=280 and g['rw']>=280,
+               f'mechanical content illegible in new narrow column: {width} {g}')
         summary=page.locator('#mechanicalModelInfo>summary')
         minimum=44 if width<=699 else 40
         ck(summary.evaluate('e=>e.getBoundingClientRect().height')>=minimum-1,

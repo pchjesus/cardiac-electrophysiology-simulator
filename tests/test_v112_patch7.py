@@ -21,7 +21,14 @@ with sync_playwright() as pw:
     }""")
     ck(abs(geo["ecg"]["y"]-geo["guide"]["y"])<10,f"ECG+guide not aligned {geo}")
     ck(geo["ecg"]["x"]+geo["ecg"]["w"]<=geo["guide"]["x"]+12,f"Not side-by-side {geo}")
-    ck(geo["visual"]["y"]>geo["ecg"]["y"],"Visualization not below ECG")
+    # v2 deliberately puts synchronized ECG and cardiac visualization side by
+    # side on desktop. Historical v1.12 stacked layout remains tested in backups.
+    if page.locator("link[href='cardiac-lab-v2.css']").count():
+        ck(abs(geo["visual"]["y"]-geo["ecg"]["y"])<12 and
+           geo["visual"]["x"]>=geo["ecg"]["x"]+geo["ecg"]["w"]-3,
+           f"ECG/heart not synchronized in one visible row: {geo}")
+    else:
+        ck(geo["visual"]["y"]>geo["ecg"]["y"],"Visualization not below ECG")
     ck(geo["detail"]["y"]>=geo["visual"]["y"],"Resources not below visual")
     ck(page.locator("#wiggersDeepDive").count()==1,"Original source duplicated")
     ck(page.locator(".phase-panel").count()==1,"Original phases duplicated")
@@ -56,7 +63,11 @@ with sync_playwright() as pw:
               const b=document.querySelector('.dashboard-v111>.dashboard-inspector').getBoundingClientRect();
               return {ay:a.y,by:b.y,ax:a.x,bx:b.x}
             }""")
-            ck(abs(g["ay"]-g["by"])<10 and g["bx"]>g["ax"],f"Desktop reflow broken at {width}: {g}")
+            # v2 inspector is intentionally sticky. After earlier interactions scroll the
+            # viewport, its y coordinate no longer equals the ECG's viewport y.
+            # Preserve the initial alignment assertion above; here check desktop
+            # side-by-side geometry without mistaking sticky scrolling for reflow.
+            ck(g["bx"]>g["ax"]+80,f"Desktop reflow broken at {width}: {g}")
     ck(not errs,f"JavaScript: {errs}")
     b.close()
 print(f"PASS {cnt} Patch7 workbench and six-width checks")

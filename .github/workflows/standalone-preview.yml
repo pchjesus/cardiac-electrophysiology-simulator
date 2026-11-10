@@ -1,0 +1,73 @@
+name: Cardiac Lab standalone review HTML
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Bundle single-file, offline review app
+        run: python scripts/build-single-html-preview.py
+      - name: Install Chromium for standalone smoke
+        run: |
+          python -m pip install 'playwright==1.56.0'
+          python -m playwright install chromium
+      - name: Verify standalone functionality and review gate
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          html=(Path.cwd()/'preview-build'/'Cardiac_Lab_v2_Interactive_Preview.html').as_uri()
+          with sync_playwright() as p:
+            browser=p.chromium.launch()
+            page=browser.new_page(viewport={'width':1366,'height':900})
+            errors=[]
+            page.on('pageerror',lambda e: errors.append(str(e)))
+            page.goto(html)
+            assert page.locator('#ecgCanvas').count()==1
+            assert page.locator('#heartSVG').count()==1
+            assert page.locator('#timeSlider').count()==1
+            assert page.locator('#v113TabClinical').is_disabled()
+            assert page.locator('#v113TabLearning').is_enabled()
+            page.locator('#playBtn').click()
+            page.wait_for_function('heartState.playing')
+            page.locator('#pauseBtn').click()
+            assert not page.evaluate('heartState.playing')
+            page.locator('#mechanicalModeBtn').click()
+            assert page.locator('#mechanicalView').is_visible()
+            page.locator('#dashboardWiggersBtn').click()
+            assert page.locator('#wiggersChart').is_visible()
+            page.locator('#resetBtn').click()
+            assert page.evaluate('heartState.physiologicalTime===0 && heartState.visualizationTime===0')
+            page.locator('#v113TabLearning').click()
+            assert page.locator('.v113-unit-title').is_visible()
+            page.locator('#v113TabSimulator').click()
+            for width in (320,390,768,1366):
+              page.set_viewport_size({'width':width,'height':850})
+              assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+2'), f'overflow {width}'
+            qa=browser.new_page(viewport={'width':1366,'height':900})
+            qa.goto(html+'?v113Preview=1')
+            qa.locator('#v113TabClinical').click()
+            assert qa.locator('#v113ClinicalScreen').is_visible()
+            assert not errors, errors
+            browser.close()
+          print('SINGLE HTML OFFLINE SMOKE: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cardiac-lab-v2-standalone-html
+          path: preview-build/Cardiac_Lab_v2_Interactive_Preview.html
+          if-no-files-found: error
+          retention-days: 30
