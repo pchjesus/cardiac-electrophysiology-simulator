@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   browser-regression:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +43,30 @@ jobs:
           test -n "$BROWSER"
           sudo ln -sf "$BROWSER" /usr/bin/chromium
           /usr/bin/chromium --version
+      - name: Cardiac v2 review preview — model equivalence, interaction and desktop/mobile screenshots
+        if: steps.scope.outputs.tier != 'docs'
+        run: python tests/test_cardiac_experience_v2.py
+      - name: Build standalone Cardiac v2 review ZIP (not deployed)
+        if: always() && steps.scope.outputs.tier != 'docs'
+        run: |
+          printf '%s\n' 'Cardiac Experience v2 — USER REVIEW ONLY' 'Open experience.html after extracting all files to the same folder.' 'The original index.html is included as an unchanged functional comparison.' 'Clinical QA may be viewed only by opening experience.html?v113Preview=1.' 'NOT FINAL. No Github Pages deployment. Do not use for patient care.' > REVIEW-INSTRUCTIONS.txt
+          zip -q preview-cardiac-v2-offline.zip experience.html index.html style.css cardiac-experience-v2.css REVIEW-INSTRUCTIONS.txt ./*.js
+      - name: Upload Cardiac v2 desktop/mobile browser screenshots
+        if: always() && steps.scope.outputs.tier != 'docs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardiac-v2-review-screenshots
+          path: preview-cardiac-v2/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Upload executable Cardiac v2 offline review ZIP
+        if: always() && steps.scope.outputs.tier != 'docs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardiac-v2-offline-preview
+          path: preview-cardiac-v2-offline.zip
+          retention-days: 30
+          if-no-files-found: warn
       - name: v1.13 UX Patch 3 Korean terms, accessible labels and state regression
         if: steps.scope.outputs.tier != 'docs'
         run: python tests/test_v113_ux_patch3.py
