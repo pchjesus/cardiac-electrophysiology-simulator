@@ -118,7 +118,7 @@ with sync_playwright() as p:
     paused=checkpoint(page)
     page.locator("#v113TabLearning").click()
     ck(page.locator("#v113LearningScreen").is_visible(), "Learning tab not activated")
-    ck(page.locator(".cx-screen-lead").is_visible(), "Learning entrance not redesigned")
+    ck(page.locator("#v113LearningScreen .cx-screen-lead").is_visible(), "Learning entrance not redesigned")
     ck(page.locator(".v113-unit-title").is_visible(),"six-unit reading unavailable")
     ck(checkpoint(page)==paused, "tab switch changed paused clock or sessions")
     ck(page.evaluate("CardiacCourseV113.unitIds.length") == 6, "six units no longer present")
@@ -161,7 +161,7 @@ with sync_playwright() as p:
     # Prefer-reduced-motion affects decoration, not the physiological render.
     page.emulate_media(reduced_motion="reduce")
     page.locator("#v113TabLearning").click()
-    ck(page.locator(".cx-screen-lead").is_visible(),"reduced-motion hides Learning")
+    ck(page.locator("#v113LearningScreen .cx-screen-lead").is_visible(),"reduced-motion hides Learning")
     ck(page.locator("#v113LearningScreen").evaluate(
         "e=>getComputedStyle(e).animationDuration") in ("1e-05s","0s","0.00001s"),
         "reduced-motion entrance still animates")
