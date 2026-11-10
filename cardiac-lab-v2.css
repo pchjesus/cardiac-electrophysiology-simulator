@@ -301,3 +301,13 @@ body{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic"
    padding:18px 15px
  }
 }
+
+/* A legacy compact-mode rule assigns named grid areas to the *children* of
+   dashboard-primary. Reset those names when primary becomes its own two-column
+   grid, or the implicit workspace column overlaps the sticky inspector. */
+@media(min-width:1251px){
+ .app.dashboard-active .dashboard-v111[data-density] .dashboard-primary>.ecg-panel,
+ .app.dashboard-active .dashboard-v111[data-density] .dashboard-primary>.dashboard-workspace{
+   grid-area:auto!important;
+ }
+}
