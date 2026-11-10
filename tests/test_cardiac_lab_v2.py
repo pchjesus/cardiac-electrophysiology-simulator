@@ -23,6 +23,21 @@ with sync_playwright() as p:
     check(page.locator("#v113TabClinical").is_disabled(), "clinical was exposed")
     check(page.locator("#v113TabLearning").is_enabled(), "learning unavailable")
     check(page.evaluate("getComputedStyle(document.querySelector('.dashboard-v111')).display") == "grid", "desktop grid missing")
+    boxes = page.evaluate("""() => {
+      const r = selector => {
+        const x = document.querySelector(selector).getBoundingClientRect();
+        return {left:x.left,right:x.right,top:x.top,bottom:x.bottom};
+      };
+      return {ecg:r('.dashboard-primary>.ecg-panel'),
+              visual:r('.dashboard-primary>.dashboard-workspace'),
+              inspector:r('.dashboard-v111>.dashboard-inspector')};
+    }""")
+    check(boxes["ecg"]["right"] <= boxes["visual"]["left"]+3,
+          "ECG and anatomical display overlap: " + str(boxes))
+    check(boxes["visual"]["right"] <= boxes["inspector"]["left"]+3,
+          "anatomical controls blocked by inspector: " + str(boxes))
+    check(abs(boxes["ecg"]["top"]-boxes["visual"]["top"]) < 12,
+          "ECG and anatomical display not observable in one row: " + str(boxes))
 
     page.locator("#playBtn").click()
     page.wait_for_timeout(180)
