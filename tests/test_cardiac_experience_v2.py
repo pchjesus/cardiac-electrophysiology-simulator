@@ -168,6 +168,22 @@ with sync_playwright() as p:
     page.locator("#v113TabSimulator").click()
     page.emulate_media(reduced_motion="no-preference")
     page.set_viewport_size({"width":390,"height":844})
+    # Touch-only heart graphic gesture selects the adjacent *native* view.
+    # It must never touch A/B time, and the graph retains native horizontal scroll.
+    before_swipe=checkpoint(page)
+    page.locator("#heartSVG").evaluate("""e=>{
+      e.dispatchEvent(new PointerEvent('pointerdown',{pointerId:15,pointerType:'touch',clientX:280,clientY:160,bubbles:true}));
+      e.dispatchEvent(new PointerEvent('pointerup',{pointerId:15,pointerType:'touch',clientX:100,clientY:158,bubbles:true}));
+    }""")
+    ck(page.evaluate("CardiacDashboard.view")=="mechanical","heart swipe did not select Mechanical")
+    ck(checkpoint(page)==before_swipe,"touch view swipe changed A/B, HR or session")
+    page.locator("#mechanicalSVG").evaluate("""e=>{
+      e.dispatchEvent(new PointerEvent('pointerdown',{pointerId:16,pointerType:'touch',clientX:280,clientY:160,bubbles:true}));
+      e.dispatchEvent(new PointerEvent('pointerup',{pointerId:16,pointerType:'touch',clientX:100,clientY:158,bubbles:true}));
+    }""")
+    ck(page.evaluate("CardiacDashboard.view")=="wiggers","mechanical swipe did not select Wiggers")
+    ck(checkpoint(page)==before_swipe,"second touch view swipe mutated A/B or study state")
+    page.locator("#electricalModeBtn").click()
     shot(page,"04-mobile-simulator.png")
     page.locator("#v113TabLearning").click()
     shot(page,"05-mobile-learning.png")
@@ -190,11 +206,15 @@ with sync_playwright() as p:
        "original case session not started")
     qa.locator(".v113-choices input").first.check()
     qa.get_by_role("button",name="선택한 답안 제출").click()
+    ck(qa.locator("#v113ClinicalScreen .cx-screen-lead").is_visible(),
+       "clinical introduction disappeared after original decision render")
     state=qa.evaluate("CardiacClinicalV113.sessionSnapshot")
     ck(any(v["submitted"] for v in state["answers"].values()),
        "clinical decision no longer submits")
     qa.locator("#v113TabLearning").click()
     qa.locator("#v113TabClinical").click()
+    ck(qa.locator("#v113ClinicalScreen .cx-screen-lead").is_visible(),
+       "clinical intro not retained on return from Learning")
     ck(qa.evaluate("CardiacClinicalV113.sessionSnapshot")==state,
        "clinical decision lost through Learning round-trip")
     shot(qa,"06-qa-clinical.png")
