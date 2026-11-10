@@ -240,3 +240,32 @@ body{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic"
  .app.dashboard-active :is(button,summary,.v113-main-tab){transition:none!important;animation:none!important}
  .ux-reset-intro{animation:none!important}
 }
+
+/* Actual screenshot QA: student term help buttons sit between mode buttons.
+   Six real children (three mode buttons + three help triggers) share one row. */
+.app.dashboard-active .dashboard-visual .heart-mode-switch{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr) 30px minmax(0,1fr) 30px;
+  align-items:stretch;gap:3px;padding:5px
+}
+.app.dashboard-active .dashboard-visual .heart-mode-switch > button.v113-term-trigger{
+  min-width:30px;width:30px;min-height:44px;align-self:stretch;
+  padding:4px;margin:0;font-size:12px;border-radius:8px;
+  background:#e2eaf5;color:#32597c;border:1px solid #cad9e8;
+  box-shadow:none
+}
+.app.dashboard-active .dashboard-visual .heart-mode-switch > button:not(.v113-term-trigger){
+  min-width:0;max-width:100%;white-space:normal;overflow-wrap:break-word;
+}
+.app.dashboard-active:has(#v113LearningScreen:not([hidden])) .ux-reset-intro,
+.app.dashboard-active:has(#v113ClinicalScreen:not([hidden])) .ux-reset-intro{
+  display:none
+}
+@media(max-width:740px){
+ .app.dashboard-active .dashboard-visual .heart-mode-switch{
+   grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr) 26px minmax(0,1fr) 26px;gap:2px
+ }
+ .app.dashboard-active .dashboard-visual .heart-mode-switch > button.v113-term-trigger{
+   width:26px;min-width:26px;padding:2px;font-size:11px
+ }
+}
