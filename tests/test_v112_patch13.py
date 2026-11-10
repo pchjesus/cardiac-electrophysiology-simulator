@@ -30,11 +30,17 @@ with sync_playwright() as p:
         geo=page.evaluate("""()=>{const svg=document.querySelector('#mechanicalSVG').getBoundingClientRect();
            const text=document.querySelector('.mechanical-readout').getBoundingClientRect();
            return {sx:svg.x,sy:svg.y,sw:svg.width,sh:svg.height,tx:text.x,ty:text.y,tw:text.width}}""")
-        if width>=900:
+        v2=page.locator("link[href='cardiac-lab-v2.css']").count()==1
+        # In v2 the heart shares a desktop row with ECG. Its narrower column
+        # must retain the original responsive Mechanical readout fallback.
+        if width>=900 and not (v2 and width>=1251):
             ck(geo["tx"]>=geo["sx"]+geo["sw"]-12,f"not side-by-side {width}: {geo}")
             ck(abs(geo["sy"]-geo["ty"])<140,f"mechanical diagram/readout not aligned {width}: {geo}")
         else:
-            ck(geo["ty"]>=geo["sy"]+geo["sh"]-8,f"mobile not stacked {width}: {geo}")
+            ck(geo["ty"]>=geo["sy"]+geo["sh"]-8,f"available-width mechanical stack broken {width}: {geo}")
+        if v2 and width>=1251:
+            ck(geo["sw"]>=280 and geo["tw"]>=280,
+               f"new anatomical column shrank mechanical labels {width}: {geo}")
         if width in (390,900,1366):
             page.screenshot(path=str(SHOTS/f"{width}-mechanical-compact.png"),full_page=True,animations="disabled")
     page.set_viewport_size({"width":1366,"height":768})
