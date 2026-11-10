@@ -35,11 +35,20 @@ with sync_playwright() as pw:
           inspector:rect('.dashboard-v111>.dashboard-inspector')}
     }""")
     ck(abs(pos["ecg"]["y"]-pos["inspector"]["y"])<10,"ECG/study start not aligned")
-    ck(abs(pos["ecg"]["x"]-pos["heart"]["x"])<10,"ECG and heart not aligned left")
-    ck(pos["heart"]["y"]>=pos["ecg"]["y"]+pos["ecg"]["h"],
-       "Heart visual overlaps the ECG")
-    ck(pos["heart"]["y"]-(pos["ecg"]["y"]+pos["ecg"]["h"])<35,
-       f"Large blank gap below ECG: {pos}")
+    v2=page.locator("link[href='cardiac-lab-v2.css']").count()==1
+    if v2:
+        ck(abs(pos["ecg"]["y"]-pos["heart"]["y"])<12,
+           f"ECG/heart no longer synchronized in one desktop row: {pos}")
+        ck(pos["heart"]["x"]>=pos["ecg"]["x"]+pos["ecg"]["w"]-3,
+           f"ECG/heart overlap horizontally: {pos}")
+        ck(pos["inspector"]["x"]>=pos["heart"]["x"]+pos["heart"]["w"]-3,
+           f"Inspector overlaps heart observation: {pos}")
+    else:
+        ck(abs(pos["ecg"]["x"]-pos["heart"]["x"])<10,"ECG and heart not aligned left")
+        ck(pos["heart"]["y"]>=pos["ecg"]["y"]+pos["ecg"]["h"],
+           "Heart visual overlaps the ECG")
+        ck(pos["heart"]["y"]-(pos["ecg"]["y"]+pos["ecg"]["h"])<35,
+           f"Large blank gap below ECG: {pos}")
     page.screenshot(path=str(SHOTS/"01-default-desktop-1366.png"),
                     full_page=True,animations="disabled")
     state=page.evaluate("""()=>({
@@ -127,8 +136,12 @@ with sync_playwright() as pw:
       const b=document.querySelector('.dashboard-v111 .dashboard-primary>.dashboard-workspace').getBoundingClientRect();
       return {gap:b.top-a.bottom,alignment:b.x-a.x}
     }""")
-    ck(guidedPos["gap"]<35 and abs(guidedPos["alignment"])<10,
-       f"Guided lessons left huge empty ECG area: {guidedPos}")
+    if v2:
+        ck(abs(guidedPos["gap"])<12 and guidedPos["alignment"]>0,
+           f"Guided learning disrupted side-by-side ECG/heart: {guidedPos}")
+    else:
+        ck(guidedPos["gap"]<35 and abs(guidedPos["alignment"])<10,
+           f"Guided lessons left huge empty ECG area: {guidedPos}")
     page.locator("#guidedV112Level").select_option("advanced")
     page.locator("#guidedV112Advanced summary").click()
     for st in ("atrial_systole","ejection","filling"):
