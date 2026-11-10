@@ -45,6 +45,17 @@ with sync_playwright() as p:
     page.locator("#pauseBtn").click()
     check(not page.evaluate("heartState.playing"), "Pause not connected")
     before = page.evaluate("({a:heartState.physiologicalTime,b:heartState.visualizationTime})")
+    page.locator("#mechanicalModeBtn").scroll_into_view_if_needed()
+    print("MODE DIAG",page.evaluate("""() => {
+      const rect=sel=>{const a=document.querySelector(sel).getBoundingClientRect();return {x:a.x,y:a.y,width:a.width,height:a.height,right:a.right}};
+      const m=document.getElementById('mechanicalModeBtn').getBoundingClientRect();
+      const el=document.elementFromPoint(m.x+m.width/2,m.y+m.height/2);
+      return {button:rect('#mechanicalModeBtn'),tabs:rect('.heart-mode-switch'),
+        visual:rect('.dashboard-visual'),workspace:rect('.dashboard-workspace'),
+        inspector:rect('.dashboard-inspector'),over:el?.tagName+' '+(el?.className||''),
+        scrollX:scrollX,scrollY:scrollY,primaryGrid:getComputedStyle(document.querySelector('.dashboard-primary')).gridTemplateColumns};
+    }"""),flush=True)
+    page.screenshot(path=str(OUT / "mode-diagnostic.png"),full_page=True,animations="disabled")
     page.locator("#mechanicalModeBtn").click()
     page.locator("#dashboardWiggersBtn").click()
     page.locator("#electricalModeBtn").click()
