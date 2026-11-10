@@ -311,3 +311,11 @@ body{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic"
    grid-area:auto!important;
  }
 }
+
+/* Avoid scroll-time pointer interception: the legacy sticky inspector can
+   cover the anatomical mode row after the browser scrolls to interact.
+   Side-by-side comparison remains, without a floating overlay. */
+.app.dashboard-active .dashboard-v111>.dashboard-inspector{
+  position:static;
+  top:auto;
+}
