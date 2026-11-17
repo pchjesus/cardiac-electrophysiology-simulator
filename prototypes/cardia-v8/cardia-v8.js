@@ -215,6 +215,14 @@
   }
   // Route direction used by main-tab View Transition animations.
   for(const [id,direction] of [['v113TabLearning','forward'],['v113TabSimulator','reverse'],['v7Study','forward'],['v7GoTheory','forward'],['v8Previous','reverse'],['v8Next','forward']])$(id)?.addEventListener('click',()=>{document.documentElement.dataset.v8Direction=direction;},{capture:true});
+  // The learning route is a new studio, not the previous concept atlas.
+  const learningNavLabel = $('v113TabLearning')?.querySelector('.ps6-nav-label');
+  if (learningNavLabel?.firstChild) learningNavLabel.firstChild.textContent = '학습 스튜디오';
+  const syncLearningBreadcrumb = () => {
+    if (root.CardiacMainTabs.active === 'learning') $('v7CurrentPlace').textContent = '학습 스튜디오';
+  };
+  new MutationObserver(syncLearningBreadcrumb).observe(screen, { attributes: true, attributeFilter: ['hidden'] });
+  syncLearningBreadcrumb();
   rootEl.dataset.available=available().map(x=>x.id).join('/');
   render();
   root.CardiaV8=Object.freeze({ready:true,version:'inquiry-studio-v8',get activeUnit(){return item().id},get phase(){return phase},get wiggersEnabled(){return available().some(x=>x.id==='unit-wiggers')},get practiceAnswer(){return answers[item().id]},selectUnit:choose,selectPhase:switchPhase});
