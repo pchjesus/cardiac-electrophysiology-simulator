@@ -3348,6 +3348,15 @@ html[data-v8-direction='reverse']::view-transition-new(v7-page){animation-name:v
 @media(max-width:360px){#v8Learning .v8-lesson-top{display:block}.v8-lesson-tools{margin-top:11px}.v8-stepper button{font-size:10px!important}.v8-stepper button i{display:none}.v8-sequence{grid-template-columns:1fr}.v8-seq-item:not(:last-child):after{display:none}}
 @media(prefers-reduced-motion:reduce){#v8Learning *,#v7App .v8-nav-slider{transition:none!important;animation:none!important}::view-transition-old(v7-page),::view-transition-new(v7-page){animation:none!important}}
 .app[data-ps6-less-motion='true'] #v8Learning *{transition:none!important;animation:none!important}
+
+/* Mobile path selection is a compact horizontal strip, not a long wall of cards. */
+@media(max-width:650px){
+  #v8Learning .v8-path header{padding:17px 19px 11px}
+  #v8Learning .v8-path h2{font-size:17px;margin:7px 0 5px}
+  #v8Learning .v8-lesson-list{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;padding:10px 14px 14px;scrollbar-width:thin}
+  #v8Learning .v8-path-item{flex:0 0 min(72vw,232px);min-width:0;scroll-snap-align:start;min-height:68px!important;margin:0!important;padding:9px 10px!important}
+  #v8Learning .v8-path-text small{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;overflow:hidden}
+}
 </style>
 </head>
 <body>
@@ -10404,6 +10413,14 @@ root.CardiaV7=Object.freeze({ready:true,version:'new-canvas-design-review',refre
   }
   // Route direction used by main-tab View Transition animations.
   for(const [id,direction] of [['v113TabLearning','forward'],['v113TabSimulator','reverse'],['v7Study','forward'],['v7GoTheory','forward'],['v8Previous','reverse'],['v8Next','forward']])$(id)?.addEventListener('click',()=>{document.documentElement.dataset.v8Direction=direction;},{capture:true});
+  // The learning route is a new studio, not the previous concept atlas.
+  const learningNavLabel = $('v113TabLearning')?.querySelector('.ps6-nav-label');
+  if (learningNavLabel?.firstChild) learningNavLabel.firstChild.textContent = '학습 스튜디오';
+  const syncLearningBreadcrumb = () => {
+    if (root.CardiacMainTabs.active === 'learning') $('v7CurrentPlace').textContent = '학습 스튜디오';
+  };
+  new MutationObserver(syncLearningBreadcrumb).observe(screen, { attributes: true, attributeFilter: ['hidden'] });
+  syncLearningBreadcrumb();
   rootEl.dataset.available=available().map(x=>x.id).join('/');
   render();
   root.CardiaV8=Object.freeze({ready:true,version:'inquiry-studio-v8',get activeUnit(){return item().id},get phase(){return phase},get wiggersEnabled(){return available().some(x=>x.id==='unit-wiggers')},get practiceAnswer(){return answers[item().id]},selectUnit:choose,selectPhase:switchPhase});
