@@ -1,0 +1,37 @@
+name: CARDIA v8 Interactive Preview
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Rebuild offline preview from v7 and source adapters
+        run: |
+          python scripts/build-cardia-v8-preview.py
+          git diff --exit-code -- prototypes/cardia-v8/index.html
+      - name: Install Playwright
+        run: |
+          python -m pip install 'playwright==1.56.0'
+          python -m playwright install chromium
+      - name: Run v8 interactive smoke test
+        run: python tests/test_cardia_v8_preview.py
+      - name: Upload click-through HTML for design review
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CARDIA-v8-interactive-preview
+          path: prototypes/cardia-v8/index.html
+          if-no-files-found: error
+          retention-days: 30
